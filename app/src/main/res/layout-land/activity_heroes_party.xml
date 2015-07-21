@@ -1,0 +1,35 @@
+<LinearLayout
+    android:orientation="vertical"
+    android:id="@+id/activity_heroes_pary"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thomas.voyage.HeroesPartyActivity">
+
+
+
+    <ImageView
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/imageView2"
+        android:background="#ff69212c" />
+
+    <TextView
+        android:layout_weight="5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:text="New Text"
+        android:id="@+id/textView26"
+        android:layout_gravity="center_vertical"
+        android:background="#ff2d2d2d" />
+
+    <ImageButton
+        android:layout_weight="1"
+    android:layout_width="100dp"
+    android:layout_height="0dp"
+    android:id="@+id/imageButton"
+    android:layout_gravity="bottom"
+        android:background="#ff000000" />
+</LinearLayout>

@@ -17,17 +17,14 @@ public class DBheroesAdapter {
 
     public DBheroesAdapter (Context context) { helper = new DBheroesHelper(context); context1 = context;}
 
-    public long insertData(String name, String hitpoints, String classOne, String classTwo){
+    public long insertData(String name, int hitpoints, String classOne, String classTwo){
 
-        String test = hitpoints;
 
-        String data = name + " " + hitpoints + " " + classOne + " " + classTwo;
-        com.example.thomas.voyage.Message.message(context1, data);
 
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBheroesHelper.NAME, name);
-        contentValues.put(DBheroesHelper.HITPOINTS, test);
+        contentValues.put(DBheroesHelper.HITPOINTS, hitpoints);
         contentValues.put(DBheroesHelper.CLASS_ONE, classOne);
         contentValues.put(DBheroesHelper.CLASS_TWO, classTwo);
 
@@ -114,7 +111,7 @@ public class DBheroesAdapter {
         private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
                 + UID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME + " VARCHAR(255), "
-                + HITPOINTS + " VARCHAR(255), "
+                + HITPOINTS + " INT, "
                 + CLASS_ONE + " VARCHAR(255), "
                 + CLASS_TWO + " VARCHAR(255));";
 

@@ -24,7 +24,7 @@ public class StartActivity extends Activity {
 
         heroesHelper = new DBheroesAdapter(this);
 
-        long id = heroesHelper.insertData("Thomas", "100", "eins", "zwei");
+        long id = heroesHelper.insertData("Thomas", 100, "eins", "zwei");
 
         if(id < 0) Message.message(this, "error@insert");
         else Message.message(this, "success@insert");
