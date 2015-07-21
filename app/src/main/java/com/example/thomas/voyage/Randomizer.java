@@ -7,32 +7,17 @@ import java.util.Random;
  */
 public class Randomizer {
 
-    public static final void main(String... aArgs){
-        log("Generating random integers in the range 1..10.");
+    public static int getRandom(int min, int max) {
 
-        int START = 1;
-        int END = 10;
-        Random random = new Random();
-        for (int idx = 1; idx <= 10; ++idx){
-            showRandomInteger(START, END, random);
-        }
+        // NOTE: Usually this should be a field rather than a method
+        // variable so that it is not re-seeded every call.
+        Random rand = new Random();
 
-        log("Done.");
-    }
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = rand.nextInt((max - min) + 1) + min;
 
-    private static void showRandomInteger(int aStart, int aEnd, Random aRandom){
-        if (aStart > aEnd) {
-            throw new IllegalArgumentException("Start cannot exceed End.");
-        }
-        //get the range, casting to long to avoid overflow problems
-        long range = (long)aEnd - (long)aStart + 1;
-        // compute a fraction of the range, 0 <= frac < range
-        long fraction = (long)(range * aRandom.nextDouble());
-        int randomNumber =  (int)(fraction + aStart);
-        log("Generated : " + randomNumber);
-    }
+        return randomNum;
 
-    private static void log(String aMessage){
-        System.out.println(aMessage);
     }
 }
