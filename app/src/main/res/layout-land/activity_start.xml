@@ -109,7 +109,7 @@
                 android:layout_gravity="fill"
                 android:id="@+id/textView8"
                 android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
+                android:layout_rowWeight="3"
                 android:backgroundTint="#af000000" />
 
             <TextView
@@ -185,7 +185,7 @@
                 android:layout_gravity="fill"
                 android:id="@+id/textView16"
                 android:layout_columnWeight="1"
-                android:layout_rowWeight="1"
+                android:layout_rowWeight="3"
                 android:backgroundTint="#af000000" />
 
             <TextView
@@ -252,24 +252,6 @@
                 android:layout_rowWeight="1"
                 android:backgroundTint="#af000000" />
         </GridLayout>
-
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="48dp"
-            android:text="TAP TO ENTER"
-            android:id="@+id/textView18"
-            android:layout_marginTop="48dp"
-            android:gravity="center"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="161dp"
-            android:layout_height="48dp"
-            android:text="TAP TO ENTER"
-            android:id="@+id/textView23"
-            android:layout_marginTop="48dp"
-            android:gravity="center"
-            android:textStyle="bold" />
 
     </FrameLayout>
 
