@@ -23,7 +23,7 @@
             android:label="@string/title_activity_heroes_party" >
         </activity>
         <activity
-            android:name=".MerchantActivity"
+            android:name=".MerchantHeroActivity"
             android:screenOrientation="landscape"
             android:label="@string/title_activity_merchant" >
         </activity>

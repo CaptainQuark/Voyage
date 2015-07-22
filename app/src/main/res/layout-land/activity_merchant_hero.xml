@@ -1,0 +1,152 @@
+<LinearLayout
+    android:id="@+id/activity_merchant_hero"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thomas.voyage.MerchantHeroActivity">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/imageView3"
+            android:background="#ffc1b190" />
+
+        <TextView
+            android:layout_weight="0.8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Placeholder"
+            android:gravity="center"
+            android:id="@+id/textView18"
+            android:background="#ffdfdbc1"
+            android:textColor="#ff000000" />
+
+        <ImageButton
+            android:layout_weight="0.15"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/imageButton2"
+            android:background="#ff000000"
+            android:src="@mipmap/ic_backbutton"
+            android:tint="#ffffffff"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/horizontalScrollView"
+            android:layout_weight="1" >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:textSize="15sp"
+                    android:id="@+id/textView23" />
+
+                <TextView
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:textSize="15sp"
+                    android:id="@+id/textView231" />
+
+                <TextView
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:textSize="15sp"
+                    android:id="@+id/textView232" />
+
+                <TextView
+                    android:onClick="clickToHome"
+                    android:layout_width="128dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Large Text"
+                    android:textSize="15sp"
+                    android:id="@+id/textView2312"
+                    android:background="#ffff8166" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/editText"
+            android:layout_weight="1.3" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Placeholder"
+            android:gravity="center"
+            android:id="@+id/textView181"
+            android:background="#ffdfdbc1"
+            android:textColor="#ff000000" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Placeholder"
+            android:gravity="center"
+            android:id="@+id/textView182"
+            android:background="#ffdfdbc1"
+            android:textColor="#ff000000" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Placeholder"
+            android:gravity="center"
+            android:id="@+id/textView183"
+            android:background="#ffdfdbc1"
+            android:textColor="#ff000000" />
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Placeholder"
+            android:gravity="center"
+            android:id="@+id/textView184"
+            android:background="#ffdfdbc1"
+            android:textColor="#ff000000" />
+
+    </LinearLayout>
+</LinearLayout>
