@@ -24,6 +24,7 @@ public class Hero {
         heroName = heropool.setName();
         classPrimary=heropool.setClassPrimary();
         hitPoints = heropool.setHitPoints();
+        classSecondary=heropool.setClassSecondary();
 
     }
 
