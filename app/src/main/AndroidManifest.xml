@@ -19,7 +19,13 @@
         </activity>
         <activity
             android:name=".HeroesPartyActivity"
+            android:screenOrientation="landscape"
             android:label="@string/title_activity_heroes_party" >
+        </activity>
+        <activity
+            android:name=".MerchantActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/title_activity_merchant" >
         </activity>
     </application>
 
