@@ -5,19 +5,26 @@ package com.example.thomas.voyage;
  */
 public class Hero {
 
-    String Name;
-    int hitPoints;
-    String classPrimary;
-    String classSecondary;
+    private static String heroName;
+    private static int hitPoints;
+    private static String classPrimary;
+    private static String classSecondary;
+
+    public Hero(){
+        Initialize();
+    }
 
     public static void Initialize(){        //Platzhalter: in Klammer, welches Biome (in Blöcken)
 
-        Hero hero = new Hero();
         HeroPool heropool = new HeroPool();
         Randomizer randomizer = new Randomizer();
 
 
-        hero.hitPoints = randomizer.getRandom(30, 50);
+       // hitPoints = randomizer.getRandom(30, 50);
+        heroName = heropool.setName();
+        classPrimary=heropool.setClassPrimary(null);
+        hitPoints = Integer.parseInt(heropool.setClassPrimary(classPrimary));
+
     }
 
 }
