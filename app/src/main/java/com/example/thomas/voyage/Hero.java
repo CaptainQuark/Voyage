@@ -10,19 +10,17 @@ public class Hero {
     private static String classPrimary;
     private static String classSecondary;
 
-    public Hero(){
-        Initialize();
+    public Hero(){                          //Konstruktor, Initialize seperat für spätere Zwecke
+        Initialize(null);
     }
 
-    public static void Initialize(){        //Platzhalter: in Klammer, welches Biome (in Blöcken)
+    public static void Initialize(String biome){        //Platzhalter: in Klammer, welches Biome (in Blöcken)
 
         HeroPool heropool = new HeroPool();
         Randomizer randomizer = new Randomizer();
 
-
-       // hitPoints = randomizer.getRandom(30, 50);
         heroName = heropool.setName();
-        classPrimary=heropool.setClassPrimary();
+        classPrimary=heropool.setClassPrimary(biome);
         hitPoints = heropool.setHitPoints();
         classSecondary=heropool.setClassSecondary();
 
