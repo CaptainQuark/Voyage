@@ -44,7 +44,7 @@ public class HeroPool {
             rarity = 4;
         }
 
-        while(currentBiome != neededBiome && currentBiome != null) {   //Roll wird wiederholt falls falsche Umgebung und Umgebung nicht Standard
+        while(currentBiome != neededBiome && currentBiome != null && neededBiome==null) {   //Roll wird wiederholt falls falsche Umgebung und Umgebung nicht Standard und nicht keine Bedingungen
             switch (rarity) {                               //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
                 case 1:                                     //Wsl 60%
                     switch (randomizer.getRandom(1, 3)) {
@@ -108,9 +108,6 @@ public class HeroPool {
                     break;
                 default:
                     break;
-            }
-            if(neededBiome==null){                      //Abbruch falls keine Umgebung notwendig (=null)
-                break;
             }
         }
         return pClass;
