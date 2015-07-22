@@ -8,6 +8,7 @@ public class HeroPool {
     private static String name;
     private static String pClass;
     private static String sClass;
+    private static double rarity;
     private static int hitPoints;
     private static int hpMin;
     private static int hpMax;
@@ -28,7 +29,7 @@ public class HeroPool {
         return name;
     }
 
-    public static String setClassPrimary(String Class){
+    public static String setClassPrimary(){
         Randomizer randomizer = new Randomizer();
 
         switch (randomizer.getRandom(1,3)) {
@@ -47,12 +48,27 @@ public class HeroPool {
             default:
                 break;
         }
-        if(Class == null){
         return pClass;
-    }
-        else{
-            hitPoints = randomizer.getRandom(hpMin, hpMax);
-            return hitPoints + "";
         }
+
+    public static int setHitPoints(){
+        Randomizer randomizer = new Randomizer();
+        return randomizer.getRandom(hpMin, hpMax);
+    }
+
+    public static String setClassSecondary(){
+        Randomizer randomizer = new Randomizer();
+
+        switch (randomizer.getRandom(1,3)) {
+            case 1:  sClass = "Glaubenskrieger";
+                break;
+            case 2:  sClass = "Abenteurer";
+                break;
+            case 3:  sClass = "Schurke";
+                break;
+            default:
+                break;
+        }
+        return pClass;
     }
 }

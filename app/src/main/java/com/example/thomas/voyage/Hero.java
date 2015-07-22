@@ -22,8 +22,8 @@ public class Hero {
 
        // hitPoints = randomizer.getRandom(30, 50);
         heroName = heropool.setName();
-        classPrimary=heropool.setClassPrimary(null);
-        hitPoints = Integer.parseInt(heropool.setClassPrimary(classPrimary));
+        classPrimary=heropool.setClassPrimary();
+        hitPoints = heropool.setHitPoints();
 
     }
 
