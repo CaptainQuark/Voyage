@@ -6,12 +6,11 @@ package com.example.thomas.voyage;
 public class HeroPool {
 
     private static String name;
-    private static String pClass;
-    private static String sClass;
-    private static int rarity;
-    private static int hitPoints;
-    private static int hpMin;
-    private static int hpMax;
+    private static String pClass;       //Primärklasse
+    private static String sClass;       //Sekundärklasse
+    private static int rarity;          //Unterteilung der Klassen in Seltenheitsblöcke
+    private static int hpMin;           //HP randomness Ober- und Untergrenze, werden durch
+    private static int hpMax;           //die Primärklasse vorgegeben
 
 
     public static String setName(){                     //Zufälliger Namens-Generator
@@ -70,7 +69,7 @@ public class HeroPool {
                 }
                 break;
             case 2:                                     //Wsl 20%
-                switch (randomizer.getRandom(1, 3)) {
+                switch (randomizer.getRandom(1, 1)) {
                     case 1:
                         pClass = "Ungewöhnlich";
                         hpMin = 40;
@@ -81,7 +80,7 @@ public class HeroPool {
                 }
                 break;
             case 3:                                     //Wsl 10%
-                switch (randomizer.getRandom(1, 3)) {
+                switch (randomizer.getRandom(1, 1)) {
                     case 1:
                         pClass = "Selten";
                         hpMin = 40;
@@ -92,7 +91,7 @@ public class HeroPool {
                 }
                 break;
             case 4:                                     //Wsl 5%
-                switch (randomizer.getRandom(1, 3)) {
+                switch (randomizer.getRandom(1, 1)) {
                     case 1:
                         pClass = "Sehr Selten";
                         hpMin = 40;
@@ -134,40 +133,40 @@ public class HeroPool {
             case 1:                                     //Wsl 60%
                 switch (randomizer.getRandom(1, 3)) {
                     case 1:
-                        pClass = "Spion";
+                        sClass = "Spion";
                         break;
                     case 2:
-                        pClass = "Schurke";
+                        sClass = "Schurke";
                         break;
                     case 3:
-                        pClass = "Glaubenskrieger";
+                        sClass = "Glaubenskrieger";
                         break;
                     default:
                         break;
                 }
                 break;
             case 2:                                     //Wsl 20%
-                switch (randomizer.getRandom(1, 3)) {
+                switch (randomizer.getRandom(1, 1)) {
                     case 1:
-                        pClass = "Ungewöhnliche Unterklasse";
+                        sClass = "Ungewöhnliche Unterklasse";
                         break;
                     default:
                         break;
                 }
                 break;
             case 3:                                     //Wsl 10%
-                switch (randomizer.getRandom(1, 3)) {
+                switch (randomizer.getRandom(1, 1)) {
                     case 1:
-                        pClass = "Seltene Unterklasse";
+                        sClass = "Seltene Unterklasse";
                         break;
                     default:
                         break;
                 }
                 break;
             case 4:                                     //Wsl 5%
-                switch (randomizer.getRandom(1, 3)) {
+                switch (randomizer.getRandom(1, 1)) {
                     case 1:
-                        pClass = "Sehr Seltene Unterklasse";
+                        sClass = "Sehr Seltene Unterklasse";
                         break;
                     default:
                         break;

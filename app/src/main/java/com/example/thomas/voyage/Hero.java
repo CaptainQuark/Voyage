@@ -10,7 +10,7 @@ public class Hero {
     private static String classPrimary;
     private static String classSecondary;
 
-    public Hero(){
+    public Hero(){                          //Konstruktor, Initialize seperat für spätere Zwecke
         Initialize();
     }
 
@@ -19,8 +19,6 @@ public class Hero {
         HeroPool heropool = new HeroPool();
         Randomizer randomizer = new Randomizer();
 
-
-       // hitPoints = randomizer.getRandom(30, 50);
         heroName = heropool.setName();
         classPrimary=heropool.setClassPrimary();
         hitPoints = heropool.setHitPoints();
