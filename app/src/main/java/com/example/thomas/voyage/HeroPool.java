@@ -1,8 +1,8 @@
 package com.example.thomas.voyage;
 
-/**
- * Created by Don Maus on 22-Jul-15.
- */
+import android.content.Context;
+import android.util.Log;
+
 public class HeroPool {
 
     private static String name;
@@ -15,21 +15,46 @@ public class HeroPool {
 
 
     public static String setName(){                     //Zufälliger Namens-Generator
-        Randomizer randomizer = new Randomizer();
 
-        switch (randomizer.getRandom(1,3)) {
-            case 1:  name = "Gunther";
-                break;
-            case 2:  name = "Gisbert";
-                break;
-            case 3:  name = "Kamel";
-                break;
-            default:
-                break;
+        for (boolean run = true; run; ) {
+
+            run = false;
+            int indicator = (int) (Math.random() * 100);
+
+            switch (indicator) {
+                case 1:
+                    name = "Gunther";
+                    break;
+                case 2:
+                    name = "Gisbert";
+                    break;
+                case 3:
+                    name = "Kamel";
+                    break;
+                case 4:
+                    name = "Pepe";
+                    break;
+                case 5:
+                    name = "Rudy";
+                    break;
+                case 6:
+                    name = "Bow";
+                    break;
+                case 7:
+                    name = "Joe";
+                    break;
+                default:
+                    run = true;
+                    break;
+            }
         }
+
+        Log.i("HERONAME", "Name des Helden: " + name);
         return name;
     }
 
+
+    /*
     public static String setClassPrimary(String currentBiome) {         //Derzeitige Umgebung wird übergeben (sofern auf Pilgerreise, ansonsten null=alles freigeschaltet)
         Randomizer randomizer = new Randomizer();
 
@@ -183,4 +208,5 @@ public class HeroPool {
         }
         return sClass;
     }
+    */
 }

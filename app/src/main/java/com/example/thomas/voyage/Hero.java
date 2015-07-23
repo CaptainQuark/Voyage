@@ -1,29 +1,41 @@
 package com.example.thomas.voyage;
 
+import android.content.Context;
+import android.util.Log;
+
 /**
  * Created by Don Maus on 22-Jul-15.
  */
 public class Hero {
 
-    private static String heroName;
-    private static int hitPoints;
-    private static String classPrimary;
-    private static String classSecondary;
+    private String heroName;
+    private int hitPoints;
+    private String classPrimary;
+    private String classSecondary;
 
-    public Hero(){                          //Konstruktor, Initialize seperat für spätere Zwecke
-        Initialize(null);
-    }
+    //Konstruktor, Initialize seperat für spätere Zwecke
 
-    public static void Initialize(String biome){        //Platzhalter: in Klammer, welches Biome (in Blöcken)
+    //für debug noch immer auf "null"
+
+    public void Initialize(String biome) {        //Platzhalter: in Klammer, welches Biome (in Blöcken)
 
         HeroPool heropool = new HeroPool();
-        Randomizer randomizer = new Randomizer();
 
-        heroName = heropool.setName();
+        heroName = HeroPool.setName();
+        /*
         classPrimary=heropool.setClassPrimary(biome);
         hitPoints = heropool.setHitPoints();
         classSecondary=heropool.setClassSecondary();
+        */
 
+    }
+
+    public String getHeroData() {
+
+
+        String string = heroName + " " + classPrimary + " " + hitPoints + " " + classSecondary;
+        Log.i("get", "getHeroData:_heroname " + string);
+        return string;
     }
 
 }

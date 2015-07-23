@@ -2,13 +2,21 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 
 public class MerchantHeroActivity extends Activity {
+
+    TextView debugView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +24,44 @@ public class MerchantHeroActivity extends Activity {
         setContentView(R.layout.activity_merchant_hero);
 
         hideSystemUI();
+
+        debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
+        setDebugText();
+
+
+    }
+
+    public void setDebugText() {
+
+        List<Hero> herosList = new ArrayList<Hero>();
+        String totalText = "";
+
+        for (int i = 0; i < 20; i++) {
+            herosList.add(new Hero());
+            herosList.get(i).Initialize(null);
+            totalText = totalText + "Held " + i + 1 + ": " + herosList.get(i).getHeroData() + '\n';
+        }
+
+        debugView.setText(totalText);
+
+/*
+        Hero hero1 = new Hero();
+        Hero hero2 = new Hero();
+        Hero hero3 = new Hero();
+        Hero hero4 = new Hero();
+        Hero hero5 = new Hero();
+        hero1.Initialize(null);
+        hero2.Initialize(null);
+        hero3.Initialize(null);
+        hero4.Initialize(null);
+        hero5.Initialize(null);
+
+        debugView.setText(" h1: " + hero1.getHeroData()
+                + "\n h2: " + hero2.getHeroData()
+                + "\n h3: " + hero3.getHeroData()
+                + "\n h4: " + hero4.getHeroData()
+                + "\n h5: " + hero5.getHeroData());
+*/
     }
 
     private void hideSystemUI() {
