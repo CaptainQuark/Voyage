@@ -3,6 +3,7 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,9 @@ import java.util.List;
 
 public class MerchantHeroActivity extends Activity {
 
-    TextView debugView;
+    private TextView debugView, buyHeroView;
+    private int currentSelectedHeroId;
+    private int currentSavings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,9 +29,13 @@ public class MerchantHeroActivity extends Activity {
         hideSystemUI();
 
         debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
+        buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
+
+
+
+
+
         setDebugText();
-
-
     }
 
     public void setDebugText() {
@@ -36,33 +43,47 @@ public class MerchantHeroActivity extends Activity {
         List<Hero> herosList = new ArrayList<Hero>();
         String totalText = "";
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 5; i++) {
             herosList.add(new Hero());
             herosList.get(i).Initialize(null);
             totalText = totalText + "Held " + i + 1 + ": " + herosList.get(i).getHeroData() + '\n';
         }
 
         debugView.setText(totalText);
-
-/*
-        Hero hero1 = new Hero();
-        Hero hero2 = new Hero();
-        Hero hero3 = new Hero();
-        Hero hero4 = new Hero();
-        Hero hero5 = new Hero();
-        hero1.Initialize(null);
-        hero2.Initialize(null);
-        hero3.Initialize(null);
-        hero4.Initialize(null);
-        hero5.Initialize(null);
-
-        debugView.setText(" h1: " + hero1.getHeroData()
-                + "\n h2: " + hero2.getHeroData()
-                + "\n h3: " + hero3.getHeroData()
-                + "\n h4: " + hero4.getHeroData()
-                + "\n h5: " + hero5.getHeroData());
-*/
     }
+
+    public void clickToHome(View view){
+        Intent i = new Intent(getApplicationContext(), StartActivity.class);
+        startActivity(i);
+    }
+
+    public void buyHero(View view) {
+
+        debugView.setText("buyHero clicked");
+    }
+
+    public void selectedHeroLeft(View view) {
+        processSelectedHero(0);
+    }
+
+    public void selectedHeroMiddle(View view) {
+        processSelectedHero(1);
+    }
+
+    public void selectedHeroRight(View view) {
+        processSelectedHero(2);
+    }
+
+    private void processSelectedHero(int index) {
+
+        currentSelectedHeroId = index;
+
+        if (index == 1) {
+            buyHeroView.setBackgroundColor(Color.GREEN);
+        } else buyHeroView.setBackgroundColor(Color.RED);
+
+    }
+
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
@@ -85,10 +106,4 @@ public class MerchantHeroActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
-
-    public void clickToHome(View view){
-        Intent i = new Intent(getApplicationContext(), StartActivity.class);
-        startActivity(i);
-    }
-
 }
