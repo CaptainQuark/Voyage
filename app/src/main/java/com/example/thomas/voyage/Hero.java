@@ -12,28 +12,26 @@ public class Hero {
     private int hitPoints;
     private String classPrimary;
     private String classSecondary;
+    private int costs;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
 
-    //für debug noch immer auf "null"
 
-    public void Initialize(String biome) {        //Platzhalter: in Klammer, welches Biome (in Blöcken)
+    public void Initialize() {
 
         HeroPool heropool = new HeroPool();
 
         heroName = HeroPool.setName();
-        /*
-        classPrimary=heropool.setClassPrimary(biome);
-        hitPoints = heropool.setHitPoints();
-        classSecondary=heropool.setClassSecondary();
-        */
-
+        classPrimary = HeroPool.setClassPrimary();
+        hitPoints = HeroPool.setHitPoints();
+        classSecondary = HeroPool.setClassSecondary();
+        costs = heropool.getCosts();
     }
 
     public String getHeroData() {
 
 
-        String string = heroName + " " + classPrimary + " " + hitPoints + " " + classSecondary;
+        String string = heroName + " " + classPrimary + " " + hitPoints + " " + classSecondary + " " + costs;
         Log.i("get", "getHeroData:_heroname " + string);
         return string;
     }

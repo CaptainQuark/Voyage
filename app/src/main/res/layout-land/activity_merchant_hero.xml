@@ -31,11 +31,12 @@
             android:textColor="#ff000000" />
 
         <ImageButton
-            android:id="@+id/imageButton2"
+            android:id="@+id/activity_merchant_back_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.15"
             android:background="#ff000000"
+            android:onClick="activityMerchantBackToStart"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
             android:tint="#ffffffff" />

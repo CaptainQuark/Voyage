@@ -12,16 +12,16 @@ public class HeroPool {
     private static int rarity;          //Unterteilung der Klassen in Seltenheitsblöcke
     private static int hpMin;           //HP randomness Ober- und Untergrenze, werden durch
     private static int hpMax;           //die Primärklasse vorgegeben
-
+    private static int costs;           //Heldenkosten
 
     public static String setName(){                     //Zufälliger Namens-Generator
 
         for (boolean run = true; run; ) {
 
             run = false;
-            int indicator = (int) (Math.random() * 100);
 
-            switch (indicator) {
+            switch ((int) (Math.random() * 100)) {
+                //Wert zw. 0 und 100, falls kein case wird der roll wiederholt
                 case 1:
                     name = "Gunther";
                     break;
@@ -54,25 +54,29 @@ public class HeroPool {
     }
 
 
-    /*
-    public static String setClassPrimary(String currentBiome) {         //Derzeitige Umgebung wird übergeben (sofern auf Pilgerreise, ansonsten null=alles freigeschaltet)
-        Randomizer randomizer = new Randomizer();
+    public static String setClassPrimary() {
 
-        rarity = randomizer.getRandom(1, 95);           //Wählt eine der Seltenheits-Klassen aus
+        rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
         if (rarity <= 60) {                               //Wsl 60%
             rarity = 1;
         } else if (rarity <= 80) {                          //Wsl 20% - 1/5
             rarity = 2;
         } else if (rarity <= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
-        } else if (rarity <= 95) {                          //Wsl 5% - 1/20
+        } else if (rarity >= 90) {                          //Wsl 10% - 1/20
             rarity = 4;
         }
 
-        while(currentBiome != neededBiome && currentBiome != null && neededBiome==null) {   //Roll wird wiederholt falls falsche Umgebung und Umgebung nicht Standard und nicht keine Bedingungen
-            switch (rarity) {                               //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
-                case 1:                                     //Wsl 60%
-                    switch (randomizer.getRandom(1, 3)) {
+        switch (rarity) {
+            //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
+            //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
+            case 1:
+                costs = 1000;
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Waldläufer";
                             hpMin = 40;
@@ -92,11 +96,18 @@ public class HeroPool {
                             neededBiome = null;
                             break;
                         default:
+                            run = true;
                             break;
                     }
+                    }
                     break;
-                case 2:                                     //Wsl 20%
-                    switch (randomizer.getRandom(1, 1)) {
+            case 2:
+                costs = 1500;
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Ungewöhnlich";
                             hpMin = 40;
@@ -104,11 +115,18 @@ public class HeroPool {
                             neededBiome = null;
                             break;
                         default:
+                            run = true;
                             break;
                     }
+                    }
                     break;
-                case 3:                                     //Wsl 10%
-                    switch (randomizer.getRandom(1, 1)) {
+            case 3:
+                costs = 2000;
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Selten";
                             hpMin = 40;
@@ -116,11 +134,18 @@ public class HeroPool {
                             neededBiome = null;
                             break;
                         default:
+                            run = true;
                             break;
                     }
+                    }
                     break;
-                case 4:                                     //Wsl 5%
-                    switch (randomizer.getRandom(1, 1)) {
+            case 4:
+                costs = 3000;
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Sehr Selten";
                             hpMin = 40;
@@ -128,79 +153,115 @@ public class HeroPool {
                             neededBiome = null;
                             break;
                         default:
+                            run = true;
                             break;
+                    }
                     }
                     break;
                 default:
                     break;
             }
-        }
         return pClass;
     }
 
-    public static int setHitPoints(){                   //Liefert die zufälligen HP, deren Rahmen oben durch die Primär-Klasse gegeben wurde
-        Randomizer randomizer = new Randomizer();
-        return randomizer.getRandom(hpMin, hpMax);
+    public static int setHitPoints() {
+        //Liefert die zufälligen HP, deren Rahmen oben durch die Primär-Klasse gegeben wurde
+        //Ob-8: Nur wenn hpMin/hpMax zwischen 1 und 100 liegen!!
+
+        int hitPoints;
+
+        do {
+            hitPoints = (int) (Math.random() * 100);
+        }
+        while (hitPoints < hpMin || hitPoints > hpMax);
+        return hitPoints;
     }
 
-    public static String setClassSecondary(){
-        Randomizer randomizer = new Randomizer();
+    public static String setClassSecondary() {
+        //Wählt eine der Seltenheits-Klassen aus
 
-        rarity = randomizer.getRandom(1, 95);           //Wählt eine der Seltenheits-Klassen aus
-        if(rarity <= 60){                               //Wsl 60%
+        rarity = (int) (Math.random() * 100);
+        if (rarity <= 60) {                               //Wsl 60%
             rarity = 1;
-        }
-        else if(rarity <= 80){                          //Wsl 20% - 1/5
+        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
             rarity = 2;
-        }
-        else if(rarity <= 90){                          //Wsl 10% - 1/10
+        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
-        }
-        else if(rarity <= 95){                          //Wsl 5% - 1/20
+        } else if (rarity <= 95) {                          //Wsl 5% - 1/20
             rarity = 4;
         }
 
-        switch (rarity) {                               //Je nach Seltenheit wird nun aus einer Sekundär-Klasse zufällig gezogen
-            case 1:                                     //Wsl 60%
-                switch (randomizer.getRandom(1, 3)) {
-                    case 1:
-                        sClass = "Spion";
-                        break;
-                    case 2:
-                        sClass = "Schurke";
-                        break;
-                    case 3:
-                        sClass = "Glaubenskrieger";
-                        break;
-                    default:
-                        break;
+        switch (rarity) {
+            //Je nach Seltenheit wird nun aus einer Sekundär-Klasse zufällig gezogen
+
+            case 1:
+                costs = costs * 1;
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
+                        case 1:
+                            sClass = "Spion";
+                            break;
+                        case 2:
+                            sClass = "Schurke";
+                            break;
+                        case 3:
+                            sClass = "Glaubenskrieger";
+                            break;
+                        default:
+                            run = true;
+                            break;
+                    }
                 }
                 break;
-            case 2:                                     //Wsl 20%
-                switch (randomizer.getRandom(1, 1)) {
-                    case 1:
-                        sClass = "Ungewöhnliche Unterklasse";
-                        break;
-                    default:
-                        break;
+            case 2:
+                costs = (int) (costs * 1.2);
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
+                        case 1:
+                            sClass = "Ungewöhnliche Unterklasse";
+                            break;
+                        default:
+                            run = true;
+                            break;
+                    }
                 }
                 break;
-            case 3:                                     //Wsl 10%
-                switch (randomizer.getRandom(1, 1)) {
-                    case 1:
-                        sClass = "Seltene Unterklasse";
-                        break;
-                    default:
-                        break;
+            case 3:
+                costs = (int) (costs * 1.5);
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
+                        case 1:
+                            sClass = "Seltene Unterklasse";
+                            break;
+                        default:
+                            run = true;
+                            break;
+                    }
                 }
                 break;
-            case 4:                                     //Wsl 5%
-                switch (randomizer.getRandom(1, 1)) {
-                    case 1:
-                        sClass = "Sehr Seltene Unterklasse";
-                        break;
-                    default:
-                        break;
+            case 4:
+                costs = costs * 2;
+                for (boolean run = true; run; ) {
+
+                    run = false;
+
+                    switch ((int) (Math.random() * 100)) {
+                        case 1:
+                            sClass = "Sehr Seltene Unterklasse";
+                            break;
+                        default:
+                            run = true;
+                            break;
+                    }
                 }
                 break;
             default:
@@ -208,5 +269,8 @@ public class HeroPool {
         }
         return sClass;
     }
-    */
+
+    public int getCosts() {
+        return costs;
+    }
 }

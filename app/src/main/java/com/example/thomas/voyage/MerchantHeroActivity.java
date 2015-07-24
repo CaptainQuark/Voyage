@@ -45,16 +45,17 @@ public class MerchantHeroActivity extends Activity {
 
         for (int i = 0; i < 5; i++) {
             herosList.add(new Hero());
-            herosList.get(i).Initialize(null);
+            herosList.get(i).Initialize();
             totalText = totalText + "Held " + i + 1 + ": " + herosList.get(i).getHeroData() + '\n';
         }
 
         debugView.setText(totalText);
     }
 
-    public void clickToHome(View view){
+    public void activityMerchantBackToStart(View view) {
         Intent i = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void buyHero(View view) {
