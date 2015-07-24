@@ -13,6 +13,8 @@ public class HeroPool {
     private static int hpMin;           //HP randomness Ober- und Untergrenze, werden durch
     private static int hpMax;           //die Primärklasse vorgegeben
     private static int costs;           //Heldenkosten
+    private static int costsBase;       //Kosten des Primärklassenbausteins
+    private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
 
     public static String setName(){                     //Zufälliger Namens-Generator
 
@@ -71,7 +73,7 @@ public class HeroPool {
             //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
             //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
             case 1:
-                costs = 1000;
+                costsBase = 1000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -102,7 +104,7 @@ public class HeroPool {
                     }
                     break;
             case 2:
-                costs = 1500;
+                costsBase = 1500;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -121,7 +123,7 @@ public class HeroPool {
                     }
                     break;
             case 3:
-                costs = 2000;
+                costsBase = 2000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -140,7 +142,7 @@ public class HeroPool {
                     }
                     break;
             case 4:
-                costs = 3000;
+                costsBase = 3000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -195,7 +197,7 @@ public class HeroPool {
             //Je nach Seltenheit wird nun aus einer Sekundär-Klasse zufällig gezogen
 
             case 1:
-                costs = costs * 1;
+                costsMultiplier = 1;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -217,7 +219,7 @@ public class HeroPool {
                 }
                 break;
             case 2:
-                costs = (int) (costs * 1.2);
+                costsMultiplier = 1.2;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -233,7 +235,7 @@ public class HeroPool {
                 }
                 break;
             case 3:
-                costs = (int) (costs * 1.5);
+                costsMultiplier = 1.5;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -249,7 +251,7 @@ public class HeroPool {
                 }
                 break;
             case 4:
-                costs = costs * 2;
+                costsMultiplier = 2;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -271,6 +273,7 @@ public class HeroPool {
     }
 
     public int getCosts() {
+        costs = (int) (costsBase * costsMultiplier);
         return costs;
     }
 }
