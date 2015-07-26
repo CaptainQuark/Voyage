@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Message;
 
-/**
- * Created by Thomas on 21-Jul-15.
- */
 public class DBheroesAdapter {
 
     DBheroesHelper helper;
@@ -18,8 +15,6 @@ public class DBheroesAdapter {
     public DBheroesAdapter (Context context) { helper = new DBheroesHelper(context); context1 = context;}
 
     public long insertData(String name, int hitpoints, String classOne, String classTwo){
-
-
 
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -79,9 +74,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.NAME, newName);
         String[] whereArgs = {oldName};
 
-        int count = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.NAME + " =? ", whereArgs);
-
-        return count;
+        return db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.NAME + " =? ", whereArgs);
     }
 
     public int deleteRow(){

@@ -3,9 +3,7 @@ package com.example.thomas.voyage;
 import android.content.Context;
 import android.util.Log;
 
-/**
- * Created by Don Maus on 22-Jul-15.
- */
+
 public class Hero {
 
     private String heroName;
@@ -28,12 +26,38 @@ public class Hero {
         costs = heropool.getCosts();
     }
 
-    public String getHeroData() {
+    public String getStrings(String identifier) {
 
+        String string;
 
-        String string = heroName + " " + classPrimary + " " + hitPoints + " " + classSecondary + " " + costs;
-        Log.i("get", "getHeroData:_heroname " + string);
+        switch (identifier){
+            case "heroName":
+                string = heroName; break;
+            case "classPrimary":
+                string = classPrimary; break;
+            case "classSecondary":
+                string = classSecondary; break;
+            default:
+                string = "EVIL"; break;
+        }
+
         return string;
+    }
+
+    public int getInts(String identifier){
+
+        int returnValue;
+
+        switch(identifier){
+            case "hitpoints":
+                returnValue = hitPoints; break;
+            case "costs":
+                returnValue = costs; break;
+            default:
+                returnValue = 666; break;
+        }
+
+        return returnValue;
     }
 
 }

@@ -4,11 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
-/**
- * Created by Thomas on 21-Jul-15.
- */
+import java.sql.SQLException;
+
 public class DBmerchantHeroesAdapter {
 
     DBmerchantHeroesHelper helper;
@@ -21,6 +22,7 @@ public class DBmerchantHeroesAdapter {
 
     public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs) {
 
+        Log.i("INSERT", "insert Data called");
 
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -31,6 +33,9 @@ public class DBmerchantHeroesAdapter {
         contentValues.put(DBmerchantHeroesHelper.COSTS, costs);
 
         long id = db.insert(DBmerchantHeroesHelper.TABLE_NAME, null, contentValues);
+
+        Log.i("INSERT", "long id = " + id);
+
         db.close();
         return id;
         // .) wenn id = -1, dann fehler, sonst ok
@@ -39,7 +44,7 @@ public class DBmerchantHeroesAdapter {
     }
 
     public String getAllData() {
-        SQLiteDatabase db = helper.getReadableDatabase();
+        SQLiteDatabase db = helper.getWritableDatabase();
         //helper.get... = sql database object das database repräsentiert
 
         String[] columns = {DBmerchantHeroesHelper.UID, DBmerchantHeroesHelper.NAME, DBmerchantHeroesHelper.HITPOINTS, DBmerchantHeroesHelper.CLASS_ONE, DBmerchantHeroesHelper.CLASS_TWO, DBmerchantHeroesHelper.COSTS};
@@ -75,35 +80,67 @@ public class DBmerchantHeroesAdapter {
         return buffer.toString();
     }
 
-    public int updateName(String oldName, String newName) {
-        //UPDATE VIVZTABLE SET Name = 'Lukas' where Name=? 'Thomas'
+    public String getOneHeroRow(int id){
+        SQLiteDatabase db = helper.getReadableDatabase();
 
+        String[] columns = {DBmerchantHeroesHelper.UID, DBmerchantHeroesHelper.NAME, DBmerchantHeroesHelper.HITPOINTS, DBmerchantHeroesHelper.CLASS_ONE, DBmerchantHeroesHelper.CLASS_TWO, DBmerchantHeroesHelper.COSTS};
+        String[] selectionArgs = { String.valueOf(id) };
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if(cursor != null){
+            cursor.moveToFirst();
+        }
+
+        StringBuilder buffer = new StringBuilder();
+
+        try {
+            int indexUID = cursor.getColumnIndex(DBmerchantHeroesHelper.UID);
+            int indexName = cursor.getColumnIndex(DBmerchantHeroesHelper.NAME);
+            int indexHitpoints = cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS);
+            int indexClassOne = cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE);
+            int indexClassTwo = cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO);
+            int indexCosts = cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS);
+
+            int cid = cursor.getInt(indexUID);
+            String name = cursor.getString(indexName);
+            int hitpoints = cursor.getInt(indexHitpoints);
+            String classOne = cursor.getString(indexClassOne);
+            String classTwo = cursor.getString(indexClassTwo);
+            int costs = cursor.getInt(indexCosts);
+
+            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs);
+        }catch (SQLiteException e){
+            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+        }
+
+        return buffer.toString();
+    }
+
+    public int getTableRowCount(){
         SQLiteDatabase db = helper.getWritableDatabase();
-        ContentValues cv = new ContentValues();
-        cv.put(DBmerchantHeroesHelper.NAME, newName);
-        String[] whereArgs = {oldName};
+        String[] columns = { DBmerchantHeroesHelper.UID };
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, null, null, null, null, null);
 
-        int count = db.update(DBmerchantHeroesHelper.TABLE_NAME, cv, DBmerchantHeroesHelper.NAME + " =? ", whereArgs);
+        int count = cursor.getCount();
+        cursor.close();
 
         return count;
     }
 
-    public int deleteRow() {
+    public int deleteRow(int index) {
         //DELETE * FROM VIVZTABLE Where Name='Thomas'
 
-        String[] whereArgs = {"Thomas"};
-        //zum Test hardcoded
+        String[] whereArgs = {index + ""};
 
         SQLiteDatabase db = helper.getWritableDatabase();
-        int count = db.delete(DBmerchantHeroesHelper.TABLE_NAME, DBmerchantHeroesHelper.NAME + "=?", whereArgs);
 
-        return count;
+        return db.delete(DBmerchantHeroesHelper.TABLE_NAME, DBmerchantHeroesHelper.UID + "=?", whereArgs);
     }
 
     static class DBmerchantHeroesHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "merchantherosdatabase";
         private static final String TABLE_NAME = "MERCHANTTABLE";
-        private static final int DATABASE_VERSION = 5;
+        private static final int DATABASE_VERSION = 6;
         private static final String UID = "_id";
         private static final String NAME = "Name";
         private static final String HITPOINTS = "Hitpoints";

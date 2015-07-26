@@ -55,31 +55,37 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView23"
+                    android:id="@+id/textView_merchant_hero_i0"
+                    android:padding="10dp"
+                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="selectedHeroLeft"
+                    android:onClick="selectedHeroIndex0"
                     android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/textView231"
+                    android:id="@+id/textView_merchant_hero_i1"
+                    android:padding="10dp"
+                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="selectedHeroMiddle"
+                    android:onClick="selectedHeroIndex1"
                     android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="15sp" />
 
                 <TextView
-                    android:id="@+id/textView232"
+                    android:id="@+id/textView_merchant_hero_i2"
+                    android:padding="10dp"
+                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="selectedHeroRight"
+                    android:onClick="selectedHeroIndex2"
                     android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="15sp" />
@@ -87,10 +93,22 @@
             </LinearLayout>
 
         <TextView
-            android:id="@+id/debug_merchant_hero_textView"
+            android:id="@+id/merchant_hero_textView_chosen_hero"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.3" />
+            android:layout_weight="0.9" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/scrollView"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:id="@+id/debug_merchant_hero_textView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </ScrollView>
 
     </LinearLayout>
 
