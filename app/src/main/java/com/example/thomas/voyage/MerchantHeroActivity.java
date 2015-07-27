@@ -1,9 +1,7 @@
 package com.example.thomas.voyage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,23 +26,6 @@ public class MerchantHeroActivity extends Activity {
 
         hideSystemUI();
         dBmerchantHeroesAdapter = new DBmerchantHeroesAdapter(this);
-        //dBmerchantHeroesAdapter.deleteRow(3);
-
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor edit = sharedPref.edit();
-
-        // um SHAREDPREF_INSERT zurückzusetzen, vor nächstem App-Start Bedingung auf 'true' setzen -> nach Start wieder auf 'false'
-        if (true) edit.putBoolean(SHAREDPREF_INSERT, true);
-
-        if (sharedPref.getBoolean(SHAREDPREF_INSERT, true)) {
-            edit.putBoolean(SHAREDPREF_INSERT, false);
-            edit.commit();
-
-            insertIntoDatabase();
-
-            Message.message(this, "sharedPref called");
-        }
 
         debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
         buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
@@ -52,12 +33,27 @@ public class MerchantHeroActivity extends Activity {
         textViewHero_1 = (TextView)findViewById(R.id.textView_merchant_hero_i1);
         textViewHero_2 = (TextView)findViewById(R.id.textView_merchant_hero_i2);
 
-        //dBmerchantHeroesAdapter.deleteRow(5);
-        maintainDatabaseForThreeRows();
+        isAppFirstStarted();
         fillTextViewHeros(3);
 
         setDebugText();
 
+    }
+
+    public void isAppFirstStarted() {
+        // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
+        //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
+
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            insertIntoDatabase();
+            Message.message(this, "insertIntoDatabase called @ function 'isFirstRun'");
+        }
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
     }
 
     public void insertIntoDatabase() {
@@ -65,34 +61,6 @@ public class MerchantHeroActivity extends Activity {
         if (id < 0) {
             Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
         }
-    }
-
-    public int maintainDatabaseForThreeRows(){
-        int rowsExistent = dBmerchantHeroesAdapter.getTableRowCount();
-        //Message.message(this, "rowsExistent: " + rowsExistent);
-
-        if(rowsExistent >=0 && rowsExistent <= 2){
-
-            // Differenz zwischen max. Heldenanzahl zum Auswählen und vorhanderer wird als Anzahl der neuen Einfügungen genommen
-            insertToMerchantDatabase(3 - rowsExistent);
-            Message.message(this, "neu eingefügt: 3 - " + rowsExistent);
-            Log.i("1", "insertToMerchantDatabase with " + " 3 - " + rowsExistent);
-
-        } else if(rowsExistent > 3){
-
-            while(rowsExistent > 3){
-                Log.i("t", "while-loop wiht rowsExistent at " + rowsExistent);
-                dBmerchantHeroesAdapter.deleteRow(rowsExistent);
-                rowsExistent = rowsExistent-1;
-            }
-        } else if(rowsExistent < 0){
-
-            Message.message(this, "rowsExistent in 3. if-statement = " + rowsExistent);
-            Log.i("k", "3. else-ausführung = befüllung der datenbank mit 3 Helden");
-        }
-
-        // rowsExistent an dieser Stelle veraltet, da die Datenbank auf 3 aufgefüllt wird
-        return rowsExistent;
     }
 
     public void fillTextViewHeros(int rowsExistent){

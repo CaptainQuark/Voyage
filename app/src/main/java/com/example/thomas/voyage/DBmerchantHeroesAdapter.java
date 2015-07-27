@@ -163,7 +163,7 @@ public class DBmerchantHeroesAdapter {
     static class DBmerchantHeroesHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "merchantherosdatabase";
         private static final String TABLE_NAME = "MERCHANTTABLE";
-        private static final int DATABASE_VERSION = 8;
+        private static final int DATABASE_VERSION = 9;
         private static final String UID = "_id";
         private static final String NAME = "Name";
         private static final String HITPOINTS = "Hitpoints";

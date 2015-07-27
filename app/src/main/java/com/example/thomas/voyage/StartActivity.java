@@ -2,18 +2,16 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.*;
-import android.util.Log;
+import android.os.Bundle;
 import android.view.View;
-
-import java.util.Calendar;
 
 
 public class StartActivity extends Activity {
 
-    DBheroesAdapter heroesHelper;
+    private final String TIME_PREF_FILE = "timefile";
         //hier noch vorhanden -> später in passende Datei verschieben
+        private DBheroesAdapter heroesHelper;
+    private int seconds, minutes, hours, day, year;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +32,44 @@ public class StartActivity extends Activity {
         Message.message(this, data);
         */
 
+        // this would default to now
     }
 
     public void clickToHeroMerchant(View view) {
         Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
         startActivity(i);
+    }
+
+    public void calcTimeDiff(View view) {
+        /*
+        Calendar calendar = Calendar.getInstance();
+
+        int Nseconds = calendar.get(Calendar.SECOND);
+        int Nminutes = calendar.get(Calendar.MINUTE);
+        int Nhours = calendar.get(Calendar.HOUR_OF_DAY);
+        int Nday = calendar.get(Calendar.DAY_OF_YEAR);
+        int Nyear = calendar.get(Calendar.YEAR);
+
+        Nseconds -= seconds;
+        Nhours -= hours;
+        Nminutes -= minutes;
+        Nday -= day;
+        Nyear -= year;
+
+            // statt TIME_PREF_FILE -> getString(R.id.'...')
+        SharedPreferences sharedPreferences = this.getSharedPreferences(TIME_PREF_FILE, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt("SECONDS", seconds);
+        editor.putInt("MINUTES", seconds);
+        editor.putInt("HOURS", seconds);
+        editor.putInt("DAYS", seconds);
+        editor.putInt("YEARS", seconds);
+        editor.apply();
+
+        int loadedSecond = sharedPreferences.getInt("SECONDS", 0);
+        Message.message(this, "loadedSecond: " + loadedSecond);
+        */
     }
 
 

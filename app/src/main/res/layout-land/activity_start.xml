@@ -1,20 +1,20 @@
 <LinearLayout
-    android:orientation="vertical"
-    android:id="@+id/activity_start"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_start"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".StartActivity">
 
 
     <ImageView
-        android:layout_weight="1"
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/imageView"
-        android:onClick="clickToHeroMerchant"
-        android:background="#ff171665" />
+        android:layout_weight="1"
+        android:background="#ff171665"
+        android:onClick="clickToHeroMerchant" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -26,231 +26,232 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_gravity="fill"
                 android:id="@+id/textView"
-                android:background="#ff58ffe1"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <TextView
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_gravity="fill"
-                android:id="@+id/textView1"
-                android:background="#ffff1a2f"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <TextView
-                android:layout_row="1"
                 android:layout_column="0"
-                android:layout_gravity="fill"
-                android:id="@+id/textView2"
-                android:background="#ffa638ff"
                 android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
+                android:layout_gravity="fill"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:background="#ff58ffe1" />
 
             <TextView
-                android:layout_row="1"
+                android:id="@+id/textView1"
                 android:layout_column="1"
+                android:layout_columnWeight="1"
                 android:layout_gravity="fill"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:background="#ffff1a2f" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:background="#ffa638ff" />
+
+            <TextView
                 android:id="@+id/textView3"
-                android:background="#ff786eff"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1" />
+                android:background="#ff786eff" />
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_gravity="fill"
                 android:id="@+id/textView4"
-                android:background="#ffa638ff"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <TextView
-                android:layout_row="1"
                 android:layout_column="2"
-                android:layout_gravity="fill"
-                android:id="@+id/textView5"
-                android:background="#ffffc454"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1" />
-
-            <TextView
-                android:layout_row="0"
-                android:layout_column="3"
-                android:layout_gravity="fill"
-                android:id="@+id/textView6"
-                android:background="#ff3aafff"
                 android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
+                android:layout_gravity="fill"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:background="#ffa638ff" />
 
             <TextView
-                android:layout_row="1"
-                android:layout_column="3"
+                android:id="@+id/textView5"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
                 android:layout_gravity="fill"
-                android:id="@+id/textView7"
-                android:background="#ff786eff"
+                android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:layout_columnWeight="1" />
+                android:background="#ffffc454" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:background="#ff3aafff" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:background="#ff786eff" />
         </GridLayout>
 
         <GridLayout
-            android:columnCount="4"
-            android:rowCount="4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:columnCount="4"
+            android:rowCount="4">
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="0"
-                android:layout_gravity="fill"
                 android:id="@+id/textView8"
+                android:layout_column="0"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="0"
                 android:layout_rowWeight="3"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="1"
-                android:layout_gravity="fill"
                 android:id="@+id/textView9"
-                android:background="#ffff1a2f"
+                android:layout_column="1"
                 android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
+                android:layout_gravity="fill"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:background="#ffff1a2f" />
 
             <TextView
-                android:layout_row="1"
-                android:layout_column="0"
-                android:layout_gravity="fill"
                 android:id="@+id/textView10"
-                android:background="#ffa638ff"
+                android:layout_column="0"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="1"
                 android:layout_rowWeight="1"
+                android:background="#ffa638ff"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="1"
-                android:layout_column="1"
-                android:layout_gravity="fill"
                 android:id="@+id/textView11"
-                android:background="#ff786eff"
-                android:layout_rowWeight="1"
+                android:layout_column="1"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:background="#ff786eff"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="0"
-                android:layout_column="2"
-                android:layout_gravity="fill"
                 android:id="@+id/textView12"
-                android:background="#ffa638ff"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <TextView
-                android:layout_row="1"
                 android:layout_column="2"
-                android:layout_gravity="fill"
-                android:id="@+id/textView13"
-                android:background="#ffffc454"
-                android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
-                android:backgroundTint="#af000000" />
-
-            <TextView
+                android:layout_gravity="fill"
                 android:layout_row="0"
-                android:layout_column="3"
-                android:layout_gravity="fill"
-                android:id="@+id/textView14"
-                android:background="#ff3aafff"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
+                android:layout_rowWeight="1"
+                android:background="#ffa638ff" />
 
             <TextView
+                android:id="@+id/textView13"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
                 android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:background="#ffffc454"
+                android:backgroundTint="#af000000" />
+
+            <TextView
+                android:id="@+id/textView14"
                 android:layout_column="3"
+                android:layout_columnWeight="1"
                 android:layout_gravity="fill"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:background="#ff3aafff" />
+
+            <TextView
                 android:id="@+id/textView15"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
                 android:background="#ff786eff"
-                android:layout_rowWeight="1"
-                android:layout_columnWeight="1"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="2"
-                android:layout_column="0"
-                android:layout_gravity="fill"
                 android:id="@+id/textView16"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="3"
-                android:backgroundTint="#af000000" />
-
-            <TextView
-                android:layout_row="3"
                 android:layout_column="0"
+                android:layout_columnWeight="1"
                 android:layout_gravity="fill"
+                android:layout_row="2"
+                android:layout_rowWeight="3"
+                android:backgroundTint="#af000000"
+                android:onClick="calcTimeDiff" />
+
+            <TextView
                 android:id="@+id/textView17"
-                android:background="#ffff1a2f"
+                android:layout_column="0"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="3"
                 android:layout_rowWeight="1"
+                android:background="#ffff1a2f"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="2"
-                android:layout_column="1"
-                android:layout_gravity="fill"
                 android:id="@+id/textView19"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <TextView
-                android:layout_row="3"
                 android:layout_column="1"
+                android:layout_columnWeight="1"
                 android:layout_gravity="fill"
+                android:layout_row="2"
+                android:layout_rowWeight="1" />
+
+            <TextView
                 android:id="@+id/textView20"
-                android:background="#ffff1a2f"
+                android:layout_column="1"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="3"
                 android:layout_rowWeight="1"
+                android:background="#ffff1a2f"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="2"
-                android:layout_column="2"
-                android:layout_gravity="fill"
                 android:id="@+id/textView21"
+                android:layout_column="2"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="2"
                 android:layout_rowWeight="1" />
 
             <TextView
-                android:layout_row="3"
-                android:layout_column="2"
-                android:layout_gravity="fill"
                 android:id="@+id/textView22"
-                android:background="#ffff1a2f"
+                android:layout_column="2"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="3"
                 android:layout_rowWeight="1"
+                android:background="#ffff1a2f"
                 android:backgroundTint="#af000000" />
 
             <TextView
-                android:layout_row="2"
-                android:layout_column="3"
-                android:layout_gravity="fill"
                 android:id="@+id/textView24"
+                android:layout_column="3"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="2"
                 android:layout_rowWeight="1" />
 
             <TextView
-                android:layout_row="3"
-                android:layout_column="3"
-                android:layout_gravity="fill"
                 android:id="@+id/textView25"
-                android:background="#ffff1a2f"
+                android:layout_column="3"
                 android:layout_columnWeight="1"
+                android:layout_gravity="fill"
+                android:layout_row="3"
                 android:layout_rowWeight="1"
+                android:background="#ffff1a2f"
                 android:backgroundTint="#af000000" />
         </GridLayout>
 
