@@ -1,26 +1,22 @@
 package com.example.thomas.voyage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteException;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 
 public class MerchantHeroActivity extends Activity {
 
+    private final String SHAREDPREF_INSERT = "INSERT";
     DBmerchantHeroesAdapter dBmerchantHeroesAdapter;
-
     private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2;
     private int currentSelectedHeroId;
     private int currentMoneyInPocket;
@@ -32,6 +28,23 @@ public class MerchantHeroActivity extends Activity {
 
         hideSystemUI();
         dBmerchantHeroesAdapter = new DBmerchantHeroesAdapter(this);
+        //dBmerchantHeroesAdapter.deleteRow(3);
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor edit = sharedPref.edit();
+
+        // um SHAREDPREF_INSERT zurückzusetzen, vor nächstem App-Start Bedingung auf 'true' setzen -> nach Start wieder auf 'false'
+        if (true) edit.putBoolean(SHAREDPREF_INSERT, true);
+
+        if (sharedPref.getBoolean(SHAREDPREF_INSERT, true)) {
+            edit.putBoolean(SHAREDPREF_INSERT, false);
+            edit.commit();
+
+            insertIntoDatabase();
+
+            Message.message(this, "sharedPref called");
+        }
 
         debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
         buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
@@ -39,15 +52,24 @@ public class MerchantHeroActivity extends Activity {
         textViewHero_1 = (TextView)findViewById(R.id.textView_merchant_hero_i1);
         textViewHero_2 = (TextView)findViewById(R.id.textView_merchant_hero_i2);
 
-        fillTextViewHeros(maintainDatabaseForThreeRows());
+        //dBmerchantHeroesAdapter.deleteRow(5);
+        maintainDatabaseForThreeRows();
+        fillTextViewHeros(3);
 
         setDebugText();
 
     }
 
+    public void insertIntoDatabase() {
+        long id = insertToMerchantDatabase(3);
+        if (id < 0) {
+            Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
+        }
+    }
+
     public int maintainDatabaseForThreeRows(){
         int rowsExistent = dBmerchantHeroesAdapter.getTableRowCount();
-        Message.message(this, "rowsExistent: " + rowsExistent);
+        //Message.message(this, "rowsExistent: " + rowsExistent);
 
         if(rowsExistent >=0 && rowsExistent <= 2){
 
@@ -69,57 +91,63 @@ public class MerchantHeroActivity extends Activity {
             Log.i("k", "3. else-ausführung = befüllung der datenbank mit 3 Helden");
         }
 
+        // rowsExistent an dieser Stelle veraltet, da die Datenbank auf 3 aufgefüllt wird
         return rowsExistent;
     }
 
     public void fillTextViewHeros(int rowsExistent){
-
         Log.i("fillText", "fillTextViewHeroes called");
 
         for(int i = 1; i <= rowsExistent && rowsExistent > 0; i++){
-
-            try {
                 if(i == 1){
-                    textViewHero_0.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
-                    Log.i("fillText", "textViewHero_0");
+                    if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
+                        textViewHero_0.setText("ALREADY CLICKED");
+                        Message.message(this, "already clicked");
+                    } else {
+                        textViewHero_0.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
+                        Log.i("fillText", "textViewHero_0");
+                    }
                 }
                 else
                 if (i == 2){
-                    Log.i("fillText", "textViewHero_0");
-                    textViewHero_1.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
+                    if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
+                        textViewHero_1.setText("ALREADY CLICKED");
+                    } else {
+                        textViewHero_1.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
+                        Log.i("fillText", "textViewHero_1");
+                    }
                 }
                 else
                 if(i == 3){
-                    Log.i("fillText", "textViewHero_0");
-                    textViewHero_2.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
+                    if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
+                        textViewHero_2.setText("ALREADY CLICKED");
+                    } else {
+                        textViewHero_2.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
+                        Log.i("fillText", "textViewHero_2");
+                    }
                 }
                 else{
                     Message.message(this, "Number of rows in merchant table: " + i);
                 }
-            }catch (SQLiteException e){
-                Message.message(this, "error @ fillTextViewHeroes = " + e);
-            }
-
-
         }
     }
 
     public void setDebugText() {
-
         String totalText = dBmerchantHeroesAdapter.getAllData();
 
         debugView.setText(totalText);
     }
 
-    public void insertToMerchantDatabase(int numberOfInserts){
+    public long insertToMerchantDatabase(int numberOfInserts) {
         List<Hero> herosList = new ArrayList<>();
+        long id = 0;
 
         for (int i = 0; i < numberOfInserts; i++) {
             herosList.add(new Hero());
             herosList.get(i).Initialize();
 
                 // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
-            long id = dBmerchantHeroesAdapter.insertData(
+            id = dBmerchantHeroesAdapter.insertData(
                     herosList.get(i).getStrings("heroName"),
                     herosList.get(i).getInts("hitpoints"),
                     herosList.get(i).getStrings("classPrimary"),
@@ -129,6 +157,7 @@ public class MerchantHeroActivity extends Activity {
             if(id < 0) Message.message(this, "error@insert of hero " + i + 1);
         }
 
+        return id;
     }
 
     public void activityMerchantBackToStart(View view) {
@@ -143,25 +172,23 @@ public class MerchantHeroActivity extends Activity {
     }
 
     public void selectedHeroIndex0(View view) {
-        processSelectedHero(0);
-    }
-
-    public void selectedHeroIndex1(View view) {
         processSelectedHero(1);
     }
 
-    public void selectedHeroIndex2(View view) {
+    public void selectedHeroIndex1(View view) {
         processSelectedHero(2);
+    }
+
+    public void selectedHeroIndex2(View view) {
+        processSelectedHero(3);
     }
 
     private void processSelectedHero(int index) {
 
         currentSelectedHeroId = index;
 
-        if (index == 1) {
-            buyHeroView.setBackgroundColor(Color.GREEN);
-        } else buyHeroView.setBackgroundColor(Color.RED);
-
+        dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
+        fillTextViewHeros(3);
     }
 
 
