@@ -40,6 +40,11 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
+    public void toScreenSlideActivity(View view) {
+        Intent i = new Intent(getApplicationContext(), ScreenSlideActivity.class);
+        startActivity(i);
+    }
+
     public void calcTimeDiff(View view) {
         /*
         Calendar calendar = Calendar.getInstance();

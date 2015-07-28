@@ -19,13 +19,16 @@
         </activity>
         <activity
             android:name=".HeroesPartyActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_heroes_party" >
+            android:label="@string/title_activity_heroes_party"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".MerchantHeroActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/title_activity_merchant" >
+            android:label="@string/title_activity_merchant"
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".ScreenSlideActivity"
+            android:label="@string/title_activity_screen_slide">
         </activity>
     </application>
 
