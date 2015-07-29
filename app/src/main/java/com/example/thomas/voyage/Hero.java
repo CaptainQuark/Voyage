@@ -15,12 +15,12 @@ public class Hero {
     //Konstruktor, Initialize seperat für spätere Zwecke
 
 
-    public void Initialize() {
+    public void Initialize(String merchantBiome) {
 
         HeroPool heropool = new HeroPool();
 
         heroName = HeroPool.setName();
-        classPrimary = HeroPool.setClassPrimary();
+        classPrimary = HeroPool.setClassPrimary(merchantBiome);
         hitPoints = HeroPool.setHitPoints();
         classSecondary = HeroPool.setClassSecondary();
         costs = heropool.getCosts();

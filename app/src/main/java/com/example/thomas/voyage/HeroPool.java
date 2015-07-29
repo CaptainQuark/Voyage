@@ -3,6 +3,9 @@ package com.example.thomas.voyage;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HeroPool {
 
     private static String name;
@@ -15,6 +18,7 @@ public class HeroPool {
     private static int costs;           //Heldenkosten
     private static int costsBase;       //Kosten des Primärklassenbausteins
     private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
+    ArrayList<String> biomes = new ArrayList<String>();
 
     public static String setName(){                     //Zufälliger Namens-Generator
 
@@ -56,7 +60,7 @@ public class HeroPool {
     }
 
 
-    public static String setClassPrimary() {
+    public static String setClassPrimary(String currentBiome) {
 
         rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
         if (rarity <= 60) {                               //Wsl 60%
@@ -74,7 +78,9 @@ public class HeroPool {
             //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
             case 1:
                 costsBase = 1000;
-                for (boolean run = true; run; ) {
+                for (boolean run = true; (run && currentBiome == "Everywhere")
+                        || (run && neededBiome == "Everywhere")
+                        || (run && currentBiome == neededBiome); ) {
 
                     run = false;
 

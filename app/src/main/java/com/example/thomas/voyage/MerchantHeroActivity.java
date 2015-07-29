@@ -112,7 +112,7 @@ public class MerchantHeroActivity extends Activity {
 
         for (int i = 0; i < numberOfInserts; i++) {
             herosList.add(new Hero());
-            herosList.get(i).Initialize();
+            herosList.get(i).Initialize("Everywhere");
 
                 // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
             id = dBmerchantHeroesAdapter.insertData(
