@@ -17,7 +17,7 @@
             android:id="@+id/activity_heroes_party_listView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10" />
+            android:layout_weight="12" />
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -25,7 +25,12 @@
             android:layout_height="0dp"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="#ff000000" />
+            android:background="#ff000000"
+            android:onClick="activityHeroesPartyBackToStart"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_backbutton"
+            android:tint="#ffffffff" />
+
     </LinearLayout>
 
     <LinearLayout

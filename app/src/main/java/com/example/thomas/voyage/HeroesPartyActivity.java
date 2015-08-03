@@ -2,6 +2,7 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-
 public class HeroesPartyActivity extends Activity {
 
+    private final int HEROS_IN_LISTVIEW = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,12 @@ public class HeroesPartyActivity extends Activity {
         String[] values = new String[]{"Android", "iPhone", "WindowsMobile",
                 "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
                 "Linux", "OS/2"};
+
+        // ints noch nutzlos
+        int[] ints = new int[HEROS_IN_LISTVIEW];
+        for (int i = 1; i <= HEROS_IN_LISTVIEW; i++) {
+            ints[i - 1] = i;
+        }
 
         final ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < values.length; ++i) {
@@ -40,19 +47,19 @@ public class HeroesPartyActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                view.animate().setDuration(2000).alpha(0)
-                        .withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                list.remove(item);
-                                adapter.notifyDataSetChanged();
-                                view.setAlpha(1);
-                            }
-                        });
+                DBheroesAdapter heroesHelper = new DBheroesAdapter(getApplicationContext());
+                String data = heroesHelper.getOneHeroRow(position + 1);
+
+                Message.message(getApplicationContext(), data);
             }
 
         });
+    }
+
+    public void activityHeroesPartyBackToStart(View view) {
+        Intent i = new Intent(getApplicationContext(), StartActivity.class);
+        startActivity(i);
+        finish();
     }
 
 
@@ -73,11 +80,14 @@ public class HeroesPartyActivity extends Activity {
 class MySimpleArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final String[] values;
+    DBheroesAdapter heroesHelper;
 
     public MySimpleArrayAdapter(Context context, String[] values) {
         super(context, -1, values);
         this.context = context;
         this.values = values;
+
+        heroesHelper = new DBheroesAdapter(this.context);
     }
 
     @Override
@@ -87,7 +97,11 @@ class MySimpleArrayAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
 
-        imageView.setImageResource(R.mipmap.hero_dummy_gnu);
+        if (heroesHelper.getHeroName(position + 1).equals("NOT_USED")) {
+            imageView.setImageResource(R.mipmap.hero_dummy_gnu);
+        } else {
+            imageView.setImageResource(R.mipmap.ic_launcher);
+        }
 
         return rowView;
     }

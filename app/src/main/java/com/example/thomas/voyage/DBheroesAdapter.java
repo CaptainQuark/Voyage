@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBheroesAdapter {
@@ -64,6 +65,59 @@ public class DBheroesAdapter {
 
         cursor.close();
         return buffer.toString();
+    }
+
+    public String getOneHeroRow(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.UID, DBheroesHelper.NAME, DBheroesHelper.HITPOINTS, DBheroesHelper.CLASS_ONE, DBheroesHelper.CLASS_TWO};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        StringBuilder buffer = new StringBuilder();
+
+        try {
+            int indexUID = cursor.getColumnIndex(DBheroesHelper.UID);
+            int indexName = cursor.getColumnIndex(DBheroesHelper.NAME);
+            int indexHitpoints = cursor.getColumnIndex(DBheroesHelper.HITPOINTS);
+            int indexClassOne = cursor.getColumnIndex(DBheroesHelper.CLASS_ONE);
+            int indexClassTwo = cursor.getColumnIndex(DBheroesHelper.CLASS_TWO);
+
+            int cid = cursor.getInt(indexUID);
+            String name = cursor.getString(indexName);
+            int hitpoints = cursor.getInt(indexHitpoints);
+            String classOne = cursor.getString(indexClassOne);
+            String classTwo = cursor.getString(indexClassTwo);
+
+            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo);
+        } catch (SQLiteException e) {
+            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+        }
+
+        db.close();
+        return buffer.toString();
+    }
+
+    public String getHeroName(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.NAME};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.NAME));
+        cursor.close();
+        db.close();
+
+        return value;
     }
 
     public int updateRow(int UID, String name, int hitpoints, String primaryClass, String secondaryClass) {
