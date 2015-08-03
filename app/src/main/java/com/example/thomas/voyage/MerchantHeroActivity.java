@@ -2,6 +2,7 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -155,8 +156,33 @@ public class MerchantHeroActivity extends Activity {
 
         currentSelectedHeroId = index;
 
-        dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
-        fillTextViewHeros(3);
+        DBheroesAdapter herosAdapter = new DBheroesAdapter(this);
+
+        try {
+            String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
+            int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
+            String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
+            String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
+
+            for (int i = 1; i <= 10; i++) {
+                int updateValidation = herosAdapter.updateRow(i, name, hitpoints, classOne, classTwo);
+                if (updateValidation > 0) {
+
+
+                    Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
+                    if (i == 10) {
+                        Message.message(this, "This was the last free entry in HeroesDatabase");
+                    }
+                    i = 11;
+                }
+            }
+
+            dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
+            fillTextViewHeros(3);
+        } catch (SQLiteException e) {
+            Message.message(this, e + "");
+        }
+
     }
 
 

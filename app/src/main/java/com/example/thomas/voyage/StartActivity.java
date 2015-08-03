@@ -9,8 +9,8 @@ import android.view.View;
 public class StartActivity extends Activity {
 
     private final String TIME_PREF_FILE = "timefile";
-        //hier noch vorhanden -> später in passende Datei verschieben
-        private DBheroesAdapter heroesHelper;
+    private DBheroesAdapter heroesHelper;
+    private DBmerchantHeroesAdapter merchantHelper;
     private int seconds, minutes, hours, day, year;
 
     @Override
@@ -20,19 +20,9 @@ public class StartActivity extends Activity {
 
         hideSystemUI();
 
-        /*
         heroesHelper = new DBheroesAdapter(this);
+        merchantHelper = new DBmerchantHeroesAdapter(this);
 
-        long id = heroesHelper.insertData("Thomas", 100, "eins", "zwei");
-
-        if (id < 0) Message.message(this, "error@insert");
-        else Message.message(this, "success@insert");
-
-        String data = heroesHelper.getAllData();
-        Message.message(this, data);
-        */
-
-        // this would default to now
     }
 
     public void clickToHeroMerchant(View view) {
@@ -41,7 +31,7 @@ public class StartActivity extends Activity {
     }
 
     public void toScreenSlideActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), ScreenSlideActivity.class);
+        Intent i = new Intent(getApplicationContext(), BeginJourney.class);
         startActivity(i);
     }
 

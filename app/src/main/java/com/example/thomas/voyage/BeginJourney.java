@@ -10,11 +10,11 @@ import android.support.v4.view.ViewPager;
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
 
 
-public class ScreenSlideActivity extends FragmentActivity {
+public class BeginJourney extends FragmentActivity {
     /**
      * The number of pages (wizard steps) to show in this demo.
      */
-    private static final int NUM_PAGES = 5;
+    private static final int NUM_PAGES = 3;
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
@@ -61,7 +61,13 @@ public class ScreenSlideActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return new ScreenSlidePageFragment();
+
+            Bundle bundle = new Bundle();
+            bundle.putInt("INDEX", position);
+            ScreenSlidePageFragment sc = new ScreenSlidePageFragment();
+            sc.setArguments(bundle);
+
+            return sc;
         }
 
         @Override

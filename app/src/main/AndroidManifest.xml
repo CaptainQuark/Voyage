@@ -27,7 +27,7 @@
             android:label="@string/title_activity_merchant"
             android:screenOrientation="landscape"></activity>
         <activity
-            android:name=".ScreenSlideActivity"
+            android:name=".BeginJourney"
             android:label="@string/title_activity_screen_slide">
         </activity>
     </application>

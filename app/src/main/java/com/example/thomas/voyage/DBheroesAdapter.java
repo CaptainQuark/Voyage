@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Message;
 
 public class DBheroesAdapter {
 
@@ -63,30 +62,26 @@ public class DBheroesAdapter {
             buffer.append(cid + " " + name + " " + hitpoints + " " + classOne + " " + classTwo + "\n");
         }
 
+        cursor.close();
         return buffer.toString();
     }
 
-    public int updateName(String oldName, String newName){
-        //UPDATE VIVZTABLE SET Name = 'Lukas' where Name=? 'Thomas'
+    public int updateRow(int UID, String name, int hitpoints, String primaryClass, String secondaryClass) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
-        cv.put(DBheroesHelper.NAME, newName);
-        String[] whereArgs = {oldName};
+        cv.put(DBheroesHelper.NAME, name);
+        cv.put(DBheroesHelper.HITPOINTS, hitpoints);
+        cv.put(DBheroesHelper.CLASS_ONE, primaryClass);
+        cv.put(DBheroesHelper.CLASS_TWO, secondaryClass);
 
-        return db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.NAME + " =? ", whereArgs);
-    }
+        String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
-    public int deleteRow(){
-        //DELETE * FROM VIVZTABLE Where Name='Thomas'
+        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=? AND " + DBheroesHelper.NAME + "=?", whereArgs);
+        db.close();
 
-        String[] whereArgs = {"Thomas"};
-            //zum Test hardcoded
+        return validation;
 
-        SQLiteDatabase db = helper.getWritableDatabase();
-        int count = db.delete(DBheroesHelper.TABLE_NAME, DBheroesHelper.NAME + "=?", whereArgs);
-
-        return count;
     }
 
     static class DBheroesHelper extends SQLiteOpenHelper{
@@ -115,7 +110,7 @@ public class DBheroesAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            com.example.thomas.voyage.Message.message(context, "constructor called");
+            com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
         }
 
         @Override
@@ -123,7 +118,7 @@ public class DBheroesAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            com.example.thomas.voyage.Message.message(context, "onCreate called");
+            com.example.thomas.voyage.Message.message(context, "HerosDatabse onCreate called");
         }
 
         @Override
@@ -131,7 +126,7 @@ public class DBheroesAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            com.example.thomas.voyage.Message.message(context, "onUpgrade called");
+            com.example.thomas.voyage.Message.message(context, "HerosDatabse onUpgrade called");
         }
     }
 }

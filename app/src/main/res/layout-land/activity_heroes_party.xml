@@ -14,19 +14,11 @@
         android:layout_weight="3"
         android:orientation="horizontal">
 
-        <HorizontalScrollView
-            android:id="@+id/horizontalScrollView"
+        <ListView
+            android:id="@+id/activity_heroes_party_listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"></ListView>
 
-            <GridView
-                android:id="@+id/activity_heroes_party_gridView"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
-                android:choiceMode="singleChoice"
-                android:numColumns="auto_fit" />
-
-        </HorizontalScrollView>
     </LinearLayout>
 
     <TextView

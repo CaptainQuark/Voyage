@@ -72,9 +72,11 @@ public class DBmerchantHeroesAdapter {
             String classTwo = cursor.getString(indexClassTwo);
             int costs = cursor.getInt(indexCosts);
 
-            buffer.append(cid + " " + name + " " + hitpoints + " " + classOne + " " + classTwo + "\n");
+            buffer.append(cid + " " + name + " " + hitpoints + " " + classOne + " " + classTwo + " " + costs + "\n");
         }
 
+        cursor.close();
+        db.close();
         return buffer.toString();
     }
 
@@ -111,6 +113,7 @@ public class DBmerchantHeroesAdapter {
             Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
         }
 
+        db.close();
         return buffer.toString();
     }
 
@@ -125,31 +128,108 @@ public class DBmerchantHeroesAdapter {
             cursor.moveToFirst();
         }
 
-        return cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
-    }
-
-    public int getTableRowCount(){
-        SQLiteDatabase db = helper.getWritableDatabase();
-        String[] columns = { DBmerchantHeroesHelper.UID };
-        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, null, null, null, null, null);
-
-        int count = cursor.getCount();
+        String value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
         cursor.close();
-
-        return count;
-    }
-
-    public int deleteRow(int index) {
-        String[] whereArgs = {index + ""};
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        int count = db.delete(DBmerchantHeroesHelper.TABLE_NAME, DBmerchantHeroesHelper.UID + "=?", whereArgs);
-        db.execSQL("VACUUM");
         db.close();
 
-        return count;
+        return value;
     }
 
+    public int getHeroHitpoints(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBmerchantHeroesHelper.HITPOINTS};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        int value = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public String getHeroClassOne(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBmerchantHeroesHelper.CLASS_ONE};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public String getHeroClassTwo(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBmerchantHeroesHelper.CLASS_TWO};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public int getHeroCosts(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBmerchantHeroesHelper.COSTS};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        int costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
+        cursor.close();
+        db.close();
+
+        return costs;
+    }
+
+    /*
+        public int getTableRowCount(){
+            SQLiteDatabase db = helper.getWritableDatabase();
+            String[] columns = { DBmerchantHeroesHelper.UID };
+            Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, null, null, null, null, null);
+
+            int count = cursor.getCount();
+            cursor.close();
+
+            return count;
+        }
+
+        public int deleteRow(int index) {
+            String[] whereArgs = {index + ""};
+            SQLiteDatabase db = helper.getWritableDatabase();
+
+            int count = db.delete(DBmerchantHeroesHelper.TABLE_NAME, DBmerchantHeroesHelper.UID + "=?", whereArgs);
+            db.execSQL("VACUUM");
+            db.close();
+
+            return count;
+        }
+    */
     public int updateRow(int id, String newName) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -157,7 +237,10 @@ public class DBmerchantHeroesAdapter {
         cv.put(DBmerchantHeroesHelper.NAME, newName);
         String[] whereArgs = {id + ""};
 
-        return db.update(DBmerchantHeroesHelper.TABLE_NAME, cv, DBmerchantHeroesHelper.UID + " =? ", whereArgs);
+        int validation = db.update(DBmerchantHeroesHelper.TABLE_NAME, cv, DBmerchantHeroesHelper.UID + " =? ", whereArgs);
+        db.close();
+
+        return validation;
     }
 
     static class DBmerchantHeroesHelper extends SQLiteOpenHelper {
@@ -196,7 +279,14 @@ public class DBmerchantHeroesAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            com.example.thomas.voyage.Message.message(context, "onCreate called");
+            com.example.thomas.voyage.Message.message(context, "MerchantDatabase onCreate called");
+
+            DBheroesAdapter heroesHelper = new DBheroesAdapter(context);
+            for (int i = 10; i > 0; i--) {
+                heroesHelper.insertData(context.getString(R.string.indicator_unused_row), 0, "", "");
+                if (i == 1)
+                    Message.message(context, "9 blank rows in heroes database inserted, 10th underway");
+            }
         }
 
         @Override
@@ -204,7 +294,7 @@ public class DBmerchantHeroesAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            com.example.thomas.voyage.Message.message(context, "onUpgrade called");
+            com.example.thomas.voyage.Message.message(context, "MerchantDatabse onUpgrade called");
         }
     }
 }
