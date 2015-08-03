@@ -36,6 +36,8 @@ public class StartActivity extends Activity {
     }
 
     public void calcTimeDiff(View view) {
+        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        startActivity(i);
         /*
         Calendar calendar = Calendar.getInstance();
 

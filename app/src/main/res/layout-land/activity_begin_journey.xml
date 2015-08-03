@@ -1,0 +1,33 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="#7cffffff"
+            android:gravity="center"
+            android:onClick="backInViewButton"
+            android:text="BACK"
+            android:textColor="@color/material_blue_grey_800"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:typeface="normal" />
+
+    </FrameLayout>
+
+</LinearLayout>
+
+
+
