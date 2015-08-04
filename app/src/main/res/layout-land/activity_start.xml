@@ -9,12 +9,12 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/start_imageView_landscape_background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#ff171665"
-        android:onClick="clickToHeroMerchant" />
+        android:background="@mipmap/journey_b0"
+        android:scaleType="fitXY" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:background="#ff58ffe1" />
+                android:background="@color/start_0_slavemarket" />
 
             <TextView
                 android:id="@+id/textView1"
@@ -41,7 +41,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:background="#ffff1a2f" />
+                android:background="@color/start_1_manage_heros" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -50,7 +50,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ffa638ff" />
+                android:background="@color/start_4_world_map" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -59,7 +59,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ff786eff" />
+                android:background="@color/start_5_pilgerreise" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -68,7 +68,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:background="#ffa638ff" />
+                android:background="@color/start_2_stat_upgrades" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -77,7 +77,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ffffc454" />
+                android:background="@color/start_6_arcade_combat" />
 
             <TextView
                 android:id="@+id/textView6"
@@ -86,7 +86,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:background="#ff3aafff" />
+                android:background="@color/start_3_abilities_upgrades" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -95,7 +95,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ff786eff" />
+                android:background="@color/start_7_merchant_inventory" />
         </GridLayout>
 
         <GridLayout
@@ -105,140 +105,183 @@
             android:rowCount="4">
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/start_textView_slave_market"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="3"
-                android:backgroundTint="#af000000" />
+                android:onClick="clickToHeroMerchant" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/start_textView_manage_heroes"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:background="#ffff1a2f" />
+                android:onClick="clickToHeroesPartyActivity" />
 
             <TextView
                 android:id="@+id/textView10"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ffa638ff"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Sklavenmarkt"
+                android:textStyle="italic" />
 
             <TextView
                 android:id="@+id/textView11"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ff786eff"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Helden verwalten"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/textView12"
+                android:id="@+id/start_textView_stat_upgrades"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:background="#ffa638ff" />
+                android:layout_rowWeight="1" />
 
             <TextView
                 android:id="@+id/textView13"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ffffc454"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Stat-Upgrades"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/start_textView_abilities_upgrades"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="3"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:background="#ff3aafff"
-                android:onClick="toScreenSlideActivity" />
+                android:layout_rowWeight="1" />
 
             <TextView
                 android:id="@+id/textView15"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="3"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="1"
                 android:layout_rowWeight="1"
-                android:background="#ff786eff"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Fähigkeiten-Upgrades"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/textView16"
+                android:id="@+id/start_textView_world_map"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="2"
                 android:layout_rowWeight="3"
-                android:backgroundTint="#af000000"
                 android:onClick="calcTimeDiff" />
 
             <TextView
                 android:id="@+id/textView17"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="3"
                 android:layout_rowWeight="1"
-                android:background="#ffff1a2f"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Weltkarte"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/start_textView_pilgerreise"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="2"
-                android:layout_rowWeight="1" />
+                android:layout_rowWeight="1"
+                android:onClick="toScreenSlideActivity" />
 
             <TextView
                 android:id="@+id/textView20"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="3"
                 android:layout_rowWeight="1"
-                android:background="#ffff1a2f"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Pilgerreise"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/start_textView_arcade_combat"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="2"
-                android:layout_rowWeight="1" />
+                android:layout_rowWeight="1"
+                android:gravity="center"
+                android:text="501\nCricket\nShanghai" />
 
             <TextView
                 android:id="@+id/textView22"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="3"
                 android:layout_rowWeight="1"
-                android:background="#ffff1a2f"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="VS"
+                android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/textView24"
+                android:id="@+id/start_textView_inventory_merchant"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="3"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
@@ -247,13 +290,17 @@
 
             <TextView
                 android:id="@+id/textView25"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
                 android:layout_column="3"
                 android:layout_columnWeight="1"
                 android:layout_gravity="fill"
                 android:layout_row="3"
                 android:layout_rowWeight="1"
-                android:background="#ffff1a2f"
-                android:backgroundTint="#af000000" />
+                android:background="#8f000000"
+                android:gravity="center"
+                android:text="Händler / Inventar"
+                android:textStyle="italic" />
         </GridLayout>
 
     </FrameLayout>

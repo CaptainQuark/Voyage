@@ -22,9 +22,6 @@ public class StartActivity extends Activity {
         hideSystemUI();
 
         isAppFirstStarted();
-
-
-
     }
 
     public void isAppFirstStarted() {
@@ -83,6 +80,11 @@ public class StartActivity extends Activity {
 
     public void toScreenSlideActivity(View view) {
         Intent i = new Intent(getApplicationContext(), BeginJourney.class);
+        startActivity(i);
+    }
+
+    public void clickToHeroesPartyActivity(View view) {
+        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
         startActivity(i);
     }
 
