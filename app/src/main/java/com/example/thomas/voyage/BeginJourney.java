@@ -31,7 +31,7 @@ public class BeginJourney extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_begin_journey);
+        setContentView(R.layout.activity_world_map_quick_combat);
         hideSystemUI();
 
         // Instantiate a ViewPager and a PagerAdapter.

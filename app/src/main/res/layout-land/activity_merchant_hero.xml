@@ -21,7 +21,7 @@
             android:background="#ffc1b190" />
 
         <TextView
-            android:id="@+id/textView18"
+            android:id="@+id/activity_merchant_textView_time_to_next_merchant"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.8"
@@ -56,36 +56,36 @@
 
                 <TextView
                     android:id="@+id/textView_merchant_hero_i0"
-                    android:padding="10dp"
-                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center|left"
                     android:onClick="selectedHeroIndex0"
+                    android:padding="10dp"
                     android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/textView_merchant_hero_i1"
-                    android:padding="10dp"
-                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center|left"
                     android:onClick="selectedHeroIndex1"
+                    android:padding="10dp"
                     android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/textView_merchant_hero_i2"
-                    android:padding="10dp"
-                    android:gravity="center|left"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:gravity="center|left"
                     android:onClick="selectedHeroIndex2"
+                    android:padding="10dp"
                     android:text="Large Text"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:textSize="15sp" />
@@ -99,9 +99,9 @@
             android:layout_weight="0.9" />
 
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:id="@+id/scrollView"
             android:layout_weight="0.6">
 
             <TextView

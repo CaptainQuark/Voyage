@@ -88,39 +88,7 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void calcTimeDiff(View view) {
-        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
-        startActivity(i);
-        /*
-        Calendar calendar = Calendar.getInstance();
 
-        int Nseconds = calendar.get(Calendar.SECOND);
-        int Nminutes = calendar.get(Calendar.MINUTE);
-        int Nhours = calendar.get(Calendar.HOUR_OF_DAY);
-        int Nday = calendar.get(Calendar.DAY_OF_YEAR);
-        int Nyear = calendar.get(Calendar.YEAR);
-
-        Nseconds -= seconds;
-        Nhours -= hours;
-        Nminutes -= minutes;
-        Nday -= day;
-        Nyear -= year;
-
-            // statt TIME_PREF_FILE -> getString(R.id.'...')
-        SharedPreferences sharedPreferences = this.getSharedPreferences(TIME_PREF_FILE, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        editor.putInt("SECONDS", seconds);
-        editor.putInt("MINUTES", seconds);
-        editor.putInt("HOURS", seconds);
-        editor.putInt("DAYS", seconds);
-        editor.putInt("YEARS", seconds);
-        editor.apply();
-
-        int loadedSecond = sharedPreferences.getInt("SECONDS", 0);
-        Message.message(this, "loadedSecond: " + loadedSecond);
-        */
-    }
 
 
 

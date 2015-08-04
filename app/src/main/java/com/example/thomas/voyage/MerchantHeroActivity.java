@@ -1,7 +1,9 @@
 package com.example.thomas.voyage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,16 +11,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
 public class MerchantHeroActivity extends Activity {
 
-    private final String SHAREDPREF_INSERT = "INSERT";
+    //private final String SHAREDPREF_INSERT = "INSERT";
+    private final String TIME_PREF_FILE = "timefile";
     DBmerchantHeroesAdapter dBmerchantHeroesAdapter;
+    private int seconds, minutes, hours, days, year;
     private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2;
-    private int currentSelectedHeroId;
-    private int currentMoneyInPocket;
+    private int currentSelectedHeroId, currentMoneyInPocket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +40,71 @@ public class MerchantHeroActivity extends Activity {
 
         isAppFirstStarted();
         fillTextViewHeros(3);
+        calcTimeDiff();
 
         setDebugText();
 
+    }
+
+    public void calcTimeDiff() {
+
+        Calendar calendar = Calendar.getInstance();
+        boolean refreshMerchant = false;
+
+        int newMinutes = calendar.get(Calendar.MINUTE);
+        int newHours = calendar.get(Calendar.HOUR_OF_DAY);
+        int newDays = calendar.get(Calendar.DAY_OF_YEAR);
+        int newYear = calendar.get(Calendar.YEAR);
+
+        SharedPreferences sharedPreferences = this.getSharedPreferences(TIME_PREF_FILE, Context.MODE_PRIVATE);
+
+        minutes = sharedPreferences.getInt("MINUTES", 0);
+        hours = sharedPreferences.getInt("HOURS", 0);
+        days = sharedPreferences.getInt("DAYS", 0);
+        year = sharedPreferences.getInt("YEARS", 0);
+        String dateTypeToRefreshMerchant = sharedPreferences.getString("DATETYPE_TO_REFRESH", "hours");
+
+        newHours -= hours;
+        newMinutes -= minutes;
+        newDays -= days;
+        newYear -= year;
+
+        if (newYear >= year && !dateTypeToRefreshMerchant.equals("year")) {
+            if (newDays >= days && !dateTypeToRefreshMerchant.equals("days")) {
+                if (newHours >= hours && !dateTypeToRefreshMerchant.equals("hours")) {
+                    if (newMinutes >= minutes && dateTypeToRefreshMerchant.equals("minutes")) {
+                        refreshMerchant = true;
+                    }
+                } else if (newHours >= hours && dateTypeToRefreshMerchant.equals("hours")) {
+                    refreshMerchant = true;
+                }
+            } else if (newDays >= days && dateTypeToRefreshMerchant.equals("days")) {
+                refreshMerchant = true;
+            }
+        } else if (newYear >= year && dateTypeToRefreshMerchant.equals("year")) {
+            refreshMerchant = true;
+        }
+
+        if (refreshMerchant) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt("MINUTES", 0);
+            editor.putInt("HOURS", 8);
+            editor.putInt("DAYS", newDays + 2);
+            editor.putInt("YEARS", newYear);
+            editor.putString("DATETYPE_TO_REFRESH", "hours");
+            Message.message(this, "refreshMerchant called");
+            editor.apply();
+        } else {
+            Message.message(this, "Merchant stays for some time...");
+        }
+
+        TextView merchantTime = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
+        if (refreshMerchant == false) {
+            merchantTime.setText(year + ":" + days + ":" + hours + ":" + minutes);
+        } else {
+            merchantTime.setText(newYear + ":" + newDays + ":" + newHours + ":" + newMinutes + '\n'
+                    + "New merchant has arrived.");
+        }
     }
 
     public void isAppFirstStarted() {
