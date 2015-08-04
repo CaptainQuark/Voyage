@@ -5,12 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class StartActivity extends Activity {
 
     private final String TIME_PREF_FILE = "timefile";
-    private DBheroesAdapter heroesHelper;
-    private DBmerchantHeroesAdapter merchantHelper;
     private int seconds, minutes, hours, day, year;
 
     @Override
@@ -20,9 +21,59 @@ public class StartActivity extends Activity {
 
         hideSystemUI();
 
-        heroesHelper = new DBheroesAdapter(this);
-        merchantHelper = new DBmerchantHeroesAdapter(this);
+        isAppFirstStarted();
 
+
+
+    }
+
+    public void isAppFirstStarted() {
+        // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
+        //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
+
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
+                .getBoolean("isFirstRun", true);
+
+        if (isFirstRun) {
+            for (int i = 10; i > 0; i--) {
+                DBheroesAdapter heroesHelper = new DBheroesAdapter(this);
+                heroesHelper.insertData(this.getString(R.string.indicator_unused_row), 0, "", "");
+                if (i == 1)
+                    Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
+            }
+            Message.message(this, "insertIntoDatabase called @ function 'isFirstRun' in 'StartActivity' for HeroesDatabase");
+
+            long id = insertToMerchantDatabase(3);
+            if (id < 0) {
+                Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
+            }
+        }
+
+        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
+                .putBoolean("isFirstRun", false).commit();
+    }
+
+    public long insertToMerchantDatabase(int numberOfInserts) {
+        DBmerchantHeroesAdapter merchantHelper = new DBmerchantHeroesAdapter(this);
+        List<Hero> herosList = new ArrayList<>();
+        long id = 0;
+
+        for (int i = 0; i < numberOfInserts; i++) {
+            herosList.add(new Hero());
+            herosList.get(i).Initialize("Everywhere");
+
+            // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
+            id = merchantHelper.insertData(
+                    herosList.get(i).getStrings("heroName"),
+                    herosList.get(i).getInts("hitpoints"),
+                    herosList.get(i).getStrings("classPrimary"),
+                    herosList.get(i).getStrings("classSecondary"),
+                    herosList.get(i).getInts("costs"));
+
+            if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
+        }
+
+        return id;
     }
 
     public void clickToHeroMerchant(View view) {

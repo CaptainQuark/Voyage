@@ -280,13 +280,6 @@ public class DBmerchantHeroesAdapter {
 
             db.execSQL(CREATE_TABLE);
             com.example.thomas.voyage.Message.message(context, "MerchantDatabase onCreate called");
-
-            DBheroesAdapter heroesHelper = new DBheroesAdapter(context);
-            for (int i = 10; i > 0; i--) {
-                heroesHelper.insertData(context.getString(R.string.indicator_unused_row), 0, "", "");
-                if (i == 1)
-                    Message.message(context, "9 blank rows in heroes database inserted, 10th underway");
-            }
         }
 
         @Override

@@ -16,7 +16,8 @@ import java.util.ArrayList;
 
 public class HeroesPartyActivity extends Activity {
 
-    private final int HEROS_IN_LISTVIEW = 10;
+    private final int HEROES_IN_LISTVIEW = 10;
+    private DBheroesAdapter heroesHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,36 +25,36 @@ public class HeroesPartyActivity extends Activity {
         setContentView(R.layout.activity_heroes_party);
         hideSystemUI();
 
-        final ListView listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
-        String[] values = new String[]{"Android", "iPhone", "WindowsMobile",
-                "Blackberry", "WebOS", "Ubuntu", "Windows7", "Max OS X",
-                "Linux", "OS/2"};
+        heroesHelper = new DBheroesAdapter(this);
 
-        // ints noch nutzlos
-        int[] ints = new int[HEROS_IN_LISTVIEW];
-        for (int i = 1; i <= HEROS_IN_LISTVIEW; i++) {
-            ints[i - 1] = i;
+        final ListView listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
+        String[] values = new String[HEROES_IN_LISTVIEW];
+        for (int i = 1; i <= HEROES_IN_LISTVIEW; i++) {
+            values[i - 1] = i + "";
         }
 
         final ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
         }
-        final MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, values);
-        listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        if (heroesHelper.equals(null)) {
+            Message.message(this, "No HeroesDatabase set yet created - you betta' do!");
+        } else {
+            final MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, values);
+            listview.setAdapter(adapter);
 
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-                DBheroesAdapter heroesHelper = new DBheroesAdapter(getApplicationContext());
-                String data = heroesHelper.getOneHeroRow(position + 1);
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-                Message.message(getApplicationContext(), data);
-            }
+                @Override
+                public void onItemClick(AdapterView<?> parent, final View view,
+                                        int position, long id) {
+                    String data = heroesHelper.getOneHeroRow(position + 1);
 
-        });
+                    Message.message(getApplicationContext(), data);
+                }
+            });
+        }
     }
 
     public void activityHeroesPartyBackToStart(View view) {
@@ -77,6 +78,7 @@ public class HeroesPartyActivity extends Activity {
     }
 }
 
+
 class MySimpleArrayAdapter extends ArrayAdapter<String> {
     private final Context context;
     private final String[] values;
@@ -97,10 +99,10 @@ class MySimpleArrayAdapter extends ArrayAdapter<String> {
         View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
 
-        if (heroesHelper.getHeroName(position + 1).equals("NOT_USED")) {
-            imageView.setImageResource(R.mipmap.hero_dummy_gnu);
-        } else {
+        if (heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row))) {
             imageView.setImageResource(R.mipmap.ic_launcher);
+        } else {
+            imageView.setImageResource(R.mipmap.hero_dummy_gnu);
         }
 
         return rowView;

@@ -50,7 +50,7 @@ public class MerchantHeroActivity extends Activity {
 
         if (isFirstRun) {
             insertIntoDatabase();
-            Message.message(this, "insertIntoDatabase called @ function 'isFirstRun'");
+            Message.message(this, "insertIntoDatabase called @ function 'isFirstRun' in 'MerchantHeroActivity'");
         }
 
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
@@ -71,7 +71,6 @@ public class MerchantHeroActivity extends Activity {
                 if(i == 1){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_0.setText("ALREADY CLICKED");
-                        Message.message(this, "already clicked");
                     } else {
                         textViewHero_0.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
                         Log.i("fillText", "textViewHero_0");
@@ -156,30 +155,39 @@ public class MerchantHeroActivity extends Activity {
 
         currentSelectedHeroId = index;
 
-        DBheroesAdapter herosAdapter = new DBheroesAdapter(this);
-
         try {
             String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
             int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
             String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
             String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
 
-            for (int i = 1; i <= 10; i++) {
-                int updateValidation = herosAdapter.updateRow(i, name, hitpoints, classOne, classTwo);
-                if (updateValidation > 0) {
+            if (!name.equals(this.getString(R.string.indicator_unused_row))) {
+                DBheroesAdapter herosAdapter = new DBheroesAdapter(this);
 
+                for (int i = 1; i <= 10; i++) {
 
-                    Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
-                    if (i == 10) {
-                        Message.message(this, "This was the last free entry in HeroesDatabase");
+                    int updateValidation = herosAdapter.updateRow(i, name, hitpoints, classOne, classTwo);
+                    if (updateValidation > 0) {
+
+                        // wenn updateValidation speichert Rückgabewert von '.updateRow' -> wenn -1, dann nicht erfolgreich
+
+                        Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
+                        if (i == 10) {
+                            Message.message(this, "This was the last free entry in HeroesDatabase");
+                        }
+                        i = 11;
+                        dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
                     }
-                    i = 11;
                 }
+
+                //dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
+                fillTextViewHeros(3);
+
+            } else {
+                Message.message(this, "No Hero to buy");
             }
 
-            dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
-            fillTextViewHeros(3);
-        } catch (SQLiteException e) {
+        } catch (SQLiteException | NullPointerException e) {
             Message.message(this, e + "");
         }
 
