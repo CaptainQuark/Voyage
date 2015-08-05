@@ -2,8 +2,10 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +13,9 @@ import java.util.List;
 
 public class StartActivity extends Activity {
 
-    private final String TIME_PREF_FILE = "timefile";
+    private final String IS_FIRST_RUN = "IS_FIRST_RUN";
     private int seconds, minutes, hours, day, year;
+    private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +25,25 @@ public class StartActivity extends Activity {
         hideSystemUI();
 
         isAppFirstStarted();
+
+        tv = (TextView) findViewById(R.id.start_textView_slave_market);
+        List<String> xList = new ArrayList<>();
+        xList.add("IF");
+        xList.add("2.");
+        xList.add("==");
+        xList.add("10");
+        xList.add("->");
+        xList.add("2.");
+        xList.add("*2");
     }
 
     public void isAppFirstStarted() {
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
 
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
+        Message.message(this, "sP 'isFirstRun' before if-statement: " + isFirstRun);
 
         if (isFirstRun) {
             for (int i = 10; i > 0; i--) {
@@ -46,8 +60,9 @@ public class StartActivity extends Activity {
             }
         }
 
-        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).commit();
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putBoolean(IS_FIRST_RUN, false);
+        editor.apply();
     }
 
     public long insertToMerchantDatabase(int numberOfInserts) {
@@ -86,6 +101,13 @@ public class StartActivity extends Activity {
     public void clickToHeroesPartyActivity(View view) {
         Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
         startActivity(i);
+    }
+
+    public boolean leftExpression(List<String> xList) {
+
+        tv.setText(xList.get(3));
+
+        return false;
     }
 
 
