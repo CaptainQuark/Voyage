@@ -42,7 +42,10 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
-                android:background="#c1be78" />
+                android:background="#c1be78"
+                android:onClick="activityCombatBackToMain"
+                android:scaleType="center"
+                android:src="@mipmap/ic_backbutton" />
 
             <GridView
                 android:id="@+id/activity_combat_gridView"
