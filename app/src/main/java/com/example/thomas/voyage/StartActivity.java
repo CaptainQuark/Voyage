@@ -14,16 +14,13 @@ import java.util.List;
 public class StartActivity extends Activity {
 
     private final String IS_FIRST_RUN = "IS_FIRST_RUN";
-    private int seconds, minutes, hours, day, year;
     private TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-
         hideSystemUI();
-
         isAppFirstStarted();
 
         tv = (TextView) findViewById(R.id.start_textView_slave_market);
@@ -43,7 +40,6 @@ public class StartActivity extends Activity {
 
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
-        Message.message(this, "sP 'isFirstRun' before if-statement: " + isFirstRun);
 
         if (isFirstRun) {
             for (int i = 10; i > 0; i--) {
@@ -52,17 +48,16 @@ public class StartActivity extends Activity {
                 if (i == 1)
                     Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
             }
-            Message.message(this, "insertIntoDatabase called @ function 'isFirstRun' in 'StartActivity' for HeroesDatabase");
 
             long id = insertToMerchantDatabase(3);
             if (id < 0) {
                 Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
             }
-        }
 
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putBoolean(IS_FIRST_RUN, false);
-        editor.apply();
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putBoolean(IS_FIRST_RUN, false);
+            editor.apply();
+        }
     }
 
     public long insertToMerchantDatabase(int numberOfInserts) {

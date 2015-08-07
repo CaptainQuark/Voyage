@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -21,8 +20,7 @@ public class MerchantHeroActivity extends Activity {
     //private final String SHAREDPREF_INSERT = "INSERT";
     private final String TIME_PREF_FILE = "timefile";
     DBmerchantHeroesAdapter dBmerchantHeroesAdapter;
-    ImageButton btn_back;
-    private int seconds, minutes, hours, days, year;
+    private int minutes, hours, days, year;
     private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2;
     private int currentSelectedHeroId, currentMoneyInPocket;
 
@@ -40,7 +38,7 @@ public class MerchantHeroActivity extends Activity {
         textViewHero_1 = (TextView)findViewById(R.id.textView_merchant_hero_i1);
         textViewHero_2 = (TextView)findViewById(R.id.textView_merchant_hero_i2);
 
-        isAppFirstStarted();
+        //isAppFirstStarted();
         fillTextViewHeros(3);
         calcTimeDiff();
 
@@ -108,6 +106,7 @@ public class MerchantHeroActivity extends Activity {
         }
     }
 
+    /*
     public void isAppFirstStarted() {
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
@@ -123,6 +122,7 @@ public class MerchantHeroActivity extends Activity {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
     }
+    */
 
     public void insertIntoDatabase() {
         long id = insertToMerchantDatabase(3);

@@ -18,6 +18,7 @@ public class CombatActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
+        hideSystemUI();
 
         ArrayList prgmName;
         String[] prgmNameList = new String[30];
@@ -27,6 +28,19 @@ public class CombatActivity extends Activity {
 
         GridView gridView = (GridView) findViewById(R.id.activity_combat_gridView);
         gridView.setAdapter(new CustomAdapter(this, prgmNameList));
+    }
+
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     private static class CustomAdapter extends BaseAdapter {
@@ -46,25 +60,21 @@ public class CombatActivity extends Activity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return result.length;
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             Holder holder = new Holder();
             View rowView;
 
@@ -77,7 +87,6 @@ public class CombatActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Auto-generated method stub
                     Message.message(context, "You Clicked " + result[position]);
                 }
             });
@@ -90,7 +99,6 @@ public class CombatActivity extends Activity {
         }
 
     }
-
 }
 
 

@@ -8,7 +8,8 @@
     <TextView
         android:id="@+id/gridView_combat_textView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
         android:text="1"
         android:textSize="30sp" />
 
