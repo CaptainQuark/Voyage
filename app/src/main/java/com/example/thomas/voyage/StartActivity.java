@@ -93,6 +93,11 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
+    public void clickToCombat(View view) {
+        Intent i = new Intent(getApplicationContext(), CombatActivity.class);
+        startActivity(i);
+    }
+
     public void toScreenSlideActivity(View view) {
         Intent i = new Intent(getApplicationContext(), BeginJourney.class);
         startActivity(i);

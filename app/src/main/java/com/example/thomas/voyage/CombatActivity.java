@@ -1,37 +1,96 @@
 package com.example.thomas.voyage;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.TextView;
 
-public class CombatActivity extends ActionBarActivity {
+import java.util.ArrayList;
+
+public class CombatActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_combat, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        ArrayList prgmName;
+        String[] prgmNameList = new String[30];
+        for (int i = 0; i < 30; i++) {
+            prgmNameList[i] = i + 1 + "";
         }
 
-        return super.onOptionsItemSelected(item);
+        GridView gridView = (GridView) findViewById(R.id.activity_combat_gridView);
+        gridView.setAdapter(new CustomAdapter(this, prgmNameList));
     }
+
+    private static class CustomAdapter extends BaseAdapter {
+
+        String[] result;
+        Context context;
+        int[] imageId;
+        private LayoutInflater inflater = null;
+
+        public CustomAdapter(CombatActivity combatActivity, String[] prgmNameList) {
+            result = prgmNameList;
+            context = combatActivity;
+            inflater = (LayoutInflater) context.
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        }
+
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return result.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            // TODO Auto-generated method stub
+            Holder holder = new Holder();
+            View rowView;
+
+            rowView = inflater.inflate(R.layout.gridview_combat, null);
+            holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
+
+            holder.tv.setText(result[position]);
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Auto-generated method stub
+                    Message.message(context, "You Clicked " + result[position]);
+                }
+            });
+
+            return rowView;
+        }
+
+        public class Holder {
+            TextView tv;
+        }
+
+    }
+
 }
+
+
