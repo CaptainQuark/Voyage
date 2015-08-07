@@ -1,17 +1,17 @@
 package com.example.thomas.voyage;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -45,66 +45,70 @@ public class MerchantHeroActivity extends Activity {
         setDebugText();
     }
 
-    public void calcTimeDiff() {
+    private void calcTimeDiff() {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());
 
-        Calendar calendar = Calendar.getInstance();
-        boolean refreshMerchant = false;
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putLong("TIME_TO_LEAVE", finishDate);
+        editor.apply();
 
-        int newMinutes = calendar.get(Calendar.MINUTE);
-        int newHours = calendar.get(Calendar.HOUR_OF_DAY);
-        int newDays = calendar.get(Calendar.DAY_OF_YEAR);
-        int newYear = calendar.get(Calendar.YEAR);
+        Date presentDate = new Date();
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences(TIME_PREF_FILE, Context.MODE_PRIVATE);
+        long dateDiff = finishDate - presentDate.getTime();
+        long seconds = dateDiff / 1000;
+        //long minutes = seconds / 60;
 
-        minutes = sharedPreferences.getInt("MINUTES", 0);
-        hours = sharedPreferences.getInt("HOURS", 0);
-        days = sharedPreferences.getInt("DAYS", 0);
-        year = sharedPreferences.getInt("YEARS", 0);
-        String dateTypeToRefreshMerchant = sharedPreferences.getString("DATETYPE_TO_REFRESH", "hours");
+        final TextView merchantTime = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
 
-        newHours -= hours;
-        newMinutes -= minutes;
-        newDays -= days;
-        newYear -= year;
+        new CountDownTimer(dateDiff, 1000 / 60) {
 
-        if (newYear >= year && !dateTypeToRefreshMerchant.equals("year")) {
-            if (newDays >= days && !dateTypeToRefreshMerchant.equals("days")) {
-                if (newHours >= hours && !dateTypeToRefreshMerchant.equals("hours")) {
-                    if (newMinutes >= minutes && dateTypeToRefreshMerchant.equals("minutes")) {
-                        refreshMerchant = true;
-                    }
-                } else if (newHours >= hours && dateTypeToRefreshMerchant.equals("hours")) {
-                    refreshMerchant = true;
-                }
-            } else if (newDays >= days && dateTypeToRefreshMerchant.equals("days")) {
-                refreshMerchant = true;
+            public void onTick(long millisUntilFinished) {
+                merchantTime.setText("" + millisUntilFinished / 1000 / 60);
             }
-        } else if (newYear >= year && dateTypeToRefreshMerchant.equals("year")) {
-            refreshMerchant = true;
-        }
 
-        if (refreshMerchant) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt("MINUTES", 0);
-            editor.putInt("HOURS", 8);
-            editor.putInt("DAYS", newDays + 2);
-            editor.putInt("YEARS", newYear);
-            editor.putString("DATETYPE_TO_REFRESH", "hours");
-            Message.message(this, "refreshMerchant called");
-            editor.apply();
-        } else {
-            Message.message(this, "Merchant stays for some time...");
-        }
-
-        TextView merchantTime = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
-        if (refreshMerchant == false) {
-            merchantTime.setText(year + ":" + days + ":" + hours + ":" + minutes);
-        } else {
-            merchantTime.setText(newYear + ":" + newDays + ":" + newHours + ":" + newMinutes + '\n'
-                    + "New merchant has arrived.");
-        }
+            public void onFinish() {
+                merchantTime.setText("done!");
+                setNewDate();
+                long validation = updateMerchantsDatabase(3);
+                if (validation < 0) {
+                    Log.e("ERROR @ ", "updateMerchantsDatabase");
+                }
+            }
+        }.start();
     }
+
+    private long setNewDate() {
+        Date newExpirationDate = new Date();
+
+        //60*60*1000 = 1 Stunde, *18 = 18 Stunden
+        newExpirationDate.setTime(System.currentTimeMillis() + (60 * 60 * 1000 * 18));
+        return newExpirationDate.getTime();
+    }
+
+    public long updateMerchantsDatabase(int numberOfInserts) {
+        List<Hero> herosList = new ArrayList<>();
+        long id = 0;
+
+        for (int i = 0; i < numberOfInserts; i++) {
+            herosList.add(new Hero());
+            herosList.get(i).Initialize("Everywhere");
+
+            // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
+            id = dBmerchantHeroesAdapter.updateRowComplete(
+                    i + 1,
+                    herosList.get(i).getStrings("heroName"),
+                    herosList.get(i).getInts("hitpoints"),
+                    herosList.get(i).getStrings("classPrimary"),
+                    herosList.get(i).getStrings("classSecondary"),
+                    herosList.get(i).getInts("costs"));
+
+            if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
+        }
+
+        return id;
+    }
+
 
     /*
     public void isAppFirstStarted() {
@@ -122,7 +126,7 @@ public class MerchantHeroActivity extends Activity {
         getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
                 .putBoolean("isFirstRun", false).commit();
     }
-    */
+
 
     public void insertIntoDatabase() {
         long id = insertToMerchantDatabase(3);
@@ -130,6 +134,7 @@ public class MerchantHeroActivity extends Activity {
             Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
         }
     }
+    */
 
     public void fillTextViewHeros(int rowsExistent){
         Log.i("fillText", "fillTextViewHeroes called");

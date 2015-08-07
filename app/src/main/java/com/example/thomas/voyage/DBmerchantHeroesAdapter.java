@@ -243,6 +243,24 @@ public class DBmerchantHeroesAdapter {
         return validation;
     }
 
+    public int updateRowComplete(int id, String newName, int hitpoints, String primaryClass, String secondaryClass, int costs) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(DBmerchantHeroesHelper.NAME, newName);
+        cv.put(DBmerchantHeroesHelper.HITPOINTS, hitpoints);
+        cv.put(DBmerchantHeroesHelper.CLASS_ONE, primaryClass);
+        cv.put(DBmerchantHeroesHelper.CLASS_TWO, secondaryClass);
+        cv.put(DBmerchantHeroesHelper.COSTS, costs);
+
+        String[] whereArgs = {id + ""};
+
+        int validation = db.update(DBmerchantHeroesHelper.TABLE_NAME, cv, DBmerchantHeroesHelper.UID + " =? ", whereArgs);
+        db.close();
+
+        return validation;
+    }
+
     static class DBmerchantHeroesHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "merchantherosdatabase";
         private static final String TABLE_NAME = "MERCHANTTABLE";

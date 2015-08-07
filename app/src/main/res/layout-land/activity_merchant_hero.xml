@@ -21,14 +21,27 @@
             android:background="#ffc1b190" />
 
         <TextView
+            android:id="@+id/static_textView_merchant_0"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.1"
+            android:background="#ffdfdbc1"
+            android:fontFamily="sans_serif_light"
+            android:gravity="bottom|center_horizontal"
+            android:text="ABREISE IN MINUTEN"
+            android:textColor="#ff000000"
+            android:textSize="13sp" />
+
+        <TextView
             android:id="@+id/activity_merchant_textView_time_to_next_merchant"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8"
+            android:layout_weight="0.7"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Placeholder"
-            android:textColor="#ff000000" />
+            android:text="100"
+            android:textColor="#ff000000"
+            android:textSize="40sp" />
 
         <ImageButton
             android:id="@+id/activity_merchant_back_button"
