@@ -11,4 +11,5 @@
     <string name="title_activity_screen_slide">ScreenSlideActivity</string>
 
     <string name="indicator_unused_row">NOT_USED</string>
+    <string name="title_activity_combat">CombatActivity</string>
 </resources>

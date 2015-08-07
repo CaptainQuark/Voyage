@@ -13,6 +13,7 @@
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,12 +26,14 @@
             android:name=".MerchantHeroActivity"
             android:label="@string/title_activity_merchant"
             android:screenOrientation="landscape">
-
         </activity>
         <activity
             android:name=".BeginJourney"
             android:label="@string/title_activity_screen_slide"
-            android:screenOrientation="landscape">
+            android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".CombatActivity"
+            android:label="@string/title_activity_combat">
         </activity>
     </application>
 
