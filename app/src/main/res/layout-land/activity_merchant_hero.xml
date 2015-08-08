@@ -14,10 +14,11 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/imageView_merchant_profile"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             android:background="#ffc1b190" />
 
         <TextView

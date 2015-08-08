@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,11 +19,12 @@ import java.util.List;
 public class MerchantHeroActivity extends Activity {
 
     //private final String SHAREDPREF_INSERT = "INSERT";
-    private final String TIME_PREF_FILE = "timefile";
+    //private final String TIME_PREF_FILE = "timefile";
     DBmerchantHeroesAdapter dBmerchantHeroesAdapter;
-    private int minutes, hours, days, year;
+    ImageView merchantProfile;
+    private String MERCHANT_ID = "merchantId";
     private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2;
-    private int currentSelectedHeroId, currentMoneyInPocket;
+    private int currentSelectedHeroId = 0, currentMoneyInPocket = 0, currentMerchantId = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +39,7 @@ public class MerchantHeroActivity extends Activity {
         textViewHero_0 = (TextView)findViewById(R.id.textView_merchant_hero_i0);
         textViewHero_1 = (TextView)findViewById(R.id.textView_merchant_hero_i1);
         textViewHero_2 = (TextView)findViewById(R.id.textView_merchant_hero_i2);
+        merchantProfile = (ImageView) findViewById(R.id.imageView_merchant_profile);
 
         //isAppFirstStarted();
         fillTextViewHeros(3);
@@ -48,6 +51,9 @@ public class MerchantHeroActivity extends Activity {
     private void calcTimeDiff() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());
+
+        currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+        merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
 
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         editor.putLong("TIME_TO_LEAVE", finishDate);
@@ -68,8 +74,8 @@ public class MerchantHeroActivity extends Activity {
             }
 
             public void onFinish() {
-                merchantTime.setText("done!");
                 setNewDate();
+                setNewMerchantProfile();
                 long validation = updateMerchantsDatabase(3);
                 if (validation < 0) {
                     Log.e("ERROR @ ", "updateMerchantsDatabase");
@@ -84,6 +90,19 @@ public class MerchantHeroActivity extends Activity {
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
         newExpirationDate.setTime(System.currentTimeMillis() + (60 * 60 * 1000 * 18));
         return newExpirationDate.getTime();
+    }
+
+    public void setNewMerchantProfile(){
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+
+        if(currentMerchantId >= 3){
+            currentMerchantId = 0;
+        } else currentMerchantId++;
+
+        editor.putInt(MERCHANT_ID, currentMerchantId);
+        editor.apply();
+
+        merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
     }
 
     public long updateMerchantsDatabase(int numberOfInserts) {
@@ -202,6 +221,7 @@ public class MerchantHeroActivity extends Activity {
 
     public void resetMerchant(View view){
         updateMerchantsDatabase(3);
+        setNewMerchantProfile();
         fillTextViewHeros(3);
     }
 
