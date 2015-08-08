@@ -132,14 +132,15 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView181"
+            android:id="@+id/merchant_hero_reset_merchant"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Placeholder"
-            android:textColor="#ff000000" />
+            android:text="New Merchant"
+            android:textColor="#ff000000"
+            android:onClick="resetMerchant" />
 
         <TextView
             android:id="@+id/textView182"
@@ -170,7 +171,8 @@
             android:gravity="center"
             android:onClick="buyHero"
             android:text="$ 100"
-            android:textColor="#ff000000" />
+            android:textColor="#ff000000"
+            android:textSize="30sp" />
 
     </LinearLayout>
 </LinearLayout>

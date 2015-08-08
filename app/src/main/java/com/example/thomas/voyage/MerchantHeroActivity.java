@@ -200,6 +200,11 @@ public class MerchantHeroActivity extends Activity {
         return id;
     }
 
+    public void resetMerchant(View view){
+        updateMerchantsDatabase(3);
+        fillTextViewHeros(3);
+    }
+
     public void activityMerchantBackToStart(View view) {
         Intent i = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(i);

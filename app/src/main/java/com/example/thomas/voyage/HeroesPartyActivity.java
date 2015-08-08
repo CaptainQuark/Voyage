@@ -96,7 +96,7 @@ class MySimpleArrayAdapter extends ArrayAdapter<String> {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.rowlayout, parent, false);
+        View rowView = inflater.inflate(R.layout.listview_heroes_rowlayout, parent, false);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
 
         if (heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row))) {
