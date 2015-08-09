@@ -112,6 +112,8 @@ public class DBmerchantHeroesAdapter {
             buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs);
         }catch (SQLiteException e){
             Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + n);
         }
 
         db.close();
@@ -129,7 +131,12 @@ public class DBmerchantHeroesAdapter {
             cursor.moveToFirst();
         }
 
-        String value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
+        String value = "";
+        try {
+            value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroName with exception: " + n);
+        }
         cursor.close();
         db.close();
 
@@ -147,7 +154,12 @@ public class DBmerchantHeroesAdapter {
             cursor.moveToFirst();
         }
 
-        int value = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
+        int value = -1;
+        try {
+            cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
+        }
         cursor.close();
         db.close();
 
@@ -165,7 +177,12 @@ public class DBmerchantHeroesAdapter {
             cursor.moveToFirst();
         }
 
-        String value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
+        String value = "";
+        try {
+            cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroClassOne with exception: " + n);
+        }
         cursor.close();
         db.close();
 
@@ -183,7 +200,12 @@ public class DBmerchantHeroesAdapter {
             cursor.moveToFirst();
         }
 
-        String value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
+        String value = "";
+        try {
+            cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroClassTwo with exception: " + n);
+        }
         cursor.close();
         db.close();
 
@@ -201,7 +223,12 @@ public class DBmerchantHeroesAdapter {
             cursor.moveToFirst();
         }
 
-        int costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
+        int costs = 0;
+        try {
+            cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroCosts with exception: " + n);
+        }
         cursor.close();
         db.close();
 
@@ -291,7 +318,7 @@ public class DBmerchantHeroesAdapter {
             //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
             //com.example.thomas.voyage.Message.message(context, "constructor called");
-            com.example.thomas.voyage.Message.message(context, "MerchantDatabase constructor called");
+            //com.example.thomas.voyage.Message.message(context, "MerchantDatabase constructor called");
 
         }
 

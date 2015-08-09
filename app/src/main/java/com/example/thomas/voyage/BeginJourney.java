@@ -40,7 +40,7 @@ public class BeginJourney extends FragmentActivity {
         mPager.setAdapter(mPagerAdapter);
     }
 
-    public void backInViewButton(View view) {
+    public void WorldMapBackbuttonPressed(View view) {
         onBackPressed();
     }
 

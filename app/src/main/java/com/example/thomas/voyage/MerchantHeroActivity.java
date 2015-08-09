@@ -55,7 +55,7 @@ public class MerchantHeroActivity extends Activity {
         calcTimeDiff();
         setDebugText();
 
-        textView_current_money.setText(Long.toString(getCurrentMoney()));
+        textView_current_money.setText("$ " + getCurrentMoney());
         textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
     }
 

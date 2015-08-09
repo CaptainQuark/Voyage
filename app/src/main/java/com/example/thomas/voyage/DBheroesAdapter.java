@@ -112,6 +112,8 @@ public class DBheroesAdapter {
             buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs);
         } catch (SQLiteException e) {
             Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + n);
         }
 
         db.close();
@@ -129,7 +131,14 @@ public class DBheroesAdapter {
             cursor.moveToFirst();
         }
 
-        String value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.NAME));
+        String value = "";
+
+        try {
+            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.NAME));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroName with exception: " + n);
+        }
+
         cursor.close();
         db.close();
 
@@ -184,7 +193,7 @@ public class DBheroesAdapter {
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
             //com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
-            com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
 
         }
 
