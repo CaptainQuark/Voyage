@@ -51,7 +51,7 @@
             android:id="@+id/activity_merchant_back_button"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.15"
+            android:layout_weight="0.2"
             android:background="#ff000000"
             android:onClick="merchantHerosBackbuttonPressed"
             android:scaleType="fitCenter"
@@ -103,7 +103,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.15"
+            android:layout_weight="0.1"
             android:orientation="horizontal">
 
             <TextView
@@ -111,21 +111,24 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/merchant_heroes_name_tag_under_profile_picture" />
+                android:background="@color/merchant_heroes_name_tag_under_profile_picture"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/merchant_hero_textView_chosen_hero_index1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/merchant_heroes_name_tag_under_profile_picture" />
+                android:background="@color/merchant_heroes_name_tag_under_profile_picture"
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/merchant_hero_textView_chosen_hero_index2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/merchant_heroes_name_tag_under_profile_picture" />
+                android:background="@color/merchant_heroes_name_tag_under_profile_picture"
+                android:gravity="center" />
 
         </LinearLayout>
 
@@ -137,7 +140,8 @@
             <ScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/merchant_heroes_text_details">
 
                 <TextView
                     android:id="@+id/debug_merchant_hero_textView"

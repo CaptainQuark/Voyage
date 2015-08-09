@@ -25,7 +25,7 @@ public class MerchantHeroActivity extends Activity {
     private String MERCHANT_ID = "merchantId";
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
     private ImageView textViewHero_0, textViewHero_1, textViewHero_2;
-    private TextView debugView, buyHeroView, textView_current_money, textView_available_slots, textView_buy;
+    private TextView debugView, buyHeroView, textView_current_money, textView_available_slots, textView_buy, tag1, tag2, tag3;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
     private boolean availableToBuy = false;
@@ -46,6 +46,9 @@ public class MerchantHeroActivity extends Activity {
         textView_current_money = (TextView) findViewById(R.id.merchant_hero_current_money);
         textView_available_slots = (TextView) findViewById(R.id.merchant_hero_free_slots);
         textView_buy = (TextView) findViewById(R.id.merchant_hero_buy);
+        tag1 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index0);
+        tag2 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index1);
+        tag3 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index2);
         merchantProfile = (ImageView) findViewById(R.id.imageView_merchant_profile);
 
         fillTextViewHeros(3);
@@ -150,6 +153,7 @@ public class MerchantHeroActivity extends Activity {
         editor.apply();
 
         merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
+        setDebugText();
     }
 
     public long updateMerchantsDatabase(int numberOfInserts) {
@@ -178,12 +182,16 @@ public class MerchantHeroActivity extends Activity {
     public void fillTextViewHeros(int rowsExistent){
         Log.i("fillText", "fillTextViewHeroes called");
 
+        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+
         for(int i = 1; i <= rowsExistent && rowsExistent > 0; i++){
                 if(i == 1){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_0.setImageResource(R.mipmap.indicator_inactive);
                     } else {
-
+                        textViewHero_0.setImageResource(R.mipmap.hero_dummy_0);
                     }
                 }
                 else
@@ -191,7 +199,7 @@ public class MerchantHeroActivity extends Activity {
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_1.setImageResource(R.mipmap.indicator_inactive);
                     } else {
-
+                        textViewHero_1.setImageResource(R.mipmap.hero_dummy_1);
                     }
                 }
                 else
@@ -199,7 +207,7 @@ public class MerchantHeroActivity extends Activity {
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_2.setImageResource(R.mipmap.indicator_inactive);
                     } else {
-
+                        textViewHero_2.setImageResource(R.mipmap.hero_dummy_2);
                     }
                 }
                 else{
@@ -268,18 +276,28 @@ public class MerchantHeroActivity extends Activity {
             textView_current_money.setText("$ " + currentMoneyInPocket);
             textView_buy.setText("...");
             textView_buy.setBackgroundColor(getResources().getColor(R.color.inactive_field));
+            textView_available_slots.setText(getFreeSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
         }
     }
 
     public void selectedHeroIndex0(View view) {
+        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_text_details));
+        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         processSelectedHero(1);
     }
 
     public void selectedHeroIndex1(View view) {
+        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_text_details));
+        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         processSelectedHero(2);
     }
 
     public void selectedHeroIndex2(View view) {
+        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_text_details));
+        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         processSelectedHero(3);
     }
 
