@@ -137,7 +137,7 @@
                 android:background="#ff000000"
                 android:nestedScrollingEnabled="false"
                 android:onClick="WorldMapBackbuttonPressed"
-                android:scaleType="fitCenter"
+                android:scaleType="centerInside"
                 android:src="@mipmap/ic_backbutton"
                 android:tint="#ffffffff" />
         </LinearLayout>

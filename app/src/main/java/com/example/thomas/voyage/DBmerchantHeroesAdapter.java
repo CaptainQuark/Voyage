@@ -155,8 +155,9 @@ public class DBmerchantHeroesAdapter {
         }
 
         int value = -1;
+
         try {
-            cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
+            value = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
         } catch (NullPointerException n) {
             Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
         }
@@ -179,7 +180,7 @@ public class DBmerchantHeroesAdapter {
 
         String value = "";
         try {
-            cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
+            value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
         } catch (NullPointerException n) {
             Message.message(context1, "ERROR @ getHeroClassOne with exception: " + n);
         }
@@ -202,7 +203,7 @@ public class DBmerchantHeroesAdapter {
 
         String value = "";
         try {
-            cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
+            value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
         } catch (NullPointerException n) {
             Message.message(context1, "ERROR @ getHeroClassTwo with exception: " + n);
         }
@@ -224,8 +225,9 @@ public class DBmerchantHeroesAdapter {
         }
 
         int costs = 0;
+
         try {
-            cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
+            costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
         } catch (NullPointerException n) {
             Message.message(context1, "ERROR @ getHeroCosts with exception: " + n);
         }
