@@ -24,6 +24,7 @@ public class StartActivity extends Activity {
         isAppFirstStarted();
 
         tv = (TextView) findViewById(R.id.start_textView_slave_market);
+
         List<String> xList = new ArrayList<>();
         xList.add("IF");
         xList.add("2.");
@@ -35,6 +36,8 @@ public class StartActivity extends Activity {
     }
 
     public void isAppFirstStarted() {
+        Message.message(this, "'isAppFirstStarted' called");
+
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
 
@@ -42,22 +45,34 @@ public class StartActivity extends Activity {
         Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
 
         if (isFirstRun) {
-            for (int i = 10; i > 0; i--) {
-                DBheroesAdapter heroesHelper = new DBheroesAdapter(this);
-                heroesHelper.insertData(this.getString(R.string.indicator_unused_row), 0, "", "");
-                if (i == 1)
-                    Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
+            long validation = freshInsertToHeroesDatabase(10);
+            if (validation < 0) {
+                Message.message(this, "ERROR @ insertToHeroesDatabase");
             }
 
             long id = insertToMerchantDatabase(3);
             if (id < 0) {
-                Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
+                Message.message(this, "ERROR @ insertToMerchantHeroesDatabase");
             }
 
             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
             editor.putBoolean(IS_FIRST_RUN, false);
             editor.apply();
         }
+    }
+
+    public long freshInsertToHeroesDatabase(int rows) {
+        DBheroesAdapter dBheroesAdapter = new DBheroesAdapter(this);
+
+        long validation = 0;
+
+        for (int i = rows; i > 0; i--) {
+            validation = dBheroesAdapter.insertData(this.getString(R.string.indicator_unused_row), 0, "", "");
+            if (i == 1)
+                Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
+        }
+
+        return validation;
     }
 
     public long insertToMerchantDatabase(int numberOfInserts) {
@@ -77,7 +92,7 @@ public class StartActivity extends Activity {
                     herosList.get(i).getStrings("classSecondary"),
                     herosList.get(i).getInts("costs"));
 
-            if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
+            if (id < 0) Message.message(this, "ERROR @ insert of hero " + i + 1);
         }
 
         return id;

@@ -6,13 +6,18 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBheroesAdapter {
 
     DBheroesHelper helper;
     Context context1;
 
-    public DBheroesAdapter (Context context) { helper = new DBheroesHelper(context); context1 = context;}
+    public DBheroesAdapter(Context context) {
+        helper = new DBheroesHelper(context);
+        helper.getWritableDatabase();
+        context1 = context;
+    }
 
     public long insertData(String name, int hitpoints, String classOne, String classTwo){
 
@@ -141,12 +146,13 @@ public class DBheroesAdapter {
     static class DBheroesHelper extends SQLiteOpenHelper{
         private static final String DATABASE_NAME = "heroesdatabase";
         private static final String TABLE_NAME = "HEROESTABLE";
-        private static final int DATABASE_VERSION = 5;
+        private static final int DATABASE_VERSION = 1;
         private static final String UID = "_id";
         private static final String NAME = "Name";
         private static final String HITPOINTS = "Hitpoints";
         private static final String CLASS_ONE = "ClasstypeOne";
         private static final String CLASS_TWO = "ClasstypeSecondary";
+        private static final String COSTS = "Costs";
             // hier Spalten deklarieren, die für Helden benötigt werden
             // -> diese dann in CREATE_TABLE unterhalb einfügen
 
@@ -165,6 +171,8 @@ public class DBheroesAdapter {
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
             //com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
+            com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
+
         }
 
         @Override
@@ -181,6 +189,7 @@ public class DBheroesAdapter {
             db.execSQL(DROP_TABLE);
             onCreate(db);
             com.example.thomas.voyage.Message.message(context, "HerosDatabse onUpgrade called");
+            Log.v("HEROES UPGRADE", "heroes db upgraded");
         }
     }
 }

@@ -15,6 +15,7 @@ public class DBmerchantHeroesAdapter {
 
     public DBmerchantHeroesAdapter(Context context) {
         helper = new DBmerchantHeroesHelper(context);
+        helper.getWritableDatabase();
         context1 = context;
     }
 
@@ -264,7 +265,7 @@ public class DBmerchantHeroesAdapter {
     static class DBmerchantHeroesHelper extends SQLiteOpenHelper {
         private static final String DATABASE_NAME = "merchantherosdatabase";
         private static final String TABLE_NAME = "MERCHANTTABLE";
-        private static final int DATABASE_VERSION = 9;
+        private static final int DATABASE_VERSION = 1;
         private static final String UID = "_id";
         private static final String NAME = "Name";
         private static final String HITPOINTS = "Hitpoints";
@@ -290,6 +291,8 @@ public class DBmerchantHeroesAdapter {
             //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
             //com.example.thomas.voyage.Message.message(context, "constructor called");
+            com.example.thomas.voyage.Message.message(context, "MerchantDatabase constructor called");
+
         }
 
         @Override
@@ -306,6 +309,7 @@ public class DBmerchantHeroesAdapter {
             db.execSQL(DROP_TABLE);
             onCreate(db);
             com.example.thomas.voyage.Message.message(context, "MerchantDatabse onUpgrade called");
+            Log.v("MERCHANT_UPGRADE", "merchant db upgraded");
         }
     }
 }
