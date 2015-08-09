@@ -23,8 +23,11 @@ public class MerchantHeroActivity extends Activity {
     DBmerchantHeroesAdapter dBmerchantHeroesAdapter;
     ImageView merchantProfile;
     private String MERCHANT_ID = "merchantId";
-    private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2;
-    private int currentSelectedHeroId = 0, currentMoneyInPocket = 0, currentMerchantId = 0;
+    private String CURRENT_MONEY_FILE = "currentMoneyLong";
+    private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2, textView_current_money, textView_available_slots, textView_buy;
+    private int currentSelectedHeroId = 0, currentMerchantId = 0;
+    private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
+    private boolean availableToBuy = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +42,45 @@ public class MerchantHeroActivity extends Activity {
         textViewHero_0 = (TextView)findViewById(R.id.textView_merchant_hero_i0);
         textViewHero_1 = (TextView)findViewById(R.id.textView_merchant_hero_i1);
         textViewHero_2 = (TextView)findViewById(R.id.textView_merchant_hero_i2);
+        textView_current_money = (TextView) findViewById(R.id.merchant_hero_current_money);
+        textView_available_slots = (TextView) findViewById(R.id.merchant_hero_free_slots);
+        textView_buy = (TextView) findViewById(R.id.merchant_hero_buy);
         merchantProfile = (ImageView) findViewById(R.id.imageView_merchant_profile);
 
-        //isAppFirstStarted();
         fillTextViewHeros(3);
         calcTimeDiff();
-
         setDebugText();
+
+        textView_current_money.setText(Long.toString(getCurrentMoney()));
+        textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
+    }
+
+    private long getCurrentMoney() {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        currentMoneyInPocket = prefs.getLong(CURRENT_MONEY_FILE, 4500);
+
+        return currentMoneyInPocket;
+    }
+
+    private void setCurrentMoney(long money) {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putLong(CURRENT_MONEY_FILE, money);
+        editor.apply();
+    }
+
+    private long getFreeSlotsInHeroesDatabase() {
+        DBheroesAdapter helper = new DBheroesAdapter(this);
+
+        long countUsed = 0;
+        slotsInHeroesDatabase = helper.getTaskCount();
+
+        for (long i = 0; i < 10; i++) {
+            if (!(helper.getHeroName(i + 1).equals(getResources().getString(R.string.indicator_unused_row)))) {
+                countUsed++;
+            }
+        }
+
+        return countUsed;
     }
 
     private void calcTimeDiff() {
@@ -134,33 +169,6 @@ public class MerchantHeroActivity extends Activity {
         return id;
     }
 
-
-    /*
-    public void isAppFirstStarted() {
-        // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
-        //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
-
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE)
-                .getBoolean("isFirstRun", true);
-
-        if (isFirstRun) {
-            insertIntoDatabase();
-            Message.message(this, "insertIntoDatabase called @ function 'isFirstRun' in 'MerchantHeroActivity'");
-        }
-
-        getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit()
-                .putBoolean("isFirstRun", false).commit();
-    }
-
-
-    public void insertIntoDatabase() {
-        long id = insertToMerchantDatabase(3);
-        if (id < 0) {
-            Message.message(this, "ERROR @ insertToDatabase with " + id + " objects to insert");
-        }
-    }
-    */
-
     public void fillTextViewHeros(int rowsExistent){
         Log.i("fillText", "fillTextViewHeroes called");
 
@@ -203,28 +211,6 @@ public class MerchantHeroActivity extends Activity {
         debugView.setText(totalText);
     }
 
-    public long insertToMerchantDatabase(int numberOfInserts) {
-        List<Hero> herosList = new ArrayList<>();
-        long id = 0;
-
-        for (int i = 0; i < numberOfInserts; i++) {
-            herosList.add(new Hero());
-            herosList.get(i).Initialize("Everywhere");
-
-                // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
-            id = dBmerchantHeroesAdapter.insertData(
-                    herosList.get(i).getStrings("heroName"),
-                    herosList.get(i).getInts("hitpoints"),
-                    herosList.get(i).getStrings("classPrimary"),
-                    herosList.get(i).getStrings("classSecondary"),
-                    herosList.get(i).getInts("costs"));
-
-            if(id < 0) Message.message(this, "error@insert of hero " + i + 1);
-        }
-
-        return id;
-    }
-
     public void resetMerchant(View view){
         updateMerchantsDatabase(3);
         setNewMerchantProfile();
@@ -237,9 +223,43 @@ public class MerchantHeroActivity extends Activity {
         finish();
     }
 
+    public void goFromMerchantToHeroesParty(View view) {
+        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        startActivity(i);
+    }
+
     public void buyHero(View view) {
 
-        debugView.setText("buyHero clicked");
+        if (availableToBuy) {
+            String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
+            int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
+            String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
+            String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
+            int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
+
+            DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
+
+            for (int i = 1; i <= 10; i++) {
+
+                int updateValidation = heroesAdapter.updateRow(i, name, hitpoints, classOne, classTwo, costs);
+                if (updateValidation > 0) {
+
+                    // wenn updateValidation speichert Rückgabewert von '.updateRow' -> wenn -1, dann nicht erfolgreich
+
+                    Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
+                    if (i == 10) {
+                        Message.message(this, "This was the last free entry in HeroesDatabase");
+                    }
+                    i = 11;
+                    dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
+                }
+            }
+
+            fillTextViewHeros(3);
+            currentMoneyInPocket = getCurrentMoney() - costs;
+            setCurrentMoney(currentMoneyInPocket);
+            textView_current_money.setText("$ " + currentMoneyInPocket);
+        }
     }
 
     public void selectedHeroIndex0(View view) {
@@ -255,37 +275,23 @@ public class MerchantHeroActivity extends Activity {
     }
 
     private void processSelectedHero(int index) {
-
         currentSelectedHeroId = index;
 
         try {
             String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
-            int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
-            String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
-            String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
             int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
 
-            if (!name.equals(this.getString(R.string.indicator_unused_row))) {
-                DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
+            if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
 
-                for (int i = 1; i <= 10; i++) {
-
-                    int updateValidation = heroesAdapter.updateRow(i, name, hitpoints, classOne, classTwo, costs);
-                    if (updateValidation > 0) {
-
-                        // wenn updateValidation speichert Rückgabewert von '.updateRow' -> wenn -1, dann nicht erfolgreich
-
-                        Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
-                        if (i == 10) {
-                            Message.message(this, "This was the last free entry in HeroesDatabase");
-                        }
-                        i = 11;
-                        dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
-                    }
+                if (currentMoneyInPocket >= costs) {
+                    textView_buy.setText("$ " + costs);
+                    textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_permission_to_buy));
+                    availableToBuy = true;
+                } else {
+                    textView_buy.setText("$ " + (currentMoneyInPocket - costs));
+                    textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
+                    availableToBuy = false;
                 }
-
-                //dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
-                fillTextViewHeros(3);
 
             } else {
                 Message.message(this, "No Hero to buy");

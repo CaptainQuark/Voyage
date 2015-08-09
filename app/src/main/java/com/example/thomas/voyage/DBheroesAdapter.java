@@ -3,6 +3,7 @@ package com.example.thomas.voyage;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -36,6 +37,10 @@ public class DBheroesAdapter {
         // .) wenn id = -1, dann fehler, sonst ok
         // .) kann auf VivzHelper zugreifen, da dies eine innere Klasse ist,
         //    niemand sonst kann Variablen von VivzHelper verwenden = kein falscher Zugriff
+    }
+
+    public long getTaskCount() {
+        return DatabaseUtils.queryNumEntries(helper.getReadableDatabase(), DBheroesHelper.TABLE_NAME);
     }
 
     public String getAllData(){
@@ -113,7 +118,7 @@ public class DBheroesAdapter {
         return buffer.toString();
     }
 
-    public String getHeroName(int id) {
+    public String getHeroName(long id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.NAME};

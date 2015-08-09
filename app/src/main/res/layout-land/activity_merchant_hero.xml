@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:scaleType="centerCrop"
-            android:background="#ffc1b190" />
+            android:background="#ffc1b190"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/static_textView_merchant_0"
@@ -40,6 +40,7 @@
             android:layout_weight="0.7"
             android:background="#ffdfdbc1"
             android:gravity="center"
+            android:onClick="resetMerchant"
             android:text="Zeit"
             android:textColor="#ff000000"
             android:textSize="40sp" />
@@ -133,35 +134,38 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/merchant_hero_reset_merchant"
+            android:id="@+id/merchant_hero_current_money"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="New Merchant"
+            android:text="$ 1000"
             android:textColor="#ff000000"
-            android:onClick="resetMerchant" />
+            android:textSize="35sp" />
 
         <TextView
-            android:id="@+id/textView182"
+            android:id="@+id/merchant_hero_free_slots"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Placeholder"
-            android:textColor="#ff000000" />
+            android:text="5 / 10"
+            android:textColor="#ff000000"
+            android:textSize="35sp" />
 
         <TextView
-            android:id="@+id/textView183"
+            android:id="@+id/merchant_hero_to_heroes_party_activity"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Placeholder"
-            android:textColor="#ff000000" />
+            android:onClick="goFromMerchantToHeroesParty"
+            android:text="Gilde"
+            android:textColor="#ff000000"
+            android:textSize="35sp" />
 
         <TextView
             android:id="@+id/merchant_hero_buy"
@@ -171,9 +175,9 @@
             android:background="#ffdfdbc1"
             android:gravity="center"
             android:onClick="buyHero"
-            android:text="$ 100"
+            android:text=""
             android:textColor="#ff000000"
-            android:textSize="30sp" />
+            android:textSize="35sp" />
 
     </LinearLayout>
 </LinearLayout>
