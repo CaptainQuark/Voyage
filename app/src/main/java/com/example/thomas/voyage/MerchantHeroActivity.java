@@ -24,7 +24,8 @@ public class MerchantHeroActivity extends Activity {
     ImageView merchantProfile;
     private String MERCHANT_ID = "merchantId";
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
-    private TextView debugView, buyHeroView, textViewHero_0, textViewHero_1, textViewHero_2, textView_current_money, textView_available_slots, textView_buy;
+    private ImageView textViewHero_0, textViewHero_1, textViewHero_2;
+    private TextView debugView, buyHeroView, textView_current_money, textView_available_slots, textView_buy;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
     private boolean availableToBuy = false;
@@ -39,9 +40,9 @@ public class MerchantHeroActivity extends Activity {
 
         debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
         buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
-        textViewHero_0 = (TextView)findViewById(R.id.textView_merchant_hero_i0);
-        textViewHero_1 = (TextView)findViewById(R.id.textView_merchant_hero_i1);
-        textViewHero_2 = (TextView)findViewById(R.id.textView_merchant_hero_i2);
+        textViewHero_0 = (ImageView) findViewById(R.id.textView_merchant_hero_i0);
+        textViewHero_1 = (ImageView) findViewById(R.id.textView_merchant_hero_i1);
+        textViewHero_2 = (ImageView) findViewById(R.id.textView_merchant_hero_i2);
         textView_current_money = (TextView) findViewById(R.id.merchant_hero_current_money);
         textView_available_slots = (TextView) findViewById(R.id.merchant_hero_free_slots);
         textView_buy = (TextView) findViewById(R.id.merchant_hero_buy);
@@ -74,7 +75,7 @@ public class MerchantHeroActivity extends Activity {
         long countUsed = 0;
         slotsInHeroesDatabase = helper.getTaskCount();
 
-        for (long i = 0; i < 10; i++) {
+        for (long i = 0; i < slotsInHeroesDatabase; i++) {
             if (!(helper.getHeroName(i + 1).equals(getResources().getString(R.string.indicator_unused_row)))) {
                 countUsed++;
             }
@@ -180,28 +181,25 @@ public class MerchantHeroActivity extends Activity {
         for(int i = 1; i <= rowsExistent && rowsExistent > 0; i++){
                 if(i == 1){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
-                        textViewHero_0.setText("ALREADY CLICKED");
+                        textViewHero_0.setImageResource(R.mipmap.indicator_inactive);
                     } else {
-                        textViewHero_0.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
-                        Log.i("fillText", "textViewHero_0");
+
                     }
                 }
                 else
                 if (i == 2){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
-                        textViewHero_1.setText("ALREADY CLICKED");
+                        textViewHero_1.setImageResource(R.mipmap.indicator_inactive);
                     } else {
-                        textViewHero_1.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
-                        Log.i("fillText", "textViewHero_1");
+
                     }
                 }
                 else
                 if(i == 3){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
-                        textViewHero_2.setText("ALREADY CLICKED");
+                        textViewHero_2.setImageResource(R.mipmap.indicator_inactive);
                     } else {
-                        textViewHero_2.setText(dBmerchantHeroesAdapter.getOneHeroRow(i));
-                        Log.i("fillText", "textViewHero_2");
+
                     }
                 }
                 else{
@@ -230,6 +228,11 @@ public class MerchantHeroActivity extends Activity {
     public void goFromMerchantToHeroesParty(View view) {
         Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
         startActivity(i);
+    }
+
+    public void resetCurrentMoney(View view) {
+        setCurrentMoney(getCurrentMoney() + 3000);
+        textView_current_money.setText("$ " + getCurrentMoney());
     }
 
     public void buyHero(View view) {
@@ -287,21 +290,26 @@ public class MerchantHeroActivity extends Activity {
             String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
             int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
 
-            if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
+            if (getFreeSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
+                if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
 
-                if (currentMoneyInPocket >= costs) {
-                    textView_buy.setText("$ " + costs);
-                    textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_permission_to_buy));
-                    availableToBuy = true;
+                    if (currentMoneyInPocket >= costs) {
+                        textView_buy.setText("$ " + costs);
+                        textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_permission_to_buy));
+                        availableToBuy = true;
+                    } else {
+                        textView_buy.setText("$ " + (currentMoneyInPocket - costs));
+                        textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
+                        availableToBuy = false;
+                    }
+
                 } else {
-                    textView_buy.setText("$ " + (currentMoneyInPocket - costs));
-                    textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
-                    availableToBuy = false;
+                    Message.message(this, "No Hero to buy");
                 }
-
             } else {
-                Message.message(this, "No Hero to buy");
+                textView_buy.setText("X");
             }
+
 
         } catch (SQLiteException | NullPointerException e) {
             Message.message(this, e + "");

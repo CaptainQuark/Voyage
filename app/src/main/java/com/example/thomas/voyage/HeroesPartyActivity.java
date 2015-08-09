@@ -124,7 +124,7 @@ class MySimpleArrayAdapter extends ArrayAdapter<String> {
         if (heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row))) {
             imageView.setImageResource(R.mipmap.ic_launcher);
         } else {
-            imageView.setImageResource(R.mipmap.hero_dummy_gnu);
+            imageView.setImageResource(R.mipmap.hero_dummy_1);
         }
 
         return rowView;
