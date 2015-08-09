@@ -51,8 +51,6 @@ public class MerchantHeroActivity extends Activity {
         calcTimeDiff();
         setDebugText();
 
-        //test
-
         textView_current_money.setText(Long.toString(getCurrentMoney()));
         textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
     }
@@ -224,9 +222,8 @@ public class MerchantHeroActivity extends Activity {
         fillTextViewHeros(3);
     }
 
-    public void activityMerchantBackToStart(View view) {
-        Intent i = new Intent(getApplicationContext(), StartActivity.class);
-        startActivity(i);
+    public void merchantHerosBackbuttonPressed(View view) {
+        onBackPressed();
         finish();
     }
 
@@ -266,6 +263,8 @@ public class MerchantHeroActivity extends Activity {
             currentMoneyInPocket = getCurrentMoney() - costs;
             setCurrentMoney(currentMoneyInPocket);
             textView_current_money.setText("$ " + currentMoneyInPocket);
+            textView_buy.setText("...");
+            textView_buy.setBackgroundColor(getResources().getColor(R.color.inactive_field));
         }
     }
 

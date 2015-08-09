@@ -26,7 +26,7 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="#ff000000"
-            android:onClick="activityHeroesPartyBackToStart"
+            android:onClick="heroesPartyBackbuttonPressed"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
             android:tint="#ffffffff" />
@@ -54,7 +54,7 @@
             android:gravity="center"
             android:text="5 / 19"
             android:textColor="#ff000000"
-            android:textSize="30sp" />
+            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
 
         <TextView
             android:id="@+id/hero_dismiss"
@@ -64,7 +64,8 @@
             android:background="#ffdfdbc1"
             android:gravity="center"
             android:text="Dismiss Hero"
-            android:textColor="#ff000000" />
+            android:textColor="#ff000000"
+            android:textSize="@dimen/font_right_panel_standard_size_words" />
 
         <TextView
             android:id="@+id/hero_set_as_adventurer"
@@ -73,8 +74,9 @@
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Commit to Quest"
-            android:textColor="#ff000000" />
+            android:text="Commit\nto Quest"
+            android:textColor="#ff000000"
+            android:textSize="@dimen/font_right_panel_standard_size_words" />
 
         <TextView
             android:id="@+id/merchant_hero_buy"
@@ -85,7 +87,8 @@
             android:gravity="center"
             android:onClick="buyHero"
             android:text="Platzhalter"
-            android:textColor="#ff000000" />
+            android:textColor="#ff000000"
+            android:textSize="@dimen/font_right_panel_standard_size_words" />
 
     </LinearLayout>
 </LinearLayout>

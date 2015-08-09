@@ -2,7 +2,6 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -18,6 +18,7 @@ public class HeroesPartyActivity extends Activity {
 
     private final int HEROES_IN_LISTVIEW = 10;
     private DBheroesAdapter heroesHelper;
+    private long slotsInHeroesDatabase = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +27,15 @@ public class HeroesPartyActivity extends Activity {
         hideSystemUI();
 
         heroesHelper = new DBheroesAdapter(this);
+
+        final TextView textView_slots = (TextView) findViewById(R.id.hero_size_display);
+        textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+
+
+
+
+
+
 
         final ListView listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
         String[] values = new String[HEROES_IN_LISTVIEW];
@@ -39,7 +49,7 @@ public class HeroesPartyActivity extends Activity {
         }
 
         if (heroesHelper.equals(null)) {
-            Message.message(this, "No HeroesDatabase set yet created - you betta' do!");
+            Message.message(this, "No HeroesDatabase set yet created - ya betta' do!");
         } else {
             final MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, values);
             listview.setAdapter(adapter);
@@ -57,12 +67,24 @@ public class HeroesPartyActivity extends Activity {
         }
     }
 
-    public void activityHeroesPartyBackToStart(View view) {
-        Intent i = new Intent(getApplicationContext(), StartActivity.class);
-        startActivity(i);
-        finish();
+    private long getUsedSlotsInHeroesDatabase() {
+
+        long countUsed = 0;
+        slotsInHeroesDatabase = heroesHelper.getTaskCount();
+
+        for (long i = 0; i < 10; i++) {
+            if (!(heroesHelper.getHeroName(i + 1).equals(getResources().getString(R.string.indicator_unused_row)))) {
+                countUsed++;
+            }
+        }
+
+        return countUsed;
     }
 
+    public void heroesPartyBackbuttonPressed(View view) {
+        onBackPressed();
+        finish();
+    }
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.

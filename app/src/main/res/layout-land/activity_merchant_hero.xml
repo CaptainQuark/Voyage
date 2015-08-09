@@ -51,7 +51,7 @@
             android:layout_height="0dp"
             android:layout_weight="0.15"
             android:background="#ff000000"
-            android:onClick="activityMerchantBackToStart"
+            android:onClick="merchantHerosBackbuttonPressed"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
             android:tint="#ffffffff" />
@@ -142,7 +142,7 @@
             android:gravity="center"
             android:text="$ 1000"
             android:textColor="#ff000000"
-            android:textSize="35sp" />
+            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
 
         <TextView
             android:id="@+id/merchant_hero_free_slots"
@@ -153,7 +153,7 @@
             android:gravity="center"
             android:text="5 / 10"
             android:textColor="#ff000000"
-            android:textSize="35sp" />
+            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
 
         <TextView
             android:id="@+id/merchant_hero_to_heroes_party_activity"
@@ -165,19 +165,19 @@
             android:onClick="goFromMerchantToHeroesParty"
             android:text="Gilde"
             android:textColor="#ff000000"
-            android:textSize="35sp" />
+            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
 
         <TextView
             android:id="@+id/merchant_hero_buy"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#ffdfdbc1"
+            android:background="#827e6c"
             android:gravity="center"
             android:onClick="buyHero"
-            android:text=""
+            android:text="..."
             android:textColor="#ff000000"
-            android:textSize="35sp" />
+            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
 
     </LinearLayout>
 </LinearLayout>

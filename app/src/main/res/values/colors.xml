@@ -13,6 +13,7 @@
     <color name="merchant_heroes_permission_to_buy">#FF407437</color>
     <color name="merchant_heroes_denial_to_buy">#FF5F1E22</color>
 
+    <color name="inactive_field">#827e6c</color>
     <color name="highlight_cherryred">#FFFF003B</color>
 
 </resources>
