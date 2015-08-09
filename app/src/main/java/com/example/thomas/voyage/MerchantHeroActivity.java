@@ -263,13 +263,14 @@ public class MerchantHeroActivity extends Activity {
             int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
             String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
             String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
+            int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
 
             if (!name.equals(this.getString(R.string.indicator_unused_row))) {
-                DBheroesAdapter herosAdapter = new DBheroesAdapter(this);
+                DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
 
                 for (int i = 1; i <= 10; i++) {
 
-                    int updateValidation = herosAdapter.updateRow(i, name, hitpoints, classOne, classTwo);
+                    int updateValidation = heroesAdapter.updateRow(i, name, hitpoints, classOne, classTwo, costs);
                     if (updateValidation > 0) {
 
                         // wenn updateValidation speichert Rückgabewert von '.updateRow' -> wenn -1, dann nicht erfolgreich

@@ -36,7 +36,7 @@ public class StartActivity extends Activity {
     }
 
     public void isAppFirstStarted() {
-        Message.message(this, "'isAppFirstStarted' called");
+
 
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
@@ -45,6 +45,7 @@ public class StartActivity extends Activity {
         Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
 
         if (isFirstRun) {
+            Message.message(this, "'isFirstRun' called");
             long validation = freshInsertToHeroesDatabase(10);
             if (validation < 0) {
                 Message.message(this, "ERROR @ insertToHeroesDatabase");
@@ -67,7 +68,7 @@ public class StartActivity extends Activity {
         long validation = 0;
 
         for (int i = rows; i > 0; i--) {
-            validation = dBheroesAdapter.insertData(this.getString(R.string.indicator_unused_row), 0, "", "");
+            validation = dBheroesAdapter.insertData(this.getString(R.string.indicator_unused_row), 0, "", "", 0);
             if (i == 1)
                 Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
         }
