@@ -48,6 +48,11 @@ public class MerchantHeroActivity extends Activity {
         setDebugText();
     }
 
+    public void clickToHeroesPartyActivity(View view) {
+        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        startActivity(i);
+    }
+
     private void calcTimeDiff() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());

@@ -144,14 +144,15 @@
             android:onClick="resetMerchant" />
 
         <TextView
-            android:id="@+id/textView182"
+            android:id="@+id/goto_heroes_party_activity"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Placeholder"
-            android:textColor="#ff000000" />
+            android:text="Hero Party"
+            android:textColor="#ff000000"
+            android:onClick="clickToHeroesPartyActivity"/>
 
         <TextView
             android:id="@+id/textView183"
@@ -160,7 +161,7 @@
             android:layout_weight="1"
             android:background="#ffdfdbc1"
             android:gravity="center"
-            android:text="Placeholder"
+            android:text="5 / 19"
             android:textColor="#ff000000" />
 
         <TextView
