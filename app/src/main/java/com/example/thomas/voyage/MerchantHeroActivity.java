@@ -74,12 +74,18 @@ public class MerchantHeroActivity extends Activity {
             }
 
             public void onFinish() {
-                setNewDate();
+                SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+                editor.putLong("TIME_TO_LEAVE", setNewDate());
+                editor.apply();
+
                 setNewMerchantProfile();
+
                 long validation = updateMerchantsDatabase(3);
                 if (validation < 0) {
                     Log.e("ERROR @ ", "updateMerchantsDatabase");
                 }
+
+                calcTimeDiff();
             }
         }.start();
     }
