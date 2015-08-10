@@ -3,6 +3,7 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,11 @@ import android.widget.TextView;
 
 public class CombatActivity extends Activity {
 
-    static int monsterHealth = 500;
-    static int scoreMultiplier = 1, scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1;
-    static String finishMultiplier = "UniversalSingle", FinishMultiplier1 = "UniversalSingle",finishMultiplier2 = "UniversalSingle",finishMultiplier3 = "UniversalSingle";
-    static int scoreField1 = 0,scoreField2 = 0,scoreField3 = 0,  dartCount = 1;
-    static TextView monsterHealthView;
+    private static int monsterHealth = 500;
+    private static int scoreMultiplier = 1, scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1;
+    private static String finishMultiplier = "UniversalSingle", FinishMultiplier1 = "UniversalSingle",finishMultiplier2 = "UniversalSingle",finishMultiplier3 = "UniversalSingle";
+    private static int scoreField1 = 0,scoreField2 = 0,scoreField3 = 0,  dartCount = 1;
+    private static TextView monsterHealthView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +96,9 @@ public class CombatActivity extends Activity {
             final Holder holder = new Holder();
             View rowView;
 
-            if(result.length == 20){
                 rowView = inflater.inflate(R.layout.gridview_combat_left_panel, null);
                 holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
                 holder.tv.setText(result[position] + "");
-            }else{
-                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-            }
 
             rowView.setOnClickListener(new View.OnClickListener() {
 
@@ -144,6 +141,8 @@ public class CombatActivity extends Activity {
         int[] result;
         Context context;
         private LayoutInflater inflater = null;
+        private int selectedCellPosition = -1;
+
 
         public RightPanelAdapter(CombatActivity combatActivity, int[] list) {
             result = list;
@@ -172,40 +171,26 @@ public class CombatActivity extends Activity {
         public View getView(final int position, final View convertView, final ViewGroup parent) {
 
             final Holder holder = new Holder();
-            View rowView;
+            final View rowView;
 
-            if (result.length == 20) {
-                rowView = inflater.inflate(R.layout.gridview_combat_left_panel, null);
-                holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
-                holder.tv.setText(result[position] + "");
-            } else {
-                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-            }
+            rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
+
+            holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
+            holder.tv.setText(result[position] + "");
 
             rowView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+                    rowView.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
 
-                    //holder.tv.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
-
-                    if (dartCount == 1) {
-                        scoreMultiplier1 = scoreMultiplier;
-                        scoreField1 = result[position];
-                        dartCount++;
-                    } else if (dartCount == 2) {
-                        scoreMultiplier2 = scoreMultiplier;
-                        scoreField2 = result[position];
-                        dartCount++;
-                    } else if (dartCount == 3) {
-                        scoreMultiplier3 = scoreMultiplier;
-                        scoreField3 = result[position];
-                        dartCount = 1;
-                        monsterHealth -= scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3;
+                    if(selectedCellPosition != -1){
+                        View cellView = parent.getChildAt(selectedCellPosition);
+                        cellView.setBackgroundColor(Color.BLACK);
+                        cellView.postInvalidate();
                     }
 
-                    monsterHealthView.setText(monsterHealth + "");
-
+                    selectedCellPosition = position;
                 }
             });
 

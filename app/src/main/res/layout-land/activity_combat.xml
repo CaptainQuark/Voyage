@@ -42,7 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="#010101">
 
             <ImageView
                 android:id="@+id/editTexxxt"
@@ -59,7 +60,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:numColumns="4" />
+                android:numColumns="4"
+                android:background="#303030" />
 
             <GridView
                 android:id="@+id/activity_combat_gridView_specials"
