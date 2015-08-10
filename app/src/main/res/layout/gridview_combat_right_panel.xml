@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
+    android:padding="1dp"
     android:orientation="vertical">
 
     <TextView
@@ -11,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="1"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textColor="@android:color/white" />
 
 </LinearLayout>

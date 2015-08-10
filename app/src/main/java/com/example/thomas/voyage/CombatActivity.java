@@ -172,11 +172,11 @@ public class CombatActivity extends Activity {
 
             final Holder holder = new Holder();
             final View rowView;
+            String[] iconArray = {"X 1", "2", "X 2", "4", "X 3", "6", "7", "8", "9", "10"};
 
             rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-
             holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
-            holder.tv.setText(result[position] + "");
+            holder.tv.setText(iconArray[position]);
 
             rowView.setOnClickListener(new View.OnClickListener() {
 
@@ -191,6 +191,33 @@ public class CombatActivity extends Activity {
                     }
 
                     selectedCellPosition = position;
+
+                    switch(position){
+                        case 0:
+                            scoreMultiplier = 1;
+                            break;
+                        case 1:
+                            break;
+                        case 2:
+                            scoreMultiplier = 2;
+                            break;
+                        case 3:
+                            break;
+                        case 4:
+                            scoreMultiplier = 3;
+                            break;
+                        case 5:
+                            break;
+                        case 6:
+                            break;
+                        case 7:
+                            break;
+                        case 8:
+                            break;
+                        case 9:
+                            break;
+                        default: holder.tv.setText(":(");
+                    }
                 }
             });
 
