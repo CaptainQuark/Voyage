@@ -37,8 +37,8 @@ public class CombatActivity extends Activity {
         monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
         GridView gridViewNumnbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
         GridView gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
-        gridViewNumnbers.setAdapter(new CustomAdapter(this, numbersOfBoardList));
-        gridViewSpecials.setAdapter(new CustomAdapter(this, specialSymbolsList));
+        gridViewNumnbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
+        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
     }
 
     public void activityCombatBackToMain(View view) {
@@ -46,15 +46,28 @@ public class CombatActivity extends Activity {
         startActivity(i);
     }
 
-    private static class CustomAdapter extends BaseAdapter {
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    private static class NumbersAdapter extends BaseAdapter {
 
         int[] result;
         int currentSelectedPosition = 0, lastSelectedPosition = 0;
         Context context;
         private LayoutInflater inflater = null;
 
-        public CustomAdapter(CombatActivity combatActivity, int[] prgmNameList) {
-            result = prgmNameList;
+        public NumbersAdapter(CombatActivity combatActivity, int[] list) {
+            result = list;
             context = combatActivity;
             inflater = (LayoutInflater) context.
                     getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -126,17 +139,82 @@ public class CombatActivity extends Activity {
         }
     }
 
-    private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    private static class RightPanelAdapter extends BaseAdapter {
+
+        int[] result;
+        Context context;
+        private LayoutInflater inflater = null;
+
+        public RightPanelAdapter(CombatActivity combatActivity, int[] list) {
+            result = list;
+            context = combatActivity;
+            inflater = (LayoutInflater) context.
+                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        }
+
+        @Override
+        public int getCount() {
+            return result.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, final View convertView, final ViewGroup parent) {
+
+            final Holder holder = new Holder();
+            View rowView;
+
+            if (result.length == 20) {
+                rowView = inflater.inflate(R.layout.gridview_combat_left_panel, null);
+                holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
+                holder.tv.setText(result[position] + "");
+            } else {
+                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
+            }
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    //holder.tv.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
+
+                    if (dartCount == 1) {
+                        scoreMultiplier1 = scoreMultiplier;
+                        scoreField1 = result[position];
+                        dartCount++;
+                    } else if (dartCount == 2) {
+                        scoreMultiplier2 = scoreMultiplier;
+                        scoreField2 = result[position];
+                        dartCount++;
+                    } else if (dartCount == 3) {
+                        scoreMultiplier3 = scoreMultiplier;
+                        scoreField3 = result[position];
+                        dartCount = 1;
+                        monsterHealth -= scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3;
+                    }
+
+                    monsterHealthView.setText(monsterHealth + "");
+
+                }
+            });
+
+            return rowView;
+        }
+
+        public class Holder {
+            TextView tv;
+        }
     }
 }
 

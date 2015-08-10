@@ -281,21 +281,21 @@ public class MerchantHeroActivity extends Activity {
     }
 
     public void selectedHeroIndex0(View view) {
-        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_text_details));
+        tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
         tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         processSelectedHero(1);
     }
 
     public void selectedHeroIndex1(View view) {
-        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_text_details));
+        tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
         tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         processSelectedHero(2);
     }
 
     public void selectedHeroIndex2(View view) {
-        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_text_details));
+        tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
         tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
         processSelectedHero(3);

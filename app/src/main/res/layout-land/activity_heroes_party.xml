@@ -4,6 +4,7 @@
     android:id="@+id/activity_heroes_pary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/standard_background"
     android:orientation="horizontal"
     tools:context="com.example.thomas.voyage.HeroesPartyActivity">
 
@@ -17,7 +18,9 @@
             android:id="@+id/activity_heroes_party_listView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="12" />
+            android:layout_weight="12"
+            android:divider="@null"
+            android:dividerHeight="0dp" />
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -37,58 +40,69 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="3"
-        android:orientation="vertical"></LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/hero_size_display"
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="12" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:text="5 / 19"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
+            android:background="@android:color/black"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/hero_dismiss"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:text="Dismiss Hero"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_words" />
+            <TextView
+                android:id="@+id/hero_size_display"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:text="5 / 19"
+                android:textColor="#ff000000"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/hero_set_as_adventurer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:text="Commit\nto Quest"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_words" />
+            <TextView
+                android:id="@+id/hero_dismiss"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:text="Dismiss Hero"
+                android:textColor="#ff000000"
+                android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/merchant_hero_buy"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:onClick="buyHero"
-            android:text="Platzhalter"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_words" />
+            <TextView
+                android:id="@+id/hero_set_as_adventurer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:text="Commit to Quest"
+                android:textColor="#ff000000"
+                android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/heroes_party_buy_hero_from_merchant"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:text="Buy Hero"
+                android:textColor="#ff000000"
+                android:textSize="18sp" />
+
+
+        </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
