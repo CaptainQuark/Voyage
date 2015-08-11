@@ -10,6 +10,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class MerchantHeroActivity extends Activity {
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
     private String origin = "";
     private ImageView textViewHero_0, textViewHero_1, textViewHero_2;
-    private TextView debugView, buyHeroView, textView_current_money, textView_available_slots, textView_buy, tag1, tag2, tag3;
+    private LinearLayout heroDataLayout;
+    private TextView buyHeroView, textView_current_money, textView_available_slots, textView_buy,tag1, tag2, tag3, nameView, hitpointsView, costsView, primView, secView;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
     private boolean availableToBuy = false;
@@ -44,7 +46,13 @@ public class MerchantHeroActivity extends Activity {
             origin = b.getString("ORIGIN", "StartActivity");
         }
 
-        debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
+        heroDataLayout = (LinearLayout)findViewById(R.id.merchant_linearLayout_hero_data);
+        nameView = (TextView) findViewById(R.id.merchant_hero_name);
+        hitpointsView = (TextView) findViewById(R.id.merchant_hero_hitpoints);
+        costsView = (TextView) findViewById(R.id.merchant_hero_costs);
+        primView = (TextView) findViewById(R.id.merchant_hero_prim_class);
+        secView = (TextView) findViewById(R.id.merchant_hero_sec_class);
+
         buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
         textViewHero_0 = (ImageView) findViewById(R.id.textView_merchant_hero_i0);
         textViewHero_1 = (ImageView) findViewById(R.id.textView_merchant_hero_i1);
@@ -59,7 +67,6 @@ public class MerchantHeroActivity extends Activity {
 
         fillTextViewHeros(3);
         calcTimeDiff();
-        setDebugText();
 
         textView_current_money.setText("$ " + getCurrentMoney());
         textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
@@ -159,7 +166,6 @@ public class MerchantHeroActivity extends Activity {
         editor.apply();
 
         merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
-        setDebugText();
     }
 
     public long updateMerchantsDatabase(int numberOfInserts) {
@@ -229,12 +235,6 @@ public class MerchantHeroActivity extends Activity {
         }
     }
 
-    public void setDebugText() {
-        String totalText = dBmerchantHeroesAdapter.getAllData();
-
-        debugView.setText(totalText);
-    }
-
     public void resetMerchant(View view){
         updateMerchantsDatabase(3);
         setNewMerchantProfile();
@@ -301,6 +301,7 @@ public class MerchantHeroActivity extends Activity {
             textView_buy.setText("...");
             textView_buy.setBackgroundColor(getResources().getColor(R.color.inactive_field));
             textView_available_slots.setText(getFreeSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+            heroDataLayout.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -330,6 +331,9 @@ public class MerchantHeroActivity extends Activity {
 
         try {
             String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
+            int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
+            String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
+            String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
             int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
 
             if (getFreeSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
@@ -344,6 +348,14 @@ public class MerchantHeroActivity extends Activity {
                         textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
                         availableToBuy = false;
                     }
+
+                    heroDataLayout.setVisibility(View.VISIBLE);
+
+                    nameView.setText(name);
+                    costsView.setText(costs + "");
+                    primView.setText(classOne);
+                    secView.setText(classTwo);
+                    hitpointsView.setText(hitpoints + "");
 
                 } else {
                     Message.message(this, "No Hero to buy");

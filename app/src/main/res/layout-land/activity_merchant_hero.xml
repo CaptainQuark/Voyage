@@ -133,6 +133,8 @@
             </LinearLayout>
 
             <LinearLayout
+                android:visibility="invisible"
+                android:id="@+id/merchant_linearLayout_hero_data"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -257,7 +259,7 @@
                     <TextView
                         android:layout_weight="1"
                         android:text="PRIMÄRKLASSE"
-                        android:id="@+id/merchant_static_hp"
+                        android:id="@+id/merchant_static_prim"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="14sp"
                         android:gravity="top|center_horizontal"
@@ -269,7 +271,7 @@
                     <TextView
                         android:layout_weight="1"
                         android:text="SEKUNDÄRKLASSE"
-                        android:id="@+id/merchant_static_costs"
+                        android:id="@+id/merchant_static_sec"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="14sp"
                         android:gravity="top|center_horizontal"
