@@ -12,4 +12,5 @@
 
     <string name="indicator_unused_row">NOT_USED</string>
     <string name="title_activity_combat">CombatActivity</string>
+    <string name="title_activity_combat_white">CombatWhiteActivity</string>
 </resources>

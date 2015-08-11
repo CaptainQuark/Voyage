@@ -1,0 +1,246 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.example.thomas.voyage.CombatWhiteActivity"
+    android:background="#ffffff">
+
+    <LinearLayout
+        android:layout_weight="2"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginRight="1px">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1px">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="0.7"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="1px">
+
+                <TextView
+                    android:layout_marginBottom="1px"
+                    android:textSize="25sp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:layout_marginBottom="1px"
+                    android:textSize="25sp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" />
+
+                <TextView
+                    android:textSize="25sp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:text="START\nCOMBAT"
+                    android:id="@+id/textView_placeholder"
+                    android:onClick="startCombat" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.03"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/healthbar_hero_vital"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5" />
+
+                <ImageView
+                    android:id="@+id/healthbar_hero_damaged"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="1.44"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:gravity="center_vertical|start"
+                        android:paddingLeft="20dp"
+                        android:textSize="25sp"
+                        android:id="@+id/heroHealthView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#c5c5c5" />
+                    <TextView
+                        android:gravity="center_vertical|end"
+                        android:paddingRight="20dp"
+                        android:textSize="25sp"
+                        android:id="@+id/monsterHealthView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#c5c5c5" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:gravity="center_vertical|start|top"
+                        android:paddingLeft="20dp"
+                        android:textSize="12sp"
+                        android:id="@+id/heroNameView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#c5c5c5" />
+                    <TextView
+                        android:gravity="center_vertical|end|top"
+                        android:paddingRight="20dp"
+                        android:textSize="13sp"
+                        android:id="@+id/monsterNameView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#c5c5c5" />
+
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_weight="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="#c5c5c5">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:gravity="start"/>
+
+                </ScrollView>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_weight="0.03"
+                android:layout_width="0dp"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/healthbar_monster_vital"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5" />
+
+                <ImageView
+                    android:id="@+id/healthbar_monster_damaged"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#c5c5c5" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/combat_white_hero_profile"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7"
+                android:background="#afafaf"
+                android:onClick="combatWhiteSelectHeroFromPool"
+                android:scaleType="center"
+                android:cropToPadding="false"
+                android:layout_marginRight="1px"
+                android:src="@android:drawable/ic_input_add"
+                android:tint="#ffffff" />
+
+            <TextView
+                android:id="@+id/activity_combat_gridView_numbers"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="#c5c5c5" />
+
+            <TextView
+                android:id="@+id/activity_combat_gridView_specials"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:background="#c5c5c5" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_weight="1.3"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/imageView_combat_monster"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.03"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/monster_dummy_0"
+                android:tint="#c5c5c5" />
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+

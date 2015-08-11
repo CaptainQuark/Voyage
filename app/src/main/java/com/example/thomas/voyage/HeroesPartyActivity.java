@@ -21,6 +21,7 @@ public class HeroesPartyActivity extends Activity {
     private DBheroesAdapter heroesHelper;
     private long slotsInHeroesDatabase = 0;
     private int selectedHero = -1;
+    private String origin = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,10 @@ public class HeroesPartyActivity extends Activity {
         hideSystemUI();
 
         heroesHelper = new DBheroesAdapter(this);
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            origin = b.getString("ORIGIN", "");
+        }
 
         final TextView textView_slots = (TextView) findViewById(R.id.hero_size_display);
         textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
@@ -82,7 +87,23 @@ public class HeroesPartyActivity extends Activity {
     }
 
     public void commitToQuest(View view){
-        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+
+        Intent i;
+
+        switch (origin){
+            case "MerchantHeroActivity":
+                i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+                break;
+            case "CombatWhiteActivity":
+                i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+                break;
+            case "WorldMapQuickCombatActivity":
+                i = new Intent(getApplicationContext(), CombatActivity.class);
+                break;
+            default:
+                i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+                break;
+        }
 
         if(heroesHelper.getTaskCount() > 0 || selectedHero > 0){
             selectedHero = 1;

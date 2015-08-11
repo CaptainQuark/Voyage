@@ -27,13 +27,13 @@ public class CombatActivity extends Activity {
             dartCount = 1;
     private static String finishMultiplier = "UniversalSingle", FinishMultiplier1 = "UniversalSingle",finishMultiplier2 = "UniversalSingle",finishMultiplier3 = "UniversalSingle";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
-    private static TextView monsterHealthView, heroHealthView;
+    private static TextView monsterHealthView, heroHealthView, heroNameView, monsterNameView;
     private static ImageView healthbarMonsterVital, healthBarMonsterDamaged, healthBarHeroVital, healthBarHeroDamaged;
     private static List<Integer> undoListForHero;
     private static LinearLayout.LayoutParams paramsBarMonsterDamaged, paramsBarMonsterVital, paramsBarHeroDamaged, paramsBarHeroVital;
     DBheroesAdapter heroesHelper;
-    private String heroesName, heroesPrimaryClass, heroesSecondaryClass;
-    private int heroesHitpoints, heroesCosts;
+    private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "";
+    private int heroHitpoints = -1, heroCosts = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +43,12 @@ public class CombatActivity extends Activity {
 
         Bundle b = getIntent().getExtras();
         if(b != null){
-            heroesName = b.getString("HEROES_NAME", "???");
-            heroesPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
-            heroesSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
-            heroesHitpoints = b.getInt("HEROES_HITPOINTS", -1);
-            heroesCosts = b.getInt("HEROES_COSTS", -1);
+            heroName = b.getString("HEROES_NAME", "???");
+            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
+            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
+            heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
+            heroCosts= b.getInt("HEROES_COSTS", -1);
+
         }else{
             //TODO lade Vorstufe von Combats XML zur Heldenauswahl
         }
@@ -66,6 +67,12 @@ public class CombatActivity extends Activity {
 
         GridView gridViewNumbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
         GridView gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
+        heroNameView = (TextView) findViewById(R.id.heroNameView);
+        monsterNameView = (TextView) findViewById(R.id.monsterNameView);
+
+        heroNameView.setText(heroName);
+
+
 
         monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
 

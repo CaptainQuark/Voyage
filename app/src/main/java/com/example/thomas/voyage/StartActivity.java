@@ -119,6 +119,11 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
+    public void startCombatWhite(View view){
+        Intent i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+        startActivity(i);
+    }
+
     public boolean leftExpression(List<String> xList) {
 
         tv.setText(xList.get(3));
