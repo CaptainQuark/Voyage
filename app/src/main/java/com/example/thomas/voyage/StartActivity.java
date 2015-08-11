@@ -16,7 +16,7 @@ public class StartActivity extends Activity {
     private DBheroesAdapter heroesHelper;
     private DBmerchantHeroesAdapter merchantHelper;
     private final String IS_FIRST_RUN = "IS_FIRST_RUN";
-    private TextView textViewSlaveMarket;
+    private TextView textViewSlaveMarket, textViewHeroesParty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +29,10 @@ public class StartActivity extends Activity {
         isAppFirstStarted();
 
         textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
+        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
 
-        setSlaveMarketWindows();
+        setSlaveMarketWindow();
+        setHeroesPartyWindow();
 
         List<String> xList = new ArrayList<>();
         xList.add("IF");
@@ -69,7 +71,7 @@ public class StartActivity extends Activity {
         }
     }
 
-    public void setSlaveMarketWindows(){
+    public void setSlaveMarketWindow(){
         merchantHelper = new DBmerchantHeroesAdapter(this);
         int countNewHeroes = 0;
 
@@ -83,6 +85,26 @@ public class StartActivity extends Activity {
 
         if(countNewHeroes == 1) textViewSlaveMarket.setText("1 neuer Held");
         else textViewSlaveMarket.setText(countNewHeroes + " neue Helden");
+    }
+
+    public void setHeroesPartyWindow(){
+        long size = heroesHelper.getTaskCount();
+        long count = 0;
+
+        for(int i = 1; i <= size; i++){
+            if(!heroesHelper.getHeroName(i)
+                    .equals(getResources().getString(R.string.indicator_unused_row))){
+
+                count++;
+            }
+        }
+
+        if(count == size){
+            textViewHeroesParty.setText( "Volles Haus!");
+        }else{
+            textViewHeroesParty.setText( count + " / " + size + " belegt");
+        }
+
     }
 
     public long prepareHeroesDatabaseForGame(int rows) {

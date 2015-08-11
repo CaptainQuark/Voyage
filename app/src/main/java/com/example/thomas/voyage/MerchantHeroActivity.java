@@ -336,8 +336,8 @@ public class MerchantHeroActivity extends Activity {
             String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
             int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
 
-            if (getFreeSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
-                if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
+            if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
+                if (getFreeSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
 
                     if (currentMoneyInPocket >= costs) {
                         textView_buy.setText("$ " + costs);
@@ -349,19 +349,21 @@ public class MerchantHeroActivity extends Activity {
                         availableToBuy = false;
                     }
 
-                    heroDataLayout.setVisibility(View.VISIBLE);
-
-                    nameView.setText(name);
-                    costsView.setText(costs + "");
-                    primView.setText(classOne);
-                    secView.setText(classTwo);
-                    hitpointsView.setText(hitpoints + "");
 
                 } else {
-                    Message.message(this, "No Hero to buy");
+                    textView_buy.setText("X");
                 }
+
+                heroDataLayout.setVisibility(View.VISIBLE);
+
+                nameView.setText(name);
+                costsView.setText(costs + "");
+                primView.setText(classOne);
+                secView.setText(classTwo);
+                hitpointsView.setText(hitpoints + "");
+
             } else {
-                textView_buy.setText("X");
+                Message.message(this, "No Hero to buy");
             }
 
 
