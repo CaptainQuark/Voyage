@@ -20,7 +20,7 @@ public class HeroesPartyActivity extends Activity {
     private final int HEROES_IN_LISTVIEW = 10;
     private DBheroesAdapter heroesHelper;
     private long slotsInHeroesDatabase = 0;
-    private int selectedHero = -1;
+    private int selectedHeroIdFromDatabase = -1;
     private String origin = "";
 
     @Override
@@ -60,9 +60,7 @@ public class HeroesPartyActivity extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view,
                                         int position, long id) {
-                    String data = heroesHelper.getOneHeroRow(position + 1);
-
-                    Message.message(getApplicationContext(), data);
+                    selectedHeroIdFromDatabase = position + 1;
                 }
             });
         }
@@ -105,8 +103,8 @@ public class HeroesPartyActivity extends Activity {
                 break;
         }
 
-        if(heroesHelper.getTaskCount() > 0 || selectedHero > 0){
-            selectedHero = 1;
+        if(heroesHelper.getTaskCount() > 0 && selectedHeroIdFromDatabase > 0){
+            selectedHeroIdFromDatabase = 1;
             passHeroesParameterstoNewActivity(i);
         }else {
             Message.message(this, "No hero selected");
@@ -115,11 +113,11 @@ public class HeroesPartyActivity extends Activity {
 
     public void passHeroesParameterstoNewActivity(Intent i){
 
-        i.putExtra("HEROES_NAME", heroesHelper.getHeroName(selectedHero));
-        i.putExtra("HEROES_PRIMARY_CLASS", heroesHelper.getHeroPrimaryClass(selectedHero));
-        i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHero));
-        i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHero));
-        i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHero));
+        i.putExtra("HEROES_NAME", heroesHelper.getHeroName(selectedHeroIdFromDatabase));
+        i.putExtra("HEROES_PRIMARY_CLASS", heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase));
+        i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
+        i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
+        i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
 
         startActivity(i);
     }

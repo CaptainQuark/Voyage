@@ -130,7 +130,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#010101"
-                        android:text="FRIEDRICH VON STEIN" />
+                        android:textAllCaps="true"
+                        android:text="Bobo von Walnuss" />
                     <TextView
                         android:gravity="center_vertical|end|top"
                         android:paddingRight="20dp"
@@ -140,6 +141,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="#010101"
+                        android:textAllCaps="true"
                         android:text="MAGMAMEMMNON" />
 
                 </LinearLayout>
@@ -151,6 +153,7 @@
                     android:background="@android:color/black">
 
                     <TextView
+                        android:id="@+id/combat_events_log"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="20dp"
