@@ -119,7 +119,7 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void startCombatWhite(View view){
+    public void clickToPrepareCombat(View view){
         Intent i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
         startActivity(i);
     }

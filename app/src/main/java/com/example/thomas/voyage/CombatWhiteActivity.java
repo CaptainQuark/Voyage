@@ -1,5 +1,6 @@
 package com.example.thomas.voyage;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
@@ -9,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
-public class CombatWhiteActivity extends ActionBarActivity {
+public class CombatWhiteActivity extends Activity {
 
     private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "";
     private int heroHitpoints = -1, heroCosts  =-1;
@@ -19,6 +20,7 @@ public class CombatWhiteActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat_white);
+        hideSystemUI();
 
         heroProfile = (ImageView)findViewById(R.id.combat_white_hero_profile);
 
@@ -36,8 +38,8 @@ public class CombatWhiteActivity extends ActionBarActivity {
         }*/
     }
 
-    public void combatWhiteSelectHeroFromPool(View view){
-        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+    public void combatWhiteSelectHeroFromParty(View view){
+        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
         i.putExtra("ORIGIN", "CombatWhiteActivity");
         startActivity(i);
     }
@@ -54,4 +56,17 @@ public class CombatWhiteActivity extends ActionBarActivity {
         startActivity(i);
     }
 
+
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
 }
