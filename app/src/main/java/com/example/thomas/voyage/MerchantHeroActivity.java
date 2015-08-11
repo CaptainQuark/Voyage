@@ -25,6 +25,7 @@ public class MerchantHeroActivity extends Activity {
     ImageView merchantProfile;
     private String MERCHANT_ID = "merchantId";
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
+    private String origin = "";
     private ImageView textViewHero_0, textViewHero_1, textViewHero_2;
     private TextView debugView, buyHeroView, textView_current_money, textView_available_slots, textView_buy, tag1, tag2, tag3;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
@@ -35,9 +36,13 @@ public class MerchantHeroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_hero);
-
         hideSystemUI();
         dBmerchantHeroesAdapter = new DBmerchantHeroesAdapter(this);
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            origin = b.getString("ORIGIN", "StartActivity");
+        }
 
         debugView = (TextView) findViewById(R.id.debug_merchant_hero_textView);
         buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
@@ -237,8 +242,16 @@ public class MerchantHeroActivity extends Activity {
     }
 
     public void merchantHeroesBackbuttonPressed(View view) {
-        onBackPressed();
-        finish();
+
+        if(origin.equals("HeroesPartyActivity")){
+            Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+            startActivity(i);
+            finish();
+
+        }else {
+            onBackPressed();
+            finish();
+        }
     }
 
     public void goFromMerchantToHeroesParty(View view) {
@@ -249,6 +262,7 @@ public class MerchantHeroActivity extends Activity {
     public void resetCurrentMoney(View view) {
         setCurrentMoney(getCurrentMoney() + 3000);
         textView_current_money.setText("$ " + getCurrentMoney());
+        processSelectedHero(currentMerchantId);
     }
 
     public void buyHero(View view) {

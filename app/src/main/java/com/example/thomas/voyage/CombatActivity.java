@@ -31,7 +31,8 @@ public class CombatActivity extends Activity {
     private static String finishMultiplier = "UniversalSingle",
             FinishMultiplier1 = "UniversalSingle",
             finishMultiplier2 = "UniversalSingle",
-            finishMultiplier3 = "UniversalSingle";
+            finishMultiplier3 = "UniversalSingle",
+            image = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static TextView monsterHealthView,
             heroHealthView,
@@ -41,7 +42,8 @@ public class CombatActivity extends Activity {
     private static ImageView healthbarMonsterVital,
             healthBarMonsterDamaged,
             healthBarHeroVital,
-            healthBarHeroDamaged;
+            healthBarHeroDamaged,
+            heroProfileView;
     private static List<Integer> undoListForHero;
     private static LinearLayout.LayoutParams paramsBarMonsterDamaged,
             paramsBarMonsterVital,
@@ -68,7 +70,7 @@ public class CombatActivity extends Activity {
             heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
             heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
             heroCosts= b.getInt("HEROES_COSTS", -1);
-
+            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
         }
 
         undoListForHero = new ArrayList<>();
@@ -116,6 +118,9 @@ public class CombatActivity extends Activity {
 
         gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
         gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
+
+        heroProfileView = (ImageView)findViewById(R.id.combat_hero_profile);
+        heroProfileView.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
     }
 
     private static void setHealthBar() {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.thomas.voyage.R;
 
@@ -16,7 +17,7 @@ public class ScreenSlidePageFragment extends android.support.v4.app.Fragment {
         ViewGroup rootView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_screen_slide_page, container, false);
 
-        ImageView pager = (ImageView) rootView.findViewById(R.id.pager);
+        TextView pager = (TextView) rootView.findViewById(R.id.pager);
 
 
         int index = getArguments().getInt("INDEX", 0);

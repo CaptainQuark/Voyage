@@ -8,7 +8,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
 
@@ -16,21 +18,24 @@ import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
 public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     private static final int NUM_PAGES = 3;
-
     /**
      * The pager widget, which handles animation and allows swiping horizontally to access previous
      * and next wizard steps.
      */
     private ViewPager mPager;
-
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
     private PagerAdapter mPagerAdapter;
-
-    private String image = "R.id.hero_dummy_0", heroName = "NOT_USED", primClass = "", secClass = "";
+    private ImageView heroProfile;
+    private TextView goInCombat;
+    private String image = "R.id.hero_dummy_0", heroName = "", primClass = "", secClass = "";
     private int hitpoints = -1, costs = -1;
     private int[] difficulty;
+    private boolean firstCheck = false, secondCheck = false;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +48,26 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         Bundle b = getIntent().getExtras();
         if(b != null){
             image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
-            heroName = b.getString("HEROES_NAME", "NOT_USED");
+            heroName = b.getString("HEROES_NAME", "");
             primClass = b.getString("HEROES_PRIMARY_CLASS", "");
             secClass = b.getString("HEROES_SECONDARY_CLASS", "");
             hitpoints = b.getInt("HEROES_HITPOINTS", -1);
             costs = b.getInt("HEROES_COSTS", -1);
+
+            heroProfile = (ImageView)findViewById(R.id.worldmap_imageView_hero_profile);
+            heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
+            heroProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
+
+        TextView heroProfile = (TextView) findViewById(R.id.worldmap_textView_hero_name);
+        heroProfile.setText(heroName);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        goInCombat = (TextView)findViewById(R.id.worldmap_textView_go_in_combat);
     }
 
     public void WorldMapBackbuttonPressed(View view) {
@@ -115,41 +129,48 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
         boolean checked = ((RadioButton) view).isChecked();
 
-
         switch(view.getId()) {
             case R.id.radioButton_heavy_0:
                 if (checked){
                     difficulty[0] = 1;
+                    firstCheck = true;
                 }
                     break;
             case R.id.radioButton_heavy_1:
                 if (checked){
                     difficulty[0] = 2;
+                    firstCheck = true;
                 }
                     break;
             case R.id.radioButton_heavy_2:
                 if (checked){
                     difficulty[0] = 3;
+                    firstCheck = true;
                 }
                     break;
             case R.id.radioButton_length_0:
                 if (checked){
                     difficulty[1] = 1;
+                    secondCheck = true;
                 }
                     break;
             case R.id.radioButton_length_1:
                 if (checked){
                     difficulty[1] = 2;
+                    firstCheck = true;
                 }
                     break;
             case R.id.radioButton_lenght_2:
                 if (checked){
                     difficulty[1] = 3;
+                    firstCheck = true;
                 }
                     break;
-                default: Message.message(this, "ERROR @ radioButtonClicked");
-
+                default:
+                    Message.message(this, "ERROR @ radioButtonClicked");
         }
+
+        if(firstCheck && secondCheck) goInCombat.setVisibility(View.VISIBLE);
     }
 
     /**

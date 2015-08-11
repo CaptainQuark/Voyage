@@ -123,6 +123,7 @@ public class StartActivity extends Activity {
 
     public void clickToHeroesPartyActivity(View view) {
         Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        i.putExtra("ORIGIN", "StartActivity");
         startActivity(i);
     }
 

@@ -115,6 +115,7 @@ public class HeroesPartyActivity extends Activity {
     public void buyHeroFromMerchant(View view){
         Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
         startActivity(i);
+        finish();
     }
 
     public void commitToQuest(View view){
@@ -122,13 +123,6 @@ public class HeroesPartyActivity extends Activity {
         Intent i;
 
         switch (origin){
-            case "MerchantHeroActivity":
-                i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
-                passHeroesParameterstoNewActivity(i);
-                startActivity(i);
-                finish();
-                break;
-
             case "CombatWhiteActivity":
                 i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
                 passHeroesParameterstoNewActivity(i);
@@ -137,7 +131,7 @@ public class HeroesPartyActivity extends Activity {
                 break;
 
             case "WorldMapQuickCombatActivity":
-                i = new Intent(getApplicationContext(), CombatActivity.class);
+                i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
                 passHeroesParameterstoNewActivity(i);
                 startActivity(i);
                 finish();
@@ -145,6 +139,9 @@ public class HeroesPartyActivity extends Activity {
 
             default:
                 i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+                passHeroesParameterstoNewActivity(i);
+                startActivity(i);
+                finish();
                 break;
         }
 
@@ -158,12 +155,25 @@ public class HeroesPartyActivity extends Activity {
 
     public void passHeroesParameterstoNewActivity(Intent i){
 
-        i.putExtra("HEROES_NAME", heroesHelper.getHeroName(selectedHeroIdFromDatabase));
-        i.putExtra("HEROES_PRIMARY_CLASS", heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase));
-        i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
-        i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
-        i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
-        i.putExtra("IMAGE_RESOURCE", heroesHelper.getHeroImageResource(selectedHeroIdFromDatabase));
+
+
+        if(selectedHeroIdFromDatabase == -1){
+
+             /*
+
+             Um die Funktion nutzen zu können, muss ein Held ausgewählt sein -> für Kämpfe gedacht
+
+            */
+
+            i.putExtra("HEROES_NAME", heroesHelper.getHeroName(selectedHeroIdFromDatabase));
+            i.putExtra("HEROES_PRIMARY_CLASS", heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase));
+            i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
+            i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
+            i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
+            i.putExtra("IMAGE_RESOURCE", heroesHelper.getHeroImageResource(selectedHeroIdFromDatabase));
+        }
+
+        i.putExtra("ORIGIN", "HeroesPartyActivity");
     }
 
     public void heroesPartyBackbuttonPressed(View view) {
