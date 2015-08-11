@@ -14,18 +14,23 @@ import java.util.List;
 public class StartActivity extends Activity {
 
     private DBheroesAdapter heroesHelper;
+    private DBmerchantHeroesAdapter merchantHelper;
     private final String IS_FIRST_RUN = "IS_FIRST_RUN";
-    private TextView tv;
+    private TextView textViewSlaveMarket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         hideSystemUI();
+
         heroesHelper = new DBheroesAdapter(this);
+
         isAppFirstStarted();
 
-        tv = (TextView) findViewById(R.id.start_textView_slave_market);
+        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
+
+        setSlaveMarketWindows();
 
         List<String> xList = new ArrayList<>();
         xList.add("IF");
@@ -48,7 +53,7 @@ public class StartActivity extends Activity {
 
         if (isFirstRun) {
             Message.message(this, "'isFirstRun' called");
-            long validation = freshInsertToHeroesDatabase(10);
+            long validation = prepareHeroesDatabaseForGame(10);
             if (validation < 0) {
                 Message.message(this, "ERROR @ insertToHeroesDatabase");
             }
@@ -64,7 +69,23 @@ public class StartActivity extends Activity {
         }
     }
 
-    public long freshInsertToHeroesDatabase(int rows) {
+    public void setSlaveMarketWindows(){
+        merchantHelper = new DBmerchantHeroesAdapter(this);
+        int countNewHeroes = 0;
+
+        for(int i = 1; i <= merchantHelper.getTaskCount(); i++){
+            if( !(merchantHelper.getHeroName(i)
+                    .equals(getResources().getString(R.string.indicator_unused_row))) ){
+
+                countNewHeroes++;
+            }
+        }
+
+        if(countNewHeroes == 1) textViewSlaveMarket.setText("1 neuer Held");
+        else textViewSlaveMarket.setText(countNewHeroes + " neue Helden");
+    }
+
+    public long prepareHeroesDatabaseForGame(int rows) {
 
         long validation = 0;
 
@@ -72,7 +93,7 @@ public class StartActivity extends Activity {
             validation = heroesHelper.insertData("NOT_USED", 0, "", "", 0, "");
 
             /*if(validation < 0){
-                Toast.makeText(this, "ERROR @ freshInsertToHeroesDatabase with index " + i, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "ERROR @ prepareHeroesDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
             }*/
 
             if (i == 1 && validation > 0)
@@ -134,7 +155,7 @@ public class StartActivity extends Activity {
 
     public boolean leftExpression(List<String> xList) {
 
-        tv.setText(xList.get(3));
+        textViewSlaveMarket.setText(xList.get(3));
 
         return false;
     }

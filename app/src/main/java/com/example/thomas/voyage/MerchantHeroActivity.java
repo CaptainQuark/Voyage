@@ -241,7 +241,7 @@ public class MerchantHeroActivity extends Activity {
         fillTextViewHeros(3);
     }
 
-    public void merchantHeroesBackbuttonPressed(View view) {
+    public void merchantHerosBackbuttonPressed(View view) {
 
         if(origin.equals("HeroesPartyActivity")){
             Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
