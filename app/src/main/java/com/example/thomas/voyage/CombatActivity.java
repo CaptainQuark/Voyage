@@ -27,7 +27,7 @@ public class CombatActivity extends Activity {
             dartCount = 1;
     private static String finishMultiplier = "UniversalSingle", FinishMultiplier1 = "UniversalSingle",finishMultiplier2 = "UniversalSingle",finishMultiplier3 = "UniversalSingle";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
-    private static TextView monsterHealthView, heroHealthView, heroNameView, monsterNameView;
+    private static TextView monsterHealthView, heroHealthView, heroNameView, monsterNameView, eventsView;
     private static ImageView healthbarMonsterVital, healthBarMonsterDamaged, healthBarHeroVital, healthBarHeroDamaged;
     private static List<Integer> undoListForHero;
     private static LinearLayout.LayoutParams paramsBarMonsterDamaged, paramsBarMonsterVital, paramsBarHeroDamaged, paramsBarHeroVital;
@@ -69,6 +69,7 @@ public class CombatActivity extends Activity {
         GridView gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
         heroNameView = (TextView) findViewById(R.id.heroNameView);
         monsterNameView = (TextView) findViewById(R.id.monsterNameView);
+        eventsView = (TextView) findViewById(R.id.combat_events_log);
 
         heroNameView.setText(heroName);
 
@@ -102,12 +103,18 @@ public class CombatActivity extends Activity {
     private static void setHealthBar() {
 
         try {
-            if ((undoListForHero.get(undoListForHero.size() - 1)) < monsterHealth) {
+            if (monsterHealth > 0) {
+
+                float x = monsterHealthConst * (float) 0.01;
+
+                float weightRounded = monsterHealth / x * (float) 0.01;
+
                 monsterHealthView.setText(monsterHealth + "");
-                paramsBarMonsterDamaged.weight = (float) 1 / (monsterHealth / (undoListForHero.get(undoListForHero.size() - 1)));
-                paramsBarMonsterVital.weight = (float) (1 / (monsterHealthConst / monsterHealth));
+                paramsBarMonsterDamaged.weight = 1 - weightRounded;
+                paramsBarMonsterVital.weight = weightRounded;
                 healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
                 healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+
             } else {
                 paramsBarMonsterDamaged.weight = 1.0f;
                 paramsBarMonsterVital.weight = 0f;
@@ -182,11 +189,6 @@ public class CombatActivity extends Activity {
 
                 @Override
                 public void onClick(View v) {
-                    /*
-                    lastSelectedPosition = currentSelectedPosition;
-                    currentSelectedPosition = position;*/
-
-                    //holder.tv.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
 
                     if (dartCount == 1) {
                         scoreMultiplier1 = scoreMultiplier;
@@ -200,7 +202,8 @@ public class CombatActivity extends Activity {
                         scoreMultiplier3 = scoreMultiplier;
                         scoreField3 = result[position];
                         dartCount = 1;
-                        monsterHealth -= scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3;
+
+                        monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
 
                         undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
                         setHealthBar();
@@ -272,7 +275,6 @@ public class CombatActivity extends Activity {
                         cellView.setSelected(false);
                         cellView.postInvalidate();
                     }
-
 
                     selectedCellPosition = position;
 
