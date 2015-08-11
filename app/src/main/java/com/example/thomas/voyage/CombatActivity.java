@@ -3,6 +3,8 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -290,8 +292,11 @@ public class CombatActivity extends Activity {
             View rowView = convertView;
 
             if(rowView == null){
-                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-                holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
+
+                        rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
+                        holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
+
+
                 holder.tv.setText(iconArray[position]);
             }
 
@@ -357,6 +362,8 @@ public class CombatActivity extends Activity {
 
 
 // CODE 2 LEARN
+
+// MODULUS BEI GRIDVIEW, BESTIMMTE ELEMENT ZU MARKIEREN
 /*if ((((result[position] - posCorrectionModFive) % (5 * (posCorrectionModFive + 1)) == 0))) {
 
                 posCorrectionModFive++;

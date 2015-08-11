@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/gridView_combat_right_panel_textView"
         android:layout_width="match_parent"
-        android:layout_height="59dp"
+        android:layout_height="60dp"
         android:gravity="center"
         android:textSize="16sp"
         android:textColor="@android:color/white"
