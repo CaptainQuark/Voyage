@@ -13,6 +13,7 @@ import java.util.List;
 
 public class StartActivity extends Activity {
 
+    private DBheroesAdapter heroesHelper;
     private final String IS_FIRST_RUN = "IS_FIRST_RUN";
     private TextView tv;
 
@@ -21,6 +22,7 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         hideSystemUI();
+        heroesHelper = new DBheroesAdapter(this);
         isAppFirstStarted();
 
         tv = (TextView) findViewById(R.id.start_textView_slave_market);
@@ -63,13 +65,17 @@ public class StartActivity extends Activity {
     }
 
     public long freshInsertToHeroesDatabase(int rows) {
-        DBheroesAdapter dBheroesAdapter = new DBheroesAdapter(this);
 
         long validation = 0;
 
         for (int i = rows; i > 0; i--) {
-            validation = dBheroesAdapter.insertData(this.getString(R.string.indicator_unused_row), 0, "", "", 0);
-            if (i == 1)
+            validation = heroesHelper.insertData("NOT_USED", 0, "", "", 0, "");
+
+            /*if(validation < 0){
+                Toast.makeText(this, "ERROR @ freshInsertToHeroesDatabase with index " + i, Toast.LENGTH_SHORT).show();
+            }*/
+
+            if (i == 1 && validation > 0)
                 Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
         }
 
@@ -82,7 +88,7 @@ public class StartActivity extends Activity {
         long id = 0;
 
         for (int i = 0; i < numberOfInserts; i++) {
-            herosList.add(new Hero());
+            herosList.add(new Hero(this));
             herosList.get(i).Initialize("Everywhere");
 
             // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
@@ -91,7 +97,8 @@ public class StartActivity extends Activity {
                     herosList.get(i).getInts("hitpoints"),
                     herosList.get(i).getStrings("classPrimary"),
                     herosList.get(i).getStrings("classSecondary"),
-                    herosList.get(i).getInts("costs"));
+                    herosList.get(i).getInts("costs"),
+                    herosList.get(i).getStrings("imageResource"));
 
             if (id < 0) Message.message(this, "ERROR @ insert of hero " + i + 1);
         }

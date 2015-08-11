@@ -9,5 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="277dp"
         android:divider="#00000000"
-        android:scaleType="centerCrop" />
+        android:src="@android:drawable/ic_menu_add"
+        android:scaleType="centerInside" />
 </LinearLayout>

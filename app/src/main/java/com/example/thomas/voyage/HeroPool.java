@@ -8,6 +8,8 @@ import java.util.List;
 
 public class HeroPool {
 
+    Context context;
+
     private static String name;
     private static String pClass;       //Primärklasse
     private static String sClass;       //Sekundärklasse
@@ -19,6 +21,10 @@ public class HeroPool {
     private static int costsBase;       //Kosten des Primärklassenbausteins
     private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
     ArrayList<String> biomes = new ArrayList<String>();
+
+    public HeroPool(Context con){
+        context = con;
+    }
 
     public static String setName(){                     //Zufälliger Namens-Generator
 
@@ -281,5 +287,9 @@ public class HeroPool {
     public int getCosts() {
         costs = (int) (costsBase * costsMultiplier);
         return costs;
+    }
+
+    public String getImageResource(){
+        return context.getResources().getString(R.string.indicator_unused_row);
     }
 }

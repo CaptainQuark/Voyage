@@ -20,15 +20,18 @@ public class DBheroesAdapter {
         context1 = context;
     }
 
-    public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs) {
+    public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs, String image) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
+
         ContentValues contentValues = new ContentValues();
+
         contentValues.put(DBheroesHelper.NAME, name);
         contentValues.put(DBheroesHelper.HITPOINTS, hitpoints);
         contentValues.put(DBheroesHelper.CLASS_ONE, classOne);
         contentValues.put(DBheroesHelper.CLASS_TWO, classTwo);
         contentValues.put(DBheroesHelper.COSTS, costs);
+        contentValues.put(DBheroesHelper.IMAGE_RESOURCE, image);
 
         long id = db.insert(DBheroesHelper.TABLE_NAME, null, contentValues);
         db.close();
@@ -47,7 +50,14 @@ public class DBheroesAdapter {
         SQLiteDatabase db = helper.getReadableDatabase();
         //helper.get... = sql database object das database repräsentiert
 
-        String[] columns = {DBheroesHelper.UID, DBheroesHelper.NAME, DBheroesHelper.HITPOINTS, DBheroesHelper.CLASS_ONE, DBheroesHelper.CLASS_TWO, DBheroesHelper.COSTS};
+        String[] columns = {
+                DBheroesHelper.UID,
+                DBheroesHelper.NAME,
+                DBheroesHelper.HITPOINTS,
+                DBheroesHelper.CLASS_ONE,
+                DBheroesHelper.CLASS_TWO,
+                DBheroesHelper.COSTS,
+                DBheroesHelper.IMAGE_RESOURCE};
         //Spalten für db.query Abfrage
 
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, null, null, null, null, null);
@@ -64,6 +74,7 @@ public class DBheroesAdapter {
         int indexClassOne = cursor.getColumnIndex(DBheroesHelper.CLASS_ONE);
         int indexClassTwo = cursor.getColumnIndex(DBheroesHelper.CLASS_TWO);
         int indexCosts = cursor.getColumnIndex(DBheroesHelper.COSTS);
+        int indexImage = cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE);
 
         while(cursor.moveToNext()){
 
@@ -73,8 +84,9 @@ public class DBheroesAdapter {
             String classOne = cursor.getString(indexClassOne);
             String classTwo = cursor.getString(indexClassTwo);
             int costs = cursor.getInt(indexCosts);
+            String image = cursor.getString(indexImage);
 
-            buffer.append(cid + " " + name + " " + hitpoints + " " + classOne + " " + classTwo + "\n" + costs);
+            buffer.append(cid + " " + name + " " + hitpoints + " " + classOne + " " + classTwo + "\n" + costs + "\n" + image);
         }
 
         cursor.close();
@@ -84,7 +96,15 @@ public class DBheroesAdapter {
     public String getOneHeroRow(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String[] columns = {DBheroesHelper.UID, DBheroesHelper.NAME, DBheroesHelper.HITPOINTS, DBheroesHelper.CLASS_ONE, DBheroesHelper.CLASS_TWO, DBheroesHelper.COSTS};
+        String[] columns = {
+                DBheroesHelper.UID,
+                DBheroesHelper.NAME,
+                DBheroesHelper.HITPOINTS,
+                DBheroesHelper.CLASS_ONE,
+                DBheroesHelper.CLASS_TWO,
+                DBheroesHelper.COSTS,
+                DBheroesHelper.IMAGE_RESOURCE};
+
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
@@ -101,6 +121,7 @@ public class DBheroesAdapter {
             int indexClassOne = cursor.getColumnIndex(DBheroesHelper.CLASS_ONE);
             int indexClassTwo = cursor.getColumnIndex(DBheroesHelper.CLASS_TWO);
             int indexCosts = cursor.getColumnIndex(DBheroesHelper.COSTS);
+            int indexImage = cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE);
 
             int cid = cursor.getInt(indexUID);
             String name = cursor.getString(indexName);
@@ -108,11 +129,16 @@ public class DBheroesAdapter {
             String classOne = cursor.getString(indexClassOne);
             String classTwo = cursor.getString(indexClassTwo);
             int costs = cursor.getInt(indexCosts);
+            String image = cursor.getString(indexImage);
 
-            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs);
+            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs + "\n" + image);
+
         } catch (SQLiteException e) {
+
             Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+
         } catch (NullPointerException n) {
+
             Message.message(context1, "ERROR @ getOneHeroRow with exception: " + n);
         }
 
@@ -245,7 +271,32 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int updateRow(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs) {
+    public String getHeroImageResource(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.IMAGE_RESOURCE};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String value = "";
+
+        try {
+            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroImageResource with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public int updateRow(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -254,6 +305,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.CLASS_ONE, primaryClass);
         cv.put(DBheroesHelper.CLASS_TWO, secondaryClass);
         cv.put(DBheroesHelper.COSTS, costs);
+        cv.put(DBheroesHelper.IMAGE_RESOURCE, image);
 
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
@@ -261,7 +313,6 @@ public class DBheroesAdapter {
         db.close();
 
         return validation;
-
     }
 
     static class DBheroesHelper extends SQLiteOpenHelper{
@@ -274,6 +325,7 @@ public class DBheroesAdapter {
         private static final String CLASS_ONE = "ClasstypeOne";
         private static final String CLASS_TWO = "ClasstypeSecondary";
         private static final String COSTS = "Costs";
+        private static final String IMAGE_RESOURCE = "ImageRessource";
             // hier Spalten deklarieren, die für Helden benötigt werden
             // -> diese dann in CREATE_TABLE unterhalb einfügen
 
@@ -283,7 +335,8 @@ public class DBheroesAdapter {
                 + HITPOINTS + " INT, "
                 + CLASS_ONE + " VARCHAR(255), "
                 + CLASS_TWO + " VARCHAR(255), "
-                + COSTS + " INT);";
+                + COSTS + " INT, "
+                + IMAGE_RESOURCE + " VARCHAR(255));";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;

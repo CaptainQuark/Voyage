@@ -161,7 +161,7 @@ public class MerchantHeroActivity extends Activity {
         long id = 0;
 
         for (int i = 0; i < numberOfInserts; i++) {
-            herosList.add(new Hero());
+            herosList.add(new Hero(this));
             herosList.get(i).Initialize("Everywhere");
 
             // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
@@ -171,7 +171,8 @@ public class MerchantHeroActivity extends Activity {
                     herosList.get(i).getInts("hitpoints"),
                     herosList.get(i).getStrings("classPrimary"),
                     herosList.get(i).getStrings("classSecondary"),
-                    herosList.get(i).getInts("costs"));
+                    herosList.get(i).getInts("costs"),
+                    herosList.get(i).getStrings("imageResource"));
 
             if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
         }
@@ -228,7 +229,7 @@ public class MerchantHeroActivity extends Activity {
         fillTextViewHeros(3);
     }
 
-    public void merchantHerosBackbuttonPressed(View view) {
+    public void merchantHeroesBackbuttonPressed(View view) {
         onBackPressed();
         finish();
     }
@@ -251,12 +252,14 @@ public class MerchantHeroActivity extends Activity {
             String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
             String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
             int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
+            String imageResource = dBmerchantHeroesAdapter.getHeroImageRessource(currentSelectedHeroId);
 
             DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
 
             for (int i = 1; i <= 10; i++) {
 
-                int updateValidation = heroesAdapter.updateRow(i, name, hitpoints, classOne, classTwo, costs);
+                int updateValidation = heroesAdapter.updateRow(i, name, hitpoints, classOne, classTwo, costs, imageResource);
+
                 if (updateValidation > 0) {
 
                     // wenn updateValidation speichert Rückgabewert von '.updateRow' -> wenn -1, dann nicht erfolgreich
