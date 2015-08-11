@@ -18,8 +18,9 @@ import java.util.ArrayList;
 public class HeroesPartyActivity extends Activity {
 
     private final int HEROES_IN_LISTVIEW = 10;
-    private TextView nameView, classesView, costsView;
+    private TextView nameView, classesView, costsView, textView_slots;
     private DBheroesAdapter heroesHelper;
+    private ListView listview;
     private long slotsInHeroesDatabase = 0;
     private int selectedHeroIdFromDatabase = -1;
     private String origin = "";
@@ -40,10 +41,11 @@ public class HeroesPartyActivity extends Activity {
         classesView = (TextView)findViewById(R.id.textView_party_classes);
         costsView = (TextView)findViewById(R.id.textView_party_costs);
 
-        final TextView textView_slots = (TextView) findViewById(R.id.hero_size_display);
+        textView_slots = (TextView) findViewById(R.id.hero_size_display);
         textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
 
-        final ListView listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
+        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
+        //listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
         String[] values = new String[HEROES_IN_LISTVIEW];
         for (int i = 1; i <= HEROES_IN_LISTVIEW; i++) {
             values[i - 1] = i + "";
@@ -99,6 +101,15 @@ public class HeroesPartyActivity extends Activity {
         }
 
         return countUsed;
+    }
+
+    public void heroesPartyDismissHero(View view){
+
+        if(heroesHelper.getHeroName(selectedHeroIdFromDatabase) != "NOT_USED"){
+            heroesHelper.markOneRowAsUnused(selectedHeroIdFromDatabase);
+            listview.invalidateViews();
+            textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+        }
     }
 
     public void buyHeroFromMerchant(View view){

@@ -258,11 +258,11 @@ public class MerchantHeroActivity extends Activity {
 
             for (int i = 1; i <= 10; i++) {
 
-                int updateValidation = heroesAdapter.updateRow(i, name, hitpoints, classOne, classTwo, costs, imageResource);
+                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource);
 
                 if (updateValidation > 0) {
 
-                    // wenn updateValidation speichert Rückgabewert von '.updateRow' -> wenn -1, dann nicht erfolgreich
+                    // wenn updateValidation speichert Rückgabewert von '.updateRowWithHeroData' -> wenn -1, dann nicht erfolgreich
 
                     Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
                     if (i == 10) {

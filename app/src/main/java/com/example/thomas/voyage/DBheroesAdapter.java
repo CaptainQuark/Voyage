@@ -296,9 +296,10 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int updateRow(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image) {
+    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
+
         ContentValues cv = new ContentValues();
         cv.put(DBheroesHelper.NAME, name);
         cv.put(DBheroesHelper.HITPOINTS, hitpoints);
@@ -310,6 +311,26 @@ public class DBheroesAdapter {
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
         int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=? AND " + DBheroesHelper.NAME + "=?", whereArgs);
+        db.close();
+
+        return validation;
+    }
+
+    public int markOneRowAsUnused(int id){
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(DBheroesHelper.NAME, context1.getResources().getString(R.string.indicator_unused_row));
+        cv.put(DBheroesHelper.HITPOINTS, 0);
+        cv.put(DBheroesHelper.CLASS_ONE, "");
+        cv.put(DBheroesHelper.CLASS_TWO, "");
+        cv.put(DBheroesHelper.COSTS, 0);
+        cv.put(DBheroesHelper.IMAGE_RESOURCE, context1.getResources().getString(R.string.indicator_unused_row));
+
+        String[] whereArgs = {Integer.toString(id)};
+
+        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=?", whereArgs);
         db.close();
 
         return validation;

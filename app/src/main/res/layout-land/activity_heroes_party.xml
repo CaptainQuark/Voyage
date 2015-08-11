@@ -109,6 +109,7 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:onClick="heroesPartyDismissHero"
                     android:id="@+id/hero_dismiss"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
