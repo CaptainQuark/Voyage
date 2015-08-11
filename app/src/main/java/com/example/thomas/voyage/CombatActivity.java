@@ -3,28 +3,56 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CombatActivity extends Activity {
 
-    private static int monsterHealth = 500;
-    private static int scoreMultiplier = 1, scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1;
+    private static final int monsterHealthConst = 301;
+    private static boolean gridInitialized = true;
+    private static int monsterHealth = 301,
+            scoreMultiplier = 1, scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1,
+            scoreField1 = 0,scoreField2 = 0,scoreField3 = 0,
+            dartCount = 1;
     private static String finishMultiplier = "UniversalSingle", FinishMultiplier1 = "UniversalSingle",finishMultiplier2 = "UniversalSingle",finishMultiplier3 = "UniversalSingle";
-    private static int scoreField1 = 0,scoreField2 = 0,scoreField3 = 0,  dartCount = 1;
-    private static TextView monsterHealthView;
+    private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
+    private static TextView monsterHealthView, heroHealthView;
+    private static ImageView healthbarMonsterVital, healthBarMonsterDamaged, healthBarHeroVital, healthBarHeroDamaged;
+    private static List<Integer> undoListForHero;
+    private static LinearLayout.LayoutParams paramsBarMonsterDamaged, paramsBarMonsterVital, paramsBarHeroDamaged, paramsBarHeroVital;
+    DBheroesAdapter heroesHelper;
+    private String heroesName, heroesPrimaryClass, heroesSecondaryClass;
+    private int heroesHitpoints, heroesCosts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
         hideSystemUI();
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            heroesName = b.getString("HEROES_NAME", "???");
+            heroesPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
+            heroesSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
+            heroesHitpoints = b.getInt("HEROES_HITPOINTS", -1);
+            heroesCosts = b.getInt("HEROES_COSTS", -1);
+        }else{
+            //TODO lade Vorstufe von Combats XML zur Heldenauswahl
+        }
+
+        undoListForHero = new ArrayList<>();
 
         int[] numbersOfBoardList = new int[20];
         for (int i = 0; i < 20; i++) {
@@ -35,22 +63,65 @@ public class CombatActivity extends Activity {
         for (int i = 0; i < 10; i++){
             specialSymbolsList[i] = i+1 ;
         }
-        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
-        GridView gridViewNumnbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
+
+        GridView gridViewNumbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
         GridView gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
-        gridViewNumnbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
+
+        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
+
+        healthbarMonsterVital = (ImageView) findViewById(R.id.healthbar_monster_vital);
+        healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
+        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
+        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
+
+        heroHealthView = (TextView) findViewById(R.id.heroHealthView);
+
+        healthBarHeroVital = (ImageView) findViewById(R.id.healthbar_hero_vital);
+        healthBarHeroDamaged = (ImageView) findViewById(R.id.healthbar_hero_damaged);
+        paramsBarHeroDamaged = (LinearLayout.LayoutParams) healthBarHeroDamaged.getLayoutParams();
+        paramsBarHeroVital = (LinearLayout.LayoutParams) healthBarHeroVital.getLayoutParams();
+
+        paramsBarMonsterDamaged.weight = 0.0f;
+        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+
+
+        paramsBarHeroDamaged.weight = 0.0f;
+        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+
+        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
         gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
+    }
+
+    private static void setHealthBar() {
+
+        try {
+            if ((undoListForHero.get(undoListForHero.size() - 1)) < monsterHealth) {
+                monsterHealthView.setText(monsterHealth + "");
+                paramsBarMonsterDamaged.weight = (float) 1 / (monsterHealth / (undoListForHero.get(undoListForHero.size() - 1)));
+                paramsBarMonsterVital.weight = (float) (1 / (monsterHealthConst / monsterHealth));
+                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+            } else {
+                paramsBarMonsterDamaged.weight = 1.0f;
+                paramsBarMonsterVital.weight = 0f;
+                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+                monsterHealthView.setText("DU GEWINNER!");
+                monsterHealth = 301;
+            }
+        } catch (ArithmeticException a) {
+            Log.e("ARITHMETICH EXCEPTION", a + "");
+        }
+
     }
 
     public void activityCombatBackToMain(View view) {
         Intent i = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(i);
+        finish();
     }
 
     private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -96,16 +167,17 @@ public class CombatActivity extends Activity {
             final Holder holder = new Holder();
             View rowView;
 
-                rowView = inflater.inflate(R.layout.gridview_combat_left_panel, null);
-                holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
-                holder.tv.setText(result[position] + "");
+            rowView = inflater.inflate(R.layout.gridview_combat_left_panel, null);
+            holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
+            holder.tv.setText(result[position] + "");
 
             rowView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
+                    /*
                     lastSelectedPosition = currentSelectedPosition;
-                    currentSelectedPosition = position;
+                    currentSelectedPosition = position;*/
 
                     //holder.tv.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
 
@@ -122,15 +194,16 @@ public class CombatActivity extends Activity {
                         scoreField3 = result[position];
                         dartCount = 1;
                         monsterHealth -= scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3;
+
+                        undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+                        setHealthBar();
                     }
-
-                    monsterHealthView.setText(monsterHealth + "");
-
                 }
             });
 
             return rowView;
         }
+
         public class Holder {
             TextView tv;
         }
@@ -141,7 +214,7 @@ public class CombatActivity extends Activity {
         int[] result;
         Context context;
         private LayoutInflater inflater = null;
-        private int selectedCellPosition = -1;
+        private int selectedCellPosition = 0;
 
 
         public RightPanelAdapter(CombatActivity combatActivity, int[] list) {
@@ -171,32 +244,46 @@ public class CombatActivity extends Activity {
         public View getView(final int position, final View convertView, final ViewGroup parent) {
 
             final Holder holder = new Holder();
-            final View rowView;
-            String[] iconArray = {"X 1", "2", "X 2", "4", "X 3", "6", "7", "8", "9", "10"};
+            View rowView = convertView;
 
-            rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-            holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
-            holder.tv.setText(iconArray[position]);
+            if(rowView == null){
+                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
+                holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
+                holder.tv.setText(iconArray[position]);
+            }
 
             rowView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    rowView.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
+                    //rowView.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
 
-                    if(selectedCellPosition != -1){
+                    v.setSelected(true);
+
+                    if (selectedCellPosition != -1) {
                         View cellView = parent.getChildAt(selectedCellPosition);
-                        cellView.setBackgroundColor(Color.BLACK);
+                        cellView.setSelected(false);
                         cellView.postInvalidate();
                     }
 
+
                     selectedCellPosition = position;
 
-                    switch(position){
+                    switch (position) {
                         case 0:
                             scoreMultiplier = 1;
                             break;
                         case 1:
+                            int size = undoListForHero.size();
+
+                            if (size > 0) {
+                                v.setSelected(false);
+                                v.postInvalidate();
+                                monsterHealth += undoListForHero.get(size - 1);
+                                setHealthBar();
+                                undoListForHero.remove(size - 1);
+                                monsterHealthView.setText(Integer.toString(monsterHealth));
+                            }
                             break;
                         case 2:
                             scoreMultiplier = 2;
@@ -216,7 +303,8 @@ public class CombatActivity extends Activity {
                             break;
                         case 9:
                             break;
-                        default: holder.tv.setText(":(");
+                        default:
+                            holder.tv.setText(":(");
                     }
                 }
             });
@@ -237,7 +325,7 @@ public class CombatActivity extends Activity {
 
 
 // CODE 2 LEARN
-            /*if ((((result[position] - posCorrectionModFive) % (5 * (posCorrectionModFive + 1)) == 0))) {
+/*if ((((result[position] - posCorrectionModFive) % (5 * (posCorrectionModFive + 1)) == 0))) {
 
                 posCorrectionModFive++;
                 rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
@@ -255,6 +343,8 @@ public class CombatActivity extends Activity {
                 holder.tv.setText(result[position] + "");
 
             }*/
+
+
 
 
 
