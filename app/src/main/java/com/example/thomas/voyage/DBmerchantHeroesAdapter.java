@@ -317,6 +317,20 @@ public class DBmerchantHeroesAdapter {
         return validation;
     }
 
+    public int updateImageResource(int id, String image) {
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(DBmerchantHeroesHelper.IMAGE_RESOURCE, image);
+        
+        String[] whereArgs = {id + ""};
+
+        int validation = db.update(DBmerchantHeroesHelper.TABLE_NAME, cv, DBmerchantHeroesHelper.UID + " =? ", whereArgs);
+        db.close();
+
+        return validation;
+    }
+
     public int updateRowComplete(
             int id,
             String newName,

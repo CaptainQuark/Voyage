@@ -1,5 +1,6 @@
 package com.example.thomas.voyage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,9 +14,7 @@ import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
 
 
 public class WorldMapQuickCombatActivity extends FragmentActivity {
-    /**
-     * The number of pages (wizard steps) to show in this demo.
-     */
+
     private static final int NUM_PAGES = 3;
 
     /**
@@ -29,11 +28,27 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
      */
     private PagerAdapter mPagerAdapter;
 
+    private String image = "R.id.hero_dummy_0", heroName = "NOT_USED", primClass = "", secClass = "";
+    private int hitpoints = -1, costs = -1;
+    private int[] difficulty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_world_map_quick_combat);
         hideSystemUI();
+
+        difficulty = new int[2];
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+            heroName = b.getString("HEROES_NAME", "NOT_USED");
+            primClass = b.getString("HEROES_PRIMARY_CLASS", "");
+            secClass = b.getString("HEROES_SECONDARY_CLASS", "");
+            hitpoints = b.getInt("HEROES_HITPOINTS", -1);
+            costs = b.getInt("HEROES_COSTS", -1);
+        }
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
@@ -45,8 +60,31 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         onBackPressed();
     }
 
+    public void chooseHeroForCombat(View view){
+        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        i.putExtra("ORIGIN", "WorldMapQuickCombatActivity");
+        startActivity(i);
+        finish();
+    }
+
+    public void goInCombat(View view){
+        Intent i = new Intent(getApplicationContext(), CombatActivity.class);
+        i.putExtra("ORIGIN", "WorldMapQuickCombatActivity");
+        i.putExtra("HEROES_NAME", heroName);
+        i.putExtra("HEROES_PRIMARY_CLASS", primClass);
+        i.putExtra("HEROES_SECONDARY_CLASS",secClass);
+        i.putExtra("HEROES_HITPOINTS",hitpoints);
+        i.putExtra("HEROES_COSTS", costs);
+        i.putExtra("IMAGE_RESOURCE",image);
+        startActivity(i);
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
+
+        /*
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
@@ -55,9 +93,25 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+         */
     }
 
     public void onRadioButtonClicked(View view) {
+
+        /*
+
+
+
+        Schwierigkeitsgrade:     1 - leichteste Stufe
+                                 2 - mittel
+                                 3 - schwierig
+
+
+        Insgesamt zwei Gruppen:  1. - difficulty[0} - Anspruch an Gegner
+                                 2. - difficulty[1} - Dauer
+
+
+         */
 
         boolean checked = ((RadioButton) view).isChecked();
 
@@ -65,32 +119,32 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         switch(view.getId()) {
             case R.id.radioButton_heavy_0:
                 if (checked){
-
+                    difficulty[0] = 1;
                 }
                     break;
             case R.id.radioButton_heavy_1:
                 if (checked){
-
+                    difficulty[0] = 2;
                 }
                     break;
             case R.id.radioButton_heavy_2:
                 if (checked){
-
+                    difficulty[0] = 3;
                 }
                     break;
             case R.id.radioButton_length_0:
                 if (checked){
-
+                    difficulty[1] = 1;
                 }
                     break;
             case R.id.radioButton_length_1:
                 if (checked){
-
+                    difficulty[1] = 2;
                 }
                     break;
             case R.id.radioButton_lenght_2:
                 if (checked){
-
+                    difficulty[1] = 3;
                 }
                     break;
                 default: Message.message(this, "ERROR @ radioButtonClicked");

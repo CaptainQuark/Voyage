@@ -175,6 +175,8 @@ public class MerchantHeroActivity extends Activity {
                     herosList.get(i).getInts("costs"),
                     herosList.get(i).getStrings("imageResource"));
 
+            dBmerchantHeroesAdapter.updateImageResource(i+1, "hero_dummy_" + (i));
+
             if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
         }
 
@@ -194,7 +196,8 @@ public class MerchantHeroActivity extends Activity {
                         textViewHero_0.setImageResource(R.color.standard_background);
                         //tag1.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
-                        textViewHero_0.setImageResource(R.mipmap.hero_dummy_0);
+                        //merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
+                        textViewHero_0.setImageResource(getResources().getIdentifier(dBmerchantHeroesAdapter.getHeroImageRessource(i), "mipmap", getPackageName()));
                     }
                 }
                 else
@@ -203,7 +206,7 @@ public class MerchantHeroActivity extends Activity {
                         textViewHero_1.setImageResource(R.color.standard_background);
                         //tag2.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
-                        textViewHero_1.setImageResource(R.mipmap.hero_dummy_1);
+                        textViewHero_1.setImageResource(getResources().getIdentifier(dBmerchantHeroesAdapter.getHeroImageRessource(i), "mipmap", getPackageName()));
                     }
                 }
                 else
@@ -212,7 +215,7 @@ public class MerchantHeroActivity extends Activity {
                         textViewHero_2.setImageResource(R.color.standard_background);
                         //tag3.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
-                        textViewHero_2.setImageResource(R.mipmap.hero_dummy_2);
+                        textViewHero_2.setImageResource(getResources().getIdentifier(dBmerchantHeroesAdapter.getHeroImageRessource(i), "mipmap", getPackageName()));
                     }
                 }
                 else{

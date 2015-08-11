@@ -124,13 +124,25 @@ public class HeroesPartyActivity extends Activity {
         switch (origin){
             case "MerchantHeroActivity":
                 i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+                passHeroesParameterstoNewActivity(i);
+                startActivity(i);
+                finish();
                 break;
+
             case "CombatWhiteActivity":
                 i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+                passHeroesParameterstoNewActivity(i);
+                startActivity(i);
+                finish();
                 break;
+
             case "WorldMapQuickCombatActivity":
                 i = new Intent(getApplicationContext(), CombatActivity.class);
+                passHeroesParameterstoNewActivity(i);
+                startActivity(i);
+                finish();
                 break;
+
             default:
                 i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
                 break;
@@ -151,8 +163,7 @@ public class HeroesPartyActivity extends Activity {
         i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
         i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
         i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
-
-        startActivity(i);
+        i.putExtra("IMAGE_RESOURCE", heroesHelper.getHeroImageResource(selectedHeroIdFromDatabase));
     }
 
     public void heroesPartyBackbuttonPressed(View view) {
@@ -194,7 +205,7 @@ public class HeroesPartyActivity extends Activity {
             ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
 
             if ( !heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row)) ) {
-                imageView.setImageResource(R.mipmap.hero_dummy_1);
+                imageView.setImageResource(getResources().getIdentifier(heroesHelper.getHeroImageResource(position+1), "mipmap", getPackageName()));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
 
