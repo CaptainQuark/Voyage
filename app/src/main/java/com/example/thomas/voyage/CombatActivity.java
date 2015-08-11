@@ -268,14 +268,13 @@ public class CombatActivity extends Activity {
                 public void onClick(View v) {
                     //rowView.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
 
-                    v.setSelected(true);
-
                     if (selectedCellPosition != -1) {
                         View cellView = parent.getChildAt(selectedCellPosition);
                         cellView.setSelected(false);
                         cellView.postInvalidate();
                     }
 
+                    v.setSelected(true);
                     selectedCellPosition = position;
 
                     switch (position) {
