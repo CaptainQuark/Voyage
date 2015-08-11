@@ -1,20 +1,13 @@
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/standard_background"
     tools:context="com.example.thomas.voyage.MerchantHeroActivity">
 
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        android:id="@+id/activity_merchant_hero"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#383838"
-        android:orientation="horizontal"
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -59,8 +52,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/ripple_backbutton"
-                android:onClick="merchantHeroesBackbuttonPressed"
+                android:background="#ff000000"
+                android:onClick="merchantHerosBackbuttonPressed"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_backbutton"
                 android:tint="#ffffffff" />
@@ -140,21 +133,152 @@
             </LinearLayout>
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <ScrollView
-                    android:id="@+id/scrollView"
+                <TextView
+                    android:id="@+id/merchant_hero_name"
+                    android:text="Heldename"
+                    android:textSize="30sp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/standard_background">
+                    android:layout_height="0dp"
+                    android:layout_weight="1.5"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
 
                     <TextView
-                        android:id="@+id/debug_merchant_hero_textView"
+                        android:layout_weight="1"
+                        android:text="Hitpoints"
+                        android:id="@+id/merchant_hero_hitpoints"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="22sp"
+                        android:gravity="center_horizontal|bottom"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </ScrollView>
+                        android:layout_height="match_parent"
+                        android:paddingBottom="5dp"
+                        android:typeface="sans"
+                        android:fontFamily="sans-serif-light" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="Kosten"
+                        android:id="@+id/merchant_hero_costs"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="22sp"
+                        android:gravity="center_horizontal|bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="5dp"
+                        android:typeface="sans"
+                        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="HITPOINTS"
+                        android:id="@+id/merchant_static_hp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:gravity="top|center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:typeface="sans"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="KOSTEN"
+                        android:id="@+id/merchant_static_costs"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:gravity="top|center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:typeface="sans"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="Primärklasse"
+                        android:id="@+id/merchant_hero_prim_class"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="22sp"
+                        android:gravity="center_horizontal|bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="5dp"
+                        android:typeface="sans"
+                        android:fontFamily="sans-serif-light" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="Sekundärklasse"
+                        android:id="@+id/merchant_hero_sec_class"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="22sp"
+                        android:gravity="center_horizontal|bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="5dp"
+                        android:typeface="sans"
+                        android:fontFamily="sans-serif-light" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="PRIMÄRKLASSE"
+                        android:id="@+id/merchant_static_hp"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:gravity="top|center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:typeface="sans"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:text="SEKUNDÄRKLASSE"
+                        android:id="@+id/merchant_static_costs"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="14sp"
+                        android:gravity="top|center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:typeface="sans"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
             </LinearLayout>
 
 
@@ -217,7 +341,5 @@
                 android:textSize="@dimen/font_right_panel_standard_size_numbers" />
 
         </LinearLayout>
-    </LinearLayout>
 
-
-</FrameLayout>
+</LinearLayout>
