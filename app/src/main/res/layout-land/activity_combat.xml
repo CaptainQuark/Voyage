@@ -39,23 +39,27 @@
                     android:layout_height="0dp" />
 
                 <TextView
+                    android:id="@+id/textView_combat_undo"
+                    android:onClick="undoButtonClicked"
                     android:text="UNDO"
                     android:layout_marginBottom="1px"
                     android:textSize="25sp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:background="@android:color/black"
+                    android:background="@drawable/ripple_backbutton"
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
 
                 <TextView
+                    android:id="@+id/textView_combat_miss"
+                    android:onClick="missButtonClicked"
                     android:text="MISS"
                     android:textSize="25sp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
                     android:layout_weight="1"
-                    android:background="@android:color/black"
+                    android:background="@drawable/ripple_backbutton"
                     android:layout_width="match_parent"
                     android:layout_height="0dp" />
 

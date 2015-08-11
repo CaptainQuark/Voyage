@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class HeroesPartyActivity extends Activity {
 
     private final int HEROES_IN_LISTVIEW = 10;
+    private TextView nameView, classesView, costsView;
     private DBheroesAdapter heroesHelper;
     private long slotsInHeroesDatabase = 0;
     private int selectedHeroIdFromDatabase = -1;
@@ -32,8 +33,12 @@ public class HeroesPartyActivity extends Activity {
         heroesHelper = new DBheroesAdapter(this);
         Bundle b = getIntent().getExtras();
         if(b != null){
-            origin = b.getString("ORIGIN", "");
+            origin = b.getString("ORIGIN", "StartActivity");
         }
+
+        nameView = (TextView)findViewById(R.id.textView_party_name);
+        classesView = (TextView)findViewById(R.id.textView_party_classes);
+        costsView = (TextView)findViewById(R.id.textView_party_costs);
 
         final TextView textView_slots = (TextView) findViewById(R.id.hero_size_display);
         textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
@@ -51,7 +56,9 @@ public class HeroesPartyActivity extends Activity {
 
         if (heroesHelper.equals(null)) {
             Message.message(this, "No HeroesDatabase set yet created - ya betta' do!");
+
         } else {
+
             final MySimpleArrayAdapter adapter = new MySimpleArrayAdapter(this, values);
             listview.setAdapter(adapter);
 
@@ -61,6 +68,10 @@ public class HeroesPartyActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, final View view,
                                         int position, long id) {
                     selectedHeroIdFromDatabase = position + 1;
+
+                    nameView.setText(heroesHelper.getHeroName(selectedHeroIdFromDatabase));
+                    classesView.setText(heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase) + '\n' + heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
+                    costsView.setText(Integer.toString(heroesHelper.getHeroCosts(selectedHeroIdFromDatabase)));
                 }
             });
         }

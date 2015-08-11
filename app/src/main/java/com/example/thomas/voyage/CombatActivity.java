@@ -19,9 +19,9 @@ import java.util.List;
 
 public class CombatActivity extends Activity {
 
-    private static final int monsterHealthConst = 301;
+    private static final int monsterHealthConst = 500;
     private static boolean gridInitialized = true;
-    private static int monsterHealth = 301,
+    private static int monsterHealth = 500,
             scoreMultiplier = 1, scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1,
             scoreField1 = 0,scoreField2 = 0,scoreField3 = 0,
             dartCount = 1;
@@ -31,8 +31,7 @@ public class CombatActivity extends Activity {
     private static ImageView healthbarMonsterVital, healthBarMonsterDamaged, healthBarHeroVital, healthBarHeroDamaged;
     private static List<Integer> undoListForHero;
     private static LinearLayout.LayoutParams paramsBarMonsterDamaged, paramsBarMonsterVital, paramsBarHeroDamaged, paramsBarHeroVital;
-    DBheroesAdapter heroesHelper;
-    private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "";
+    private String heroName = "Ritter Namenlos", heroPrimaryClass = "", heroSecondaryClass = "";
     private int heroHitpoints = -1, heroCosts = -1;
 
     @Override
@@ -40,6 +39,8 @@ public class CombatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
         hideSystemUI();
+
+        monsterHealth = monsterHealthConst;
 
         Bundle b = getIntent().getExtras();
         if(b != null){
@@ -70,12 +71,12 @@ public class CombatActivity extends Activity {
         heroNameView = (TextView) findViewById(R.id.heroNameView);
         monsterNameView = (TextView) findViewById(R.id.monsterNameView);
         eventsView = (TextView) findViewById(R.id.combat_events_log);
+        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
+
 
         heroNameView.setText(heroName);
+        monsterHealthView.setText(Integer.toString(monsterHealth));
 
-
-
-        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
 
         healthbarMonsterVital = (ImageView) findViewById(R.id.healthbar_monster_vital);
         healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
@@ -121,7 +122,7 @@ public class CombatActivity extends Activity {
                 healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
                 healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
                 monsterHealthView.setText("DU GEWINNER!");
-                monsterHealth = 301;
+                monsterHealth = monsterHealthConst;
             }
         } catch (ArithmeticException a) {
             Log.e("ARITHMETICH EXCEPTION", a + "");
@@ -133,6 +134,38 @@ public class CombatActivity extends Activity {
         Intent i = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(i);
         finish();
+    }
+
+    public void undoButtonClicked(View view){
+        int size = undoListForHero.size();
+
+        if (size > 0) {
+            monsterHealth += undoListForHero.get(size - 1);
+            setHealthBar();
+            undoListForHero.remove(size - 1);
+            monsterHealthView.setText(Integer.toString(monsterHealth));
+        }
+    }
+
+    public void missButtonClicked(View view){
+        if (dartCount == 1) {
+            scoreMultiplier1 = 1;
+            scoreField1 = 0;
+            dartCount++;
+        } else if (dartCount == 2) {
+            scoreMultiplier2 = 1;
+            scoreField2 = 0;
+            dartCount++;
+        } else if (dartCount == 3) {
+            scoreMultiplier3 = 1;
+            scoreField2 = 0;
+            dartCount = 1;
+
+            monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+
+            undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+            setHealthBar();
+        }
     }
 
     private void hideSystemUI() {
@@ -282,16 +315,7 @@ public class CombatActivity extends Activity {
                             scoreMultiplier = 1;
                             break;
                         case 1:
-                            int size = undoListForHero.size();
 
-                            if (size > 0) {
-                                v.setSelected(false);
-                                v.postInvalidate();
-                                monsterHealth += undoListForHero.get(size - 1);
-                                setHealthBar();
-                                undoListForHero.remove(size - 1);
-                                monsterHealthView.setText(Integer.toString(monsterHealth));
-                            }
                             break;
                         case 2:
                             scoreMultiplier = 2;

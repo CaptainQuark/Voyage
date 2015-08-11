@@ -35,7 +35,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:background="#ff000000"
+                android:background="@drawable/ripple_backbutton"
                 android:onClick="heroesPartyBackbuttonPressed"
                 android:scaleType="fitCenter"
                 android:src="@mipmap/ic_backbutton"
@@ -49,10 +49,45 @@
             android:layout_weight="4"
             android:orientation="vertical">
 
-            <Space
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="11" />
+                android:layout_weight="11">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Name des Helden"
+                    android:textSize="40sp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="40dp"
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/textView_party_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Primärklasse\nSekundärklasse"
+                    android:id="@+id/textView_party_classes"
+                    android:textSize="20sp"
+                    android:layout_below="@+id/textView_party_name"
+                    android:layout_alignStart="@+id/textView_party_name"
+                    android:layout_marginTop="30dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Kosten"
+                    android:id="@+id/textView_party_costs"
+                    android:textSize="20sp"
+                    android:layout_below="@+id/textView_party_classes"
+                    android:layout_alignStart="@+id/textView_party_classes"
+                    android:layout_marginTop="30dp" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
