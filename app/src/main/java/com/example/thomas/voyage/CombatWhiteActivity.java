@@ -2,6 +2,7 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,7 +13,7 @@ import android.widget.ImageView;
 
 public class CombatWhiteActivity extends Activity {
 
-    private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "";
+    private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "", image = "", origin = "";
     private int heroHitpoints = -1, heroCosts  =-1;
     private ImageView heroProfile;
 
@@ -22,18 +23,24 @@ public class CombatWhiteActivity extends Activity {
         setContentView(R.layout.activity_combat_white);
         hideSystemUI();
 
-        heroProfile = (ImageView)findViewById(R.id.combat_white_hero_profile);
+        heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);
 
         Bundle b = getIntent().getExtras();
-        if(b != null){
-            heroName = b.getString("HEROES_NAME", "???");
-            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
-            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
+        if (b != null) {
+            image = b.getString("IMAGE_RESOURCE", "hero_dummy_0");
+            heroName = b.getString("HEROES_NAME", "");
+            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "");
+            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "");
             heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
-            heroCosts= b.getInt("HEROES_COSTS", -1);
+            heroCosts = b.getInt("HEROES_COSTS", -1);
+            origin = b.getString("ORIGIN", "");
+        }
 
-        }else{
-            //Falls Rückkehr von Heroes-Datenbank: Daten wurden nicht übertragen, Fehler!
+        if (origin.equals("HeroesPartyActivity")) {
+            Message.message(this, "image resource: " + image);
+            heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
+            heroProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            heroProfile.setColorFilter(Color.TRANSPARENT);
         }
     }
 
@@ -51,6 +58,8 @@ public class CombatWhiteActivity extends Activity {
         i.putExtra("HEROES_SECONDARY_CLASS",heroSecondaryClass);
         i.putExtra("HEROES HITPOINTS", heroHitpoints);
         i.putExtra("HEROES_COSTS", heroCosts);
+        i.putExtra("IMAGE_RESOURCE", image);
+        i.putExtra("ORIGIN", "CombatWhiteActivity");
 
         startActivity(i);
     }

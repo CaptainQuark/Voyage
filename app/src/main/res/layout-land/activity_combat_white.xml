@@ -191,16 +191,15 @@
 
             <ImageView
                 android:id="@+id/combat_white_hero_profile"
+                android:layout_marginRight="1px"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
-                android:background="#afafaf"
-                android:onClick="combatWhiteSelectHeroFromParty"
                 android:scaleType="center"
-                android:cropToPadding="false"
-                android:layout_marginRight="1px"
-                android:src="@android:drawable/ic_input_add"
-                android:tint="#ffffff" />
+                android:tint="@android:color/white"
+                android:onClick="combatWhiteSelectHeroFromParty"
+                android:background="#afafaf"
+                android:src="@android:drawable/ic_input_add" />
 
             <TextView
                 android:id="@+id/activity_combat_gridView_numbers"

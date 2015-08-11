@@ -32,6 +32,7 @@ public class HeroesPartyActivity extends Activity {
         hideSystemUI();
 
         heroesHelper = new DBheroesAdapter(this);
+
         Bundle b = getIntent().getExtras();
         if(b != null){
             origin = b.getString("ORIGIN", "StartActivity");
@@ -123,8 +124,8 @@ public class HeroesPartyActivity extends Activity {
         Intent i;
 
         switch (origin){
-            case "CombatWhiteActivity":
-                i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+            case "CombatActivity":
+                i = new Intent(getApplicationContext(), CombatActivity.class);
                 passHeroesParameterstoNewActivity(i);
                 startActivity(i);
                 finish();
@@ -155,9 +156,7 @@ public class HeroesPartyActivity extends Activity {
 
     public void passHeroesParameterstoNewActivity(Intent i){
 
-
-
-        if(selectedHeroIdFromDatabase == -1){
+        if(selectedHeroIdFromDatabase != -1){
 
              /*
 
