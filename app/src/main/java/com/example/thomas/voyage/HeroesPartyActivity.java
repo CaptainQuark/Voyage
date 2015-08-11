@@ -69,9 +69,19 @@ public class HeroesPartyActivity extends Activity {
                                         int position, long id) {
                     selectedHeroIdFromDatabase = position + 1;
 
-                    nameView.setText(heroesHelper.getHeroName(selectedHeroIdFromDatabase));
-                    classesView.setText(heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase) + '\n' + heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
-                    costsView.setText(Integer.toString(heroesHelper.getHeroCosts(selectedHeroIdFromDatabase)));
+                    if(heroesHelper.getHeroName(selectedHeroIdFromDatabase).equals(getResources().getString(R.string.indicator_unused_row))){
+
+                        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+                        startActivity(i);
+
+                    }else{
+
+                        nameView.setText(heroesHelper.getHeroName(selectedHeroIdFromDatabase));
+                        classesView.setText(heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase) + '\n' + heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
+                        costsView.setText(Integer.toString(heroesHelper.getHeroCosts(selectedHeroIdFromDatabase)));
+                    }
+
+
                 }
             });
         }

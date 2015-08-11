@@ -254,6 +254,45 @@ public class CombatActivity extends Activity {
         }
     }
 
+  /*  public void setOneThrow(int i){
+
+        if(dartCount < 3){
+
+            undoListForHero.add(i * scoreMultiplier);
+            dartCount++;
+
+        }else{
+
+            dartCount = 1;
+            int size = undoListForHero.size();
+
+            for(int i = 1; i <= 3; i++){
+                monsterHealth -= undoListForHero.get(size - i);
+            }
+
+        }
+
+
+        if (dartCount == 1) {
+            scoreMultiplier1 = scoreMultiplier;
+            scoreField1 = result[position];
+            dartCount++;
+        } else if (dartCount == 2) {
+            scoreMultiplier2 = scoreMultiplier;
+            scoreField2 = result[position];
+            dartCount++;
+        } else if (dartCount == 3) {
+            scoreMultiplier3 = scoreMultiplier;
+            scoreField3 = result[position];
+            dartCount = 1;
+
+            monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+
+            undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+            setHealthBar();
+        }
+    }*/
+
     private static class RightPanelAdapter extends BaseAdapter {
 
         int[] result;
