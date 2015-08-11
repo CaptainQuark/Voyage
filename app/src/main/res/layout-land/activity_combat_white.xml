@@ -195,7 +195,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.7"
                 android:background="#afafaf"
-                android:onClick="combatWhiteSelectHeroFromPool"
+                android:onClick="combatWhiteSelectHeroFromParty"
                 android:scaleType="center"
                 android:cropToPadding="false"
                 android:layout_marginRight="1px"

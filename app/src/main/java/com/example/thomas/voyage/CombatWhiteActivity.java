@@ -24,7 +24,6 @@ public class CombatWhiteActivity extends Activity {
 
         heroProfile = (ImageView)findViewById(R.id.combat_white_hero_profile);
 
-        /*
         Bundle b = getIntent().getExtras();
         if(b != null){
             heroName = b.getString("HEROES_NAME", "???");
@@ -35,7 +34,7 @@ public class CombatWhiteActivity extends Activity {
 
         }else{
             //Falls Rückkehr von Heroes-Datenbank: Daten wurden nicht übertragen, Fehler!
-        }*/
+        }
     }
 
     public void combatWhiteSelectHeroFromParty(View view){
