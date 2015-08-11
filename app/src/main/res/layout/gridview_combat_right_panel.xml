@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridView_combat_right_panel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="1dp"
+    android:background="@drawable/buttonstates_combat_rigt_panel"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/gridView_combat_right_panel_textView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="59dp"
         android:gravity="center"
-        android:textSize="20sp"
-        android:textColor="@android:color/white" />
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 
 </LinearLayout>

@@ -110,7 +110,7 @@ public class StartActivity extends Activity {
     }
 
     public void toScreenSlideActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), BeginJourney.class);
+        Intent i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
         startActivity(i);
     }
 

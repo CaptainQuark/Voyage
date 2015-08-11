@@ -3,6 +3,7 @@ package com.example.thomas.voyage;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -237,6 +238,10 @@ public class DBmerchantHeroesAdapter {
         return costs;
     }
 
+    public long getTaskCount() {
+        return DatabaseUtils.queryNumEntries(helper.getReadableDatabase(), DBmerchantHeroesHelper.TABLE_NAME);
+    }
+
     /*
         public int getTableRowCount(){
             SQLiteDatabase db = helper.getWritableDatabase();
@@ -329,7 +334,7 @@ public class DBmerchantHeroesAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            com.example.thomas.voyage.Message.message(context, "MerchantDatabase onCreate called");
+            Message.message(context, "MerchantDatabase onCreate called");
         }
 
         @Override
@@ -337,7 +342,7 @@ public class DBmerchantHeroesAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            com.example.thomas.voyage.Message.message(context, "MerchantDatabse onUpgrade called");
+            Message.message(context, "MerchantDatabse onUpgrade called");
             Log.v("MERCHANT_UPGRADE", "merchant db upgraded");
         }
     }

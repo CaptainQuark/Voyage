@@ -2,6 +2,7 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,7 @@ public class HeroesPartyActivity extends Activity {
     private final int HEROES_IN_LISTVIEW = 10;
     private DBheroesAdapter heroesHelper;
     private long slotsInHeroesDatabase = 0;
+    private int selectedHero = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +32,6 @@ public class HeroesPartyActivity extends Activity {
 
         final TextView textView_slots = (TextView) findViewById(R.id.hero_size_display);
         textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
-
-
-
-
-
-
 
         final ListView listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
         String[] values = new String[HEROES_IN_LISTVIEW];
@@ -68,7 +64,6 @@ public class HeroesPartyActivity extends Activity {
     }
 
     private long getUsedSlotsInHeroesDatabase() {
-
         long countUsed = 0;
         slotsInHeroesDatabase = heroesHelper.getTaskCount();
 
@@ -79,6 +74,33 @@ public class HeroesPartyActivity extends Activity {
         }
 
         return countUsed;
+    }
+
+    public void buyHeroFromMerchant(View view){
+        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+        startActivity(i);
+    }
+
+    public void commitToQuest(View view){
+        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+
+        if(heroesHelper.getTaskCount() > 0 || selectedHero > 0){
+            selectedHero = 1;
+            passHeroesParameterstoNewActivity(i);
+        }else {
+            Message.message(this, "No hero selected");
+        }
+    }
+
+    public void passHeroesParameterstoNewActivity(Intent i){
+
+        i.putExtra("HEROES_NAME", heroesHelper.getHeroName(selectedHero));
+        i.putExtra("HEROES_PRIMARY_CLASS", heroesHelper.getHeroPrimaryClass(selectedHero));
+        i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHero));
+        i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHero));
+        i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHero));
+
+        startActivity(i);
     }
 
     public void heroesPartyBackbuttonPressed(View view) {
@@ -98,36 +120,38 @@ public class HeroesPartyActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
-}
 
+    class MySimpleArrayAdapter extends ArrayAdapter<String> {
+        private final Context context;
+        private final String[] values;
+        DBheroesAdapter heroesHelper;
 
-class MySimpleArrayAdapter extends ArrayAdapter<String> {
-    private final Context context;
-    private final String[] values;
-    DBheroesAdapter heroesHelper;
+        public MySimpleArrayAdapter(Context context, String[] values) {
+            super(context, -1, values);
+            this.context = context;
+            this.values = values;
 
-    public MySimpleArrayAdapter(Context context, String[] values) {
-        super(context, -1, values);
-        this.context = context;
-        this.values = values;
-
-        heroesHelper = new DBheroesAdapter(this.context);
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View rowView = inflater.inflate(R.layout.listview_heroes_rowlayout, parent, false);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
-
-        if (heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row))) {
-            imageView.setImageResource(R.mipmap.ic_launcher);
-            imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        } else {
-            imageView.setImageResource(R.mipmap.hero_dummy_1);
+            heroesHelper = new DBheroesAdapter(this.context);
         }
 
-        return rowView;
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            View rowView = inflater.inflate(R.layout.listview_heroes_rowlayout, parent, false);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
+
+            if (heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row))) {
+                imageView.setImageResource(R.mipmap.ic_launcher);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            } else {
+                imageView.setImageResource(R.mipmap.hero_dummy_1);
+            }
+
+            return rowView;
+        }
     }
 }
+
+
+

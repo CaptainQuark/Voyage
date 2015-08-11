@@ -28,7 +28,7 @@
             android:screenOrientation="landscape">
         </activity>
         <activity
-            android:name=".BeginJourney"
+            android:name=".WorldMapQuickCombatActivity"
             android:label="@string/title_activity_screen_slide"
             android:screenOrientation="landscape">
 

@@ -15,131 +15,162 @@
             android:layout_height="match_parent" />
 
         <LinearLayout
-            android:layout_width="210dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="12"
-                android:background="#b4565656"
-                android:orientation="vertical"
-                android:textColor="@color/material_blue_grey_800">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/hero_dummy_0" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.5"
-                    android:background="#b7010101"
-                    android:gravity="center"
-                    android:text="Wernfried v. Haselnuss"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.15"
-                    android:background="#c4282828"
-                    android:gravity="center|start"
-                    android:paddingLeft="25dp"
-                    android:text="SCHWIERIGKEIT"
-                    android:textColor="#ffffff"
-                    android:textSize="10sp" />
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.8"
-                    android:gravity="center|left"
+                    android:layout_weight="11"
+                    android:background="#b4565656"
                     android:orientation="vertical"
-                    android:paddingLeft="25dp">
+                    android:textColor="@color/material_blue_grey_800">
 
-                    <RadioButton
-                        android:id="@+id/radioButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="unbezwingbar"
-                        android:textSize="11sp" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="2"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/hero_dummy_0" />
 
-                    <RadioButton
-                        android:id="@+id/radioButton3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="un-unbezwingbar"
-                        android:textSize="11sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5"
+                        android:background="#b7010101"
+                        android:gravity="center"
+                        android:text="Wernfried v. Haselnuss"
+                        android:textColor="#ffffff"
+                        android:textSize="15sp" />
 
-                    <RadioButton
-                        android:id="@+id/radioButton2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="weinende Hunnen!"
-                        android:textSize="11sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.15"
+                        android:background="#c4282828"
+                        android:gravity="center|start"
+                        android:paddingLeft="25dp"
+                        android:text="SCHWIERIGKEIT"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp" />
+
+                    <RadioGroup
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.8"
+                        android:gravity="center|left"
+                        android:orientation="vertical"
+                        android:paddingLeft="25dp">
+
+                        <RadioButton
+                            android:id="@+id/radioButton_heavy_0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="unbezwingbar"
+                            android:textSize="11sp"
+                            android:onClick="onRadioButtonClicked"
+                            android:buttonTint="@android:color/black"
+                            android:checked="true" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton_heavy_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="un-unbezwingbar"
+                            android:textSize="11sp"
+                            android:onClick="onRadioButtonClicked"
+                            android:buttonTint="@android:color/black"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton_heavy_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="weinende Hunnen!"
+                            android:textSize="11sp"
+                            android:onClick="onRadioButtonClicked"
+                            android:buttonTint="@android:color/black"
+                            android:checked="false" />
+                    </RadioGroup>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.15"
+                        android:background="#c4282828"
+                        android:gravity="center|start"
+                        android:paddingLeft="25dp"
+                        android:text="DAUER"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.8"
+                        android:gravity="center|left"
+                        android:orientation="vertical"
+                        android:paddingLeft="25dp">
+
+                        <RadioButton
+                            android:id="@+id/radioButton_length_0"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="lang"
+                            android:textSize="11sp"
+                            android:onClick="onRadioButtonClicked"
+                            android:buttonTint="@android:color/black"
+                            android:checked="true" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton_length_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="episch"
+                            android:textSize="11sp"
+                            android:onClick="onRadioButtonClicked"
+                            android:buttonTint="@android:color/black"
+                            android:checked="false" />
+
+                        <RadioButton
+                            android:id="@+id/radioButton_lenght_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Odyssee!"
+                            android:textSize="11sp"
+                            android:onClick="onRadioButtonClicked"
+                            android:buttonTint="@android:color/black"
+                            android:checked="false" />
+                    </RadioGroup>
+
                 </LinearLayout>
 
-                <TextView
+                <ImageButton
+                    android:id="@+id/imageButton"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="0.15"
-                    android:background="#c4282828"
-                    android:gravity="center|start"
-                    android:paddingLeft="25dp"
-                    android:text="DAUER"
-                    android:textColor="#ffffff"
-                    android:textSize="10sp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.8"
-                    android:gravity="center|left"
-                    android:orientation="vertical"
-                    android:paddingLeft="25dp">
-
-                    <RadioButton
-                        android:id="@+id/radioButton4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="lang"
-                        android:textSize="11sp" />
-
-                    <RadioButton
-                        android:id="@+id/radioButton5"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="episch"
-                        android:textSize="11sp" />
-
-                    <RadioButton
-                        android:id="@+id/radioButton6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Odyssee!"
-                        android:textSize="11sp" />
-                </LinearLayout>
-
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="#ff000000"
+                    android:nestedScrollingEnabled="false"
+                    android:onClick="WorldMapBackbuttonPressed"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/ic_backbutton"
+                    android:tint="#ffffffff" />
             </LinearLayout>
 
-            <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:background="#ff000000"
-                android:nestedScrollingEnabled="false"
-                android:onClick="WorldMapBackbuttonPressed"
-                android:scaleType="centerInside"
-                android:src="@mipmap/ic_backbutton"
-                android:tint="#ffffffff" />
+            <Space
+                android:layout_weight="4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
 

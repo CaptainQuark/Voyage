@@ -1,69 +1,76 @@
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_merchant_hero"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#383838"
-    android:orientation="horizontal"
     tools:context="com.example.thomas.voyage.MerchantHeroActivity">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imageView_merchant_profile"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        android:id="@+id/activity_merchant_hero"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#383838"
+        android:orientation="horizontal"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#ffc1b190"
-            android:onClick="resetCurrentMoney"
-            android:scaleType="centerCrop" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/static_textView_merchant_0"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:background="#ffdfdbc1"
-            android:fontFamily="sans_serif_light"
-            android:gravity="bottom|center_horizontal"
-            android:text="ABREISE IN MINUTEN"
-            android:textColor="#ff000000"
-            android:textSize="13sp" />
+            <ImageView
+                android:id="@+id/imageView_merchant_profile"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="6"
+                android:background="#ffc1b190"
+                android:onClick="resetCurrentMoney"
+                android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/activity_merchant_textView_time_to_next_merchant"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.7"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:onClick="resetMerchant"
-            android:text="Zeit"
-            android:textColor="#ff000000"
-            android:textSize="40sp" />
+            <TextView
+                android:id="@+id/static_textView_merchant_0"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.6"
+                android:background="#ffdfdbc1"
+                android:fontFamily="sans_serif_light"
+                android:gravity="bottom|center_horizontal"
+                android:text="ABREISE IN MINUTEN"
+                android:textColor="#ff000000"
+                android:textSize="13sp" />
 
-        <ImageButton
-            android:id="@+id/activity_merchant_back_button"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.2"
-            android:background="#ff000000"
-            android:onClick="merchantHerosBackbuttonPressed"
-            android:scaleType="fitCenter"
-            android:src="@mipmap/ic_backbutton"
-            android:tint="#ffffffff" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/activity_merchant_textView_time_to_next_merchant"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4.4"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:onClick="resetMerchant"
+                android:text="Zeit"
+                android:textColor="#ff000000"
+                android:textSize="40sp" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:orientation="vertical">
+            <ImageButton
+                android:id="@+id/activity_merchant_back_button"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#ff000000"
+                android:onClick="merchantHerosBackbuttonPressed"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_backbutton"
+                android:tint="#ffffffff" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,114 +107,117 @@
 
             </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.1"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/merchant_hero_textView_chosen_hero_index0"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/merchant_heroes_name_tag_under_profile_picture"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/merchant_hero_textView_chosen_hero_index1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/merchant_heroes_name_tag_under_profile_picture"
-                android:gravity="center" />
-
-            <TextView
-                android:id="@+id/merchant_hero_textView_chosen_hero_index2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@color/merchant_heroes_name_tag_under_profile_picture"
-                android:gravity="center" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <ScrollView
-                android:id="@+id/scrollView"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/standard_background">
+                android:layout_height="0dp"
+                android:layout_weight="0.1"
+                android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/debug_merchant_hero_textView"
+                    android:id="@+id/merchant_hero_textView_chosen_hero_index0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/merchant_heroes_name_tag_under_profile_picture"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/merchant_hero_textView_chosen_hero_index1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/merchant_heroes_name_tag_under_profile_picture"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/merchant_hero_textView_chosen_hero_index2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/merchant_heroes_name_tag_under_profile_picture"
+                    android:gravity="center" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <ScrollView
+                    android:id="@+id/scrollView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </ScrollView>
+                    android:layout_height="match_parent"
+                    android:background="@color/standard_background">
+
+                    <TextView
+                        android:id="@+id/debug_merchant_hero_textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </ScrollView>
+            </LinearLayout>
+
+
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#010101"
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/merchant_hero_current_money"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:text="$ 1000"
+                android:textColor="#ff000000"
+                android:textSize="@dimen/font_right_panel_standard_size_numbers" />
+
+            <TextView
+                android:id="@+id/merchant_hero_free_slots"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:text="5 / 10"
+                android:textColor="#ff000000"
+                android:textSize="@dimen/font_right_panel_standard_size_numbers" />
+
+            <TextView
+                android:id="@+id/merchant_hero_to_heroes_party_activity"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="#ffdfdbc1"
+                android:gravity="center"
+                android:onClick="goFromMerchantToHeroesParty"
+                android:text="Gilde"
+                android:textColor="#ff000000"
+                android:textSize="@dimen/font_right_panel_standard_size_numbers" />
+
+            <TextView
+                android:id="@+id/merchant_hero_buy"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="#827e6c"
+                android:gravity="center"
+                android:onClick="buyHero"
+                android:text="..."
+                android:textColor="#ff000000"
+                android:textSize="@dimen/font_right_panel_standard_size_numbers" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="#010101"
-        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/merchant_hero_current_money"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="1dp"
-            android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:text="$ 1000"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
-
-        <TextView
-            android:id="@+id/merchant_hero_free_slots"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="1dp"
-            android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:text="5 / 10"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
-
-        <TextView
-            android:id="@+id/merchant_hero_to_heroes_party_activity"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginBottom="1dp"
-            android:layout_weight="1"
-            android:background="#ffdfdbc1"
-            android:gravity="center"
-            android:onClick="goFromMerchantToHeroesParty"
-            android:text="Gilde"
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
-
-        <TextView
-            android:id="@+id/merchant_hero_buy"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#827e6c"
-            android:gravity="center"
-            android:onClick="buyHero"
-            android:text="..."
-            android:textColor="#ff000000"
-            android:textSize="@dimen/font_right_panel_standard_size_numbers" />
-
-    </LinearLayout>
-</LinearLayout>
+</FrameLayout>

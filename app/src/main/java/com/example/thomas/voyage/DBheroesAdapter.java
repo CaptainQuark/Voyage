@@ -145,6 +145,106 @@ public class DBheroesAdapter {
         return value;
     }
 
+    public int getHeroHitpoints(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.HITPOINTS};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        int value = -1;
+
+        try {
+            value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.HITPOINTS));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public String getHeroPrimaryClass(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.CLASS_ONE};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String value = "";
+
+        try {
+            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_ONE));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroClassOne with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public String getHeroSecondaryClass(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.CLASS_TWO};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        String value = "";
+
+        try {
+            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_TWO));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroClassTwo with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public int getHeroCosts(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.COSTS};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        int value = -1;
+
+        try {
+            value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.COSTS));
+        } catch (NullPointerException n) {
+            Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
     public int updateRow(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -202,7 +302,7 @@ public class DBheroesAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            com.example.thomas.voyage.Message.message(context, "HerosDatabse onCreate called");
+            Message.message(context, "HerosDatabse onCreate called");
         }
 
         @Override
@@ -210,7 +310,7 @@ public class DBheroesAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            com.example.thomas.voyage.Message.message(context, "HerosDatabse onUpgrade called");
+            Message.message(context, "HerosDatabse onUpgrade called");
             Log.v("HEROES UPGRADE", "heroes db upgraded");
         }
     }

@@ -2,15 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/gridView_combat"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/gridView_combat_textView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center"
-        android:text="1"
-        android:textSize="30sp" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/buttonstates_combat_left_panel"
+            android:scaleType="centerInside"/>
+
+        <TextView
+            android:id="@+id/gridView_combat_textView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:text="1"
+            android:hapticFeedbackEnabled="true"
+            android:fontFamily="sans-serif-light"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+
+
+
 
 </LinearLayout>
