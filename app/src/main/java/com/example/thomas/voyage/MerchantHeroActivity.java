@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -190,7 +191,8 @@ public class MerchantHeroActivity extends Activity {
         for(int i = 1; i <= rowsExistent && rowsExistent > 0; i++){
                 if(i == 1){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
-                        textViewHero_0.setImageResource(R.mipmap.indicator_inactive);
+                        textViewHero_0.setImageResource(R.color.standard_background);
+                        //tag1.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
                         textViewHero_0.setImageResource(R.mipmap.hero_dummy_0);
                     }
@@ -198,7 +200,8 @@ public class MerchantHeroActivity extends Activity {
                 else
                 if (i == 2){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
-                        textViewHero_1.setImageResource(R.mipmap.indicator_inactive);
+                        textViewHero_1.setImageResource(R.color.standard_background);
+                        //tag2.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
                         textViewHero_1.setImageResource(R.mipmap.hero_dummy_1);
                     }
@@ -206,7 +209,8 @@ public class MerchantHeroActivity extends Activity {
                 else
                 if(i == 3){
                     if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
-                        textViewHero_2.setImageResource(R.mipmap.indicator_inactive);
+                        textViewHero_2.setImageResource(R.color.standard_background);
+                        //tag3.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
                         textViewHero_2.setImageResource(R.mipmap.hero_dummy_2);
                     }

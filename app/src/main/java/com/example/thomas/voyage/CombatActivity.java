@@ -24,17 +24,34 @@ public class CombatActivity extends Activity {
     private static final int monsterHealthConst = 500;
     private static boolean gridInitialized = true;
     private static int monsterHealth = 500,
-            scoreMultiplier = 1, scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1,
+            scoreMultiplier = 1,
+            scoreMultiplier1 = 1,scoreMultiplier2 = 1,scoreMultiplier3 = 1,
             scoreField1 = 0,scoreField2 = 0,scoreField3 = 0,
             dartCount = 1;
-    private static String finishMultiplier = "UniversalSingle", FinishMultiplier1 = "UniversalSingle",finishMultiplier2 = "UniversalSingle",finishMultiplier3 = "UniversalSingle";
+    private static String finishMultiplier = "UniversalSingle",
+            FinishMultiplier1 = "UniversalSingle",
+            finishMultiplier2 = "UniversalSingle",
+            finishMultiplier3 = "UniversalSingle";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
-    private static TextView monsterHealthView, heroHealthView, heroNameView, monsterNameView, eventsView;
-    private static ImageView healthbarMonsterVital, healthBarMonsterDamaged, healthBarHeroVital, healthBarHeroDamaged;
+    private static TextView monsterHealthView,
+            heroHealthView,
+            heroNameView,
+            monsterNameView,
+            eventsView;
+    private static ImageView healthbarMonsterVital,
+            healthBarMonsterDamaged,
+            healthBarHeroVital,
+            healthBarHeroDamaged;
     private static List<Integer> undoListForHero;
-    private static LinearLayout.LayoutParams paramsBarMonsterDamaged, paramsBarMonsterVital, paramsBarHeroDamaged, paramsBarHeroVital;
-    private String heroName = "Ritter Namenlos", heroPrimaryClass = "", heroSecondaryClass = "";
-    private int heroHitpoints = -1, heroCosts = -1;
+    private static LinearLayout.LayoutParams paramsBarMonsterDamaged,
+            paramsBarMonsterVital,
+            paramsBarHeroDamaged,
+            paramsBarHeroVital;
+    private String heroName = "Ritter Namenlos",
+            heroPrimaryClass = "",
+            heroSecondaryClass = "";
+    private int heroHitpoints = -1,
+            heroCosts = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +69,6 @@ public class CombatActivity extends Activity {
             heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
             heroCosts= b.getInt("HEROES_COSTS", -1);
 
-        }else{
-            //TODO lade Vorstufe von Combats XML zur Heldenauswahl
         }
 
         undoListForHero = new ArrayList<>();
@@ -154,10 +169,12 @@ public class CombatActivity extends Activity {
             scoreMultiplier1 = 1;
             scoreField1 = 0;
             dartCount++;
+
         } else if (dartCount == 2) {
             scoreMultiplier2 = 1;
             scoreField2 = 0;
             dartCount++;
+
         } else if (dartCount == 3) {
             scoreMultiplier3 = 1;
             scoreField2 = 0;
@@ -229,10 +246,12 @@ public class CombatActivity extends Activity {
                         scoreMultiplier1 = scoreMultiplier;
                         scoreField1 = result[position];
                         dartCount++;
+
                     } else if (dartCount == 2) {
                         scoreMultiplier2 = scoreMultiplier;
                         scoreField2 = result[position];
                         dartCount++;
+
                     } else if (dartCount == 3) {
                         scoreMultiplier3 = scoreMultiplier;
                         scoreField3 = result[position];

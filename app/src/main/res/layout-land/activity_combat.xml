@@ -151,7 +151,7 @@
                 </LinearLayout>
 
                 <ScrollView
-                    android:layout_weight="4"
+                    android:layout_weight="3.3"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:background="@android:color/black">
@@ -162,11 +162,20 @@
                         android:layout_height="match_parent"
                         android:padding="20dp"
                         android:textSize="20sp"
-                        android:text="...\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnde"
+                        android:text="..."
                         android:gravity="start"/>
 
                 </ScrollView>
 
+                <TextView
+                    android:id="@+id/textView_hitpoints_chronik"
+                    android:background="@android:color/black"
+                    android:layout_marginTop="1px"
+                    android:layout_width="match_parent"
+                    android:text="CHRONIK DER HITPOINTS"
+                    android:gravity="center"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.7"/>
 
             </LinearLayout>
 
