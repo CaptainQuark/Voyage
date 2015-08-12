@@ -82,7 +82,7 @@ public class HeroesPartyActivity extends Activity {
                         nameView.setText(heroesHelper.getHeroName(selectedHeroIdFromDatabase));
                         classesView.setText(heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase) + '\n' + heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
                         costsView.setText(Integer.toString(heroesHelper.getHeroCosts(selectedHeroIdFromDatabase))
-                                + '\n' + heroesHelper.getHeroImageResource(selectedHeroIdFromDatabase));
+                                + '\n' + heroesHelper.getHeroImgRes(selectedHeroIdFromDatabase));
                     }
 
 
@@ -169,7 +169,7 @@ public class HeroesPartyActivity extends Activity {
             i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
             i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
             i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
-            i.putExtra("IMAGE_RESOURCE", heroesHelper.getHeroImageResource(selectedHeroIdFromDatabase));
+            i.putExtra("IMAGE_RESOURCE", heroesHelper.getHeroImgRes(selectedHeroIdFromDatabase));
         }
 
         i.putExtra("ORIGIN", "HeroesPartyActivity");
@@ -214,7 +214,7 @@ public class HeroesPartyActivity extends Activity {
             ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
 
             if ( !heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row)) ) {
-                imageView.setImageResource(getResources().getIdentifier(heroesHelper.getHeroImageResource(position+1), "mipmap", getPackageName()));
+                imageView.setImageResource(ImgRes.res(context, "hero", heroesHelper.getHeroImgRes(position + 1)));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }
 

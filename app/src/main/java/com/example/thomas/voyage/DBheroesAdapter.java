@@ -271,7 +271,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public String getHeroImageResource(long id) {
+    public String getHeroImgRes(long id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.IMAGE_RESOURCE};
@@ -287,7 +287,7 @@ public class DBheroesAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroImageResource with exception: " + n);
+            Message.message(context1, "ERROR @ getHeroImgRes with exception: " + n);
         }
 
         cursor.close();

@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -22,7 +21,7 @@ public class MerchantHeroActivity extends Activity {
 
     //private final String SHAREDPREF_INSERT = "INSERT";
     //private final String TIME_PREF_FILE = "timefile";
-    DBmerchantHeroesAdapter dBmerchantHeroesAdapter;
+    DBmerchantHeroesAdapter merchantHelper;
     ImageView merchantProfile;
     private String MERCHANT_ID = "merchantId";
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
@@ -39,7 +38,7 @@ public class MerchantHeroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_hero);
         hideSystemUI();
-        dBmerchantHeroesAdapter = new DBmerchantHeroesAdapter(this);
+        merchantHelper = new DBmerchantHeroesAdapter(this);
 
         Bundle b = getIntent().getExtras();
         if(b != null){
@@ -110,7 +109,7 @@ public class MerchantHeroActivity extends Activity {
         long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());
 
         currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
-        merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
+        merchantProfile.setImageResource(ImgRes.res(this, "1", currentMerchantId + ""));
 
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         editor.putLong("TIME_TO_LEAVE", finishDate);
@@ -177,7 +176,7 @@ public class MerchantHeroActivity extends Activity {
             herosList.get(i).Initialize("Everywhere");
 
             // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
-            id = dBmerchantHeroesAdapter.updateRowComplete(
+            id = merchantHelper.updateRowComplete(
                     i + 1,
                     herosList.get(i).getStrings("heroName"),
                     herosList.get(i).getInts("hitpoints"),
@@ -186,7 +185,7 @@ public class MerchantHeroActivity extends Activity {
                     herosList.get(i).getInts("costs"),
                     herosList.get(i).getStrings("imageResource"));
 
-            dBmerchantHeroesAdapter.updateImageResource(i+1, "hero_dummy_" + (i));
+            merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
 
             if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
         }
@@ -203,30 +202,31 @@ public class MerchantHeroActivity extends Activity {
 
         for(int i = 1; i <= rowsExistent && rowsExistent > 0; i++){
                 if(i == 1){
-                    if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
+                    if (merchantHelper.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_0.setImageResource(R.color.standard_background);
                         //tag1.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
                         //merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
-                        textViewHero_0.setImageResource(getResources().getIdentifier(dBmerchantHeroesAdapter.getHeroImageRessource(i), "mipmap", getPackageName()));
+                        //getResources().getIdentifier(merchantHelper.getHeroImgRes(i), "mipmap", getPackageName())
+                        textViewHero_0.setImageResource(ImgRes.res(this, "hero", merchantHelper.getHeroImgRes(i)));
                     }
                 }
                 else
                 if (i == 2){
-                    if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
+                    if (merchantHelper.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_1.setImageResource(R.color.standard_background);
                         //tag2.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
-                        textViewHero_1.setImageResource(getResources().getIdentifier(dBmerchantHeroesAdapter.getHeroImageRessource(i), "mipmap", getPackageName()));
+                        textViewHero_1.setImageResource(ImgRes.res(this, "hero", merchantHelper.getHeroImgRes(i)));
                     }
                 }
                 else
                 if(i == 3){
-                    if (dBmerchantHeroesAdapter.getHeroName(i).equals("NOT_USED")) {
+                    if (merchantHelper.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_2.setImageResource(R.color.standard_background);
                         //tag3.setBackground(getResources().getDrawable(R.color.standard_background));
                     } else {
-                        textViewHero_2.setImageResource(getResources().getIdentifier(dBmerchantHeroesAdapter.getHeroImageRessource(i), "mipmap", getPackageName()));
+                        textViewHero_2.setImageResource(ImgRes.res(this, "hero", merchantHelper.getHeroImgRes(i)));
                     }
                 }
                 else{
@@ -268,12 +268,12 @@ public class MerchantHeroActivity extends Activity {
     public void buyHero(View view) {
 
         if (availableToBuy) {
-            String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
-            int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
-            String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
-            String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
-            int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
-            String imageResource = dBmerchantHeroesAdapter.getHeroImageRessource(currentSelectedHeroId);
+            String name = merchantHelper.getHeroName(currentSelectedHeroId);
+            int hitpoints = merchantHelper.getHeroHitpoints(currentSelectedHeroId);
+            String classOne = merchantHelper.getHeroClassOne(currentSelectedHeroId);
+            String classTwo = merchantHelper.getHeroClassTwo(currentSelectedHeroId);
+            int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
+            String imageResource = merchantHelper.getHeroImgRes(currentSelectedHeroId);
 
             DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
 
@@ -290,7 +290,7 @@ public class MerchantHeroActivity extends Activity {
                         Message.message(this, "This was the last free entry in HeroesDatabase");
                     }
                     i = 11;
-                    dBmerchantHeroesAdapter.updateRow(currentSelectedHeroId, "NOT_USED");
+                    merchantHelper.updateRow(currentSelectedHeroId, "NOT_USED");
                 }
             }
 
@@ -330,11 +330,11 @@ public class MerchantHeroActivity extends Activity {
         currentSelectedHeroId = index;
 
         try {
-            String name = dBmerchantHeroesAdapter.getHeroName(currentSelectedHeroId);
-            int hitpoints = dBmerchantHeroesAdapter.getHeroHitpoints(currentSelectedHeroId);
-            String classOne = dBmerchantHeroesAdapter.getHeroClassOne(currentSelectedHeroId);
-            String classTwo = dBmerchantHeroesAdapter.getHeroClassTwo(currentSelectedHeroId);
-            int costs = dBmerchantHeroesAdapter.getHeroCosts(currentSelectedHeroId);
+            String name = merchantHelper.getHeroName(currentSelectedHeroId);
+            int hitpoints = merchantHelper.getHeroHitpoints(currentSelectedHeroId);
+            String classOne = merchantHelper.getHeroClassOne(currentSelectedHeroId);
+            String classTwo = merchantHelper.getHeroClassTwo(currentSelectedHeroId);
+            int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
 
             if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
                 if (getFreeSlotsInHeroesDatabase() < slotsInHeroesDatabase) {

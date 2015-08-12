@@ -250,7 +250,7 @@ public class DBmerchantHeroesAdapter {
         return costs;
     }
 
-    public String getHeroImageRessource(int id) {
+    public String getHeroImgRes(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBmerchantHeroesHelper.IMAGE_RESOURCE};
@@ -269,7 +269,7 @@ public class DBmerchantHeroesAdapter {
 
         } catch (IndexOutOfBoundsException n) {
 
-            Message.message(context1, "ERROR @ getHeroImageResource with exception: " + n);
+            Message.message(context1, "ERROR @ getHeroImgRes with exception: " + n);
         }
         cursor.close();
         db.close();
