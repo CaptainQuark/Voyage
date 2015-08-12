@@ -187,17 +187,17 @@ public class CombatActivity extends Activity {
 
     public void missButtonClicked(View view){
         if (dartCount == 1) {
-            scoreMultiplier1 = 1;
+            scoreMultiplier1 = 0;
             scoreField1 = 0;
             dartCount++;
 
         } else if (dartCount == 2) {
-            scoreMultiplier2 = 1;
+            scoreMultiplier2 = 0;
             scoreField2 = 0;
             dartCount++;
 
         } else if (dartCount == 3) {
-            scoreMultiplier3 = 1;
+            scoreMultiplier3 = 0;
             scoreField2 = 0;
             dartCount = 1;
 

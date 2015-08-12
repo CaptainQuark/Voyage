@@ -121,6 +121,10 @@ public class HeroesPartyActivity extends Activity {
             textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
 
             dataContainerLayout.setVisibility(View.INVISIBLE);
+            selectedHeroIdFromDatabase = -1;
+            dismissView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
+
+            questView.setBackgroundColor(getResources().getColor(R.color.inactive_field));;
 
         }else{
             showHint("dismissHero");

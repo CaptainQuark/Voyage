@@ -290,6 +290,12 @@ public class HeroPool {
     }
 
     public String getImageResource(){
-        return context.getResources().getString(R.string.indicator_unused_row);
+        int j = 0;
+
+        for(; !(j > 0 && j < 8) ;){
+            j = (int) (Math.random() * 10);
+        }
+
+        return ("hero_dummy_" + j);
     }
 }

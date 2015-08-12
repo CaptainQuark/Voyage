@@ -23,13 +23,12 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         hideSystemUI();
+        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
+        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
 
         heroesHelper = new DBheroesAdapter(this);
 
         isAppFirstStarted();
-
-        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
-        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
 
         setSlaveMarketWindow();
         setHeroesPartyWindow();

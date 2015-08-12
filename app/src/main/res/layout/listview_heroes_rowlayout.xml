@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/imageView_rowlayout"
         android:layout_width="match_parent"
-        android:layout_height="277dp"
+        android:layout_height="275dp"
         android:divider="#00000000"
         android:src="@android:drawable/ic_menu_add"
         android:scaleType="centerInside" />

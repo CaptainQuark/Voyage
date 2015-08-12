@@ -4,10 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
-import android.opengl.Visibility;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -30,7 +29,7 @@ public class MerchantHeroActivity extends Activity {
     private String origin = "";
     private ImageView textViewHero_0, textViewHero_1, textViewHero_2, marketView;
     private LinearLayout heroDataLayout, containerLayoutMiddle;
-    private TextView buyHeroView, textView_current_money, textView_available_slots, textView_buy,tag1, tag2, tag3, nameView, hitpointsView, costsView, primView, secView;
+    private TextView textView_current_money, textView_available_slots, buyHeroView,tag1, tag2, tag3, nameView, hitpointsView, costsView, primView, secView;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
     private boolean availableToBuy = false;
@@ -48,12 +47,26 @@ public class MerchantHeroActivity extends Activity {
             origin = b.getString("ORIGIN", "StartActivity");
         }
 
+        fillTextViewHeroes(3);
+        showExpirationDate();
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
 
-        fillTextViewHeros(3);
-        calcTimeDiff();
+        setSlotsViewAppearence();
+    }
 
+    private void setSlotsViewAppearence(){
+        textView_available_slots.setText(Long.toString(getUsedSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
 
+        if(getUsedSlotsInHeroesDatabase() < slotsInHeroesDatabase){
+            textView_available_slots.setBackgroundColor(getResources().getColor(R.color.active_field));
+
+        }else{
+            textView_available_slots.setBackgroundColor(getResources().getColor(R.color.inactive_field));
+        }
     }
 
     private long getCurrentMoney() {
@@ -69,7 +82,7 @@ public class MerchantHeroActivity extends Activity {
         editor.apply();
     }
 
-    private long getFreeSlotsInHeroesDatabase() {
+    private long getUsedSlotsInHeroesDatabase() {
         DBheroesAdapter helper = new DBheroesAdapter(this);
 
         long countUsed = 0;
@@ -89,7 +102,7 @@ public class MerchantHeroActivity extends Activity {
         startActivity(i);
     }
 
-    private void calcTimeDiff() {
+    private void showExpirationDate() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());
 
@@ -126,16 +139,20 @@ public class MerchantHeroActivity extends Activity {
                     Log.e("ERROR @ ", "updateMerchantsDatabase");
                 }
 
-                calcTimeDiff();
+                showExpirationDate();
             }
         }.start();
     }
 
     private long setNewDate() {
+       SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
+
         Date newExpirationDate = new Date();
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
-        newExpirationDate.setTime(System.currentTimeMillis() + (60 * 60 * 1000 * 18));
+        newExpirationDate.setTime(System.currentTimeMillis() - finishDate + (60 * 60 * 1000 * 12));
+
         return newExpirationDate.getTime();
     }
 
@@ -170,7 +187,7 @@ public class MerchantHeroActivity extends Activity {
                     herosList.get(i).getInts("costs"),
                     herosList.get(i).getStrings("imageResource"));
 
-            merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
+            //merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
 
             if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
         }
@@ -178,11 +195,11 @@ public class MerchantHeroActivity extends Activity {
         return id;
     }
 
-    public void fillTextViewHeros(int rowsExistent){
+    public void fillTextViewHeroes(int rowsExistent){
         Log.i("fillText", "fillTextViewHeroes called");
 
         textView_current_money.setText("$ " + getCurrentMoney());
-        textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
+        setSlotsViewAppearence();
 
         int countUnused = 0;
 
@@ -233,18 +250,23 @@ public class MerchantHeroActivity extends Activity {
         }
     }
 
-    public void resetToNewMerchant(View view){
+    public void resetMerchant(View view){
         heroDataLayout.setVisibility(View.INVISIBLE);
         updateMerchantsDatabase(3);
         setNewMerchantProfile();
-        fillTextViewHeros(3);
+        fillTextViewHeroes(3);
 
         if(marketView.getVisibility() == View.VISIBLE){
             marketView.setVisibility(View.GONE);
             containerLayoutMiddle.setVisibility(View.VISIBLE);
         }
-
     }
+
+    public void addMoneyToCurrentMoney(View view){
+        setCurrentMoney(getCurrentMoney() + 2500);
+        textView_current_money.setText("$ " + getCurrentMoney());
+    }
+
     public void merchantHerosBackbuttonPressed(View view) {
         if(origin.equals("HeroesPartyActivity")){
             Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
@@ -260,12 +282,6 @@ public class MerchantHeroActivity extends Activity {
     public void goFromMerchantToHeroesParty(View view) {
         Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
         startActivity(i);
-    }
-
-    public void resetCurrentMoney(View view) {
-        setCurrentMoney(getCurrentMoney() + 3000);
-        textView_current_money.setText("$ " + getCurrentMoney());
-        processSelectedHero(currentMerchantId);
     }
 
     public void buyHero(View view) {
@@ -287,24 +303,21 @@ public class MerchantHeroActivity extends Activity {
                 if (updateValidation > 0) {
 
                     // wenn updateValidation speichert Rückgabewert von '.updateRowWithHeroData' -> wenn -1, dann nicht erfolgreich
+                    //Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
 
-                    Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
-                    if (i == 10) {
-                        Message.message(this, "This was the last free entry in HeroesDatabase");
-                    }
                     i = 11;
                     merchantHelper.updateRow(currentSelectedHeroId, "NOT_USED");
                 }
-
             }
 
-            fillTextViewHeros(3);
+            fillTextViewHeroes(3);
+            setSlotsViewAppearence();
             currentMoneyInPocket = getCurrentMoney() - costs;
             setCurrentMoney(currentMoneyInPocket);
             textView_current_money.setText("$ " + currentMoneyInPocket);
-            textView_buy.setText("...");
-            textView_buy.setBackgroundColor(getResources().getColor(R.color.inactive_field));
-            textView_available_slots.setText(getFreeSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+            buyHeroView.setText("...");
+            buyHeroView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
+            textView_available_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
             heroDataLayout.setVisibility(View.INVISIBLE);
         }
     }
@@ -349,21 +362,21 @@ public class MerchantHeroActivity extends Activity {
             int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
 
             if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
-                if (getFreeSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
+                if (getUsedSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
 
                     if (currentMoneyInPocket >= costs) {
-                        textView_buy.setText("$ " + costs);
-                        textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_permission_to_buy));
+                        buyHeroView.setText("$ " + costs);
+                        buyHeroView.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_permission_to_buy));
                         availableToBuy = true;
                     } else {
-                        textView_buy.setText("$ " + (currentMoneyInPocket - costs));
-                        textView_buy.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
+                        buyHeroView.setText("$ " + (currentMoneyInPocket - costs));
+                        buyHeroView.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
                         availableToBuy = false;
                     }
 
 
                 } else {
-                    textView_buy.setText("X");
+                    buyHeroView.setText("X");
                 }
 
                 heroDataLayout.setVisibility(View.VISIBLE);
@@ -394,13 +407,12 @@ public class MerchantHeroActivity extends Activity {
         primView = (TextView) findViewById(R.id.merchant_hero_prim_class);
         secView = (TextView) findViewById(R.id.merchant_hero_sec_class);
 
-        buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
         textViewHero_0 = (ImageView) findViewById(R.id.merch_hero_0);
         textViewHero_1 = (ImageView) findViewById(R.id.merch_hero_1);
         textViewHero_2 = (ImageView) findViewById(R.id.merch_hero_2);
         textView_current_money = (TextView) findViewById(R.id.merchant_hero_current_money);
         textView_available_slots = (TextView) findViewById(R.id.merchant_hero_free_slots);
-        textView_buy = (TextView) findViewById(R.id.merchant_hero_buy);
+        buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
         tag1 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index0);
         tag2 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index1);
         tag3 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index2);
