@@ -154,8 +154,8 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void clickToCombat(View view) {
-        Intent i = new Intent(getApplicationContext(), CombatActivity.class);
+    public void clickToPrepareCombat(View view) {
+        Intent i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
         startActivity(i);
     }
 
@@ -170,8 +170,8 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void clickToPrepareCombat(View view){
-        Intent i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+    public void clickToDirectCombat(View view){
+        Intent i = new Intent(getApplicationContext(), CombatActivity.class);
         startActivity(i);
     }
 

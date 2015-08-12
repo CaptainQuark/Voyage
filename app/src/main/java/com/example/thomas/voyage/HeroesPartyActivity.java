@@ -3,10 +3,8 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class HeroesPartyActivity extends Activity {
 
@@ -144,8 +140,8 @@ public class HeroesPartyActivity extends Activity {
         if(selectedHeroIdFromDatabase != -1){
 
             switch (origin){
-                case "CombatActivity":
-                    i = new Intent(getApplicationContext(), CombatActivity.class);
+                case "PrepareCombatActivity":
+                    i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
                     finish();
@@ -159,7 +155,7 @@ public class HeroesPartyActivity extends Activity {
                     break;
 
                 default:
-                    i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+                    i = new Intent(getApplicationContext(), CombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
                     finish();

@@ -31,6 +31,7 @@ public class CombatActivity extends Activity {
             finishMultiplier2 = "UniversalSingle",
             finishMultiplier3 = "UniversalSingle",
             image = "";
+    private String origin = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static TextView monsterHealthView,
             heroHealthView,
@@ -54,42 +55,12 @@ public class CombatActivity extends Activity {
     private static int heroHitpointsConst;
     private GridView gridViewNumbers, gridViewSpecials;
 
-    private static void setHealthBarMonster() {
-
-        try {
-            if (monsterHealth > 0) {
-
-                float x = monsterHealthConst * (float) 0.01;
-
-                float weightRounded = monsterHealth / x * (float) 0.01;
-
-                monsterHealthView.setText(monsterHealth + "");
-                paramsBarMonsterDamaged.weight = 1 - weightRounded;
-                paramsBarMonsterVital.weight = weightRounded;
-                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
-
-            } else {
-                paramsBarMonsterDamaged.weight = 1.0f;
-                paramsBarMonsterVital.weight = 0f;
-                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
-                monsterHealthView.setText("DU GEWINNER!");
-                monsterHealth = monsterHealthConst;
-            }
-        } catch (ArithmeticException a) {
-            Log.e("ARITHMETICH EXCEPTION", a + "");
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat);
         hideSystemUI();
         initializeViews();
-
-        monsterHealth = monsterHealthConst;
 
         Bundle b = getIntent().getExtras();
         if(b != null){
@@ -99,9 +70,12 @@ public class CombatActivity extends Activity {
             heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
             heroCosts= b.getInt("HEROES_COSTS", -1);
             image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+            origin = b.getString("ORIGIN", "StartActivity");
 
             heroHitpointsConst = heroHitpoints;
         }
+
+        monsterHealth = monsterHealthConst;
 
         undoListForHero = new ArrayList<>();
 
@@ -136,6 +110,34 @@ public class CombatActivity extends Activity {
 
 
         heroProfileView.setImageResource(ImgRes.res(this, "hero", image));
+    }
+
+    private static void setHealthBarMonster() {
+
+        try {
+            if (monsterHealth > 0) {
+
+                float x = monsterHealthConst * (float) 0.01;
+
+                float weightRounded = monsterHealth / x * (float) 0.01;
+
+                monsterHealthView.setText(monsterHealth + "");
+                paramsBarMonsterDamaged.weight = 1 - weightRounded;
+                paramsBarMonsterVital.weight = weightRounded;
+                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+
+            } else {
+                paramsBarMonsterDamaged.weight = 1.0f;
+                paramsBarMonsterVital.weight = 0f;
+                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+                monsterHealthView.setText("DU GEWINNER!");
+                monsterHealth = monsterHealthConst;
+            }
+        } catch (ArithmeticException a) {
+            Log.e("ARITHMETICH EXCEPTION", a + "");
+        }
     }
 
     /*

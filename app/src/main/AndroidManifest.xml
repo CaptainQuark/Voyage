@@ -38,7 +38,7 @@
             android:screenOrientation="landscape" >
         </activity>
         <activity
-            android:name=".CombatWhiteActivity"
+            android:name=".PrepareCombatActivity"
             android:label="@string/title_activity_combat_white"
             android:screenOrientation="landscape" >
         </activity>
