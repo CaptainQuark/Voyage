@@ -37,8 +37,9 @@ public class MerchantHeroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_hero);
-        hideSystemUI();
         merchantHelper = new DBmerchantHeroesAdapter(this);
+
+        hideSystemUI();
 
         Bundle b = getIntent().getExtras();
         if(b != null){

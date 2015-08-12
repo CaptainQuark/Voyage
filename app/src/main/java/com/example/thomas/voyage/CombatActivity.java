@@ -3,8 +3,6 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,79 +47,12 @@ public class CombatActivity extends Activity {
             paramsBarMonsterVital,
             paramsBarHeroDamaged,
             paramsBarHeroVital;
+    private GridView gridViewNumbers, gridViewSpecials;
     private String heroName = "Ritter Namenlos",
             heroPrimaryClass = "",
             heroSecondaryClass = "";
     private int heroHitpoints = -1,
             heroCosts = -1;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combat);
-        hideSystemUI();
-
-        monsterHealth = monsterHealthConst;
-
-        Bundle b = getIntent().getExtras();
-        if(b != null){
-            heroName = b.getString("HEROES_NAME", "???");
-            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
-            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
-            heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
-            heroCosts= b.getInt("HEROES_COSTS", -1);
-            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
-        }
-
-        undoListForHero = new ArrayList<>();
-
-        int[] numbersOfBoardList = new int[20];
-        for (int i = 0; i < 20; i++) {
-            numbersOfBoardList[i] = i + 1;
-        }
-
-        int[] specialSymbolsList = new int[10];
-        for (int i = 0; i < 10; i++){
-            specialSymbolsList[i] = i+1 ;
-        }
-
-        GridView gridViewNumbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
-        GridView gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
-        heroNameView = (TextView) findViewById(R.id.heroNameView);
-        monsterNameView = (TextView) findViewById(R.id.monsterNameView);
-        eventsView = (TextView) findViewById(R.id.combat_events_log);
-        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
-
-
-        heroNameView.setText(heroName);
-        monsterHealthView.setText(Integer.toString(monsterHealth));
-
-
-        healthbarMonsterVital = (ImageView) findViewById(R.id.healthbar_monster_vital);
-        healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
-        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
-        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
-
-        heroHealthView = (TextView) findViewById(R.id.heroHealthView);
-
-        healthBarHeroVital = (ImageView) findViewById(R.id.healthbar_hero_vital);
-        healthBarHeroDamaged = (ImageView) findViewById(R.id.healthbar_hero_damaged);
-        paramsBarHeroDamaged = (LinearLayout.LayoutParams) healthBarHeroDamaged.getLayoutParams();
-        paramsBarHeroVital = (LinearLayout.LayoutParams) healthBarHeroVital.getLayoutParams();
-
-        paramsBarMonsterDamaged.weight = 0.0f;
-        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-
-
-        paramsBarHeroDamaged.weight = 0.0f;
-        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
-
-        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
-        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
-
-        heroProfileView = (ImageView)findViewById(R.id.combat_hero_profile);
-        heroProfileView.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
-    }
 
     private static void setHealthBar() {
 
@@ -150,6 +81,60 @@ public class CombatActivity extends Activity {
             Log.e("ARITHMETICH EXCEPTION", a + "");
         }
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_combat);
+        hideSystemUI();
+        initializeViews();
+
+        monsterHealth = monsterHealthConst;
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            heroName = b.getString("HEROES_NAME", "???");
+            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
+            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
+            heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
+            heroCosts= b.getInt("HEROES_COSTS", -1);
+            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+        }
+
+        undoListForHero = new ArrayList<>();
+
+        int[] numbersOfBoardList = new int[20];
+        for (int i = 0; i < 20; i++) {
+            numbersOfBoardList[i] = i + 1;
+        }
+
+        int[] specialSymbolsList = new int[10];
+        for (int i = 0; i < 10; i++){
+            specialSymbolsList[i] = i+1 ;
+        }
+
+        heroNameView.setText(heroName);
+        monsterHealthView.setText(Integer.toString(monsterHealth));
+
+        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
+        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
+
+
+
+
+        paramsBarMonsterDamaged.weight = 0.0f;
+        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+
+
+        paramsBarHeroDamaged.weight = 0.0f;
+        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+
+        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
+        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
+
+
+        heroProfileView.setImageResource(ImgRes.res(this, "hero", image));
     }
 
     public void activityCombatBackToMain(View view) {
@@ -201,6 +186,62 @@ public class CombatActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
+
+    public void initializeViews() {
+        gridViewNumbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
+        gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
+        healthBarHeroVital = (ImageView) findViewById(R.id.healthbar_hero_vital);
+        healthBarHeroDamaged = (ImageView) findViewById(R.id.healthbar_hero_damaged);
+        paramsBarHeroDamaged = (LinearLayout.LayoutParams) healthBarHeroDamaged.getLayoutParams();
+        paramsBarHeroVital = (LinearLayout.LayoutParams) healthBarHeroVital.getLayoutParams();
+        heroNameView = (TextView) findViewById(R.id.heroNameView);
+        monsterNameView = (TextView) findViewById(R.id.monsterNameView);
+        eventsView = (TextView) findViewById(R.id.combat_events_log);
+        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
+        healthbarMonsterVital = (ImageView) findViewById(R.id.healthbar_monster_vital);
+        healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
+        heroProfileView = (ImageView) findViewById(R.id.combat_hero_profile);
+        heroHealthView = (TextView) findViewById(R.id.heroHealthView);
+    }
+
+  /*  public void setOneThrow(int i){
+
+        if(dartCount < 3){
+
+            undoListForHero.add(i * scoreMultiplier);
+            dartCount++;
+
+        }else{
+
+            dartCount = 1;
+            int size = undoListForHero.size();
+
+            for(int i = 1; i <= 3; i++){
+                monsterHealth -= undoListForHero.get(size - i);
+            }
+
+        }
+
+
+        if (dartCount == 1) {
+            scoreMultiplier1 = scoreMultiplier;
+            scoreField1 = result[position];
+            dartCount++;
+        } else if (dartCount == 2) {
+            scoreMultiplier2 = scoreMultiplier;
+            scoreField2 = result[position];
+            dartCount++;
+        } else if (dartCount == 3) {
+            scoreMultiplier3 = scoreMultiplier;
+            scoreField3 = result[position];
+            dartCount = 1;
+
+            monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+
+            undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
+            setHealthBar();
+        }
+    }*/
 
     private static class NumbersAdapter extends BaseAdapter {
 
@@ -277,45 +318,6 @@ public class CombatActivity extends Activity {
             TextView tv;
         }
     }
-
-  /*  public void setOneThrow(int i){
-
-        if(dartCount < 3){
-
-            undoListForHero.add(i * scoreMultiplier);
-            dartCount++;
-
-        }else{
-
-            dartCount = 1;
-            int size = undoListForHero.size();
-
-            for(int i = 1; i <= 3; i++){
-                monsterHealth -= undoListForHero.get(size - i);
-            }
-
-        }
-
-
-        if (dartCount == 1) {
-            scoreMultiplier1 = scoreMultiplier;
-            scoreField1 = result[position];
-            dartCount++;
-        } else if (dartCount == 2) {
-            scoreMultiplier2 = scoreMultiplier;
-            scoreField2 = result[position];
-            dartCount++;
-        } else if (dartCount == 3) {
-            scoreMultiplier3 = scoreMultiplier;
-            scoreField3 = result[position];
-            dartCount = 1;
-
-            monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
-
-            undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
-            setHealthBar();
-        }
-    }*/
 
     private static class RightPanelAdapter extends BaseAdapter {
 

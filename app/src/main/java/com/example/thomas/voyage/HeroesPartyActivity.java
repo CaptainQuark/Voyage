@@ -29,23 +29,17 @@ public class HeroesPartyActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heroes_party);
-        hideSystemUI();
-
         heroesHelper = new DBheroesAdapter(this);
+
+        hideSystemUI();
+        initializeViews();
+        textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
 
         Bundle b = getIntent().getExtras();
         if(b != null){
             origin = b.getString("ORIGIN", "StartActivity");
         }
 
-        nameView = (TextView)findViewById(R.id.textView_party_name);
-        classesView = (TextView)findViewById(R.id.textView_party_classes);
-        costsView = (TextView)findViewById(R.id.textView_party_costs);
-
-        textView_slots = (TextView) findViewById(R.id.hero_size_display);
-        textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
-
-        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
         //listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
         String[] values = new String[HEROES_IN_LISTVIEW];
         for (int i = 1; i <= HEROES_IN_LISTVIEW; i++) {
@@ -191,6 +185,15 @@ public class HeroesPartyActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    public void initializeViews() {
+
+        nameView = (TextView) findViewById(R.id.textView_party_name);
+        classesView = (TextView) findViewById(R.id.textView_party_classes);
+        costsView = (TextView) findViewById(R.id.textView_party_costs);
+        textView_slots = (TextView) findViewById(R.id.hero_size_display);
+        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
     }
 
     class MySimpleArrayAdapter extends ArrayAdapter<String> {
