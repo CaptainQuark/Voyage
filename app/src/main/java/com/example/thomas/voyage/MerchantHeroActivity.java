@@ -165,7 +165,7 @@ public class MerchantHeroActivity extends Activity {
         editor.putInt(MERCHANT_ID, currentMerchantId);
         editor.apply();
 
-        merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
+        merchantProfile.setImageResource(ImgRes.res(this, "merch", Integer.toString(currentMerchantId)));
     }
 
     public long updateMerchantsDatabase(int numberOfInserts) {

@@ -43,112 +43,178 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <FrameLayout
             android:layout_weight="4"
-            android:orientation="vertical">
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="11">
+                android:layout_height="match_parent">
 
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="9"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Name des Helden"
-                    android:textSize="40sp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="40dp"
-                    android:fontFamily="sans-serif-light"
-                    android:id="@+id/textView_party_name" />
+                <LinearLayout
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Primärklasse\nSekundärklasse"
-                    android:id="@+id/textView_party_classes"
-                    android:textSize="20sp"
-                    android:layout_below="@+id/textView_party_name"
-                    android:layout_alignStart="@+id/textView_party_name"
-                    android:layout_marginTop="30dp" />
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Kosten"
-                    android:id="@+id/textView_party_costs"
-                    android:textSize="20sp"
-                    android:layout_below="@+id/textView_party_classes"
-                    android:layout_alignStart="@+id/textView_party_classes"
-                    android:layout_marginTop="30dp" />
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/heroes_party_hint_dismiss_hero"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="#5f000c"
+                        android:text="Kein Held\nausgewählt"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:id="@+id/heroes_party_hint_commit_to_quest"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:background="#5f000c"
+                        android:text="Kein Held\nausgewählt"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp"
+                        android:gravity="center"
+                        android:visibility="invisible" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:background="@android:color/black"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/hero_size_display"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="11"
+                    android:id="@+id/heroes_party_realative_layout">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Name des Helden"
+                        android:textSize="40sp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginTop="40dp"
+                        android:fontFamily="sans-serif-light"
+                        android:id="@+id/textView_party_name" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Primärklasse\nSekundärklasse"
+                        android:id="@+id/textView_party_classes"
+                        android:textSize="20sp"
+                        android:layout_below="@+id/textView_party_name"
+                        android:layout_alignStart="@+id/textView_party_name"
+                        android:layout_marginTop="30dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Kosten"
+                        android:id="@+id/textView_party_costs"
+                        android:textSize="20sp"
+                        android:layout_below="@+id/textView_party_classes"
+                        android:layout_alignStart="@+id/textView_party_classes"
+                        android:layout_marginTop="30dp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:background="#ffdfdbc1"
-                    android:gravity="center"
-                    android:text="5 / 19"
-                    android:textColor="#ff000000"
-                    android:textSize="18sp" />
+                    android:background="@android:color/black"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:onClick="heroesPartyDismissHero"
-                    android:id="@+id/hero_dismiss"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="#ffdfdbc1"
-                    android:gravity="center"
-                    android:text="Dismiss Hero"
-                    android:textColor="#ff000000"
-                    android:textSize="18sp" />
+                    <TextView
+                        android:id="@+id/hero_size_display"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="#ffdfdbc1"
+                        android:gravity="center"
+                        android:text="5 / 19"
+                        android:textColor="#ff000000"
+                        android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/hero_set_as_adventurer"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="1dp"
-                    android:layout_weight="1"
-                    android:background="#ffdfdbc1"
-                    android:gravity="center"
-                    android:text="Commit to Quest"
-                    android:textColor="#ff000000"
-                    android:textSize="18sp"
-                    android:onClick="commitToQuest" />
+                    <TextView
+                        android:onClick="heroesPartyDismissHero"
+                        android:id="@+id/hero_dismiss"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="#ffdfdbc1"
+                        android:gravity="center"
+                        android:text="Dismiss Hero"
+                        android:textColor="#ff000000"
+                        android:textSize="18sp" />
 
-                <TextView
-                    android:id="@+id/heroes_party_buy_hero_from_merchant"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#ffdfdbc1"
-                    android:gravity="center"
-                    android:text="Buy Hero"
-                    android:textColor="#ff000000"
-                    android:textSize="18sp"
-                    android:onClick="buyHeroFromMerchant" />
+                    <TextView
+                        android:id="@+id/hero_set_as_adventurer"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:background="#ffdfdbc1"
+                        android:gravity="center"
+                        android:text="Commit to Quest"
+                        android:textColor="#ff000000"
+                        android:textSize="18sp"
+                        android:onClick="commitToQuest" />
 
+                    <TextView
+                        android:id="@+id/heroes_party_buy_hero_from_merchant"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="#ffdfdbc1"
+                        android:gravity="center"
+                        android:text="Buy Hero"
+                        android:textColor="#ff000000"
+                        android:textSize="18sp"
+                        android:onClick="buyHeroFromMerchant" />
 
+                </LinearLayout>
             </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
+
+
 
     </LinearLayout>
 

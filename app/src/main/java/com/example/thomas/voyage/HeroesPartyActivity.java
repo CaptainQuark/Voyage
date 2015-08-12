@@ -3,7 +3,10 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +17,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class HeroesPartyActivity extends Activity {
 
     private final int HEROES_IN_LISTVIEW = 10;
-    private TextView nameView, classesView, costsView, textView_slots;
+    private TextView nameView, classesView, costsView, textView_slots, hintQuestView, hintDismissHeroView;
     private DBheroesAdapter heroesHelper;
     private ListView listview;
     private long slotsInHeroesDatabase = 0;
@@ -100,10 +105,14 @@ public class HeroesPartyActivity extends Activity {
 
     public void heroesPartyDismissHero(View view){
 
-        if(heroesHelper.getHeroName(selectedHeroIdFromDatabase) != "NOT_USED"){
+        if( (selectedHeroIdFromDatabase != -1) && (heroesHelper.getHeroName(selectedHeroIdFromDatabase) != "NOT_USED") ){
+
             heroesHelper.markOneRowAsUnused(selectedHeroIdFromDatabase);
             listview.invalidateViews();
             textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+
+        }else{
+            showHint("dismissHero");
         }
     }
 
@@ -117,35 +126,63 @@ public class HeroesPartyActivity extends Activity {
 
         Intent i;
 
-        switch (origin){
-            case "CombatActivity":
-                i = new Intent(getApplicationContext(), CombatActivity.class);
-                passHeroesParameterstoNewActivity(i);
-                startActivity(i);
-                finish();
-                break;
+        if(selectedHeroIdFromDatabase != -1){
 
-            case "WorldMapQuickCombatActivity":
-                i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
-                passHeroesParameterstoNewActivity(i);
-                startActivity(i);
-                finish();
-                break;
+            switch (origin){
+                case "CombatActivity":
+                    i = new Intent(getApplicationContext(), CombatActivity.class);
+                    passHeroesParameterstoNewActivity(i);
+                    startActivity(i);
+                    finish();
+                    break;
 
-            default:
-                i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
-                passHeroesParameterstoNewActivity(i);
-                startActivity(i);
-                finish();
-                break;
+                case "WorldMapQuickCombatActivity":
+                    i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
+                    passHeroesParameterstoNewActivity(i);
+                    startActivity(i);
+                    finish();
+                    break;
+
+                default:
+                    i = new Intent(getApplicationContext(), CombatWhiteActivity.class);
+                    passHeroesParameterstoNewActivity(i);
+                    startActivity(i);
+                    finish();
+                    break;
+            }
+
+        }else{
+            showHint("commitToQuest");
         }
 
+/*
         if(heroesHelper.getTaskCount() > 0 && selectedHeroIdFromDatabase > 0){
             selectedHeroIdFromDatabase = 1;
             passHeroesParameterstoNewActivity(i);
         }else {
             Message.message(this, "No hero selected");
+        }*/
+    }
+
+    public void showHint(final String id){
+        hintQuestView = (TextView) findViewById(R.id.heroes_party_hint_commit_to_quest);
+        hintDismissHeroView = (TextView)findViewById(R.id.heroes_party_hint_dismiss_hero);
+        final View dummyView;
+
+        if(id.equals("commitToQuest")){
+            dummyView = hintQuestView;
+        }else {
+            dummyView = hintDismissHeroView;
         }
+
+        dummyView.setVisibility(View.VISIBLE);
+
+        new CountDownTimer(2000, 1000) {
+            public void onTick(long millisUntilFinished) {}
+            public void onFinish() {dummyView.setVisibility(View.INVISIBLE);}
+        }.start();
+
+
     }
 
     public void passHeroesParameterstoNewActivity(Intent i){
