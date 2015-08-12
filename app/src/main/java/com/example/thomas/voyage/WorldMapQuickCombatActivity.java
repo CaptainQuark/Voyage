@@ -47,7 +47,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
         Bundle b = getIntent().getExtras();
         if(b != null){
-            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+            image = b.getString("IMAGE_RESOURCE", "");
             heroName = b.getString("HEROES_NAME", "");
             primClass = b.getString("HEROES_PRIMARY_CLASS", "");
             secClass = b.getString("HEROES_SECONDARY_CLASS", "");
@@ -157,20 +157,34 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
             case R.id.radioButton_length_1:
                 if (checked){
                     difficulty[1] = 2;
-                    firstCheck = true;
+                    secondCheck = true;
                 }
                     break;
             case R.id.radioButton_lenght_2:
                 if (checked){
                     difficulty[1] = 3;
-                    firstCheck = true;
+                    secondCheck = true;
                 }
                     break;
                 default:
                     Message.message(this, "ERROR @ radioButtonClicked");
         }
 
-        if(firstCheck && secondCheck) goInCombat.setVisibility(View.VISIBLE);
+        if (firstCheck && secondCheck && !heroName.equals(""))
+            goInCombat.setVisibility(View.VISIBLE);
+    }
+
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     /**
@@ -197,18 +211,5 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         public int getCount() {
             return NUM_PAGES;
         }
-    }
-
-    private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 }

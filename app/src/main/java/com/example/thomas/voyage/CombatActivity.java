@@ -47,14 +47,14 @@ public class CombatActivity extends Activity {
             paramsBarMonsterVital,
             paramsBarHeroDamaged,
             paramsBarHeroVital;
-    private GridView gridViewNumbers, gridViewSpecials;
-    private String heroName = "Ritter Namenlos",
+    private static String heroName = "Ritter Namenlos",
             heroPrimaryClass = "",
             heroSecondaryClass = "";
-    private int heroHitpoints = -1,
-            heroCosts = -1;
+    private static int heroHitpoints = -1, heroCosts = -1;
+    private static int heroHitpointsConst;
+    private GridView gridViewNumbers, gridViewSpecials;
 
-    private static void setHealthBar() {
+    private static void setHealthBarMonster() {
 
         try {
             if (monsterHealth > 0) {
@@ -80,7 +80,6 @@ public class CombatActivity extends Activity {
         } catch (ArithmeticException a) {
             Log.e("ARITHMETICH EXCEPTION", a + "");
         }
-
     }
 
     @Override
@@ -100,6 +99,8 @@ public class CombatActivity extends Activity {
             heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
             heroCosts= b.getInt("HEROES_COSTS", -1);
             image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+
+            heroHitpointsConst = heroHitpoints;
         }
 
         undoListForHero = new ArrayList<>();
@@ -137,6 +138,36 @@ public class CombatActivity extends Activity {
         heroProfileView.setImageResource(ImgRes.res(this, "hero", image));
     }
 
+    /*
+        private static void setHealthBarHero() {
+
+            try {
+                if (heroHitpoints > 0) {
+
+                    float x = heroHitpointsConst * (float) 0.01;
+
+                    float weightRounded = heroHitpoints / x * (float) 0.01;
+
+                    monsterHealthView.setText(monsterHealth + "");
+                    paramsBarMonsterDamaged.weight = 1 - weightRounded;
+                    paramsBarMonsterVital.weight = weightRounded;
+                    healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                    healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+
+                } else {
+                    paramsBarMonsterDamaged.weight = 1.0f;
+                    paramsBarMonsterVital.weight = 0f;
+                    healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                    healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+                    monsterHealthView.setText("DU GEWINNER!");
+                    monsterHealth = monsterHealthConst;
+                }
+            } catch (ArithmeticException a) {
+                Log.e("ARITHMETICH EXCEPTION", a + "");
+            }
+
+        }
+    */
     public void activityCombatBackToMain(View view) {
         Intent i = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(i);
@@ -148,7 +179,7 @@ public class CombatActivity extends Activity {
 
         if (size > 0) {
             monsterHealth += undoListForHero.get(size - 1);
-            setHealthBar();
+            setHealthBarMonster();
             undoListForHero.remove(size - 1);
             monsterHealthView.setText(Integer.toString(monsterHealth));
         }
@@ -173,7 +204,7 @@ public class CombatActivity extends Activity {
             monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
 
             undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
-            setHealthBar();
+            setHealthBarMonster();
         }
     }
 
@@ -239,7 +270,7 @@ public class CombatActivity extends Activity {
             monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
 
             undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
-            setHealthBar();
+            setHealthBarMonster();
         }
     }*/
 
@@ -306,7 +337,7 @@ public class CombatActivity extends Activity {
                         monsterHealth -= (scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
 
                         undoListForHero.add(scoreMultiplier1 * scoreField1 + scoreMultiplier2 * scoreField2 + scoreMultiplier3 * scoreField3);
-                        setHealthBar();
+                        setHealthBarMonster();
                     }
                 }
             });
