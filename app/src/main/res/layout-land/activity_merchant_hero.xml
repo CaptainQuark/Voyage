@@ -8,7 +8,9 @@
     tools:context="com.example.thomas.voyage.MerchantHeroActivity">
 
 
-        <LinearLayout
+
+
+    <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -20,7 +22,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="6"
                 android:background="#ffc1b190"
-                android:onClick="resetCurrentMoney"
+                android:onClick="resetToNewMerchant"
                 android:scaleType="centerCrop" />
 
             <TextView
@@ -59,53 +61,65 @@
                 android:tint="#ffffffff" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3" >
+
+        <ImageView
+            android:id="@+id/merchant_market"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            android:scaleType="centerCrop"
+            android:visibility="gone"
+            android:src="@mipmap/market_dummy_0" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/merchant_linearLayout_middle">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.9"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
                 <ImageView
-                    android:id="@+id/textView_merchant_hero_i0"
+                    android:id="@+id/merch_hero_0"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="selectedHeroIndex0"
-                    android:scaleType="fitCenter"
+                    android:onClick="heroSelected"
+                    android:scaleType="centerCrop"
                     android:stateListAnimator="@anim/elevation"
                     android:src="@mipmap/hero_dummy_0" />
 
                 <ImageView
-                    android:id="@+id/textView_merchant_hero_i1"
+                    android:id="@+id/merch_hero_1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="selectedHeroIndex1"
+                    android:onClick="heroSelected"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hero_dummy_1" />
 
                 <ImageView
-                    android:id="@+id/textView_merchant_hero_i2"
+                    android:id="@+id/merch_hero_2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:onClick="selectedHeroIndex2"
+                    android:onClick="heroSelected"
                     android:scaleType="centerCrop"
                     android:src="@mipmap/hero_dummy_2" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/merchant_hero_textView_chosen_hero_index0"
@@ -130,16 +144,15 @@
                     android:layout_weight="1"
                     android:background="@color/merchant_heroes_name_tag_under_profile_picture"
                     android:gravity="center" />
-
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:id="@+id/merchant_linearLayout_hero_data"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1" >
 
                 <TextView
                     android:id="@+id/merchant_hero_name"
@@ -149,14 +162,13 @@
                     android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="1.5"/>
+                    android:layout_weight="1.5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
-                    android:layout_weight="1">
-
+                    android:layout_weight="1" >
 
                     <TextView
                         android:layout_weight="1"
@@ -184,12 +196,12 @@
                         android:typeface="sans"
                         android:fontFamily="sans-serif-light" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
-                    android:layout_weight="1">
-
+                    android:layout_weight="1" >
 
                     <TextView
                         android:layout_weight="1"
@@ -220,8 +232,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
-                    android:layout_weight="1">
-
+                    android:layout_weight="1" >
 
                     <TextView
                         android:layout_weight="1"
@@ -254,8 +265,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:orientation="horizontal"
-                    android:layout_weight="1">
-
+                    android:layout_weight="1" >
 
                     <TextView
                         android:layout_weight="1"
@@ -281,13 +291,13 @@
                         android:typeface="sans"
                         android:textStyle="bold" />
                 </LinearLayout>
-
             </LinearLayout>
-
-
         </LinearLayout>
 
-        <LinearLayout
+
+    </FrameLayout>
+
+    <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -84,6 +84,7 @@ public class StartActivity extends Activity {
         }
 
         if(countNewHeroes == 1) textViewSlaveMarket.setText("1 neuer Held");
+        else if(countNewHeroes == 0) textViewSlaveMarket.setText("Nichts anzubieten...");
         else textViewSlaveMarket.setText(countNewHeroes + " neue Helden");
     }
 

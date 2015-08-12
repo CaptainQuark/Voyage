@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.INotificationSideChannel;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,8 +28,8 @@ public class MerchantHeroActivity extends Activity {
     private String MERCHANT_ID = "merchantId";
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
     private String origin = "";
-    private ImageView textViewHero_0, textViewHero_1, textViewHero_2;
-    private LinearLayout heroDataLayout;
+    private ImageView textViewHero_0, textViewHero_1, textViewHero_2, marketView;
+    private LinearLayout heroDataLayout, containerLayoutMiddle;
     private TextView buyHeroView, textView_current_money, textView_available_slots, textView_buy,tag1, tag2, tag3, nameView, hitpointsView, costsView, primView, secView;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
@@ -39,37 +41,19 @@ public class MerchantHeroActivity extends Activity {
         setContentView(R.layout.activity_merchant_hero);
         merchantHelper = new DBmerchantHeroesAdapter(this);
 
-        hideSystemUI();
+        iniViews();
 
         Bundle b = getIntent().getExtras();
         if(b != null){
             origin = b.getString("ORIGIN", "StartActivity");
         }
 
-        heroDataLayout = (LinearLayout)findViewById(R.id.merchant_linearLayout_hero_data);
-        nameView = (TextView) findViewById(R.id.merchant_hero_name);
-        hitpointsView = (TextView) findViewById(R.id.merchant_hero_hitpoints);
-        costsView = (TextView) findViewById(R.id.merchant_hero_costs);
-        primView = (TextView) findViewById(R.id.merchant_hero_prim_class);
-        secView = (TextView) findViewById(R.id.merchant_hero_sec_class);
 
-        buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
-        textViewHero_0 = (ImageView) findViewById(R.id.textView_merchant_hero_i0);
-        textViewHero_1 = (ImageView) findViewById(R.id.textView_merchant_hero_i1);
-        textViewHero_2 = (ImageView) findViewById(R.id.textView_merchant_hero_i2);
-        textView_current_money = (TextView) findViewById(R.id.merchant_hero_current_money);
-        textView_available_slots = (TextView) findViewById(R.id.merchant_hero_free_slots);
-        textView_buy = (TextView) findViewById(R.id.merchant_hero_buy);
-        tag1 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index0);
-        tag2 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index1);
-        tag3 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index2);
-        merchantProfile = (ImageView) findViewById(R.id.imageView_merchant_profile);
 
         fillTextViewHeros(3);
         calcTimeDiff();
 
-        textView_current_money.setText("$ " + getCurrentMoney());
-        textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
+
     }
 
     private long getCurrentMoney() {
@@ -110,7 +94,7 @@ public class MerchantHeroActivity extends Activity {
         long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());
 
         currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
-        merchantProfile.setImageResource(ImgRes.res(this, "1", currentMerchantId + ""));
+        merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
 
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         editor.putLong("TIME_TO_LEAVE", finishDate);
@@ -197,53 +181,71 @@ public class MerchantHeroActivity extends Activity {
     public void fillTextViewHeros(int rowsExistent){
         Log.i("fillText", "fillTextViewHeroes called");
 
-        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+        textView_current_money.setText("$ " + getCurrentMoney());
+        textView_available_slots.setText(Long.toString(getFreeSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
+
+        int countUnused = 0;
 
         for(int i = 1; i <= rowsExistent && rowsExistent > 0; i++){
                 if(i == 1){
                     if (merchantHelper.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_0.setImageResource(R.color.standard_background);
-                        //tag1.setBackground(getResources().getDrawable(R.color.standard_background));
+                        tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                        countUnused++;
                     } else {
                         //merchantProfile.setImageResource(getResources().getIdentifier("merchant_" + currentMerchantId, "mipmap", getPackageName()));
                         //getResources().getIdentifier(merchantHelper.getHeroImgRes(i), "mipmap", getPackageName())
                         textViewHero_0.setImageResource(ImgRes.res(this, "hero", merchantHelper.getHeroImgRes(i)));
+                        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
                     }
                 }
                 else
                 if (i == 2){
                     if (merchantHelper.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_1.setImageResource(R.color.standard_background);
-                        //tag2.setBackground(getResources().getDrawable(R.color.standard_background));
+                        tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                        countUnused++;
                     } else {
                         textViewHero_1.setImageResource(ImgRes.res(this, "hero", merchantHelper.getHeroImgRes(i)));
+                        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
                     }
                 }
                 else
                 if(i == 3){
                     if (merchantHelper.getHeroName(i).equals("NOT_USED")) {
                         textViewHero_2.setImageResource(R.color.standard_background);
-                        //tag3.setBackground(getResources().getDrawable(R.color.standard_background));
+                        tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                        countUnused++;
                     } else {
                         textViewHero_2.setImageResource(ImgRes.res(this, "hero", merchantHelper.getHeroImgRes(i)));
+                        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
                     }
                 }
                 else{
                     Message.message(this, "Number of rows in merchant table: " + i);
                 }
         }
+
+        if(countUnused == rowsExistent){
+            marketView.setImageResource(R.mipmap.market_dummy_0);
+            marketView.setVisibility(View.VISIBLE);
+            containerLayoutMiddle.setVisibility(View.INVISIBLE);
+        }
     }
 
-    public void resetMerchant(View view){
+    public void resetToNewMerchant(View view){
+        heroDataLayout.setVisibility(View.INVISIBLE);
         updateMerchantsDatabase(3);
         setNewMerchantProfile();
         fillTextViewHeros(3);
+
+        if(marketView.getVisibility() == View.VISIBLE){
+            marketView.setVisibility(View.GONE);
+            containerLayoutMiddle.setVisibility(View.VISIBLE);
+        }
+
     }
-
     public void merchantHerosBackbuttonPressed(View view) {
-
         if(origin.equals("HeroesPartyActivity")){
             Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
             startActivity(i);
@@ -293,6 +295,7 @@ public class MerchantHeroActivity extends Activity {
                     i = 11;
                     merchantHelper.updateRow(currentSelectedHeroId, "NOT_USED");
                 }
+
             }
 
             fillTextViewHeros(3);
@@ -306,25 +309,33 @@ public class MerchantHeroActivity extends Activity {
         }
     }
 
-    public void selectedHeroIndex0(View view) {
-        tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
-        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        processSelectedHero(1);
-    }
+    public void heroSelected(View view){
 
-    public void selectedHeroIndex1(View view) {
-        tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
-        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        processSelectedHero(2);
-    }
+        switch (view.getId()){
+            case R.id.merch_hero_0:
+                tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                processSelectedHero(1);
+                break;
 
-    public void selectedHeroIndex2(View view) {
-        tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
-        tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-        processSelectedHero(3);
+            case R.id.merch_hero_1:
+                tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                processSelectedHero(2);
+                break;
+
+            case R.id.merch_hero_2:
+                tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                processSelectedHero(3);
+                break;
+
+            default:
+                Message.message(this, "ERROR @ 'heroSelected'");
+        }
     }
 
     private void processSelectedHero(int index) {
@@ -375,25 +386,52 @@ public class MerchantHeroActivity extends Activity {
     }
 
 
-    private void hideSystemUI() {
-        // Set the IMMERSIVE flag.
-        // Set the content to appear under the system bars so that the content
-        // doesn't resize when the system bars hide and show.
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    public void iniViews(){
+        heroDataLayout = (LinearLayout)findViewById(R.id.merchant_linearLayout_hero_data);
+        nameView = (TextView) findViewById(R.id.merchant_hero_name);
+        hitpointsView = (TextView) findViewById(R.id.merchant_hero_hitpoints);
+        costsView = (TextView) findViewById(R.id.merchant_hero_costs);
+        primView = (TextView) findViewById(R.id.merchant_hero_prim_class);
+        secView = (TextView) findViewById(R.id.merchant_hero_sec_class);
+
+        buyHeroView = (TextView) findViewById(R.id.merchant_hero_buy);
+        textViewHero_0 = (ImageView) findViewById(R.id.merch_hero_0);
+        textViewHero_1 = (ImageView) findViewById(R.id.merch_hero_1);
+        textViewHero_2 = (ImageView) findViewById(R.id.merch_hero_2);
+        textView_current_money = (TextView) findViewById(R.id.merchant_hero_current_money);
+        textView_available_slots = (TextView) findViewById(R.id.merchant_hero_free_slots);
+        textView_buy = (TextView) findViewById(R.id.merchant_hero_buy);
+        tag1 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index0);
+        tag2 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index1);
+        tag3 = (TextView) findViewById(R.id.merchant_hero_textView_chosen_hero_index2);
+        merchantProfile = (ImageView) findViewById(R.id.imageView_merchant_profile);
+        marketView = (ImageView)findViewById(R.id.merchant_market);
+        containerLayoutMiddle = (LinearLayout)findViewById(R.id.merchant_linearLayout_middle);
+
+            // Set the IMMERSIVE flag.
+            // Set the content to appear under the system bars so that the content
+            // doesn't resize when the system bars hide and show.
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
-    // This snippet shows the system bars. It does this by removing all the flags
-// except for the ones that make the content appear under the system bars.
-    private void showSystemUI() {
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-    }
 }
+
+
+
+
+/*
+        // This snippet shows the system bars. It does this by removing all the flags
+// except for the ones that make the content appear under the system bars.
+        private void showSystemUI() {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
+ */
