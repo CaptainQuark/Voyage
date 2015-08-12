@@ -17,6 +17,7 @@
     <color name="standard_background">#FF2F2F2F</color>
 
     <color name="inactive_field">#827e6c</color>
+    <color name="active_field">#b5b198</color>
 
     <color name="combat_healthbar_damage">#FFFF003B</color>
     <color name="combat_healthbar_vital">#5ce059</color>

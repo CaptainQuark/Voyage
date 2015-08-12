@@ -116,14 +116,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="11"
-                    android:id="@+id/heroes_party_realative_layout">
+                    android:id="@+id/heroes_party_realative_layout"
+                    android:visibility="invisible">
 
 
                     <TextView
+                        android:clickable="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Name des Helden"
+                        android:elevation="0dp"
                         android:textSize="40sp"
                         android:layout_marginLeft="40dp"
                         android:layout_marginTop="40dp"
@@ -166,11 +169,12 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:background="#ffdfdbc1"
+                        android:background="@color/inactive_field"
                         android:gravity="center"
                         android:text="5 / 19"
                         android:textColor="#ff000000"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        android:autoText="false" />
 
                     <TextView
                         android:onClick="heroesPartyDismissHero"
@@ -179,7 +183,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:background="#ffdfdbc1"
+                        android:background="@color/inactive_field"
                         android:gravity="center"
                         android:text="Dismiss Hero"
                         android:textColor="#ff000000"
@@ -191,7 +195,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:background="#ffdfdbc1"
+                        android:background="@color/inactive_field"
                         android:gravity="center"
                         android:text="Commit to Quest"
                         android:textColor="#ff000000"
@@ -203,7 +207,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:background="#ffdfdbc1"
+                        android:background="@color/inactive_field"
                         android:gravity="center"
                         android:text="Buy Hero"
                         android:textColor="#ff000000"

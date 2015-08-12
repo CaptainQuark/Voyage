@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,7 +24,8 @@ import java.util.TimerTask;
 public class HeroesPartyActivity extends Activity {
 
     private final int HEROES_IN_LISTVIEW = 10;
-    private TextView nameView, classesView, costsView, textView_slots, hintQuestView, hintDismissHeroView;
+    private RelativeLayout dataContainerLayout;
+    private TextView nameView, classesView, costsView, textView_slots, hintQuestView, hintDismissHeroView, dismissView, questView, buyView;
     private DBheroesAdapter heroesHelper;
     private ListView listview;
     private long slotsInHeroesDatabase = 0;
@@ -69,7 +71,11 @@ public class HeroesPartyActivity extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, final View view,
                                         int position, long id) {
+
                     selectedHeroIdFromDatabase = position + 1;
+                    questView.setBackgroundColor(getResources().getColor(R.color.active_field));
+                    dismissView.setBackgroundColor(getResources().getColor(R.color.active_field));
+                    dataContainerLayout.setVisibility(View.VISIBLE);
 
                     if(heroesHelper.getHeroName(selectedHeroIdFromDatabase).equals(getResources().getString(R.string.indicator_unused_row))){
 
@@ -100,6 +106,9 @@ public class HeroesPartyActivity extends Activity {
             }
         }
 
+        if(countUsed == slotsInHeroesDatabase) buyView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
+        else buyView.setBackgroundColor(getResources().getColor(R.color.active_field));
+
         return countUsed;
     }
 
@@ -110,6 +119,8 @@ public class HeroesPartyActivity extends Activity {
             heroesHelper.markOneRowAsUnused(selectedHeroIdFromDatabase);
             listview.invalidateViews();
             textView_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+
+            dataContainerLayout.setVisibility(View.INVISIBLE);
 
         }else{
             showHint("dismissHero");
@@ -224,15 +235,6 @@ public class HeroesPartyActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
-    public void initializeViews() {
-
-        nameView = (TextView) findViewById(R.id.textView_party_name);
-        classesView = (TextView) findViewById(R.id.textView_party_classes);
-        costsView = (TextView) findViewById(R.id.textView_party_costs);
-        textView_slots = (TextView) findViewById(R.id.hero_size_display);
-        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
-    }
-
     class MySimpleArrayAdapter extends ArrayAdapter<String> {
         private final Context context;
         private final String[] values;
@@ -261,6 +263,20 @@ public class HeroesPartyActivity extends Activity {
             return rowView;
         }
     }
+
+    public void initializeViews() {
+
+        nameView = (TextView) findViewById(R.id.textView_party_name);
+        classesView = (TextView) findViewById(R.id.textView_party_classes);
+        costsView = (TextView) findViewById(R.id.textView_party_costs);
+        textView_slots = (TextView) findViewById(R.id.hero_size_display);
+        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
+        dismissView = (TextView) findViewById(R.id.hero_dismiss);
+        questView = (TextView) findViewById(R.id.hero_set_as_adventurer);
+        buyView = (TextView) findViewById(R.id.heroes_party_buy_hero_from_merchant);
+        dataContainerLayout = (RelativeLayout)findViewById(R.id.heroes_party_realative_layout);
+    }
+
 }
 
 

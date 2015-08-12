@@ -77,7 +77,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:onClick="selectedHeroIndex0"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
+                    android:stateListAnimator="@anim/elevation"
                     android:src="@mipmap/hero_dummy_0" />
 
                 <ImageView
