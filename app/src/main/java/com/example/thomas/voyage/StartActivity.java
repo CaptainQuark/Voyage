@@ -13,9 +13,9 @@ import java.util.List;
 
 public class StartActivity extends Activity {
 
+    private final String IS_FIRST_RUN = "IS_FIRST_RUN";
     private DBheroesAdapter heroesHelper;
     private DBmerchantHeroesAdapter merchantHelper;
-    private final String IS_FIRST_RUN = "IS_FIRST_RUN";
     private TextView textViewSlaveMarket, textViewHeroesParty;
 
     @Override
@@ -43,9 +43,13 @@ public class StartActivity extends Activity {
         xList.add("*2");
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        hideSystemUI();
+    }
+
     public void isAppFirstStarted() {
-
-
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
 

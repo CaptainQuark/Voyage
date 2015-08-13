@@ -45,7 +45,15 @@ public class BeginJourney extends FragmentActivity {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        hideSystemUI();
+    }
+
+    @Override
     public void onBackPressed() {
+        super.onBackPressed();
+        /*
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step, allow the system to handle the
             // Back button. This calls finish() on this activity and pops the back stack.
@@ -54,6 +62,7 @@ public class BeginJourney extends FragmentActivity {
             // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
+        */
     }
 
     private void hideSystemUI() {

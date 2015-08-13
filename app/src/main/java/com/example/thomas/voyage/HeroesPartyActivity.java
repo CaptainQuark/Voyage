@@ -92,6 +92,12 @@ public class HeroesPartyActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        hideSystemUI();
+    }
+
     private long getUsedSlotsInHeroesDatabase() {
         long countUsed = 0;
         slotsInHeroesDatabase = heroesHelper.getTaskCount();
@@ -120,7 +126,7 @@ public class HeroesPartyActivity extends Activity {
             selectedHeroIdFromDatabase = -1;
             dismissView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
 
-            questView.setBackgroundColor(getResources().getColor(R.color.inactive_field));;
+            questView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
 
         }else{
             showHint("dismissHero");
@@ -235,6 +241,19 @@ public class HeroesPartyActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
+    public void initializeViews() {
+
+        nameView = (TextView) findViewById(R.id.textView_party_name);
+        classesView = (TextView) findViewById(R.id.textView_party_classes);
+        costsView = (TextView) findViewById(R.id.textView_party_costs);
+        textView_slots = (TextView) findViewById(R.id.hero_size_display);
+        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
+        dismissView = (TextView) findViewById(R.id.hero_dismiss);
+        questView = (TextView) findViewById(R.id.hero_set_as_adventurer);
+        buyView = (TextView) findViewById(R.id.heroes_party_buy_hero_from_merchant);
+        dataContainerLayout = (RelativeLayout) findViewById(R.id.heroes_party_realative_layout);
+    }
+
     class MySimpleArrayAdapter extends ArrayAdapter<String> {
         private final Context context;
         private final String[] values;
@@ -262,19 +281,6 @@ public class HeroesPartyActivity extends Activity {
 
             return rowView;
         }
-    }
-
-    public void initializeViews() {
-
-        nameView = (TextView) findViewById(R.id.textView_party_name);
-        classesView = (TextView) findViewById(R.id.textView_party_classes);
-        costsView = (TextView) findViewById(R.id.textView_party_costs);
-        textView_slots = (TextView) findViewById(R.id.hero_size_display);
-        listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
-        dismissView = (TextView) findViewById(R.id.hero_dismiss);
-        questView = (TextView) findViewById(R.id.hero_set_as_adventurer);
-        buyView = (TextView) findViewById(R.id.heroes_party_buy_hero_from_merchant);
-        dataContainerLayout = (RelativeLayout)findViewById(R.id.heroes_party_realative_layout);
     }
 
 }

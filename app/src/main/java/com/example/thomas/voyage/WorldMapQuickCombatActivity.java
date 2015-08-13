@@ -70,6 +70,12 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         goInCombat = (TextView)findViewById(R.id.worldmap_textView_go_in_combat);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        hideSystemUI();
+    }
+
     public void WorldMapBackbuttonPressed(View view) {
         onBackPressed();
     }

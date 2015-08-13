@@ -15,6 +15,7 @@
     <color name="merchant_heroes_name_tag_under_profile_picture">#4c4c4c</color>
 
     <color name="standard_background">#FF2F2F2F</color>
+    <color name="transparent">#00FFFFFF</color>
 
     <color name="inactive_field">#827e6c</color>
     <color name="active_field">#b5b198</color>

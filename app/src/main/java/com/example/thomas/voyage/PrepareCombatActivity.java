@@ -3,12 +3,7 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,7 +20,7 @@ public class PrepareCombatActivity extends Activity {
         setContentView(R.layout.activity_combat_white);
         hideSystemUI();
 
-        ImageView heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);;
+        ImageView heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);
         TextView toCombatView = (TextView) findViewById(R.id.pre_combat_to_battle_view);
 
         Bundle b = getIntent().getExtras();
@@ -40,7 +35,6 @@ public class PrepareCombatActivity extends Activity {
         }
 
         if (origin.equals("HeroesPartyActivity")) {
-            Message.message(this, "image resource: " + image);
             heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
             heroProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
             heroProfile.setColorFilter(Color.TRANSPARENT);
@@ -48,6 +42,12 @@ public class PrepareCombatActivity extends Activity {
             toCombatView.setText("Auf in die Schlacht!");
             toCombatView.setBackground(getDrawable(R.drawable.ripple_go_in_combat));
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        hideSystemUI();
     }
 
     public void combatWhiteSelectHeroFromParty(View view){

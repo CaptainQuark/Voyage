@@ -4,11 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HeroPool {
-
-    Context context;
 
     private static String name;
     private static String pClass;       //Primärklasse
@@ -20,6 +17,7 @@ public class HeroPool {
     private static int costs;           //Heldenkosten
     private static int costsBase;       //Kosten des Primärklassenbausteins
     private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
+    Context context;
     ArrayList<String> biomes = new ArrayList<String>();
 
     public HeroPool(Context con){
@@ -292,7 +290,7 @@ public class HeroPool {
     public String getImageResource(){
         int j = 0;
 
-        for(; !(j > 0 && j < 8) ;){
+        for (; !(j >= 0 && j < 8); ) {
             j = (int) (Math.random() * 10);
         }
 
