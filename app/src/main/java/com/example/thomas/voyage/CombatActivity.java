@@ -25,11 +25,7 @@ public class CombatActivity extends Activity {
             scoreMultiplier = 1,
             dartCount = 1,
             heroClassActive = 1;
-    private static String finishMultiplier = "UniversalSingle",
-            FinishMultiplier1 = "UniversalSingle",
-            finishMultiplier2 = "UniversalSingle",
-            finishMultiplier3 = "UniversalSingle",
-            image = "";
+    private static String image = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[] scoreHeroMultiplierArray = {-1, -1, -1},
             scoreHeroFieldArray = {-1, -1, -1};
@@ -37,7 +33,8 @@ public class CombatActivity extends Activity {
             heroHealthView,
             heroNameView,
             monsterNameView,
-            eventsView;
+            eventsView,
+            chronicleView;
     private static ImageView healthbarMonsterVital,
             healthBarMonsterDamaged,
             healthBarHeroVital,
@@ -52,9 +49,70 @@ public class CombatActivity extends Activity {
             heroPrimaryClass = "",
             heroSecondaryClass = "";
     private static int heroHitpoints = -1, heroCosts = -1;
-    private static int heroHitpointsConst;
+    private static int heroHitpointsConst = -1;
     private String origin = "";
     private GridView gridViewNumbers, gridViewSpecials;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_combat);
+        hideSystemUI();
+        initializeViews();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            heroName = b.getString("HEROES_NAME", "???");
+            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
+            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
+            heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
+            heroCosts = b.getInt("HEROES_COSTS", -1);
+            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+            origin = b.getString("ORIGIN", "StartActivity");
+
+            heroHitpointsConst = heroHitpoints;
+        }
+
+        monsterHealth = monsterHealthConst;
+        heroHitpointsConst = heroHitpoints;
+
+        undoListForHero = new ArrayList<>();
+
+        int[] numbersOfBoardList = new int[20];
+        for (int i = 0; i < 20; i++) {
+            numbersOfBoardList[i] = i + 1;
+        }
+
+        int[] specialSymbolsList = new int[10];
+        for (int i = 0; i < 10; i++) {
+            specialSymbolsList[i] = i + 1;
+        }
+
+        heroNameView.setText(heroName);
+        heroHealthView.setText(Integer.toString(heroHitpoints));
+        monsterHealthView.setText(Integer.toString(monsterHealth));
+
+        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
+        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
+
+        paramsBarMonsterDamaged.weight = 0.0f;
+        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+
+        paramsBarHeroDamaged.weight = 0.0f;
+        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+
+        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
+        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
+
+
+        heroProfileView.setImageResource(ImgRes.res(this, "hero", image));
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
+        hideSystemUI();
+    }
 
     private static void setHealthBarMonster() {
 
@@ -80,7 +138,35 @@ public class CombatActivity extends Activity {
                 monsterHealth = monsterHealthConst;
             }
         } catch (ArithmeticException a) {
-            Log.e("ARITHMETICH EXCEPTION", a + "");
+            Log.e("ARITHMETIC EXCEPTION", a + "");
+        }
+    }
+
+    private static void setHealthBarHero() {
+
+        try {
+            if (heroHitpoints > 0) {
+
+                float x = heroHitpointsConst * (float) 0.01;
+
+                float weightRounded = heroHitpoints / x * (float) 0.01;
+
+                heroHealthView.setText(heroHitpoints + "");
+                paramsBarHeroDamaged.weight = 1 - weightRounded;
+                paramsBarHeroVital.weight = weightRounded;
+                healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+                healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
+
+            } else {
+                paramsBarHeroDamaged.weight = 1.0f;
+                paramsBarHeroVital.weight = 0f;
+                healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+                healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
+                heroHealthView.setText("DU GEWINNER!");
+                heroHitpoints = heroHitpointsConst;
+            }
+        } catch (ArithmeticException a) {
+            Log.e("ARITHMETIC EXCEPTION", a + "");
         }
     }
 
@@ -114,74 +200,22 @@ public class CombatActivity extends Activity {
 
             monsterHealth -= appliedDamage;
             undoListForHero.add(appliedDamage);
+            /*
+            int size = undoListForHero.size();
+            String chronicle = "";
+
+            for(int i = dartCount; i >= 1; i--){
+                chronicle += undoListForHero.get(size - i);
+                if(i != 1) chronicle += '|';
+                chronicleView.setText(chronicle);
+            }
+            */
             setHealthBarMonster();
 
             dartCount = 1;
         } else dartCount++;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combat);
-        hideSystemUI();
-        initializeViews();
-
-        Bundle b = getIntent().getExtras();
-        if(b != null){
-            heroName = b.getString("HEROES_NAME", "???");
-            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
-            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
-            heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
-            heroCosts= b.getInt("HEROES_COSTS", -1);
-            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
-            origin = b.getString("ORIGIN", "StartActivity");
-
-            heroHitpointsConst = heroHitpoints;
-        }
-
-        monsterHealth = monsterHealthConst;
-
-        undoListForHero = new ArrayList<>();
-
-        int[] numbersOfBoardList = new int[20];
-        for (int i = 0; i < 20; i++) {
-            numbersOfBoardList[i] = i + 1;
-        }
-
-        int[] specialSymbolsList = new int[10];
-        for (int i = 0; i < 10; i++){
-            specialSymbolsList[i] = i+1 ;
-        }
-
-        heroNameView.setText(heroName);
-        monsterHealthView.setText(Integer.toString(monsterHealth));
-
-        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
-        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
-
-
-
-
-        paramsBarMonsterDamaged.weight = 0.0f;
-        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-
-
-        paramsBarHeroDamaged.weight = 0.0f;
-        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
-
-        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
-        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
-
-
-        heroProfileView.setImageResource(ImgRes.res(this, "hero", image));
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();  // Always call the superclass method first
-        hideSystemUI();
-    }
 
     /*
         private static void setHealthBarHero() {
@@ -249,6 +283,7 @@ public class CombatActivity extends Activity {
         healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
         heroProfileView = (ImageView) findViewById(R.id.combat_hero_profile);
         heroHealthView = (TextView) findViewById(R.id.heroHealthView);
+        chronicleView = (TextView) findViewById(R.id.textView_hitpoints_chronik);
     }
 
     private void hideSystemUI() {
