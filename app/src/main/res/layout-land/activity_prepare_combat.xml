@@ -40,8 +40,8 @@
                 android:scaleType="center"
                 android:tint="@android:color/white"
                 android:onClick="combatWhiteSelectHeroFromParty"
-                android:background="#afafaf"
-                android:src="@android:drawable/ic_input_add"
+                android:background="@drawable/ripple_grey_to_black"
+                android:src="@android:drawable/ic_menu_add"
                 android:elevation="16dp"
                 android:cropToPadding="false" />
 

@@ -32,20 +32,13 @@ public class StartActivity extends Activity {
 
         setSlaveMarketWindow();
         setHeroesPartyWindow();
-
-        List<String> xList = new ArrayList<>();
-        xList.add("IF");
-        xList.add("2.");
-        xList.add("==");
-        xList.add("10");
-        xList.add("->");
-        xList.add("2.");
-        xList.add("*2");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
+        setHeroesPartyWindow();
+        setHeroesPartyWindow();
         hideSystemUI();
     }
 
@@ -96,9 +89,7 @@ public class StartActivity extends Activity {
         long count = 0;
 
         for(int i = 1; i <= size; i++){
-            if(!heroesHelper.getHeroName(i)
-                    .equals(getResources().getString(R.string.indicator_unused_row))){
-
+            if(!heroesHelper.getHeroName(i).equals(getResources().getString(R.string.indicator_unused_row))){
                 count++;
             }
         }

@@ -23,7 +23,10 @@
                 android:layout_weight="6"
                 android:background="#ffc1b190"
                 android:onClick="resetMerchant"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                android:src="@mipmap/monster_dummy_2"
+                android:tintMode="multiply"
+                android:tint="#555555" />
 
             <TextView
                 android:id="@+id/static_textView_merchant_0"
@@ -147,7 +150,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:id="@+id/merchant_linearLayout_hero_data"
                 android:orientation="vertical"
                 android:layout_width="match_parent"

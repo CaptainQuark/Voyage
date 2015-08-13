@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -247,10 +248,10 @@ public class MerchantHeroActivity extends Activity {
         if(countUnused == rowsExistent){
             marketView.setImageResource(R.mipmap.market_dummy_0);
             marketView.setVisibility(View.VISIBLE);
-            //merchantProfile.setColorFilter(getResources().getColor(R.color.inactive_field), android.graphics.PorterDuff.Mode.MULTIPLY);
+            merchantProfile.setColorFilter(getResources().getColor(R.color.tint_inactive), android.graphics.PorterDuff.Mode.MULTIPLY);
             containerLayoutMiddle.setVisibility(View.INVISIBLE);
         } else {
-            //merchantProfile.setColorFilter(getResources().getColor(R.color.inactive_field),PorterDuff.Mode.CLEAR);
+            merchantProfile.setColorFilter(getResources().getColor(R.color.tint_transparent), android.graphics.PorterDuff.Mode.ADD);
         }
     }
 

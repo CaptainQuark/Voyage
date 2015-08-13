@@ -17,7 +17,7 @@ public class PrepareCombatActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_combat_white);
+        setContentView(R.layout.activity_prepare_combat);
         hideSystemUI();
 
         ImageView heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);
