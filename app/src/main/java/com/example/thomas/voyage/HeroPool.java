@@ -18,7 +18,7 @@ public class HeroPool {
     private static int costsBase;       //Kosten des Primärklassenbausteins
     private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
     Context context;
-    ArrayList<String> biomes = new ArrayList<String>();
+    ArrayList<String> biomes = new ArrayList<>();
 
     public HeroPool(Context con){
         context = con;
@@ -82,9 +82,9 @@ public class HeroPool {
             //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
             case 1:
                 costsBase = 1000;
-                for (boolean run = true; (run && currentBiome == "Everywhere")
-                        || (run && neededBiome == "Everywhere")
-                        || (run && currentBiome == neededBiome); ) {
+                for (boolean run = true; (run && currentBiome.equals("Everywhere"))
+                        || (run && neededBiome.equals("Everywhere"))
+                        || (run && currentBiome.equals(neededBiome)); ) {
 
                     run = false;
 
@@ -288,7 +288,7 @@ public class HeroPool {
     }
 
     public String getImageResource(){
-        int j = 0;
+        int j = -1;
 
         for (; !(j >= 0 && j < 8); ) {
             j = (int) (Math.random() * 10);
