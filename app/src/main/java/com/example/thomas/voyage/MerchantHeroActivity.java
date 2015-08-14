@@ -151,18 +151,16 @@ public class MerchantHeroActivity extends Activity {
         long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
 
         Date finish = new Date();
+        Date now = new Date();
         finish.setTime(finishDate);
 
         Date newExpirationDate = new Date();
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
 
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
-
-
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putLong("TIME_TO_LEAVE", newExpirationDate.getTime());
-        editor.apply();
+        //newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
+        if(finish.before(now)) newExpirationDate.setTime( (60*60*1000*12) - (now.getTime() - finishDate));
+        else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 2)) );
 
         return newExpirationDate.getTime();
     }
@@ -342,22 +340,22 @@ public class MerchantHeroActivity extends Activity {
         switch (view.getId()){
             case R.id.merch_hero_0:
                 tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
-                tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(2).equals("NOT_USED")) tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(3).equals("NOT_USED")) tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
                 processSelectedHero(1);
                 break;
 
             case R.id.merch_hero_1:
                 tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
-                tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(1).equals("NOT_USED")) tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(3).equals("NOT_USED")) tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
                 processSelectedHero(2);
                 break;
 
             case R.id.merch_hero_2:
                 tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
-                tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(2).equals("NOT_USED")) tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(1).equals("NOT_USED")) tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
                 processSelectedHero(3);
                 break;
 
