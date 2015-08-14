@@ -31,7 +31,7 @@ public class ItemCapability {
                 // right = formulaResolver( var von Stelle '->' bis letzte Stelle
                 break;
 
-            case "==":
+            case "&&":
                 //
         }
 

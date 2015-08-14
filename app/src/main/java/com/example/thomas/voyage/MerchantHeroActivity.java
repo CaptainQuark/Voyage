@@ -158,9 +158,9 @@ public class MerchantHeroActivity extends Activity {
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
 
-        //newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
-        if(finish.before(now)) newExpirationDate.setTime( (60*60*1000*12) - (now.getTime() - finishDate));
-        else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 2)) );
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
+        //if(finish.before(now)) newExpirationDate.setTime( (60*60*1000*12) - (now.getTime() - finishDate));
+        //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 2)) );
 
         return newExpirationDate.getTime();
     }

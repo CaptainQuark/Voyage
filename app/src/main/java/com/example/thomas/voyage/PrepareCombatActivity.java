@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,20 +20,12 @@ public class PrepareCombatActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prepare_combat);
         hideSystemUI();
+        getHeroData();
 
         ImageView heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);
         TextView toCombatView = (TextView) findViewById(R.id.pre_combat_to_battle_view);
 
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            image = b.getString("IMAGE_RESOURCE", "hero_dummy_0");
-            heroName = b.getString("HEROES_NAME", "");
-            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "");
-            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "");
-            heroHitpoints = b.getInt("HEROES_HITPOINTS", -1);
-            heroCosts = b.getInt("HEROES_COSTS", -1);
-            origin = b.getString("ORIGIN", "");
-        }
+
 
         if (origin.equals("HeroesPartyActivity")) {
             heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
@@ -48,6 +41,20 @@ public class PrepareCombatActivity extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+        getHeroData();
+    }
+
+    private void getHeroData(){
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            image = b.getString("IMAGE_RESOURCE", "hero_dummy_0");
+            heroName = b.getString("HEROES_NAME", "");
+            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "");
+            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "");
+            heroHitpoints = b.getInt("HEROES_HITPOINTS", -2);
+            heroCosts = b.getInt("HEROES_COSTS", -1);
+            origin = b.getString("ORIGIN", "");
+        }
     }
 
     public void combatWhiteSelectHeroFromParty(View view){
@@ -65,7 +72,7 @@ public class PrepareCombatActivity extends Activity {
             i.putExtra("HEROES_NAME",heroName);
             i.putExtra("HEROES_PRIMARY_CLASS", heroPrimaryClass);
             i.putExtra("HEROES_SECONDARY_CLASS",heroSecondaryClass);
-            i.putExtra("HEROES HITPOINTS", heroHitpoints);
+            i.putExtra("HEROES_HITPOINTS", heroHitpoints);
             i.putExtra("HEROES_COSTS", heroCosts);
             i.putExtra("IMAGE_RESOURCE", image);
             i.putExtra("ORIGIN", "PrepareCombatActivity");
