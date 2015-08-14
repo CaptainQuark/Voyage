@@ -57,6 +57,7 @@ public class HeroPool {
                     run = true;
                     break;
             }
+            Log.e("HERONAME", "bool: " + run);
         }
 
         Log.i("HERONAME", "Name des Helden: " + name);

@@ -121,6 +121,7 @@ public class StartActivity extends Activity {
     }
 
     public long insertToMerchantDatabase(int numberOfInserts) {
+        Message.message(this, "'insertToMerchantDatabase'");
         DBmerchantHeroesAdapter merchantHelper = new DBmerchantHeroesAdapter(this);
         List<Hero> herosList = new ArrayList<>();
         long id = 0;
@@ -168,13 +169,6 @@ public class StartActivity extends Activity {
     public void clickToDirectCombat(View view){
         Intent i = new Intent(getApplicationContext(), CombatActivity.class);
         startActivity(i);
-    }
-
-    public boolean leftExpression(List<String> xList) {
-
-        textViewSlaveMarket.setText(xList.get(3));
-
-        return false;
     }
 
     private void hideSystemUI() {

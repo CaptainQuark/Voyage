@@ -150,10 +150,19 @@ public class MerchantHeroActivity extends Activity {
        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
 
+        Date finish = new Date();
+        finish.setTime(finishDate);
+
         Date newExpirationDate = new Date();
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
-        newExpirationDate.setTime(System.currentTimeMillis() - finishDate + (60 * 60 * 1000 * 12));
+
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
+
+
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putLong("TIME_TO_LEAVE", newExpirationDate.getTime());
+        editor.apply();
 
         return newExpirationDate.getTime();
     }
@@ -172,6 +181,7 @@ public class MerchantHeroActivity extends Activity {
     }
 
     public long updateMerchantsDatabase(int numberOfInserts) {
+        Log.e("UPDATE_DATABASE", "updateMerchantDatabase, inserts: " + numberOfInserts);
         List<Hero> herosList = new ArrayList<>();
         long id = 0;
 

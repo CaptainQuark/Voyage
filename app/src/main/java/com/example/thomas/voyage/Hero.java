@@ -40,7 +40,9 @@ public class Hero {
 
         switch (identifier){
             case "heroName":
-                string = heroName; break;
+                string = heroName;
+                Log.e("HERONAME", "heroName = " + heroName);
+                Log.e("HERONAME", "identifier = " + identifier);
             case "classPrimary":
                 string = classPrimary; break;
             case "classSecondary":
