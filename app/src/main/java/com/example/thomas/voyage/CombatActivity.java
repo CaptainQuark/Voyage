@@ -19,13 +19,13 @@ import java.util.List;
 
 public class CombatActivity extends Activity {
 
-    private static final int monsterHealthConst = 500;
-    private static boolean gridInitialized = true;
-    private static int monsterHealth = 500,
+    private static int monsterHealthConst = -1,
+            heroHitpointsConst = -1,
             scoreMultiplier = 1,
             dartCount = 1,
-            heroClassActive = 1;
-    private static String image = "";
+            heroClassActive = 1,
+            roundCount = 0;
+    private static String heroImgRes = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[] scoreHeroMultiplierArray = {-1, -1, -1},
             scoreHeroFieldArray = {-1, -1, -1};
@@ -41,15 +41,12 @@ public class CombatActivity extends Activity {
             healthBarHeroDamaged,
             heroProfileView;
     private static List<Integer> undoListForHero;
+    private static List<Hero> heroList;
+    private static List<Monster> monsterList;
     private static LinearLayout.LayoutParams paramsBarMonsterDamaged,
             paramsBarMonsterVital,
             paramsBarHeroDamaged,
             paramsBarHeroVital;
-    private static String heroName = "Ritter Namenlos",
-            heroPrimaryClass = "",
-            heroSecondaryClass = "";
-    private static int heroHitpoints = -1, heroCosts = -1;
-    private static int heroHitpointsConst = -1;
     private String origin = "";
     private GridView gridViewNumbers, gridViewSpecials;
 
@@ -61,7 +58,7 @@ public class CombatActivity extends Activity {
         initializeViews();
         initializeValues();
 
-
+        startRound();
     }
 
     @Override
@@ -70,7 +67,16 @@ public class CombatActivity extends Activity {
         hideSystemUI();
     }
 
+    private static void startRound(){
+        roundCount++;
+
+        // TODO Wenn Monster durch Fähigkeit beginnt, dann hier.
+        // TODO Danach wird der bool-Wert auf 'false' gesetzt.
+        // TODO Ansonsten passiert in 'startRound' nichts mehr und Held beginnt.
+    }
+
     private static void setHealthBarMonster() {
+        int monsterHealth = monsterList.get(0).getInt("hp");
 
         try {
             if (monsterHealth > 0) {
@@ -91,7 +97,7 @@ public class CombatActivity extends Activity {
                 healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
                 healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
                 monsterHealthView.setText("DU GEWINNER!");
-                monsterHealth = monsterHealthConst;
+                monsterList.get(0).setInt("hp", monsterHealthConst);
             }
         } catch (ArithmeticException a) {
             Log.e("ARITHMETIC EXCEPTION", a + "");
@@ -99,6 +105,7 @@ public class CombatActivity extends Activity {
     }
 
     private static void setHealthBarHero() {
+        int heroHitpoints = heroList.get(0).getInts("hp");
 
         try {
             if (heroHitpoints > 0) {
@@ -119,7 +126,7 @@ public class CombatActivity extends Activity {
                 healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
                 healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
                 heroHitpointsView.setText("DU GEWINNER!");
-                heroHitpoints = heroHitpointsConst;
+                heroList.get(0).setInt("hp", heroHitpointsConst);
             }
         } catch (ArithmeticException a) {
             Log.e("ARITHMETIC EXCEPTION", a + "");
@@ -154,7 +161,7 @@ public class CombatActivity extends Activity {
                     break;
             }
 
-            monsterHealth -= appliedDamage;
+            monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") - appliedDamage);
             undoListForHero.add(appliedDamage);
             /*
             int size = undoListForHero.size();
@@ -167,42 +174,20 @@ public class CombatActivity extends Activity {
             }
             */
             setHealthBarMonster();
-
             dartCount = 1;
+
+
+            /*
+
+            //TODO - Ablauf für Angriff des Monsters implementieren, welcher hier beginnt
+            //TODO - Sobald dieser fertig ist, beginnt Kampf von Neuem
+
+             */
+
+
         } else dartCount++;
     }
 
-
-    /*
-        private static void setHealthBarHero() {
-
-            try {
-                if (heroHitpoints > 0) {
-
-                    float x = heroHitpointsConst * (float) 0.01;
-
-                    float weightRounded = heroHitpoints / x * (float) 0.01;
-
-                    monsterHealthView.setText(monsterHealth + "");
-                    paramsBarMonsterDamaged.weight = 1 - weightRounded;
-                    paramsBarMonsterVital.weight = weightRounded;
-                    healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                    healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
-
-                } else {
-                    paramsBarMonsterDamaged.weight = 1.0f;
-                    paramsBarMonsterVital.weight = 0f;
-                    healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                    healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
-                    monsterHealthView.setText("DU GEWINNER!");
-                    monsterHealth = monsterHealthConst;
-                }
-            } catch (ArithmeticException a) {
-                Log.e("ARITHMETICH EXCEPTION", a + "");
-            }
-
-        }
-    */
     public void activityCombatBackToMain(View view) {
         Intent i = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(i);
@@ -213,83 +198,15 @@ public class CombatActivity extends Activity {
         int size = undoListForHero.size();
 
         if (size > 0) {
-            monsterHealth += undoListForHero.get(size - 1);
+            monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") + undoListForHero.get(size - 1));
             setHealthBarMonster();
             undoListForHero.remove(size - 1);
-            monsterHealthView.setText(Integer.toString(monsterHealth));
+            monsterHealthView.setText(Integer.toString(monsterList.get(0).getInt("hp")));
         }
     }
 
     public void missButtonClicked(View view) {
         handleAttackInputByHero(0);
-    }
-
-    private void initializeViews() {
-        gridViewNumbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
-        gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
-        healthBarHeroVital = (ImageView) findViewById(R.id.healthbar_hero_vital);
-        healthBarHeroDamaged = (ImageView) findViewById(R.id.healthbar_hero_damaged);
-        paramsBarHeroDamaged = (LinearLayout.LayoutParams) healthBarHeroDamaged.getLayoutParams();
-        paramsBarHeroVital = (LinearLayout.LayoutParams) healthBarHeroVital.getLayoutParams();
-        heroNameView = (TextView) findViewById(R.id.heroNameView);
-        monsterNameView = (TextView) findViewById(R.id.monsterNameView);
-        eventsView = (TextView) findViewById(R.id.combat_events_log);
-        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
-        healthbarMonsterVital = (ImageView) findViewById(R.id.healthbar_monster_vital);
-        healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
-        heroProfileView = (ImageView) findViewById(R.id.combat_hero_profile);
-        heroHitpointsView = (TextView) findViewById(R.id.heroHealthView);
-        chronicleView = (TextView) findViewById(R.id.textView_hitpoints_chronik);
-        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
-        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
-    }
-
-    public void initializeValues(){
-        Bundle b = getIntent().getExtras();
-        if (b != null) {
-            heroName = b.getString("HEROES_NAME", "???");
-            heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
-            heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
-            heroHitpoints = b.getInt("HEROES_HITPOINTS", -3);
-            heroCosts = b.getInt("HEROES_COSTS", -1);
-            image = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
-            origin = b.getString("ORIGIN", "StartActivity");
-
-            heroHitpointsConst = heroHitpoints;
-            heroNameView.setText(heroName);
-            heroHitpointsView.setText(Integer.toString(heroHitpoints));
-            monsterHealthView.setText(Integer.toString(monsterHealth));
-        }
-
-        int[] numbersOfBoardList = new int[20];
-        for (int i = 0; i < 20; i++) {
-            numbersOfBoardList[i] = i + 1;
-        }
-
-        int[] specialSymbolsList = new int[10];
-        for (int i = 0; i < 10; i++) {
-            specialSymbolsList[i] = i + 1;
-        }
-
-        monsterHealth = monsterHealthConst;
-        undoListForHero = new ArrayList<>();
-        paramsBarMonsterDamaged.weight = 0.0f;
-        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-        paramsBarHeroDamaged.weight = 0.0f;
-        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
-        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
-        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
-        heroProfileView.setImageResource(ImgRes.res(this, "hero", image));
-    }
-
-    private void hideSystemUI() {
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     private static class NumbersAdapter extends BaseAdapter {
@@ -486,7 +403,7 @@ public class CombatActivity extends Activity {
 
         public void applyEffects() {
 
-            switch (heroPrimaryClass) {
+            switch (heroList.get(0).getStrings("classPrimary")) {
 
                 default:
                     // (noch) kein Effect
@@ -500,7 +417,7 @@ public class CombatActivity extends Activity {
 
         public void applyEffects() {
 
-            switch (heroSecondaryClass) {
+            switch (heroList.get(0).getStrings("classSecondary")) {
 
                 default:
                     // (noch) kein Effect
@@ -511,6 +428,84 @@ public class CombatActivity extends Activity {
 
     private static class handleSpecialAttackHeroClass {
 
+    }
+
+    private void hideSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    public void initializeValues(){
+        heroList = new ArrayList<>();
+        monsterList = new ArrayList<>();
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            String heroName = b.getString("HEROES_NAME", "???");
+            String heroPrimaryClass = b.getString("HEROES_PRIMARY_CLASS", "???");
+            String heroSecondaryClass = b.getString("HEROES_SECONDARY_CLASS", "???");
+            int heroHitpoints = b.getInt("HEROES_HITPOINTS", -3);
+            int heroCosts = b.getInt("HEROES_COSTS", -1);
+            String heroImgRes = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
+            origin = b.getString("ORIGIN", "StartActivity");
+
+            heroHitpointsConst = heroHitpoints;
+
+
+            // .add für Anzahl der Helden sowie Anzahl der Monster
+            heroList.add(new Hero(heroName, heroPrimaryClass, heroSecondaryClass, heroImgRes, heroHitpoints, heroCosts));
+        }
+
+        monsterList.add(new Monster());
+        monsterHealthConst = monsterList.get(0).getInt("hp");
+
+        heroNameView.setText(heroList.get(0).getStrings("heroName"));
+        heroHitpointsView.setText(Integer.toString(heroList.get(0).getInts("hp")));
+        monsterHealthView.setText(Integer.toString(monsterList.get(0).getInt("hp")));
+
+        int[] numbersOfBoardList = new int[20];
+        for (int i = 0; i < 20; i++) {
+            numbersOfBoardList[i] = i + 1;
+        }
+
+        int[] specialSymbolsList = new int[10];
+        for (int i = 0; i < 10; i++) {
+            specialSymbolsList[i] = i + 1;
+        }
+
+        undoListForHero = new ArrayList<>();
+        paramsBarMonsterDamaged.weight = 0.0f;
+        healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+        paramsBarHeroDamaged.weight = 0.0f;
+        healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
+        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
+        heroProfileView.setImageResource(ImgRes.res(this, "hero", heroList.get(0).getStrings("imageResource")));
+    }
+
+    private void initializeViews() {
+        gridViewNumbers = (GridView) findViewById(R.id.activity_combat_gridView_numbers);
+        gridViewSpecials = (GridView) findViewById(R.id.activity_combat_gridView_specials);
+        healthBarHeroVital = (ImageView) findViewById(R.id.healthbar_hero_vital);
+        healthBarHeroDamaged = (ImageView) findViewById(R.id.healthbar_hero_damaged);
+        paramsBarHeroDamaged = (LinearLayout.LayoutParams) healthBarHeroDamaged.getLayoutParams();
+        paramsBarHeroVital = (LinearLayout.LayoutParams) healthBarHeroVital.getLayoutParams();
+        heroNameView = (TextView) findViewById(R.id.heroNameView);
+        monsterNameView = (TextView) findViewById(R.id.monsterNameView);
+        eventsView = (TextView) findViewById(R.id.combat_events_log);
+        monsterHealthView = (TextView) findViewById(R.id.monsterHealthView);
+        healthbarMonsterVital = (ImageView) findViewById(R.id.healthbar_monster_vital);
+        healthBarMonsterDamaged = (ImageView) findViewById(R.id.healthbar_monster_damaged);
+        heroProfileView = (ImageView) findViewById(R.id.combat_hero_profile);
+        heroHitpointsView = (TextView) findViewById(R.id.heroHealthView);
+        chronicleView = (TextView) findViewById(R.id.textView_hitpoints_chronik);
+        paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
+        paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
     }
 }
 

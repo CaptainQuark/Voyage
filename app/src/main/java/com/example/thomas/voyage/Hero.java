@@ -1,24 +1,30 @@
 package com.example.thomas.voyage;
 
 import android.content.Context;
-import android.util.Log;
 
 
 public class Hero {
 
     Context context;
 
-    private String heroName;
-    private int hitPoints;
-    private String classPrimary;
-    private String classSecondary;
-    private int costs;
-    private String imageResource;
+    private String heroName, classSecondary, classPrimary, imageResource;
+    private int hp, costs, hpConst;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
-
     public Hero(Context con){
         context = con;
+    }
+
+    // 2. Konstruktor, welcher gewählt werden kann (jedoch immer nur einer)
+    public Hero(String name, String prime, String sec, String imgRes, int hp, int costs){
+        heroName = name;
+        classPrimary = prime;
+        classSecondary = sec;
+        imageResource = imgRes;
+        this.hp = hp;
+        this.costs = costs;
+
+        hpConst = hp;
     }
 
 
@@ -28,7 +34,7 @@ public class Hero {
 
         heroName = HeroPool.setName();
         classPrimary = HeroPool.setClassPrimary(merchantBiome);
-        hitPoints = HeroPool.setHitPoints();
+        hp = HeroPool.setHitPoints();
         classSecondary = HeroPool.setClassSecondary();
         costs = heropool.getCosts();
         imageResource = heropool.getImageResource();
@@ -36,40 +42,50 @@ public class Hero {
 
     public String getStrings(String identifier) {
 
-        String string;
+        String val;
 
         switch (identifier){
             case "heroName":
-                string = heroName;
-                Log.i("HERONAME", "heroName = " + heroName);
-                Log.i("HERONAME", "identifier = " + identifier);
+                val = heroName; break;
             case "classPrimary":
-                string = classPrimary; break;
+                val = classPrimary; break;
             case "classSecondary":
-                string = classSecondary; break;
+                val = classSecondary; break;
             case "imageResource":
-                string = imageResource; break;
+                val = imageResource; break;
             default:
-                string = "EVIL"; break;
+                val = "EVIL"; break;
         }
 
-        return string;
+        return val;
     }
 
     public int getInts(String identifier){
 
-        int returnValue;
+        int val;
 
         switch(identifier){
-            case "hitpoints":
-                returnValue = hitPoints; break;
+            case "hp":
+                val = hp; break;
+            case "hpConst":
+                val = hpConst; break;
             case "costs":
-                returnValue = costs; break;
+                val = costs; break;
             default:
-                returnValue = 666; break;
+                val = 666; break;
         }
 
-        return returnValue;
+        return val;
+    }
+
+    public void setInt(String id, int val){
+
+        switch (id){
+            case "hp":
+                hp = val; break;
+            case "costs":
+                costs = val; break;
+        }
     }
 
 }
