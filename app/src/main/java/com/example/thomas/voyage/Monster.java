@@ -8,8 +8,16 @@ public class Monster {
     private int evasion = -1, accuracy = -1, critChance = -1, hp = 500, dmgMin = -1, dmgMax = -1;
 
     public Monster(){
+        MonsterPool monsterPool = new MonsterPool();
 
-        // TODO Werte zufällig erzeugen und zuweisen
+        name = monsterPool.getName();
+        checkout = monsterPool.getCheckout();
+        evasion = monsterPool.getEvasion();
+        accuracy = monsterPool.getAccuracy();
+        critChance = monsterPool.getCritChance();
+        hp = monsterPool.getHp();
+        dmgMin = monsterPool.getDmgMin();
+        dmgMax = monsterPool.getDmgMax();
     }
 
     public Monster(String tName, String check, int eva, int acc, int crit, int tHp, int tDmgMin, int tDmgMax){
