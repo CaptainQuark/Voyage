@@ -25,39 +25,13 @@ public class HeroPool {
     }
 
     public static String setName(){                     //Zufälliger Namens-Generator
-
         for (boolean run = true; run; ) {
-
             run = false;
 
-            switch ((int) (Math.random() * 100)) {
-                //Wert zw. 0 und 100, falls kein case wird der roll wiederholt
-                case 1:
-                    name = "Gunther";
-                    break;
-                case 2:
-                    name = "Gisbert";
-                    break;
-                case 3:
-                    name = "Kamel";
-                    break;
-                case 4:
-                    name = "Pepe";
-                    break;
-                case 5:
-                    name = "Rudy";
-                    break;
-                case 6:
-                    name = "Bow";
-                    break;
-                case 7:
-                    name = "Joe";
-                    break;
-                default:
-                    run = true;
-                    break;
-            }
-            Log.e("HERONAME", "bool: " + run);
+            String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe", "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar"};
+
+            int count = (int) Math.random() * 100;
+            if( count < nameArray.length) run = true;
         }
 
         Log.i("HERONAME", "Name des Helden: " + name);

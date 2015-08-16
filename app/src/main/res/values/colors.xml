@@ -10,11 +10,11 @@
     <color name="start_6_arcade_combat">#FF6B5421</color>
     <color name="start_7_merchant_inventory">#FF676457</color>
 
-    <color name="merchant_heroes_permission_to_buy">#FF407437</color>
-    <color name="merchant_heroes_denial_to_buy">#FF5F1E22</color>
+    <color name="merchant_permission_to_buy">#FF3E5717</color>
+    <color name="merchant_denial_to_buy">#FF5F1E22</color>
     <color name="merchant_heroes_name_tag_under_profile_picture">#4c4c4c</color>
 
-    <color name="standard_background">#FF2F2F2F</color>
+    <color name="standard_background">#FF24201A</color>
     <color name="tint_inactive">#555555</color>
     <color name="tint_transparent">#00ff00ba</color>
 

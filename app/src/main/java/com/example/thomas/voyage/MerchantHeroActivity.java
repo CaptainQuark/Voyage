@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -158,9 +157,9 @@ public class MerchantHeroActivity extends Activity {
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
 
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
-        //if(finish.before(now)) newExpirationDate.setTime( (60*60*1000*12) - (now.getTime() - finishDate));
-        //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 2)) );
+        //newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
+        if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
+        else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
 
         return newExpirationDate.getTime();
     }
@@ -379,11 +378,11 @@ public class MerchantHeroActivity extends Activity {
 
                     if (currentMoneyInPocket >= costs) {
                         buyHeroView.setText("$ " + costs);
-                        buyHeroView.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_permission_to_buy));
+                        buyHeroView.setBackgroundColor(getResources().getColor(R.color.merchant_permission_to_buy));
                         availableToBuy = true;
                     } else {
                         buyHeroView.setText("$ " + (currentMoneyInPocket - costs));
-                        buyHeroView.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_denial_to_buy));
+                        buyHeroView.setBackgroundColor(getResources().getColor(R.color.merchant_denial_to_buy));
                         availableToBuy = false;
                     }
 

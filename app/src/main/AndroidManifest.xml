@@ -20,27 +20,31 @@
         <activity
             android:name=".HeroesPartyActivity"
             android:label="@string/title_activity_heroes_party"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".MerchantHeroActivity"
             android:label="@string/title_activity_merchant"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".WorldMapQuickCombatActivity"
             android:label="@string/title_activity_screen_slide"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".CombatActivity"
             android:label="@string/title_activity_combat"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".PrepareCombatActivity"
             android:label="@string/title_activity_combat_white"
-            android:screenOrientation="sensorLandscape">
+            android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".MerchantInventoryActivity"
+            android:label="@string/title_activity_merchant_inventory" >
         </activity>
     </application>
 
