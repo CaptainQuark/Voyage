@@ -2,9 +2,6 @@ package com.example.thomas.voyage;
 
 import android.content.Context;
 
-/**
- * Created by Capt'n on 17.08.2015.
- */
 public class ItemPool {
 
     Context c;
@@ -13,8 +10,38 @@ public class ItemPool {
         c = context;
     }
 
-    public int getIdNumber(){
+    public int getSkillId(){
 
         return -1;
+    }
+
+    public int getBuyCosts(){
+
+        return -1;
+    }
+
+    public int getSpellCosts(){
+
+        return -1;
+    }
+
+    public String getName(){
+
+        return "Item";
+    }
+
+    public String getDesMain(){
+
+        return "Description main";
+    }
+
+    public String getDesAdd(){
+
+        return "Description additional";
+    }
+
+    public String getRarity(){
+
+        return "Rarity";
     }
 }

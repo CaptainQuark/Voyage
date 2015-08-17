@@ -15,8 +15,11 @@ import java.util.List;
 public class StartActivity extends Activity {
 
     private final String IS_FIRST_RUN = "IS_FIRST_RUN";
+    private final int TOTAL_ITEMS_PLAYER = 50, TOTAL_ITEMS_MERCHANT = 20, TOTAL_HEROES_MERCHANT = 3, TOTAL_HEROES_PLAYER = 10;
     private DBheroesAdapter heroesHelper;
     private DBmerchantHeroesAdapter merchantHelper;
+    private DBplayerItemsAdapter itemPlayerHelper;
+    private DBmerchantItemsAdapter itemMerchantHelper;
     private TextView textViewSlaveMarket, textViewHeroesParty;
 
     @Override
@@ -26,6 +29,8 @@ public class StartActivity extends Activity {
         hideSystemUI();
         heroesHelper = new DBheroesAdapter(this);
         merchantHelper = new DBmerchantHeroesAdapter(this);
+        itemPlayerHelper = new DBplayerItemsAdapter(this);
+        itemMerchantHelper = new DBmerchantItemsAdapter(this);
 
         isAppFirstStarted();
 
@@ -51,20 +56,21 @@ public class StartActivity extends Activity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
 
-
         if (isFirstRun) {
             Message.message(this, "IS_FIRST_RUN: " + isFirstRun);
 
-            Message.message(this, "'isFirstRun' called");
-            long validation = prepareHeroesDatabaseForGame(10);
+            long validation = prepareHeroesDatabaseForGame(TOTAL_HEROES_PLAYER);
             if (validation < 0) {
                 Message.message(this, "ERROR @ insertToHeroesDatabase");
             }
 
-            long id = insertToMerchantDatabase(3);
-            if (id < 0) {
+            validation = insertToMerchantDatabase(TOTAL_HEROES_MERCHANT);
+            if (validation < 0) {
                 Message.message(this, "ERROR @ insertToMerchantHeroesDatabase");
             }
+
+            preparePlayersItemDatabase(TOTAL_ITEMS_PLAYER);
+            insertToItemMerchantDatabase(TOTAL_ITEMS_MERCHANT);
 
             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
             editor.putBoolean(IS_FIRST_RUN, false);
@@ -122,6 +128,40 @@ public class StartActivity extends Activity {
         }
 
         return validation;
+    }
+
+    private void preparePlayersItemDatabase(int rows){
+
+        long validation = 1;
+
+        for (int i = rows; i > 0; i--) {
+            validation = itemPlayerHelper.insertData("NOT_USED", 0, "", "", 0, 0, "");
+
+            if(validation < 0){
+                Toast.makeText(this, "ERROR @ preparePlayersItemDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
+            }else if (i == 1 && validation > 0)
+                Message.message(this, "PlayersItemDatabase prepared for game!");
+        }
+    }
+
+    private void insertToItemMerchantDatabase(int rows){
+        Message.message(this, "'insertToItemMerchant' called");
+        Item item = new Item(this);
+
+        for(int i = 1; i <= TOTAL_ITEMS_MERCHANT; i++){
+
+            long id = itemMerchantHelper.insertData(
+                    item.getStrings("ITEM_NAME"),
+                    item.getInts("SKILL_ID"),
+                    item.getStrings("DES_MAIN"),
+                    item.getStrings("DES_ADD"),
+                    item.getInts("BUY_COSTS"),
+                    item.getInts("SPELL_COSTS"),
+                    item.getStrings("RARITY")
+            );
+
+            if(id < 0) Message.message(this, "ERROR@insertToItemMerchantDatabase");
+        }
     }
 
     public long insertToMerchantDatabase(int numberOfInserts) {
