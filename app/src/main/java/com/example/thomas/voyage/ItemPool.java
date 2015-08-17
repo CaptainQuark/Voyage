@@ -27,7 +27,7 @@ public class ItemPool {
 
     public String getName(){
 
-        return "Item";
+        return "NOT_USED";
     }
 
     public String getDesMain(){

@@ -132,10 +132,8 @@ public class StartActivity extends Activity {
 
     private void preparePlayersItemDatabase(int rows){
 
-        long validation = 1;
-
         for (int i = rows; i > 0; i--) {
-            validation = itemPlayerHelper.insertData("NOT_USED", 0, "", "", 0, 0, "");
+            long validation = itemPlayerHelper.insertData("NOT_USED", 0, "", "", 0, 0, "");
 
             if(validation < 0){
                 Toast.makeText(this, "ERROR @ preparePlayersItemDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
@@ -146,10 +144,10 @@ public class StartActivity extends Activity {
 
     private void insertToItemMerchantDatabase(int rows){
         Message.message(this, "'insertToItemMerchant' called");
-        Item item = new Item(this);
 
         for(int i = 1; i <= TOTAL_ITEMS_MERCHANT; i++){
 
+            Item item = new Item(this);
             long id = itemMerchantHelper.insertData(
                     item.getStrings("ITEM_NAME"),
                     item.getInts("SKILL_ID"),

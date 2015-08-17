@@ -319,7 +319,7 @@ public class DBmerchantItemsAdapter {
     }
 
     static class DBmerchantItemsHelper extends SQLiteOpenHelper {
-        private static final String DATABASE_NAME = "itemsdatabase";
+        private static final String DATABASE_NAME = "merchantitemsdatabase";
         private static final String TABLE_NAME = "ITEMSTABLE";
         private static final int DATABASE_VERSION = 1;
         private static final String UID = "_id";

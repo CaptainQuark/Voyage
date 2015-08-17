@@ -17,15 +17,21 @@ import android.widget.Toast;
 
 public class MerchantInventoryActivity extends Activity {
 
+    DBmerchantItemsAdapter merchHelper;
+    DBplayerItemsAdapter playerHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_inventory);
         hideSystemUI();
 
+        merchHelper = new DBmerchantItemsAdapter(this);
+        playerHelper = new DBplayerItemsAdapter(this);
         GridView inventoryGridView = (GridView) findViewById(R.id.inventory_gridView_my_stuff);
         GridView merchantGridView = (GridView) findViewById(R.id.inventory_gridView_merchant);
-        inventoryGridView.setAdapter(new MyStuffAdapter(this));
+
+        inventoryGridView.setAdapter(new MyStuffAdapter(this, (int) playerHelper.getTaskCount()));
         merchantGridView.setAdapter(new MerchantAdapter(this));
 
 
@@ -64,16 +70,25 @@ public class MerchantInventoryActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
+
+
+
+
+
+
     private class MyStuffAdapter extends BaseAdapter {
         private Context mContext;
+        private int num;
+        //private final int num = (int) playerHelper.getTaskCount();
 
-        public MyStuffAdapter(Context c) {
+
+        public MyStuffAdapter(Context c, int number) {
+
             mContext = c;
+            num = number;
         }
 
-        public int getCount() {
-            return mThumbIds.length;
-        }
+        public int getCount() {return num;}
 
         public Object getItem(int position) {
             return null;
@@ -96,32 +111,26 @@ public class MerchantInventoryActivity extends Activity {
                 imageView = (ImageView) convertView;
             }
 
-            imageView.setImageResource(mThumbIds[position]);
+            if( playerHelper.getItemName(position + 1).equals("NOT_USED")) imageView.setImageResource(R.mipmap.ic_launcher);
             return imageView;
         }
-
-        // references to our images
-        private Integer[] mThumbIds = {
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-        };
     }
+
+
+
+
+
 
     private class MerchantAdapter extends BaseAdapter {
         private Context mContext;
+        private final int num = (int) merchHelper.getTaskCount();
 
         public MerchantAdapter(Context c) {
             mContext = c;
         }
 
         public int getCount() {
-            return mThumbIds.length;
+            return num;
         }
 
         public Object getItem(int position) {
@@ -144,22 +153,11 @@ public class MerchantInventoryActivity extends Activity {
                 imageView = (ImageView) convertView;
             }
 
-            imageView.setImageResource(mThumbIds[position]);
+            if( merchHelper.getItemName(position+1).equals("NOT_USED")) imageView.setImageResource(R.mipmap.ic_launcher);
+            else imageView.setImageResource(R.mipmap.ic_backbutton);
             //imageView.setAdjustViewBounds(true) - bis zur Grenze der Gridansicht (?)
             return imageView;
         }
-
-        // references to our images
-        private Integer[] mThumbIds = {
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-                R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher, R.mipmap.ic_launcher,
-        };
     }
 }
 
