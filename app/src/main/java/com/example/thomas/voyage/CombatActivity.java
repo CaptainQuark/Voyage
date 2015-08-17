@@ -40,7 +40,7 @@ public class CombatActivity extends Activity {
             healthBarHeroVital,
             healthBarHeroDamaged,
             heroProfileView;
-    private static List<Integer> undoListForHero;
+    private static List<Integer> undoListForHero, selectedItems, invetoryItems;
     private static List<Hero> heroList;
     private static List<Monster> monsterList;
     private static LinearLayout.LayoutParams paramsBarMonsterDamaged,
@@ -430,6 +430,14 @@ public class CombatActivity extends Activity {
 
     }
 
+    private void checkForSelectedItems(){
+
+        // Arbeite jedes Item in Liste der ausgewählten Items anhand der Fähigkeiten-ID ab
+        // case 1: ... etc.
+
+        // Überprüfe, ob Item aus AusgewähltenListe und/oder Datenbank gelöscht wird
+    }
+
     private void hideSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -443,6 +451,7 @@ public class CombatActivity extends Activity {
     public void initializeValues(){
         heroList = new ArrayList<>();
         monsterList = new ArrayList<>();
+        selectedItems = new ArrayList<>();
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
