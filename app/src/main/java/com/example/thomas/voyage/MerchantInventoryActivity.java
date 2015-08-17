@@ -145,6 +145,7 @@ public class MerchantInventoryActivity extends Activity {
             }
 
             imageView.setImageResource(mThumbIds[position]);
+            //imageView.setAdjustViewBounds(true) - bis zur Grenze der Gridansicht (?)
             return imageView;
         }
 

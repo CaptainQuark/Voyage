@@ -20,7 +20,7 @@
             android:layout_weight="6"
             android:background="#ffc1b190"
             android:scaleType="centerCrop"
-            android:src="@mipmap/merchant_0" />
+            android:src="@mipmap/merchant_inv_0" />
 
         <TextView
             android:id="@+id/static_textView_merchant_0"
