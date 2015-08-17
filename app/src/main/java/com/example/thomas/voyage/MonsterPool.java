@@ -33,7 +33,7 @@ public class MonsterPool {
     }
 
     public int getHp(){
-        int val = -1;
+        int val = 500;
 
         return val;
     }

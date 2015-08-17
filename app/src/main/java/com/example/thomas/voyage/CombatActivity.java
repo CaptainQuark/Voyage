@@ -49,6 +49,7 @@ public class CombatActivity extends Activity {
             paramsBarHeroVital;
     private String origin = "";
     private GridView gridViewNumbers, gridViewSpecials;
+    private static DBplayerItemsAdapter itemHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,8 @@ public class CombatActivity extends Activity {
                     break;
             }
 
+
+
             monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") - appliedDamage);
             undoListForHero.add(appliedDamage);
             /*
@@ -184,8 +187,13 @@ public class CombatActivity extends Activity {
 
              */
 
+            handleSelectedItem();
+            roundCount++;
 
-        } else dartCount++;
+        } else {
+            handleSelectedItem();
+            dartCount++;
+        }
     }
 
     public void activityCombatBackToMain(View view) {
@@ -438,6 +446,22 @@ public class CombatActivity extends Activity {
         // Überprüfe, ob Item aus AusgewähltenListe und/oder Datenbank gelöscht wird
     }
 
+    private static void handleSelectedItem(){
+
+        for(int pos = 0; pos < selectedItems.size(); pos++){
+
+            switch (itemHelper.getItemSkillsId(selectedItems.get(pos))){
+
+                default:
+                    Log.e("DEFAULT", "default called @ handleSelectedItem");
+                    break;
+            }
+        }
+
+        // Sollte kein Item ausgewählt sein, wird die 'for'-Schleife einfach übsprüngen
+        // und keine Effekte angewandt
+    }
+
     private void hideSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -448,10 +472,12 @@ public class CombatActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
-    public void initializeValues(){
+    private void initializeValues(){
         heroList = new ArrayList<>();
         monsterList = new ArrayList<>();
         selectedItems = new ArrayList<>();
+
+        itemHelper = new DBplayerItemsAdapter(this);
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
