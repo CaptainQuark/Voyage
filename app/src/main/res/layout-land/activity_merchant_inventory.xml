@@ -1,7 +1,7 @@
 <LinearLayout
-    android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.MerchantInventoryActivity"
@@ -41,7 +41,6 @@
             android:layout_weight="4.4"
             android:background="@color/active_field"
             android:gravity="center"
-            android:onClick="addMoneyToCurrentMoney"
             android:text="Zeit"
             android:textColor="#ff000000"
             android:textSize="40sp" />
@@ -52,7 +51,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="#ff000000"
-            android:onClick="merchantHerosBackbuttonPressed"
+            android:onClick="merchantInventoryBackbuttonPressed"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
             android:tint="#ffffffff" />
@@ -96,18 +95,35 @@
             <GridView
                 android:id="@+id/inventory_gridView_merchant"
                 android:background="@color/tint_inactive"
-                android:padding="10dp"
+                android:layout_marginRight="1dp"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:columnWidth="50dp"
+                android:numColumns="3"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="0dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"/>
 
             <GridView
                 android:id="@+id/inventory_gridView_my_stuff"
                 android:background="@color/tint_inactive"
-                android:padding="10dp"
+                android:paddingTop="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
                 android:layout_weight="1"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:columnWidth="50dp"
+                android:numColumns="auto_fit"
+                android:verticalSpacing="10dp"
+                android:horizontalSpacing="10dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"/>
         </LinearLayout>
 
         <RelativeLayout

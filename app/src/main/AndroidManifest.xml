@@ -44,7 +44,8 @@
         </activity>
         <activity
             android:name=".MerchantInventoryActivity"
-            android:label="@string/title_activity_merchant_inventory" >
+            android:label="@string/title_activity_merchant_inventory"
+            android:screenOrientation="sensorLandscape" >
         </activity>
     </application>
 

@@ -78,6 +78,7 @@ public class PrepareCombatActivity extends Activity {
             i.putExtra("ORIGIN", "PrepareCombatActivity");
 
             startActivity(i);
+            finish();
         }
     }
 

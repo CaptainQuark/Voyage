@@ -51,9 +51,10 @@ public class StartActivity extends Activity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
 
-        Message.message(this, "IS_FIRST_RUN: " + isFirstRun);
 
         if (isFirstRun) {
+            Message.message(this, "IS_FIRST_RUN: " + isFirstRun);
+
             Message.message(this, "'isFirstRun' called");
             long validation = prepareHeroesDatabaseForGame(10);
             if (validation < 0) {
@@ -169,8 +170,8 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void clickToDirectCombat(View view){
-        Intent i = new Intent(getApplicationContext(), CombatActivity.class);
+    public void clickToMerchantInventory(View view){
+        Intent i = new Intent(getApplicationContext(), MerchantInventoryActivity.class);
         startActivity(i);
     }
 
