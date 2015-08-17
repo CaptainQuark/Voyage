@@ -458,7 +458,9 @@ public class CombatActivity extends Activity {
 
 
             // .add für Anzahl der Helden sowie Anzahl der Monster
-            heroList.add(new Hero(heroName, heroPrimaryClass, heroSecondaryClass, heroImgRes, heroHitpoints, heroCosts));
+            //heroList.add(new Hero(heroName, heroPrimaryClass, heroSecondaryClass, heroImgRes, heroHitpoints, heroCosts));
+
+            heroList.add(new Hero(this));
         }
 
         monsterList.add(new Monster());

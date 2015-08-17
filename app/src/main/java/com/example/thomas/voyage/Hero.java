@@ -15,6 +15,7 @@ public class Hero {
         context = con;
     }
 
+    /*
     // 2. Konstruktor, welcher gewählt werden kann (jedoch immer nur einer)
     public Hero(String name, String prime, String sec, String imgRes, int hp, int costs){
         heroName = name;
@@ -26,6 +27,7 @@ public class Hero {
 
         hpConst = hp;
     }
+    */
 
 
     public void Initialize(String merchantBiome) {
@@ -38,6 +40,10 @@ public class Hero {
         classSecondary = HeroPool.setClassSecondary();
         costs = heropool.getCosts();
         imageResource = heropool.getImageResource();
+
+        hpConst = hp;
+
+        //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
     }
 
     public String getStrings(String identifier) {

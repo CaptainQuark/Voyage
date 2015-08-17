@@ -31,7 +31,8 @@ public class HeroPool {
             String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe", "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar"};
 
             int count = (int) Math.random() * 100;
-            if( count < nameArray.length) run = true;
+            if( count >= nameArray.length) run = true;
+            else name = nameArray[count];
         }
 
         Log.i("HERONAME", "Name des Helden: " + name);

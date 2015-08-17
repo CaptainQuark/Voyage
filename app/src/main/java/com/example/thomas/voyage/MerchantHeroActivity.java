@@ -157,9 +157,9 @@ public class MerchantHeroActivity extends Activity {
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
 
-        //newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
-        if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
-        else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
+        //if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
+        //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
 
         return newExpirationDate.getTime();
     }
@@ -190,7 +190,7 @@ public class MerchantHeroActivity extends Activity {
             id = merchantHelper.updateRowComplete(
                     i + 1,
                     herosList.get(i).getStrings("heroName"),
-                    herosList.get(i).getInts("hitpoints"),
+                    herosList.get(i).getInts("hp"),
                     herosList.get(i).getStrings("classPrimary"),
                     herosList.get(i).getStrings("classSecondary"),
                     herosList.get(i).getInts("costs"),

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,13 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         hideSystemUI();
-        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
-        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
-
         heroesHelper = new DBheroesAdapter(this);
+        merchantHelper = new DBmerchantHeroesAdapter(this);
 
         isAppFirstStarted();
+
+        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
+        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
 
         setSlaveMarketWindow();
         setHeroesPartyWindow();
@@ -49,6 +51,8 @@ public class StartActivity extends Activity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         Boolean isFirstRun = prefs.getBoolean(IS_FIRST_RUN, true);
 
+        Message.message(this, "IS_FIRST_RUN: " + isFirstRun);
+
         if (isFirstRun) {
             Message.message(this, "'isFirstRun' called");
             long validation = prepareHeroesDatabaseForGame(10);
@@ -68,7 +72,6 @@ public class StartActivity extends Activity {
     }
 
     public void setSlaveMarketWindow(){
-        merchantHelper = new DBmerchantHeroesAdapter(this);
         int countNewHeroes = 0;
 
         for(int i = 1; i <= merchantHelper.getTaskCount(); i++){
@@ -109,9 +112,9 @@ public class StartActivity extends Activity {
         for (int i = rows; i > 0; i--) {
             validation = heroesHelper.insertData("NOT_USED", 0, "", "", 0, "");
 
-            /*if(validation < 0){
+            if(validation < 0){
                 Toast.makeText(this, "ERROR @ prepareHeroesDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
-            }*/
+            }
 
             if (i == 1 && validation > 0)
                 Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
@@ -122,7 +125,6 @@ public class StartActivity extends Activity {
 
     public long insertToMerchantDatabase(int numberOfInserts) {
         Message.message(this, "'insertToMerchantDatabase'");
-        DBmerchantHeroesAdapter merchantHelper = new DBmerchantHeroesAdapter(this);
         List<Hero> herosList = new ArrayList<>();
         long id = 0;
 
@@ -133,13 +135,14 @@ public class StartActivity extends Activity {
             // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
             id = merchantHelper.insertData(
                     herosList.get(i).getStrings("heroName"),
-                    herosList.get(i).getInts("hitpoints"),
+                    herosList.get(i).getInts("hp"),
                     herosList.get(i).getStrings("classPrimary"),
                     herosList.get(i).getStrings("classSecondary"),
                     herosList.get(i).getInts("costs"),
                     herosList.get(i).getStrings("imageResource"));
 
             if (id < 0) Message.message(this, "ERROR @ insert of hero " + i + 1);
+
         }
 
         return id;
