@@ -18,7 +18,7 @@ public class StartActivity extends Activity {
     private DBmerchantHeroesAdapter merchantHelper;
     private DBplayerItemsAdapter itemPlayerHelper;
     private DBmerchantItemsAdapter itemMerchantHelper;
-    private TextView textViewSlaveMarket, textViewHeroesParty;
+    private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket;
     private repoConstants co;
 
     @Override
@@ -37,9 +37,11 @@ public class StartActivity extends Activity {
 
         textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
         textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
+        textViewItemMarket = (TextView) findViewById(R.id.start_textView_inventory_merchant);
 
         setSlaveMarketWindow();
         setHeroesPartyWindow();
+        setItemMarketWindow();
     }
 
     @Override
@@ -79,7 +81,7 @@ public class StartActivity extends Activity {
         }
     }
 
-    public void setSlaveMarketWindow(){
+    private void setSlaveMarketWindow(){
         int countNewHeroes = 0;
 
         for(int i = 1; i <= merchantHelper.getTaskCount(); i++){
@@ -95,7 +97,7 @@ public class StartActivity extends Activity {
         else textViewSlaveMarket.setText(countNewHeroes + " neue Helden");
     }
 
-    public void setHeroesPartyWindow(){
+    private void setHeroesPartyWindow(){
         long size = heroesHelper.getTaskCount();
         long count = 0;
 
@@ -113,7 +115,20 @@ public class StartActivity extends Activity {
 
     }
 
-    public long prepareHeroesDatabaseForGame(int rows) {
+    private void setItemMarketWindow(){
+        int countUsed = 0;
+
+        for(int i = 1; i <= itemMerchantHelper.getTaskCount(); i++){
+            if(! itemMerchantHelper.getItemName(i).equals(co.NOT_USED) ){
+                countUsed++;
+            }
+        }
+
+        if(countUsed > 0) textViewItemMarket.setText(countUsed + " Waren zu kaufen");
+        else if(countUsed == 0) textViewItemMarket.setText("Nichts mehr zu kaufen...");
+    }
+
+    private long prepareHeroesDatabaseForGame(int rows) {
 
         long validation = 0;
 
@@ -163,7 +178,7 @@ public class StartActivity extends Activity {
         }
     }
 
-    public long insertToMerchantDatabase(int numberOfInserts) {
+    private long insertToMerchantDatabase(int numberOfInserts) {
         Message.message(this, "'insertToMerchantDatabase'");
         List<Hero> herosList = new ArrayList<>();
         long id = 0;

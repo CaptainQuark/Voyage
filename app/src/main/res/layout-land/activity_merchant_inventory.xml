@@ -144,14 +144,15 @@
             android:layout_height="0dp">
 
             <TextView
-                android:id="@+id/invetory_textView_dimiss"
+                android:id="@+id/invetory_textView_dismiss"
                 android:background="@color/merchant_denial_to_buy"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:text="VERWERFEN"
                 android:gravity="center"
                 android:textSize="24sp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:onClick="dismissItemButton" />
 
             <TextView
                 android:id="@+id/invetory_textView_buy"
@@ -161,7 +162,8 @@
                 android:text="KAUFEN"
                 android:gravity="center"
                 android:textSize="24sp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:onClick="buyItemButton" />
         </LinearLayout>
     </LinearLayout>
 

@@ -26,7 +26,7 @@ public class CombatActivity extends Activity {
             dartCount = 1,
             heroClassActive = 1,
             roundCount = 0;
-    private static String heroImgRes = "";
+    private static String heroImgRes = "", chronicleString = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
             scoreHeroMultiplierArray = {-1, -1, -1},
@@ -169,7 +169,7 @@ public class CombatActivity extends Activity {
 
 
             monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") - appliedDamage);
-            undoListForHero.add(appliedDamage);
+            undoListForHero.add( scoreHeroMultiplierArray[dartCount-1] * scoreHeroFieldArray[dartCount-1] );
             /*
             int size = undoListForHero.size();
             String chronicle = "";
@@ -181,13 +181,17 @@ public class CombatActivity extends Activity {
             }
             */
 
-            handleAttackInputByMonster();
 
+
+            handleAttackInputByMonster();
+            handleSelectedItem();
             setHealthBarHero();
+
             heroHitpointsView.setText(Integer.toString(heroList.get(0).getInts("hp")));
 
+            chronicleString += ( (undoListForHero.get(dartCount-1)) + "");
+            chronicleView.setText(chronicleString);
             dartCount = 1;
-            handleSelectedItem();
             roundCount++;
 
             for(int i = 0; i < scoreHeroFieldArray.length; i++){
@@ -198,8 +202,16 @@ public class CombatActivity extends Activity {
                 scoreHeroMultiplierArray[i] = -1;
             }
 
+            chronicleString = "";
+            chronicleView.setText(chronicleString);
+            undoListForHero = new ArrayList<>();
+
         } else {
+
+            undoListForHero.add( scoreHeroMultiplierArray[dartCount-1] * scoreHeroFieldArray[dartCount-1] );
             handleSelectedItem();
+            chronicleString += ( undoListForHero.get(dartCount-1) + "   |   ");
+            chronicleView.setText(chronicleString);
             dartCount++;
         }
     }
@@ -233,10 +245,22 @@ public class CombatActivity extends Activity {
         int size = undoListForHero.size();
 
         if (size > 0) {
-            monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") + undoListForHero.get(size - 1));
-            setHealthBarMonster();
+
+            if(dartCount == 3){
+                monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") + undoListForHero.get(size - 1));
+                setHealthBarMonster();
+                monsterHealthView.setText(Integer.toString(monsterList.get(0).getInt("hp")));
+            }
+
             undoListForHero.remove(size - 1);
-            monsterHealthView.setText(Integer.toString(monsterList.get(0).getInt("hp")));
+            chronicleString = "";
+            dartCount--;
+
+            for(int i = 0; i < undoListForHero.size(); i++){
+                chronicleString += scoreHeroMultiplierArray[i] * scoreHeroFieldArray[i] + "   |   ";
+            }
+
+            chronicleView.setText(chronicleString);
         }
     }
 

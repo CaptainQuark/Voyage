@@ -96,6 +96,7 @@ public class HeroesPartyActivity extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+        listview.invalidateViews();
     }
 
     private long getUsedSlotsInHeroesDatabase() {
