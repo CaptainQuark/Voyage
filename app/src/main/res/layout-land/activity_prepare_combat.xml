@@ -58,7 +58,20 @@
                 android:background="@drawable/ripple_backbutton" />
 
             <Space
-                android:layout_weight="0.35"
+                android:layout_weight="0.125"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            <ImageView
+                android:onClick="prepareBackButton"
+                android:layout_weight="0.10"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@mipmap/ic_backbutton"
+                android:tint="#9dffffff" />
+
+            <Space
+                android:layout_weight="0.125"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 

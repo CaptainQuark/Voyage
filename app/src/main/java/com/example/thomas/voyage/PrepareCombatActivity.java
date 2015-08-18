@@ -82,6 +82,11 @@ public class PrepareCombatActivity extends Activity {
         }
     }
 
+    public void prepareBackButton(View view){
+        super.onBackPressed();
+        finish();
+    }
+
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
