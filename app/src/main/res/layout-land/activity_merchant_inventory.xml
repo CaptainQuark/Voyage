@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:onClick="merchantItemProfileTapped"
             android:id="@+id/imageView_merchant_inventory_profile"
             android:layout_width="match_parent"
             android:layout_height="0dp"

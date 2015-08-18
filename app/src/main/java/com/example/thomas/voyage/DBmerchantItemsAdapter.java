@@ -226,7 +226,7 @@ public class DBmerchantItemsAdapter {
         return value;
     }
 
-    public String getItemSpellCosts(long id) {
+    public int getItemSpellCosts(long id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBmerchantItemsHelper.COSTS_TO_SPELL};
@@ -237,10 +237,10 @@ public class DBmerchantItemsAdapter {
             cursor.moveToFirst();
         }
 
-        String value = "";
+        int value = -1;
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBmerchantItemsHelper.COSTS_TO_SPELL));
+            value = cursor.getInt(cursor.getColumnIndex(DBmerchantItemsHelper.COSTS_TO_SPELL));
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
         }

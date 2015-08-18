@@ -19,6 +19,7 @@ public class MerchantInventoryActivity extends Activity {
 
     DBmerchantItemsAdapter merchHelper;
     DBplayerItemsAdapter playerHelper;
+    GridView playerGridView, merchantGridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +29,22 @@ public class MerchantInventoryActivity extends Activity {
 
         merchHelper = new DBmerchantItemsAdapter(this);
         playerHelper = new DBplayerItemsAdapter(this);
-        GridView inventoryGridView = (GridView) findViewById(R.id.inventory_gridView_my_stuff);
-        GridView merchantGridView = (GridView) findViewById(R.id.inventory_gridView_merchant);
+        playerGridView = (GridView) findViewById(R.id.inventory_gridView_my_stuff);
+        merchantGridView = (GridView) findViewById(R.id.inventory_gridView_merchant);
 
-        inventoryGridView.setAdapter(new MyStuffAdapter(this, (int) playerHelper.getTaskCount()));
+        playerGridView.setAdapter(new MyStuffAdapter(this, (int) playerHelper.getTaskCount()));
         merchantGridView.setAdapter(new MerchantAdapter(this));
 
 
-        inventoryGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        playerGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                Toast.makeText(getApplicationContext(), "" + position,
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        merchantGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 Toast.makeText(getApplicationContext(), "" + position,
@@ -55,20 +64,75 @@ public class MerchantInventoryActivity extends Activity {
         finish();
     }
 
-
-
-
-
-
-    private void hideSystemUI() {
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    public void merchantItemProfileTapped(View view){
+        setNewItemMerchant();
+        merchantGridView.postInvalidate();
+        Message.message(this, "New Merchant");
     }
+
+    private void setNewItemMerchant(){
+
+        for(int i = 1; i <= merchHelper.getTaskCount(); i++){
+
+            Item item = new Item(this);
+
+            long validation = merchHelper.updateRowWithItemData(
+                    i,
+                    item.getStrings("ITEM_NAME"),
+                    item.getInts("SKILL_ID"),
+                    item.getStrings("DES_MAIN"),
+                    item.getStrings("DES_ADD"),
+                    item.getInts("BUY_COSTS"),
+                    item.getInts("SPELL_COSTS"),
+                    item.getStrings("RARITY"));
+
+            if(validation < 0) Message.message(this, "ERROR @ insert @ setNewItemMerchant");
+        }
+    }
+
+    private void addOneItemToPlayerDatabase(int merchPos){
+
+        /*
+
+        Es wird vorrausgesetzt, dass diese Funktion nur aufgerufen werden kann,
+        wenn noch mind. ein freier Platz verfügbar ist.
+
+         */
+
+        long validation = playerHelper.updateRowWithItemData(
+                getPosOfFreeSlotInPlayerItemDatabase(),
+                merchHelper.getItemName(merchPos),
+                merchHelper.getItemSkillsId(merchPos),
+                merchHelper.getItemDescriptionMain(merchPos),
+                merchHelper.getItemDescriptionAdditonal(merchPos),
+                merchHelper.getItemBuyCosts(merchPos),
+                merchHelper.getItemSpellCosts(merchPos),
+                merchHelper.getItemRarity(merchPos));
+
+        if(validation < 0) Message.message(this, "ERROR @ addOneItemToPlayerDatabase");
+    }
+
+    private int getPosOfFreeSlotInPlayerItemDatabase(){
+
+        repoConstants co = new repoConstants();
+        int pos = -1;
+
+        for(int i = 1; i <= playerHelper.getTaskCount(); i++){
+
+            if(playerHelper.getItemName(i).equals(co.NOT_USED)){
+                pos = i;
+                i = (int) playerHelper.getTaskCount();
+
+            }else if( i == playerHelper.getTaskCount() ){
+                Message.message(this, "Alle Plätze bereits belegt");
+            }
+        }
+
+        return pos;
+    }
+
+
+
 
 
 
@@ -158,6 +222,28 @@ public class MerchantInventoryActivity extends Activity {
             //imageView.setAdjustViewBounds(true) - bis zur Grenze der Gridansicht (?)
             return imageView;
         }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void hideSystemUI() {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 }
 
