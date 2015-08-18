@@ -7,17 +7,21 @@ public class Hero {
 
     Context context;
 
+    repoConstants co;
+
     private String heroName, classSecondary, classPrimary, imageResource;
     private int hp, costs, hpConst;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
     public Hero(Context con){
         context = con;
+        co = new repoConstants();
     }
 
 
     // 2. Konstruktor, welcher gewählt werden kann (jedoch immer nur einer)
     public Hero(String name, String prime, String sec, String imgRes, int hp, int costs){
+        co = new repoConstants();
         heroName = name;
         classPrimary = prime;
         classSecondary = sec;

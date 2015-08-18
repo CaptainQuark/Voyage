@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 public class HeroesPartyActivity extends Activity {
 
-    private final int HEROES_IN_LISTVIEW = 10;
     private RelativeLayout dataContainerLayout;
     private TextView nameView, classesView, costsView, textView_slots, hintQuestView, hintDismissHeroView, dismissView, questView, buyView;
     private DBheroesAdapter heroesHelper;
@@ -27,6 +26,7 @@ public class HeroesPartyActivity extends Activity {
     private long slotsInHeroesDatabase = 0;
     private int selectedHeroIdFromDatabase = -1;
     private String origin = "";
+    private repoConstants co = new repoConstants();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +40,12 @@ public class HeroesPartyActivity extends Activity {
 
         Bundle b = getIntent().getExtras();
         if(b != null){
-            origin = b.getString("ORIGIN", "StartActivity");
+            origin = b.getString(co.ORIGIN, "StartActivity");
         }
 
         //listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
-        String[] values = new String[HEROES_IN_LISTVIEW];
-        for (int i = 1; i <= HEROES_IN_LISTVIEW; i++) {
+        String[] values = new String[co.HEROES_IN_LISTVIEW];
+        for (int i = 1; i <= co.HEROES_IN_LISTVIEW; i++) {
             values[i - 1] = i + "";
         }
 
@@ -73,7 +73,7 @@ public class HeroesPartyActivity extends Activity {
                     dismissView.setBackgroundColor(getResources().getColor(R.color.active_field));
                     dataContainerLayout.setVisibility(View.VISIBLE);
 
-                    if(heroesHelper.getHeroName(selectedHeroIdFromDatabase).equals(getResources().getString(R.string.indicator_unused_row))){
+                    if(heroesHelper.getHeroName(selectedHeroIdFromDatabase).equals(co.NOT_USED)){
 
                         Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
                         startActivity(i);
@@ -103,7 +103,7 @@ public class HeroesPartyActivity extends Activity {
         slotsInHeroesDatabase = heroesHelper.getTaskCount();
 
         for (long i = 0; i < slotsInHeroesDatabase; i++) {
-            if (!(heroesHelper.getHeroName(i + 1).equals(getResources().getString(R.string.indicator_unused_row)))) {
+            if (!(heroesHelper.getHeroName(i + 1).equals(co.NOT_USED))) {
                 countUsed++;
             }
         }
@@ -116,7 +116,7 @@ public class HeroesPartyActivity extends Activity {
 
     public void heroesPartyDismissHero(View view){
 
-        if( (selectedHeroIdFromDatabase != -1) && (heroesHelper.getHeroName(selectedHeroIdFromDatabase) != "NOT_USED") ){
+        if( (selectedHeroIdFromDatabase != -1) && (heroesHelper.getHeroName(selectedHeroIdFromDatabase) != co.NOT_USED) ){
 
             heroesHelper.markOneRowAsUnused(selectedHeroIdFromDatabase);
             listview.invalidateViews();
@@ -212,15 +212,15 @@ public class HeroesPartyActivity extends Activity {
 
             */
 
-            i.putExtra("HEROES_NAME", heroesHelper.getHeroName(selectedHeroIdFromDatabase));
-            i.putExtra("HEROES_PRIMARY_CLASS", heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase));
-            i.putExtra("HEROES_SECONDARY_CLASS",heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
-            i.putExtra("HEROES_HITPOINTS",heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
-            i.putExtra("HEROES_COSTS", heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
-            i.putExtra("IMAGE_RESOURCE", heroesHelper.getHeroImgRes(selectedHeroIdFromDatabase));
+            i.putExtra(co.HEROES_NAME, heroesHelper.getHeroName(selectedHeroIdFromDatabase));
+            i.putExtra(co.HEROES_PRIMARY_CLASS, heroesHelper.getHeroPrimaryClass(selectedHeroIdFromDatabase));
+            i.putExtra(co.HEROES_SECONDARY_CLASS,heroesHelper.getHeroSecondaryClass(selectedHeroIdFromDatabase));
+            i.putExtra(co.HEROES_HITPOINTS,heroesHelper.getHeroHitpoints(selectedHeroIdFromDatabase));
+            i.putExtra(co.HEROES_COSTS, heroesHelper.getHeroCosts(selectedHeroIdFromDatabase));
+            i.putExtra(co.IMAGE_RESOURCE, heroesHelper.getHeroImgRes(selectedHeroIdFromDatabase));
         }
 
-        i.putExtra("ORIGIN", "HeroesPartyActivity");
+        i.putExtra(co.ORIGIN, "HeroesPartyActivity");
     }
 
     public void heroesPartyBackbuttonPressed(View view) {
@@ -274,7 +274,7 @@ public class HeroesPartyActivity extends Activity {
             View rowView = inflater.inflate(R.layout.listview_heroes_rowlayout, parent, false);
             ImageView imageView = (ImageView) rowView.findViewById(R.id.imageView_rowlayout);
 
-            if ( !heroesHelper.getHeroName(position + 1).equals(context.getString(R.string.indicator_unused_row)) ) {
+            if ( !heroesHelper.getHeroName(position + 1).equals(co.NOT_USED) ) {
                 imageView.setImageResource(ImgRes.res(context, "hero", heroesHelper.getHeroImgRes(position + 1)));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             }

@@ -19,7 +19,8 @@ import java.util.List;
 
 public class CombatActivity extends Activity {
 
-    private static int monsterHealthConst = -1,
+    private static int
+            monsterHealthConst = -1,
             heroHitpointsConst = -1,
             scoreMultiplier = 1,
             dartCount = 1,
@@ -27,7 +28,8 @@ public class CombatActivity extends Activity {
             roundCount = 0;
     private static String heroImgRes = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
-    private static int[] scoreHeroMultiplierArray = {-1, -1, -1},
+    private static int[]
+            scoreHeroMultiplierArray = {-1, -1, -1},
             scoreHeroFieldArray = {-1, -1, -1};
     private static TextView monsterHealthView,
             heroHitpointsView,
@@ -35,7 +37,8 @@ public class CombatActivity extends Activity {
             monsterNameView,
             eventsView,
             chronicleView;
-    private static ImageView healthbarMonsterVital,
+    private static ImageView
+            healthbarMonsterVital,
             healthBarMonsterDamaged,
             healthBarHeroVital,
             healthBarHeroDamaged,
@@ -43,7 +46,8 @@ public class CombatActivity extends Activity {
     private static List<Integer> undoListForHero, selectedItems, invetoryItems;
     private static List<Hero> heroList;
     private static List<Monster> monsterList;
-    private static LinearLayout.LayoutParams paramsBarMonsterDamaged,
+    private static LinearLayout.LayoutParams
+            paramsBarMonsterDamaged,
             paramsBarMonsterVital,
             paramsBarHeroDamaged,
             paramsBarHeroVital;
@@ -176,24 +180,47 @@ public class CombatActivity extends Activity {
                 chronicleView.setText(chronicle);
             }
             */
-            setHealthBarMonster();
+
+            handleAttackInputByMonster();
+
+            setHealthBarHero();
+            heroHitpointsView.setText(Integer.toString(heroList.get(0).getInts("hp")));
+
             dartCount = 1;
-
-
-            /*
-
-            //TODO - Ablauf für Angriff des Monsters implementieren, welcher hier beginnt
-            //TODO - Sobald dieser fertig ist, beginnt Kampf von Neuem
-
-             */
-
             handleSelectedItem();
             roundCount++;
+
+            for(int i = 0; i < scoreHeroFieldArray.length; i++){
+                scoreHeroFieldArray[i] = -1;
+            }
+
+            for(int i = 0; i < scoreHeroMultiplierArray.length; i++){
+                scoreHeroMultiplierArray[i] = -1;
+            }
 
         } else {
             handleSelectedItem();
             dartCount++;
         }
+    }
+
+    private static void handleAttackInputByMonster(){
+
+        /*
+
+        Monster greift erst nach 3. Wurf des Spielers an (dartCount == 3).
+
+        Gewähltes Item wird nach dieser Funktion in 'handleAttackInputByHero' aufgerufen,
+        da diese Funktion dort gerufen wird.
+
+        Healthbar des Monsters wird erst am Ende der Funktion gesetzt, da zuvor durch
+        Effekte des Monsters der zugefügte Schaden verändert werden kann
+
+         */
+
+        heroList.get(0).setInt("hp", heroList.get(0).getInts("hp") - 5);
+
+        setHealthBarMonster();
     }
 
     public void activityCombatBackToMain(View view) {
