@@ -1,15 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="200dp"
     android:layout_height="100dp"
     android:stateListAnimator="@anim/elevation"
     android:background="@drawable/rounded_corners">
 
     <TextView
+        android:gravity="center"
+        android:textSize="28sp"
+        android:layout_weight="1"
         android:id="@+id/quick_cricket_card_textview"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <Space
+                android:id="@+id/cricketcard_space_1"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/cricketcard_progress_1"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <Space
+                android:id="@+id/cricketcard_space_2"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/cricketcard_progress_2"
+                android:layout_weight="1"
+                android:background="@android:color/holo_green_dark"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
+            </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
