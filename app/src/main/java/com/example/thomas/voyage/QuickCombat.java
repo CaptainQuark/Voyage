@@ -21,13 +21,15 @@ import java.util.List;
 
 public class QuickCombat extends Activity {
 
+    GridView cricketView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_combat);
         hideSystemUI();
 
-        GridView cricketView = (GridView) findViewById(R.id.quick_gridView_selected_numbers);
+        cricketView = (GridView) findViewById(R.id.quick_gridView_selected_numbers);
         NumberPicker numberPickerCricket = (NumberPicker) findViewById(R.id.quick_numberpicker_cricket);
         numberPickerCricket.setMaxValue(50);
         numberPickerCricket.setMinValue(1);
@@ -98,6 +100,13 @@ public class QuickCombat extends Activity {
             }
 
             textView.setText(Integer.toString(mThumbIds[position]));
+
+            if (selectionList.contains(mThumbIds[position])) {
+                textView.setBackgroundColor(Color.BLACK);
+            } else {
+                textView.setBackgroundColor(Color.TRANSPARENT);
+            }
+
             textView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -109,7 +118,7 @@ public class QuickCombat extends Activity {
                         selectionList.add(position + 1);
                         textView.setBackgroundColor(Color.BLACK);
                         Message.message(getApplicationContext(), "size of list: " + selectionList.size());
-                    } else if (selectionList.contains(mThumbIds[position])) {
+                    } else {
                         textView.setBackgroundColor(Color.TRANSPARENT);
 
 
@@ -120,6 +129,7 @@ public class QuickCombat extends Activity {
                         }
 
                         Message.message(getApplicationContext(), "size of list: " + selectionList.size());
+                        cricketView.invalidateViews();
                     }
                 }
 
