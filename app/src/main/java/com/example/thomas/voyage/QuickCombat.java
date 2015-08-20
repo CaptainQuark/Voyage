@@ -103,8 +103,10 @@ public class QuickCombat extends Activity {
 
             if (selectionList.contains(mThumbIds[position])) {
                 textView.setBackgroundColor(Color.BLACK);
+                textView.setTextColor(Color.WHITE);
             } else {
                 textView.setBackgroundColor(Color.TRANSPARENT);
+                textView.setTextColor(Color.BLACK);
             }
 
             textView.setOnClickListener(new View.OnClickListener() {
@@ -117,9 +119,11 @@ public class QuickCombat extends Activity {
                     if (!selectionList.contains(mThumbIds[position])) {
                         selectionList.add(position + 1);
                         textView.setBackgroundColor(Color.BLACK);
+                        textView.setTextColor(Color.WHITE);
                         Message.message(getApplicationContext(), "size of list: " + selectionList.size());
                     } else {
                         textView.setBackgroundColor(Color.TRANSPARENT);
+                        textView.setTextColor(Color.BLACK);
 
 
                         for (int i = 0; i < selectionList.size(); i++) {
