@@ -4,7 +4,7 @@
     android:id="@+id/gridView_combat_right_panel"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/buttonstates_combat_rigt_panel"
+    android:background="@drawable/buttonstates_combat_right_panel"
     android:orientation="vertical">
 
     <TextView

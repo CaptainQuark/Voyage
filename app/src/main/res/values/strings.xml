@@ -15,4 +15,5 @@
     <string name="title_activity_combat_white">CombatWhiteActivity</string>
     <string name="title_activity_prepare_combat">PrepareCombatActivity</string>
     <string name="title_activity_merchant_inventory">MerchantInventoryActivity</string>
+    <string name="title_activity_quick_combat">QuickCombat</string>
 </resources>

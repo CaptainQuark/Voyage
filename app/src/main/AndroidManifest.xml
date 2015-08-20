@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.thomas.voyage" >
 
-    <uses-library android:name="com.google.android.wearable" android:required="false" />
+    <uses-library
+        android:name="com.google.android.wearable"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -49,6 +52,10 @@
             android:name=".MerchantInventoryActivity"
             android:label="@string/title_activity_merchant_inventory"
             android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".QuickCombat"
+            android:label="@string/title_activity_quick_combat" >
         </activity>
     </application>
 

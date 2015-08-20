@@ -213,6 +213,10 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
+    public void clickToQuickCombat(View view){
+        Intent i = new Intent(getApplicationContext(), QuickCombat.class);
+        startActivity(i);
+    }
     public void toScreenSlideActivity(View view) {
         Intent i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
         startActivity(i);

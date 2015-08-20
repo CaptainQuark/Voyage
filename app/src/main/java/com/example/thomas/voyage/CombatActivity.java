@@ -20,13 +20,14 @@ import java.util.List;
 public class CombatActivity extends Activity {
 
     private static int
+            selectedCellPosition = 0,
             monsterHealthConst = -1,
             heroHitpointsConst = -1,
             scoreMultiplier = 1,
             dartCount = 1,
             heroClassActive = 1,
             roundCount = 0;
-    private static String heroImgRes = "", chronicleString = "";
+    private static String heroImgRes = "", chronicleString = "", eventString = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
             scoreHeroMultiplierArray = {-1, -1, -1},
@@ -169,7 +170,7 @@ public class CombatActivity extends Activity {
 
 
             monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") - appliedDamage);
-            undoListForHero.add( scoreHeroMultiplierArray[dartCount-1] * scoreHeroFieldArray[dartCount-1] );
+            undoListForHero.add(scoreHeroMultiplierArray[dartCount - 1] * scoreHeroFieldArray[dartCount - 1]);
             /*
             int size = undoListForHero.size();
             String chronicle = "";
@@ -181,7 +182,7 @@ public class CombatActivity extends Activity {
             }
             */
 
-
+            eventString += "Der Held attackiert mit " + appliedDamage + " TP\n";
 
             handleAttackInputByMonster();
             handleSelectedItem();
@@ -193,6 +194,8 @@ public class CombatActivity extends Activity {
             chronicleView.setText(chronicleString);
             dartCount = 1;
             roundCount++;
+
+            eventsView.setText(eventString);
 
             for(int i = 0; i < scoreHeroFieldArray.length; i++){
                 scoreHeroFieldArray[i] = -1;
@@ -231,6 +234,9 @@ public class CombatActivity extends Activity {
          */
 
         heroList.get(0).setInt("hp", heroList.get(0).getInts("hp") - 5);
+
+        eventString += "Das Monster attackiert mit 5 TP\n";
+        eventsView.setText(eventString);
 
         setHealthBarMonster();
     }
@@ -329,8 +335,6 @@ public class CombatActivity extends Activity {
         int[] result;
         Context context;
         private LayoutInflater inflater = null;
-        private int selectedCellPosition = 0;
-
 
         public RightPanelAdapter(CombatActivity combatActivity, int[] list) {
             result = list;
@@ -380,11 +384,13 @@ public class CombatActivity extends Activity {
                 public void onClick(View v) {
                     //rowView.setBackgroundColor(context.getResources().getColor(R.color.highlight_cherryred));
 
+
                     if (selectedCellPosition != -1) {
                         View cellView = parent.getChildAt(selectedCellPosition);
                         cellView.setSelected(false);
                         cellView.postInvalidate();
                     }
+
 
                     v.setSelected(true);
                     selectedCellPosition = position;

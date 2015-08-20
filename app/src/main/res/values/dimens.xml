@@ -6,4 +6,8 @@
     <dimen name="font_right_panel_standard_size_numbers">35sp</dimen>
     <dimen name="font_right_panel_standard_size_words">20sp</dimen>
 
+    <dimen name="quick_box_height">350dp</dimen>
+    <dimen name="quick_box_width">170dp</dimen>
+    <dimen name="quick_box_margin_horizontal">50dp</dimen>
+
 </resources>
