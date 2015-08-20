@@ -1,0 +1,35 @@
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context="com.example.thomas.voyage.QuickCombatCricket">
+
+    <LinearLayout
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+
+    </LinearLayout>
+
+    <GridView
+        android:paddingEnd="100dp"
+        android:paddingStart="100dp"
+        android:paddingTop="20dp"
+        android:id="@+id/cricket_gridview"
+        android:layout_weight="6"
+        android:numColumns="3"
+        android:columnWidth="300dp"
+        android:stretchMode="spacingWidthUniform"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:verticalSpacing="30dp"
+        android:horizontalSpacing="30dp"
+        android:layout_height="0dp">
+
+
+    </GridView>
+</LinearLayout>

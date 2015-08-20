@@ -2,6 +2,7 @@ package com.example.thomas.voyage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -51,6 +52,12 @@ public class QuickCombat extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+    }
+
+    public void goToCricket(View view){
+        Intent i = new Intent(this, QuickCombatCricket.class);
+        startActivity(i);
+        finish();
     }
 
 

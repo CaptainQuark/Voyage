@@ -57,6 +57,10 @@
             android:name=".QuickCombat"
             android:label="@string/title_activity_quick_combat" >
         </activity>
+        <activity
+            android:name=".QuickCombatCricket"
+            android:label="@string/title_activity_quick_combat_cricket" >
+        </activity>
     </application>
 
 </manifest>

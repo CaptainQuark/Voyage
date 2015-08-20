@@ -75,6 +75,7 @@
             android:layout_weight="1"
             android:text="START"
             android:gravity="center"
+            android:onClick="goToCricket"
             android:background="@drawable/ripple_go_in_combat"
             android:id="@+id/textView141" />
 

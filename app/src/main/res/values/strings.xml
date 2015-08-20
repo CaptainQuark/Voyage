@@ -16,4 +16,5 @@
     <string name="title_activity_prepare_combat">PrepareCombatActivity</string>
     <string name="title_activity_merchant_inventory">MerchantInventoryActivity</string>
     <string name="title_activity_quick_combat">QuickCombat</string>
+    <string name="title_activity_quick_combat_cricket">QuickCombatCricket</string>
 </resources>
