@@ -1,5 +1,5 @@
 <LinearLayout
-    android:orientation="vertical"
+    android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,26 +9,26 @@
 
     <LinearLayout
         android:layout_weight="2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
 
 
     </LinearLayout>
 
     <GridView
-        android:paddingEnd="100dp"
-        android:paddingStart="100dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
         android:paddingTop="20dp"
         android:id="@+id/cricket_gridview"
         android:layout_weight="6"
-        android:numColumns="3"
-        android:columnWidth="300dp"
+        android:numColumns="auto_fit"
+        android:columnWidth="180dp"
         android:stretchMode="spacingWidthUniform"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:verticalSpacing="30dp"
-        android:horizontalSpacing="30dp"
-        android:layout_height="0dp">
+        android:verticalSpacing="20dp"
+        android:horizontalSpacing="10dp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent">
 
 
     </GridView>

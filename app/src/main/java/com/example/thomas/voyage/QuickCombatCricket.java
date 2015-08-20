@@ -81,7 +81,6 @@ public class QuickCombatCricket extends Activity {
 
             } else {
                 gridView = (View) convertView;
-                tv = (TextView) gridView.findViewById(R.id.quick_cricket_card_textview);
             }
 
 
@@ -89,8 +88,6 @@ public class QuickCombatCricket extends Activity {
 
                 @Override
                 public void onClick(View v) {
-
-                    tv.setPressed(true);
 
                     //tv.setBackgroundColor(Color.BLUE);
                     //Message.message(getApplicationContext(), "size of list: " + selectionList.size());
