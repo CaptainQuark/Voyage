@@ -18,16 +18,25 @@ import java.util.List;
 
 public class QuickCombatCricket extends Activity {
 
-    int count = 21;
+    int count = 21, activePlayer = 0, numPlayers = 2;
     int[] array;
-    private static GridView cricketView;
-    private static List<Integer> markedList = new ArrayList<>();
+    private GridView cricketView;
+    private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>();
+    private List<CardData> cardDataList = new ArrayList<>();
+    private TextView playerNameOneView, playerNameTwoView, playerScoreOneView, playerScoreTwoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_combat_cricket);
         hideSystemUI();
+
+        playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
+        playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
+
+        for(int i = 0; i < numPlayers; i++){
+            scoreList.add(0);
+        }
 
         array  = new int[count];
         for(int i = 0, temp = 0; i < count; i++){
@@ -36,6 +45,8 @@ public class QuickCombatCricket extends Activity {
             else temp = i+1;
 
             array[i] = temp;
+
+            cardDataList.add( new CardData(i) );
         }
 
         cricketView = (GridView) findViewById(R.id.cricket_gridview);
@@ -45,8 +56,11 @@ public class QuickCombatCricket extends Activity {
                                     int position, long id) {
 
                 markedList.add(position);
-                cricketView.invalidateViews();
 
+                cardDataList.get(position).progressPlayers.set(activePlayer,
+                        cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
+
+                cricketView.invalidateViews();
             }
         });
     }
@@ -56,6 +70,25 @@ public class QuickCombatCricket extends Activity {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
     }
+
+    private class CardData{
+        int pos;
+        List<Float> progressPlayers;
+        boolean isClosed;
+
+        public CardData(int position){
+            progressPlayers = new ArrayList<>();
+
+            for(int i = 0; i < numPlayers; i++){
+                progressPlayers.add(0f);
+            }
+
+            pos = position;
+            isClosed = false;
+        }
+    }
+
+
 
 
 
@@ -87,7 +120,6 @@ public class QuickCombatCricket extends Activity {
         class ViewHolder {
             TextView numView, playerOneView, playerTwoView;
             Space spaceOne, spaceTwo;
-            int progressPlayerOne = 0, progressPlayerTwo = 0;
 
             ViewHolder(View v){
                 numView = (TextView) v.findViewById(R.id.quick_cricket_card_textview);
@@ -98,7 +130,6 @@ public class QuickCombatCricket extends Activity {
             }
         }
 
-        // create a new ImageView for each item referenced by the Adapter
         public View getView(final int position, View convertView, ViewGroup parent) {
 
             ViewHolder holder = null;
@@ -113,6 +144,9 @@ public class QuickCombatCricket extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
+            //holder.numView.setText(array[position] + "");
+            holder.numView.setText( (cardDataList.get(position).progressPlayers.get(activePlayer)) + "" );
+
             if(markedList.contains(position)){
                 //holder.numView.setText(Integer.toString(array[position]));
                 convertView.setBackgroundColor(Color.BLACK);
@@ -120,8 +154,6 @@ public class QuickCombatCricket extends Activity {
             }else{
                 convertView.setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_corners));
             }
-
-            holder.numView.setText(array[position] + "");
 
             return convertView;
         }
