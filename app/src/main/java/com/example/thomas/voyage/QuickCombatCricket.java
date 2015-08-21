@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class QuickCombatCricket extends Activity {
 
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
         playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
+        final TextView throwCountView = (TextView) findViewById(R.id.cricket_throw_count);
 
 
         for(int i = 0; i < numPlayers; i++){
@@ -80,6 +83,8 @@ public class QuickCombatCricket extends Activity {
                         else activePlayer = 0;
                         //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
                     }
+
+                    throwCountView.setText(tempNumThrows + ".");
 
                     cardDataList.get(position).progressPlayers.set(activePlayer,
                             cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);

@@ -19,13 +19,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_weight="0.15"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
             <TextView
                 android:id="@+id/cricket_name_player_1"
                 android:text="spieler 1"
                 android:textColor="@android:color/black"
                 android:textSize="34sp"
-                android:fontFamily="sans-serif-light"
-                android:paddingLeft="40dp"
+                android:paddingLeft="@dimen/cricket_values_in_titelbar"
                 android:gravity="center_vertical|bottom"
                 android:textAllCaps="true"
                 android:layout_weight="1"
@@ -37,13 +42,40 @@
                 android:text="0"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:fontFamily="sans-serif-light"
-                android:paddingStart="40dp"
+                android:paddingStart="@dimen/cricket_values_in_titelbar"
                 android:gravity="start"
                 android:textAllCaps="true"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/cricket_throw_count"
+                android:text="N°"
+                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:paddingTop="15dp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
                 android:layout_height="0dp" />
+
+            <LinearLayout
+                android:layout_weight="0.4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -53,13 +85,18 @@
             android:layout_width="0dp"
             android:layout_height="match_parent">
 
+            <ImageView
+                android:layout_weight="0.15"
+                android:background="@android:color/holo_red_dark"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" />
+
             <TextView
                 android:id="@+id/cricket_name_player_2"
                 android:text="spieler 2"
                 android:textColor="@android:color/black"
                 android:textSize="34sp"
-                android:fontFamily="sans-serif-light"
-                android:paddingRight="40dp"
+                android:paddingRight="@dimen/cricket_values_in_titelbar"
                 android:gravity="end|bottom"
                 android:textAllCaps="true"
                 android:layout_weight="1"
@@ -71,13 +108,13 @@
                 android:text="0"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
-                android:fontFamily="sans-serif-light"
-                android:paddingEnd="40dp"
+                android:paddingEnd="@dimen/cricket_values_in_titelbar"
                 android:gravity="end"
                 android:textAllCaps="true"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

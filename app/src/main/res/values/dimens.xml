@@ -10,4 +10,6 @@
     <dimen name="quick_box_width">170dp</dimen>
     <dimen name="quick_box_margin_horizontal">50dp</dimen>
 
+    <dimen name="cricket_values_in_titelbar">60dp</dimen>
+
 </resources>
