@@ -275,7 +275,7 @@
                 android:layout_rowWeight="1"
                 android:gravity="center"
                 android:onClick="clickToQuickCombat"
-                android:text="501\nCricket\nShanghai" />
+                android:text="Cricket\nShanghai\nClassic" />
 
             <TextView
                 android:id="@+id/textView22"

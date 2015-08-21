@@ -8,15 +8,13 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class QuickCombat extends Activity {
@@ -24,12 +22,17 @@ public class QuickCombat extends Activity {
     GridView cricketView;
     int[] arrayOfSelectedValues;
     private List<Integer> selectionList = new ArrayList<>();
+    ImageButton cricketImage, shanghaiImage, classicImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_combat);
         hideSystemUI();
+
+        cricketImage = (ImageButton) findViewById(R.id.quick_imageview_cricket);
+        shanghaiImage = (ImageButton) findViewById(R.id.quick_imageview_shanghai);
+        classicImage = (ImageButton) findViewById(R.id.quick_imageview_classic);
 
         cricketView = (GridView) findViewById(R.id.quick_gridView_selected_numbers);
         NumberPicker numberPickerCricket = (NumberPicker) findViewById(R.id.quick_numberpicker_cricket);
@@ -55,6 +58,33 @@ public class QuickCombat extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+    }
+
+    public void quickImageTapped(View view){
+
+        switch (view.getId()){
+
+            case R.id.quick_imageview_cricket:
+                cricketImage.setVisibility(View.INVISIBLE);
+                shanghaiImage.setVisibility(View.VISIBLE);
+                classicImage.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.quick_imageview_shanghai:
+                cricketImage.setVisibility(View.VISIBLE);
+                shanghaiImage.setVisibility(View.INVISIBLE);
+                classicImage.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.quick_imageview_classic:
+                cricketImage.setVisibility(View.VISIBLE);
+                shanghaiImage.setVisibility(View.VISIBLE);
+                classicImage.setVisibility(View.INVISIBLE);
+                break;
+
+            default:
+                Message.message(this, "ERROR @ quickImageTapped : wrong view.getId()");
+        }
     }
 
     public void goToCricket(View view){

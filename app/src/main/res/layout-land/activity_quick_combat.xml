@@ -1,174 +1,213 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.QuickCombat"
     android:background="#d6d6d6">
 
-    <ImageButton
-        android:orientation="vertical"
-        android:layout_width="@dimen/quick_box_width"
-        android:layout_height="@dimen/quick_box_height"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:stateListAnimator="@anim/elevation"
-        android:background="@drawable/rounded_corners"
-        android:id="@+id/linearLayout"
-        android:src="@mipmap/quick_shanghai_1"
-        android:cropToPadding="false"
-        android:scaleType="centerCrop">
-
-
-
-    </ImageButton>
-
-    <FrameLayout
-        android:id="@+id/frame_cricket"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/quick_box_margin_horizontal"
-        android:layout_toStartOf="@+id/linearLayout"
-        android:layout_width="@dimen/quick_box_width"
-        android:layout_height="@dimen/quick_box_height">
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/rounded_corners"
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="@dimen/quick_box_height"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:stateListAnimator="@anim/elevation"
-            android:id="@+id/linearLayout2" >
+            android:background="@drawable/rounded_corners"
+            android:id="@+id/linearLayout">
+        </LinearLayout>
+
+
 
             <LinearLayout
-                android:background="@android:color/black"
-                android:layout_weight="2"
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:orientation="vertical"
+                android:id="@+id/frame_cricket"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/quick_box_margin_horizontal"
+                android:layout_toStartOf="@+id/linearLayout"
+                android:layout_width="@dimen/quick_box_width"
+                android:layout_height="@dimen/quick_box_height"
+                android:background="@drawable/rounded_corners"
+                android:stateListAnimator="@anim/elevation" >
+
+                <LinearLayout
+                    android:background="@android:color/black"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Runden"
+                        android:gravity="center"
+                        android:id="@+id/textView14" />
+
+                    <FrameLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <NumberPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:descendantFocusability="blocksDescendants"
+                            android:showDividers="none"
+                            android:divider="@android:color/transparent"
+                            android:id="@+id/quick_numberpicker_cricket"/>
+
+                    </FrameLayout>
+
+
+
+                </LinearLayout>
+
+
+                <GridView
+                    android:layout_weight="5"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:columnWidth="90dp"
+                    android:numColumns="3"
+                    android:stretchMode="columnWidth"
+                    android:gravity="center"
+                    android:id="@+id/quick_gridView_selected_numbers" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:text="Runden"
+                    android:text="START"
                     android:gravity="center"
-                    android:id="@+id/textView14" />
-
-                <FrameLayout
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent">
-
-                    <NumberPicker
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:descendantFocusability="blocksDescendants"
-                        android:showDividers="none"
-                        android:divider="@android:color/transparent"
-                        android:id="@+id/quick_numberpicker_cricket"/>
-
-                </FrameLayout>
-
-
+                    android:onClick="goToCricket"
+                    android:background="@drawable/ripple_go_in_combat"
+                    android:id="@+id/textView141" />
 
             </LinearLayout>
 
 
-            <GridView
-                android:layout_weight="5"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:columnWidth="90dp"
-                android:numColumns="3"
-                android:stretchMode="columnWidth"
-                android:gravity="center"
-                android:id="@+id/quick_gridView_selected_numbers" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:text="START"
-                android:gravity="center"
-                android:onClick="goToCricket"
-                android:background="@drawable/ripple_go_in_combat"
-                android:id="@+id/textView141" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="@dimen/quick_box_height"
+            android:background="@drawable/rounded_corners"
+            android:stateListAnimator="@anim/elevation"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/quick_box_margin_horizontal"
+            android:layout_toEndOf="@+id/linearLayout"
+            android:id="@+id/linearLayout3"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/quick_classic_0">
 
         </LinearLayout>
 
-        <!--
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <ImageButton
-            android:scaleType="centerCrop"
+            android:onClick="quickImageTapped"
+            android:orientation="vertical"
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="@dimen/quick_box_height"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:stateListAnimator="@anim/elevation"
+            android:background="@drawable/rounded_corners"
+            android:id="@+id/quick_imageview_shanghai"
+            android:src="@mipmap/quick_shanghai_1"
+            android:scaleType="centerCrop">
+        </ImageButton>
+
+        <ImageButton
+            android:onClick="quickImageTapped"
+            android:id="@+id/quick_imageview_cricket"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/quick_box_margin_horizontal"
+            android:layout_toStartOf="@+id/quick_imageview_shanghai"
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="@dimen/quick_box_height"
+            android:stateListAnimator="@anim/elevation"
+            android:background="@drawable/rounded_corners"
+            android:src="@mipmap/quick_cricket_0"
+            android:scaleType="centerCrop">
+
+        </ImageButton>
+
+
+        <ImageButton
+            android:onClick="quickImageTapped"
+            android:orientation="vertical"
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="@dimen/quick_box_height"
             android:background="@drawable/rounded_corners"
             android:stateListAnimator="@anim/elevation"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/quick_cricket_0" /> -->
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/quick_box_margin_horizontal"
+            android:layout_toEndOf="@+id/quick_imageview_shanghai"
+            android:id="@+id/quick_imageview_classic"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/quick_classic_0">
 
-    </FrameLayout>
+        </ImageButton>
 
+        <TextView
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="wrap_content"
+            android:text="CRICKET"
+            android:fontFamily="sans-serif-light"
+            android:layout_marginTop="15dp"
+            android:id="@+id/textview_cricket"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_below="@+id/quick_imageview_cricket"
+            android:layout_alignStart="@+id/quick_imageview_cricket" />
 
+        <TextView
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="wrap_content"
+            android:text="SHANGHAI"
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/textView_shanghai"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_alignTop="@+id/textview_cricket"
+            android:layout_alignStart="@+id/quick_imageview_shanghai" />
 
-    <ImageButton
-        android:orientation="vertical"
-        android:layout_width="@dimen/quick_box_width"
-        android:layout_height="@dimen/quick_box_height"
-        android:background="@drawable/rounded_corners"
-        android:stateListAnimator="@anim/elevation"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="@dimen/quick_box_margin_horizontal"
-        android:layout_toEndOf="@+id/linearLayout"
-        android:id="@+id/linearLayout3"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/quick_classic_0">
+        <TextView
+            android:layout_width="@dimen/quick_box_width"
+            android:layout_height="wrap_content"
+            android:text="CLASSIC"
+            android:fontFamily="sans-serif-light"
+            android:id="@+id/textView_classic"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:layout_alignTop="@+id/textView_shanghai"
+            android:layout_alignStart="@+id/quick_imageview_classic" />
 
-    </ImageButton>
+        <ImageView
+            android:onClick="quickCombatBackButton"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_backbutton"
+            android:tint="#9dffffff"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/textView_shanghai"
+            android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:layout_width="@dimen/quick_box_width"
-        android:layout_height="wrap_content"
-        android:text="CRICKET"
-        android:fontFamily="sans-serif-light"
-        android:layout_marginTop="15dp"
-        android:id="@+id/textView8"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_below="@+id/frame_cricket"
-        android:layout_alignStart="@+id/frame_cricket" />
+    </RelativeLayout>
 
-    <TextView
-        android:layout_width="@dimen/quick_box_width"
-        android:layout_height="wrap_content"
-        android:text="SHANGHAI"
-        android:fontFamily="sans-serif-light"
-        android:id="@+id/textView9"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_alignTop="@+id/textView8"
-        android:layout_alignStart="@+id/linearLayout" />
-
-    <TextView
-        android:layout_width="@dimen/quick_box_width"
-        android:layout_height="wrap_content"
-        android:text="CLASSIC"
-        android:fontFamily="sans-serif-light"
-        android:id="@+id/textView12"
-        android:textColor="@android:color/black"
-        android:gravity="center"
-        android:textSize="18sp"
-        android:layout_alignTop="@+id/textView9"
-        android:layout_alignStart="@+id/linearLayout3" />
-
-    <ImageView
-        android:onClick="quickCombatBackButton"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/ic_backbutton"
-        android:tint="#9dffffff"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/textView9"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+</FrameLayout>
