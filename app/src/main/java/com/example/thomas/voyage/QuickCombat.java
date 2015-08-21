@@ -22,6 +22,8 @@ import java.util.List;
 public class QuickCombat extends Activity {
 
     GridView cricketView;
+    int[] arrayOfSelectedValues;
+    private List<Integer> selectionList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +36,6 @@ public class QuickCombat extends Activity {
         numberPickerCricket.setMaxValue(50);
         numberPickerCricket.setMinValue(1);
         numberPickerCricket.setValue(1);
-        numberPickerCricket.setWrapSelectorWheel(false);
         cricketView.setAdapter(new SimpleNumberAdapter(this));
         cricketView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
         /*
@@ -57,7 +58,14 @@ public class QuickCombat extends Activity {
     }
 
     public void goToCricket(View view){
+
+        arrayOfSelectedValues = new int[selectionList.size()];
+        for(int i = 0; i < selectionList.size(); i++){
+            arrayOfSelectedValues[i] = selectionList.get(i);
+        }
+
         Intent i = new Intent(this, QuickCombatCricket.class);
+        i.putExtra("LIST_OF_SELECTED_VALUES", arrayOfSelectedValues);
         startActivity(i);
         finish();
     }
@@ -72,7 +80,6 @@ public class QuickCombat extends Activity {
 
     public class SimpleNumberAdapter extends BaseAdapter {
         private Context mContext;
-        private List<Integer> selectionList = new ArrayList<>();
 
         public SimpleNumberAdapter(Context c) {
             mContext = c;
@@ -122,10 +129,10 @@ public class QuickCombat extends Activity {
 
                     if (!selectionList.contains(mThumbIds[position])) {
 
-                        selectionList.add(position + 1);
+                        selectionList.add(mThumbIds[position]);
                         textView.setBackgroundColor(Color.BLACK);
                         textView.setTextColor(Color.WHITE);
-                        Message.message(getApplicationContext(), "size of list: " + selectionList.size());
+                        //Message.message(getApplicationContext(), "size of list: " + selectionList.size());
 
                     } else {
 
@@ -133,12 +140,12 @@ public class QuickCombat extends Activity {
                         textView.setTextColor(Color.BLACK);
 
                         for (int i = 0; i < selectionList.size(); i++) {
-                            if (selectionList.get(i) == mThumbIds[position]) {
+                            if (selectionList.get(i).equals(mThumbIds[position])) {
                                 selectionList.remove(i);
                             }
                         }
 
-                        Message.message(getApplicationContext(), "size of list: " + selectionList.size());
+                        //Message.message(getApplicationContext(), "size of list: " + selectionList.size());
                         cricketView.invalidateViews();
                     }
                 }
@@ -151,7 +158,7 @@ public class QuickCombat extends Activity {
 
         // references to our images
         private Integer[] mThumbIds = {
-                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21
+                1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,25
         };
     }
 

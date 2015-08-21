@@ -37,6 +37,13 @@ public class QuickCombatCricket extends Activity {
         setContentView(R.layout.activity_quick_combat_cricket);
         hideSystemUI();
 
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            array = b.getIntArray("LIST_OF_SELECTED_VALUES");
+        }else{
+            array = new int[1];
+        }
+
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
         playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
         final TextView throwCountView = (TextView) findViewById(R.id.cricket_throw_count);
@@ -46,16 +53,10 @@ public class QuickCombatCricket extends Activity {
             scoreList.add(0);
         }
 
-        array  = new int[numCards];
-        for(int i = 0, temp = 0; i < numCards; i++){
-
-            if(i == 20) temp = 25;
-            else temp = i+1;
-
-            array[i] = temp;
-
+        for(int i = 0; i < array.length; i++){
             cardDataList.add( new CardData(i) );
         }
+
 
         cricketView = (GridView) findViewById(R.id.cricket_gridview);
         cricketView.setAdapter(new SimpleNumberAdapter(this));
@@ -154,7 +155,7 @@ public class QuickCombatCricket extends Activity {
         }
 
         public int getCount() {
-            return numCards;
+            return array.length;
         }
 
         public Object getItem(int position) {
