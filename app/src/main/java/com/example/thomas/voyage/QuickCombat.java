@@ -59,15 +59,23 @@ public class QuickCombat extends Activity {
 
     public void goToCricket(View view){
 
-        arrayOfSelectedValues = new int[selectionList.size()];
-        for(int i = 0; i < selectionList.size(); i++){
-            arrayOfSelectedValues[i] = selectionList.get(i);
+        if(selectionList.isEmpty()){
+
+            Message.message(this, "Keine Werte ausgewählt!");
+
+        }else{
+
+            arrayOfSelectedValues = new int[selectionList.size()];
+            for(int i = 0; i < selectionList.size(); i++){
+                arrayOfSelectedValues[i] = selectionList.get(i);
+            }
+
+            Intent i = new Intent(this, QuickCombatCricket.class);
+            i.putExtra("LIST_OF_SELECTED_VALUES", arrayOfSelectedValues);
+            startActivity(i);
+            finish();
         }
 
-        Intent i = new Intent(this, QuickCombatCricket.class);
-        i.putExtra("LIST_OF_SELECTED_VALUES", arrayOfSelectedValues);
-        startActivity(i);
-        finish();
     }
 
     public void quickCombatBackButton(View view){

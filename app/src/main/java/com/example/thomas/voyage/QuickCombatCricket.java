@@ -215,11 +215,14 @@ public class QuickCombatCricket extends Activity {
 
             if(cardDataList.get(position).isClosed){
 
-                holder.numView.setText("CLOSED");
                 holder.paramsSpaceOne.weight = ( 0 );
                 holder.paramsSpaceTwo.weight = ( 0 );
                 holder.spaceOne.setLayoutParams(holder.paramsSpaceOne);
                 holder.spaceTwo.setLayoutParams(holder.paramsSpaceTwo);
+
+                convertView.setBackground(getResources().getDrawable(R.drawable.rounded_corners_black));
+                holder.playerOneView.setBackground(getResources().getDrawable(R.drawable.rounded_corners_black));
+                holder.playerTwoView.setBackground(getResources().getDrawable(R.drawable.rounded_corners_black));
 
             }else{
                 holder.paramsProgressOne.weight = cardDataList.get(position).progressPlayers.get(0);
