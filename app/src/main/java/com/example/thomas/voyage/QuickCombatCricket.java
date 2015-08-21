@@ -109,6 +109,29 @@ public class QuickCombatCricket extends Activity {
                     }
 
                     cricketView.invalidateViews();
+
+                    // Siegesbedingungen
+
+                    for(int playerNum = 0; playerNum < numPlayers; playerNum++){
+
+                        for(int i = 0, numToWin = 0; i < array.length; i++){
+
+                            if(scoreList.get(playerNum) >= scoreList.get(playerNum % numPlayers)){
+
+                                if( cardDataList.get(i).progressPlayers.get(playerNum) >= 0.99f && cardDataList.get(i).progressPlayers.get(playerNum % numPlayers) < 0.99f ){
+                                    numToWin++;
+                                }else if( cardDataList.get(i).isClosed){
+                                    numToWin++;
+                                }
+
+                                if( numToWin == array.length ){
+                                    Message.message(getApplicationContext(), "Spieler + " + (playerNum+1) + " hat gewonnen!");
+                                }
+                            }
+                        }
+                    }
+
+
                 }
             }
         });
