@@ -95,7 +95,7 @@ public class CombatActivity extends Activity {
                 paramsBarMonsterDamaged.weight = 1 - weightRounded;
                 paramsBarMonsterVital.weight = weightRounded;
                 healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+                healthbarMonsterVital.setLayoutParams(paramsBarMonsterVital);
 
             } else {
                 paramsBarMonsterDamaged.weight = 1.0f;

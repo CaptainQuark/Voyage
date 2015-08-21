@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/cricketcard_progress_1"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:background="@android:color/holo_blue_dark"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
@@ -54,9 +54,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/cricketcard_progress_2"
-                android:layout_weight="1"
+                android:layout_weight="0"
                 android:background="@android:color/holo_green_dark"
                 android:layout_width="match_parent"
                 android:layout_height="0dp" />

@@ -3,6 +3,7 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
@@ -18,7 +21,8 @@ import java.util.List;
 
 public class QuickCombatCricket extends Activity {
 
-    int count = 21, activePlayer = 0, numPlayers = 2;
+    int numCards = 21, activePlayer = 0, numPlayers = 2, tempNumThrows = 0;
+    final int totalNumThrowsPerPlayer = 3;
     int[] array;
     private GridView cricketView;
     private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>();
@@ -34,12 +38,13 @@ public class QuickCombatCricket extends Activity {
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
         playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
 
+
         for(int i = 0; i < numPlayers; i++){
             scoreList.add(0);
         }
 
-        array  = new int[count];
-        for(int i = 0, temp = 0; i < count; i++){
+        array  = new int[numCards];
+        for(int i = 0, temp = 0; i < numCards; i++){
 
             if(i == 20) temp = 25;
             else temp = i+1;
@@ -55,7 +60,18 @@ public class QuickCombatCricket extends Activity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                markedList.add(position);
+                //markedList.add(position);
+
+                if( tempNumThrows < totalNumThrowsPerPlayer ){
+                    tempNumThrows++;
+                    Message.message(getApplicationContext(), tempNumThrows + "");
+                }else {
+                    tempNumThrows = 1;
+
+                    if(activePlayer == 0) activePlayer = 1;
+                    else activePlayer = 0;
+                    Message.message(getApplicationContext(), activePlayer + " = activePlayer");
+            }
 
                 cardDataList.get(position).progressPlayers.set(activePlayer,
                         cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
@@ -106,7 +122,7 @@ public class QuickCombatCricket extends Activity {
         }
 
         public int getCount() {
-            return count;
+            return numCards;
         }
 
         public Object getItem(int position) {
@@ -118,15 +134,24 @@ public class QuickCombatCricket extends Activity {
         }
 
         class ViewHolder {
-            TextView numView, playerOneView, playerTwoView;
+            TextView numView;
+            ImageView playerOneView, playerTwoView;
             Space spaceOne, spaceTwo;
+            LinearLayout.LayoutParams paramsProgressOne, paramsProgressTwo, paramsSpaceOne, paramsSpaceTwo;
 
             ViewHolder(View v){
                 numView = (TextView) v.findViewById(R.id.quick_cricket_card_textview);
-                playerOneView = (TextView) v.findViewById(R.id.cricketcard_progress_1);
-                playerTwoView = (TextView) v.findViewById(R.id.cricketcard_progress_2);
+                playerOneView = (ImageView) v.findViewById(R.id.cricketcard_progress_1);
+                playerTwoView = (ImageView) v.findViewById(R.id.cricketcard_progress_2);
                 spaceOne = (Space) v.findViewById(R.id.cricketcard_space_1);
                 spaceTwo = (Space) v.findViewById(R.id.cricketcard_space_2);
+
+                paramsProgressOne = (LinearLayout.LayoutParams) playerOneView.getLayoutParams();
+                paramsProgressTwo = (LinearLayout.LayoutParams) playerTwoView.getLayoutParams();
+
+                paramsSpaceOne = (LinearLayout.LayoutParams) spaceOne.getLayoutParams();
+                paramsSpaceTwo = (LinearLayout.LayoutParams) spaceTwo.getLayoutParams();
+
             }
         }
 
@@ -144,8 +169,8 @@ public class QuickCombatCricket extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            //holder.numView.setText(array[position] + "");
-            holder.numView.setText( (cardDataList.get(position).progressPlayers.get(activePlayer)) + "" );
+            holder.numView.setText(array[position] + "");
+            //holder.numView.setText( (cardDataList.get(position).progressPlayers.get(activePlayer)) + "" );
 
             if(markedList.contains(position)){
                 //holder.numView.setText(Integer.toString(array[position]));
@@ -154,6 +179,16 @@ public class QuickCombatCricket extends Activity {
             }else{
                 convertView.setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_corners));
             }
+
+            holder.paramsProgressOne.weight = cardDataList.get(position).progressPlayers.get(0);
+            holder.paramsProgressTwo.weight = cardDataList.get(position).progressPlayers.get(1);
+            holder.paramsSpaceOne.weight = ( 1 - cardDataList.get(position).progressPlayers.get(0) );
+            holder.paramsSpaceTwo.weight = ( 1 - cardDataList.get(position).progressPlayers.get(1) );
+
+            holder.playerOneView.setLayoutParams(holder.paramsProgressOne);
+            holder.playerTwoView.setLayoutParams(holder.paramsProgressTwo);
+            holder.spaceOne.setLayoutParams(holder.paramsSpaceOne);
+            holder.spaceTwo.setLayoutParams(holder.paramsSpaceTwo);
 
             return convertView;
         }
