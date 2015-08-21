@@ -70,9 +70,36 @@
                 android:layout_height="0dp" />
 
             <LinearLayout
+                android:orientation="horizontal"
                 android:layout_weight="0.4"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
+
+                <TextView
+                    android:onClick="quickCombatMissButton"
+                    android:text="MISS"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_backbutton"
+                    android:onClick="quickCricketBackButton" />
+
+                <TextView
+                    android:text="UNDO"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
 

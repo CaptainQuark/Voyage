@@ -29,7 +29,7 @@ public class QuickCombatCricket extends Activity {
     private GridView cricketView;
     private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>();
     private List<CardData> cardDataList = new ArrayList<>();
-    private TextView playerNameOneView, playerNameTwoView, playerScoreOneView, playerScoreTwoView;
+    private TextView playerNameOneView, playerNameTwoView, playerScoreOneView, playerScoreTwoView, throwCountView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class QuickCombatCricket extends Activity {
 
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
         playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
-        final TextView throwCountView = (TextView) findViewById(R.id.cricket_throw_count);
+        throwCountView = (TextView) findViewById(R.id.cricket_throw_count);
 
 
         for(int i = 0; i < numPlayers; i++){
@@ -63,76 +63,7 @@ public class QuickCombatCricket extends Activity {
         cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
-                //markedList.add(position);
-
-
-                if(cardDataList.get(position).isClosed)
-                {
-                    Message.message(getApplicationContext(), "Diese Zahl ist bereits geschlossen");
-                }
-                else
-                {
-
-                    if( tempNumThrows < totalNumThrowsPerPlayer ){
-                        tempNumThrows++;
-                        //Message.message(getApplicationContext(), tempNumThrows + "");
-                    }else {
-                        tempNumThrows = 1;
-
-                        if(activePlayer == 0) activePlayer = 1;
-                        else activePlayer = 0;
-                        //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
-                    }
-
-                    throwCountView.setText(tempNumThrows + ".");
-
-                    cardDataList.get(position).progressPlayers.set(activePlayer,
-                            cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
-
-                    int validateIsClosed = 0;
-
-                    for( int i = 0; i < numPlayers; i++){
-                        if( (cardDataList.get(position).progressPlayers.get(i) >= 0.99f) ) validateIsClosed++;
-                        //Message.message(getApplicationContext(), "i: " + i + ", validateIsClosed: " + validateIsClosed);
-                    }
-
-                    if(validateIsClosed == numPlayers){
-                        cardDataList.get(position).isClosed = true;
-                    }
-                    else if( cardDataList.get(position).progressPlayers.get(activePlayer) > 0.99f){
-
-                        scoreList.set(activePlayer, scoreList.get(activePlayer) + array[position]);
-                        if(activePlayer == 0) playerScoreOneView.setText(scoreList.get(activePlayer) + "");
-                        if(activePlayer == 1) playerScoreTwoView.setText(scoreList.get(activePlayer) + "");
-
-                    }
-
-                    cricketView.invalidateViews();
-
-                    // Siegesbedingungen
-
-                    for(int playerNum = 0; playerNum < numPlayers; playerNum++){
-
-                        for(int i = 0, numToWin = 0; i < array.length; i++){
-
-                            if(scoreList.get(playerNum) >= scoreList.get(playerNum % numPlayers)){
-
-                                if( cardDataList.get(i).progressPlayers.get(playerNum) >= 0.99f && cardDataList.get(i).progressPlayers.get(playerNum % numPlayers) < 0.99f ){
-                                    numToWin++;
-                                }else if( cardDataList.get(i).isClosed){
-                                    numToWin++;
-                                }
-
-                                if( numToWin == array.length ){
-                                    Message.message(getApplicationContext(), "Spieler + " + (playerNum+1) + " hat gewonnen!");
-                                }
-                            }
-                        }
-                    }
-
-
-                }
+                handleThrow(position);
             }
         });
     }
@@ -141,6 +72,95 @@ public class QuickCombatCricket extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+    }
+
+    public void quickCricketBackButton(View view){
+        super.onBackPressed();
+        finish();
+    }
+
+    public void quickCombatMissButton(View view){
+
+        if( tempNumThrows < totalNumThrowsPerPlayer ){
+            tempNumThrows++;
+            //Message.message(getApplicationContext(), tempNumThrows + "");
+        }else {
+            tempNumThrows = 1;
+
+            if(activePlayer == 0) activePlayer = 1;
+            else activePlayer = 0;
+            //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
+        }
+
+        throwCountView.setText(tempNumThrows + ".");
+    }
+
+    private void handleThrow(int position){
+        //markedList.add(position);
+
+        if(cardDataList.get(position).isClosed)
+        {
+            Message.message(getApplicationContext(), "Diese Zahl ist bereits geschlossen");
+        }
+        else
+        {
+
+            if( tempNumThrows < totalNumThrowsPerPlayer ){
+                tempNumThrows++;
+                //Message.message(getApplicationContext(), tempNumThrows + "");
+            }else {
+                tempNumThrows = 1;
+
+                if(activePlayer == 0) activePlayer = 1;
+                else activePlayer = 0;
+                //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
+            }
+
+            throwCountView.setText(tempNumThrows + ".");
+
+            cardDataList.get(position).progressPlayers.set(activePlayer,
+                    cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
+
+            int validateIsClosed = 0;
+
+            for( int i = 0; i < numPlayers; i++){
+                if( (cardDataList.get(position).progressPlayers.get(i) >= 0.99f) ) validateIsClosed++;
+                //Message.message(getApplicationContext(), "i: " + i + ", validateIsClosed: " + validateIsClosed);
+            }
+
+            if(validateIsClosed == numPlayers){
+                cardDataList.get(position).isClosed = true;
+            }
+            else if( cardDataList.get(position).progressPlayers.get(activePlayer) > 0.99f){
+
+                scoreList.set(activePlayer, scoreList.get(activePlayer) + array[position]);
+                if(activePlayer == 0) playerScoreOneView.setText(scoreList.get(activePlayer) + "");
+                if(activePlayer == 1) playerScoreTwoView.setText(scoreList.get(activePlayer) + "");
+
+            }
+
+            cricketView.invalidateViews();
+
+            // Siegesbedingungen
+            for(int playerNum = 0; playerNum < numPlayers; playerNum++){
+
+                for(int i = 0, numToWin = 0; i < array.length; i++){
+
+                    if(scoreList.get(playerNum) >= scoreList.get((playerNum+1) % numPlayers)){
+
+                        if( cardDataList.get(i).progressPlayers.get(playerNum) >= 0.99f && cardDataList.get(i).progressPlayers.get((playerNum+1) % numPlayers) < 0.99f ){
+                            numToWin++;
+                        }else if( cardDataList.get(i).isClosed){
+                            numToWin++;
+                        }
+
+                        if( numToWin == array.length ){
+                            Message.message(getApplicationContext(), "Spieler + " + (playerNum+1) + " hat gewonnen!");
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private class CardData{
