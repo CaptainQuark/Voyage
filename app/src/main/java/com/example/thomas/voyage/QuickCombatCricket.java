@@ -62,21 +62,48 @@ public class QuickCombatCricket extends Activity {
 
                 //markedList.add(position);
 
-                if( tempNumThrows < totalNumThrowsPerPlayer ){
-                    tempNumThrows++;
-                    Message.message(getApplicationContext(), tempNumThrows + "");
-                }else {
-                    tempNumThrows = 1;
 
-                    if(activePlayer == 0) activePlayer = 1;
-                    else activePlayer = 0;
-                    Message.message(getApplicationContext(), activePlayer + " = activePlayer");
-            }
+                if(cardDataList.get(position).isClosed)
+                {
+                    Message.message(getApplicationContext(), "Diese Zahl ist bereits geschlossen");
+                }
+                else
+                {
 
-                cardDataList.get(position).progressPlayers.set(activePlayer,
-                        cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
+                    if( tempNumThrows < totalNumThrowsPerPlayer ){
+                        tempNumThrows++;
+                        //Message.message(getApplicationContext(), tempNumThrows + "");
+                    }else {
+                        tempNumThrows = 1;
 
-                cricketView.invalidateViews();
+                        if(activePlayer == 0) activePlayer = 1;
+                        else activePlayer = 0;
+                        //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
+                    }
+
+                    cardDataList.get(position).progressPlayers.set(activePlayer,
+                            cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
+
+                    int validateIsClosed = 0;
+
+                    for( int i = 0; i < numPlayers; i++){
+                        if( (cardDataList.get(position).progressPlayers.get(i) >= 0.99f) ) validateIsClosed++;
+                        //Message.message(getApplicationContext(), "i: " + i + ", validateIsClosed: " + validateIsClosed);
+                    }
+
+                    if(validateIsClosed == numPlayers){
+                        cardDataList.get(position).isClosed = true;
+                    }
+                    else if( cardDataList.get(position).progressPlayers.get(activePlayer) > 0.99f){
+
+                        scoreList.set(activePlayer, scoreList.get(activePlayer) + array[position]);
+                        if(activePlayer == 0) playerScoreOneView.setText(scoreList.get(activePlayer) + "");
+                        if(activePlayer == 1) playerScoreTwoView.setText(scoreList.get(activePlayer) + "");
+
+                    }
+
+                    cricketView.invalidateViews();
+                }
             }
         });
     }
@@ -90,7 +117,7 @@ public class QuickCombatCricket extends Activity {
     private class CardData{
         int pos;
         List<Float> progressPlayers;
-        boolean isClosed;
+        boolean isClosed = false;
 
         public CardData(int position){
             progressPlayers = new ArrayList<>();
@@ -180,15 +207,27 @@ public class QuickCombatCricket extends Activity {
                 convertView.setBackgroundDrawable(getResources().getDrawable(R.drawable.rounded_corners));
             }
 
-            holder.paramsProgressOne.weight = cardDataList.get(position).progressPlayers.get(0);
-            holder.paramsProgressTwo.weight = cardDataList.get(position).progressPlayers.get(1);
-            holder.paramsSpaceOne.weight = ( 1 - cardDataList.get(position).progressPlayers.get(0) );
-            holder.paramsSpaceTwo.weight = ( 1 - cardDataList.get(position).progressPlayers.get(1) );
+            if(cardDataList.get(position).isClosed){
 
-            holder.playerOneView.setLayoutParams(holder.paramsProgressOne);
-            holder.playerTwoView.setLayoutParams(holder.paramsProgressTwo);
-            holder.spaceOne.setLayoutParams(holder.paramsSpaceOne);
-            holder.spaceTwo.setLayoutParams(holder.paramsSpaceTwo);
+                holder.numView.setText("CLOSED");
+                holder.paramsSpaceOne.weight = ( 0 );
+                holder.paramsSpaceTwo.weight = ( 0 );
+                holder.spaceOne.setLayoutParams(holder.paramsSpaceOne);
+                holder.spaceTwo.setLayoutParams(holder.paramsSpaceTwo);
+
+            }else{
+                holder.paramsProgressOne.weight = cardDataList.get(position).progressPlayers.get(0);
+                holder.paramsProgressTwo.weight = cardDataList.get(position).progressPlayers.get(1);
+                holder.paramsSpaceOne.weight = ( 1 - cardDataList.get(position).progressPlayers.get(0) );
+                holder.paramsSpaceTwo.weight = ( 1 - cardDataList.get(position).progressPlayers.get(1) );
+
+                holder.playerOneView.setLayoutParams(holder.paramsProgressOne);
+                holder.playerTwoView.setLayoutParams(holder.paramsProgressTwo);
+                holder.spaceOne.setLayoutParams(holder.paramsSpaceOne);
+                holder.spaceTwo.setLayoutParams(holder.paramsSpaceTwo);
+            }
+
+
 
             return convertView;
         }
