@@ -233,6 +233,11 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
+    public void clickToClassic(View view){
+        Intent i = new Intent(getApplicationContext(), QuickCombatClassicActivity.class);
+        startActivity(i);
+    }
+
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
         // Set the content to appear under the system bars so that the content

@@ -3,7 +3,6 @@ package com.example.thomas.voyage;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +15,21 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuickCombatCricket extends Activity {
 
-    int numCards = 21, activePlayer = 0, numPlayers = 2, tempNumThrows = 0;
+    private int activePlayer = 0, numPlayers = 2, tempNumThrows = 0, maxNumberOfNeededHits = 0;
+    private float oneFractionOfTotalHitsNeeded = 0;
     final int totalNumThrowsPerPlayer = 3;
-    int[] array;
+    int[] valuesArray;
     private GridView cricketView;
-    private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>();
+    private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>(), numOfAchievedNeededHitsList;
     private List<CardData> cardDataList = new ArrayList<>();
     private TextView playerNameOneView, playerNameTwoView, playerScoreOneView, playerScoreTwoView, throwCountView;
+    private ImageView indicationBarOne, indicationBarTwo;
+    private LinearLayout.LayoutParams paramsIndiBarOne, paramsIndiBarTwo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +39,35 @@ public class QuickCombatCricket extends Activity {
 
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            array = b.getIntArray("LIST_OF_SELECTED_VALUES");
+            valuesArray = b.getIntArray("LIST_OF_SELECTED_VALUES");
         }else{
-            array = new int[1];
+            valuesArray = new int[1];
         }
+
+        maxNumberOfNeededHits = valuesArray.length;
+        oneFractionOfTotalHitsNeeded = (float) (1 / maxNumberOfNeededHits);
+        numOfAchievedNeededHitsList = new ArrayList<>();
+
+        numOfAchievedNeededHitsList.add(0);
+        numOfAchievedNeededHitsList.add(0);
+        Message.message(getApplication(), "numOfAchievedNeededHitsList: " + numOfAchievedNeededHitsList.size());
+
 
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
         playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
         throwCountView = (TextView) findViewById(R.id.cricket_throw_count);
-
+        indicationBarOne = (ImageView)findViewById(R.id.cricket_indication_bar_1);
+        indicationBarTwo = (ImageView) findViewById(R.id.cricket_indication_bar_2);
+        paramsIndiBarOne = (LinearLayout.LayoutParams) indicationBarOne.getLayoutParams();
+        paramsIndiBarTwo = (LinearLayout.LayoutParams) indicationBarTwo.getLayoutParams();
 
         for(int i = 0; i < numPlayers; i++){
             scoreList.add(0);
         }
 
-        for(int i = 0; i < array.length; i++){
+        for(int i = 0; i < valuesArray.length; i++){
             cardDataList.add( new CardData(i) );
         }
-
 
         cricketView = (GridView) findViewById(R.id.cricket_gridview);
         cricketView.setAdapter(new SimpleNumberAdapter(this));
@@ -116,35 +127,69 @@ public class QuickCombatCricket extends Activity {
                 //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
             }
 
-            throwCountView.setText(tempNumThrows + ".");
+            throwCountView.setText( ((tempNumThrows%3)+1) + ".");
 
+            // Indication-Bar-Berechnungen
+            try{
+                numOfAchievedNeededHitsList.set(activePlayer, numOfAchievedNeededHitsList.get(activePlayer) + 1);
+
+                List<Float> diffList = new ArrayList<>();
+
+                diffList.add( numOfAchievedNeededHitsList.get(0) * oneFractionOfTotalHitsNeeded );
+                diffList.add( numOfAchievedNeededHitsList.get(1) * oneFractionOfTotalHitsNeeded );
+
+                //float diff = ( numOfAchievedNeededHitsList.get(activePlayer) * oneFractionOfTotalHitsNeeded);
+
+                float diffCorrection = diffList.get(0) - diffList.get(1);
+                if( diffCorrection < 0){
+                    diffCorrection = diffCorrection * (-1);
+                }
+
+                diffCorrection = diffCorrection / 2;
+
+
+                diffList.set(0, diffList.get(0) + diffCorrection);
+                diffList.set(1, diffList.get(1) + diffCorrection);
+
+
+                paramsIndiBarOne.weight = diffList.get(0);
+                paramsIndiBarTwo.weight = diffList.get(1);
+                indicationBarOne.setLayoutParams(paramsIndiBarOne);
+                indicationBarTwo.setLayoutParams(paramsIndiBarTwo);
+
+            }catch (NullPointerException e){
+
+                Message.message(getApplicationContext(), e + "");
+            }
+
+
+            // Fortschritt für konkrete Ziel-Zahl berechnen
             cardDataList.get(position).progressPlayers.set(activePlayer,
                     cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
 
+            // Überprüfen, ob konkrete Ziel-Zahl jetzt geschlossen werden soll
             int validateIsClosed = 0;
-
             for( int i = 0; i < numPlayers; i++){
                 if( (cardDataList.get(position).progressPlayers.get(i) >= 0.99f) ) validateIsClosed++;
                 //Message.message(getApplicationContext(), "i: " + i + ", validateIsClosed: " + validateIsClosed);
             }
-
             if(validateIsClosed == numPlayers){
                 cardDataList.get(position).isClosed = true;
             }
             else if( cardDataList.get(position).progressPlayers.get(activePlayer) > 0.99f){
 
-                scoreList.set(activePlayer, scoreList.get(activePlayer) + array[position]);
+                scoreList.set(activePlayer, scoreList.get(activePlayer) + valuesArray[position]);
                 if(activePlayer == 0) playerScoreOneView.setText(scoreList.get(activePlayer) + "");
                 if(activePlayer == 1) playerScoreTwoView.setText(scoreList.get(activePlayer) + "");
-
             }
 
+            // GridView-Ansicht aktualisieren, ob die obigen Berechngen und Veränderungen sichtbar zu machen
             cricketView.invalidateViews();
 
-            // Siegesbedingungen
+            // Auf Siegesbedingungen überprüfen
             for(int playerNum = 0; playerNum < numPlayers; playerNum++){
 
-                for(int i = 0, numToWin = 0; i < array.length; i++){
+                for(int i = 0, numToWin = 0; i < valuesArray.length; i++){
 
                     if(scoreList.get(playerNum) >= scoreList.get((playerNum+1) % numPlayers)){
 
@@ -154,7 +199,7 @@ public class QuickCombatCricket extends Activity {
                             numToWin++;
                         }
 
-                        if( numToWin == array.length ){
+                        if( numToWin == valuesArray.length ){
                             Message.message(getApplicationContext(), "Spieler + " + (playerNum+1) + " hat gewonnen!");
                         }
                     }
@@ -198,7 +243,7 @@ public class QuickCombatCricket extends Activity {
         }
 
         public int getCount() {
-            return array.length;
+            return valuesArray.length;
         }
 
         public Object getItem(int position) {
@@ -245,11 +290,11 @@ public class QuickCombatCricket extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            holder.numView.setText(array[position] + "");
+            holder.numView.setText(valuesArray[position] + "");
             //holder.numView.setText( (cardDataList.get(position).progressPlayers.get(activePlayer)) + "" );
 
             if(markedList.contains(position)){
-                //holder.numView.setText(Integer.toString(array[position]));
+                //holder.numView.setText(Integer.toString(valuesArray[position]));
                 convertView.setBackgroundColor(Color.BLACK);
 
             }else{
