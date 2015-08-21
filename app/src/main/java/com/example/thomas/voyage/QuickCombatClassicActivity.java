@@ -13,18 +13,26 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
 
 public class QuickCombatClassicActivity extends Activity {
 
     private int multi = 1;
+    ImageButton workoutImageView, versusImageView, historicalImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_combat_classic);
         hideSystemUI();
+
+        workoutImageView = (ImageButton) findViewById(R.id.classic_image_workout);
+        versusImageView = (ImageButton) findViewById(R.id.classic_image_versus);
+        historicalImageView = (ImageButton) findViewById(R.id.classic_image_historical);
     }
 
     @Override
@@ -61,6 +69,41 @@ public class QuickCombatClassicActivity extends Activity {
         }
     }
 
+    public void onClassicMiss(View view){
+
+    }
+
+    public void onClassicUndo(View view){
+
+    }
+
+    public void onClassicSelectionImage(View view){
+
+        switch (view.getId()){
+
+            case R.id.classic_image_workout:
+                workoutImageView.setVisibility(View.INVISIBLE);
+                versusImageView.setVisibility(View.VISIBLE);
+                historicalImageView.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.classic_image_versus:
+                workoutImageView.setVisibility(View.VISIBLE);
+                versusImageView.setVisibility(View.INVISIBLE);
+                historicalImageView.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.classic_image_historical:
+                workoutImageView.setVisibility(View.VISIBLE);
+                versusImageView.setVisibility(View.VISIBLE);
+                historicalImageView.setVisibility(View.INVISIBLE);
+                break;
+
+            default:
+                Message.message(this, "ERROR @ onClassicSelectionImage : wrong view id");
+                break;
+        }
+    }
 
 
 

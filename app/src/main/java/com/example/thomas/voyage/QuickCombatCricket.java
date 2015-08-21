@@ -90,6 +90,10 @@ public class QuickCombatCricket extends Activity {
         finish();
     }
 
+    public void onCricketUndo(View view){
+        Message.message(this, "WA'SUP!!!\n...no undo yet implemented...");
+    }
+
     public void quickCombatMissButton(View view){
 
         if( tempNumThrows < totalNumThrowsPerPlayer ){
@@ -278,7 +282,7 @@ public class QuickCombatCricket extends Activity {
 
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder = null;
+            ViewHolder holder;
 
             if(convertView == null){
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

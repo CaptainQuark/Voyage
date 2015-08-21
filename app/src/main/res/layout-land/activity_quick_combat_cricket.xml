@@ -110,6 +110,7 @@
 
                 <TextView
                     android:text="UNDO"
+                    android:onClick="onCricketUndo"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:textSize="18sp"

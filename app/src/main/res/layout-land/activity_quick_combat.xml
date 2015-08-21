@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.QuickCombat"
-    android:background="#d6d6d6">
+    android:background="@color/soft_gray_background">
 
     <RelativeLayout
         android:visibility="visible"
