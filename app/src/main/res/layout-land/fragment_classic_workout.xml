@@ -8,76 +8,73 @@
     android:background="@color/soft_gray_background">
 
     <TextView
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:textColor="@android:color/black"
         android:fontFamily="sans-serif-light"
-        android:textSize="90sp"
+        android:textSize="60sp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:text="501"
         android:id="@+id/workout_points_left_to_hit"
-        android:gravity="center"/>
+        android:gravity="center" />
 
     <LinearLayout
-        android:layout_marginStart="200dp"
-        android:layout_marginEnd="200dp"
+        android:layout_marginStart="350dp"
+        android:layout_marginEnd="350dp"
         android:orientation="vertical"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
         <LinearLayout
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp">
 
             <TextView
-                android:gravity="center"
+                android:gravity="bottom|center_horizontal"
                 android:textColor="@android:color/black"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="35sp"
-                android:text="25"
+                android:textSize="25sp"
+                android:text="61"
                 android:id="@+id/workout_first_hit"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-light" />
 
             <TextView
-                android:gravity="center"
+                android:gravity="bottom|center_horizontal"
                 android:textColor="@android:color/black"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="35sp"
-                android:text="25"
+                android:textSize="25sp"
+                android:text="61"
                 android:id="@+id/workout_second_hit"
                 android:layout_marginStart="39dp"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-light" />
 
             <TextView
-                android:gravity="center"
+                android:gravity="bottom|center_horizontal"
                 android:textColor="@android:color/black"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="35sp"
-                android:text="25"
+                android:textSize="25sp"
+                android:text="61"
                 android:id="@+id/textView16"
                 android:layout_marginStart="39dp"
                 android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
                 android:fontFamily="sans-serif-light" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp">
@@ -89,7 +86,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="1. WURF"
                 android:id="@+id/workout_first_hitasd"
                 android:textStyle="bold" />
@@ -100,7 +97,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="2. WURF"
                 android:id="@+id/workout_second_hitasd"
                 android:layout_marginStart="39dp"
@@ -112,7 +109,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="3. WURF"
                 android:id="@+id/textView16aaa"
                 android:layout_marginStart="39dp"
@@ -135,10 +132,10 @@
         android:stretchMode="spacingWidth"
         android:gravity="center"
         android:paddingTop="30dp"
-        android:paddingStart="100dp"
-        android:paddingEnd="100dp"
+        android:paddingStart="60dp"
+        android:paddingEnd="60dp"
         android:verticalSpacing="10dp"
-        android:horizontalSpacing="10dp"
-        android:layout_weight="0.1"/>
+        android:horizontalSpacing="5dp"
+        android:layout_weight="0.8"/>
 
 </LinearLayout>
