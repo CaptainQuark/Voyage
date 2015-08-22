@@ -2,6 +2,7 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -86,6 +87,10 @@ public class ClassicWorkoutFragment extends Fragment {
         hitViewList.add(hitTwoView);
         hitViewList.add(hitThreeView);
 
+        for(int i = 0; i < hitViewList.size(); i++){
+            hitViewList.get(i).setTextColor(Color.LTGRAY);
+        }
+
         GridView cricketView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
         cricketView.setAdapter(new SimpleNumberAdapter(getActivity()));
         cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -119,12 +124,18 @@ public class ClassicWorkoutFragment extends Fragment {
 
         if(!hitViewList.isEmpty()){
             hitViewList.get(throwCounter % 3).setText(Integer.toString(undoList.get(throwCounter)));
+            hitViewList.get(throwCounter % 3).setTextColor(Color.BLACK);
         }
         else{
             Message.message(getActivity(), "ERROR @ setOneThrow : hitViewList is empty!");
         }
 
         throwCounter++;
+        if( (throwCounter % 3) == 0){
+            for( int i = 0; i < hitViewList.size(); i++){
+                hitViewList.get(i).setTextColor(Color.LTGRAY);
+            }
+        }
     }
 
     @Override

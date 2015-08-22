@@ -39,7 +39,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="25sp"
-                android:text="61"
+                android:text="1."
                 android:id="@+id/workout_first_hit"
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-light" />
@@ -51,7 +51,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="25sp"
-                android:text="61"
+                android:text="2."
                 android:id="@+id/workout_second_hit"
                 android:layout_marginStart="39dp"
                 android:layout_gravity="bottom"
@@ -64,7 +64,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="25sp"
-                android:text="61"
+                android:text="3."
                 android:id="@+id/workout_third_hit"
                 android:layout_marginStart="39dp"
                 android:layout_gravity="bottom"
@@ -135,9 +135,9 @@
         android:paddingTop="30dp"
         android:paddingStart="0dp"
         android:paddingEnd="0dp"
-        android:paddingBottom="35dp"
         android:verticalSpacing="0dp"
         android:horizontalSpacing="0dp"
         android:layout_weight="0.8"/>
+    <!-- android:paddingBottom="35dp" -->
 
 </LinearLayout>

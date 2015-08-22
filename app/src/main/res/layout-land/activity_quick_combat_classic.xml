@@ -18,7 +18,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.8">
+            android:layout_weight="0.6">
 
             <TextView
                 android:text="RUNDE ALS GEIST AUFZEICHNEN"
@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#b4ffffff" />
+                android:background="#cf010101" />
 
             <TextView
                 android:text="RUNDE VON STATISTIK AUSSCHLIESSEN"
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#b4ffffff" />
+                android:background="#cf010101" />
 
         </LinearLayout>
 
@@ -240,9 +240,9 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="25"
+                        android:text="BULL"
                         android:id="@+id/classic_scorefield_25"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:background="@drawable/ripple_from_darkgrey_to_black"
@@ -392,9 +392,9 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="50"
+                        android:text="EYE"
                         android:id="@+id/classic_scorefield_50"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
                         android:gravity="center"
                         android:background="@drawable/ripple_from_darkgrey_to_black"
@@ -605,8 +605,6 @@
         </RelativeLayout>
 
     </FrameLayout>
-
-
 
 
 </FrameLayout>
