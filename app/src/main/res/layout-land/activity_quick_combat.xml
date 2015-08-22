@@ -1,5 +1,8 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<FrameLayout
+    android:id="@+id/quick_framelayout_main_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.QuickCombat"
     android:background="@color/soft_gray_background">
@@ -111,6 +114,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/quick_relativelayout_image_selection"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -198,15 +202,29 @@
             android:layout_alignTop="@+id/textView_shanghai"
             android:layout_alignStart="@+id/quick_imageview_classic" />
 
-        <ImageView
-            android:onClick="quickCombatBackButton"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:src="@mipmap/ic_backbutton"
-            android:tint="#9dffffff"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/textView_shanghai"
-            android:layout_centerHorizontal="true" />
+        <FrameLayout
+            android:layout_alignParentBottom="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="15dp"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:onClick="quickCombatBackButton"
+                android:background="@drawable/ripple_round_soft_grey_to_white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:clickable="false"
+                android:layout_gravity="center"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@mipmap/ic_backbutton"
+                android:tint="#9dffffff" />
+
+        </FrameLayout>
+
 
     </RelativeLayout>
 

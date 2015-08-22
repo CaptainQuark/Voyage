@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:id="@+id/classic_fragment_container">
         </FrameLayout>
 
         <LinearLayout
@@ -554,16 +555,30 @@
                 android:layout_alignStart="@+id/classic_image_workout"
                 android:layout_marginTop="15dp" />
 
-            <ImageView
-                android:onClick="classicOnBackPressed"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:src="@mipmap/ic_backbutton"
-                android:tint="#9dffffff"
-                android:id="@+id/classic_back_button"
+            <FrameLayout
+
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="51dp" />
+                android:layout_marginBottom="15dp">
+
+                <ImageView
+                    android:onClick="classicOnBackPressed"
+                    android:background="@drawable/ripple_round_soft_grey_to_white"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <ImageView
+                    android:clickable="false"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@mipmap/ic_backbutton"
+                    android:tint="#9dffffff"
+                    android:layout_gravity="center"
+                    android:id="@+id/classic_back_button"/>
+            </FrameLayout>
+
         </RelativeLayout>
 
     </FrameLayout>
