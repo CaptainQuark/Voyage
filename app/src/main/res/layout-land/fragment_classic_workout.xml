@@ -128,14 +128,16 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:numColumns="auto_fit"
-        android:columnWidth="150dp"
-        android:stretchMode="spacingWidth"
+        android:columnWidth="160dp"
+        android:stretchMode="none"
         android:gravity="center"
+        android:layout_gravity="center_horizontal"
         android:paddingTop="30dp"
-        android:paddingStart="60dp"
-        android:paddingEnd="60dp"
-        android:verticalSpacing="10dp"
-        android:horizontalSpacing="5dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="35dp"
+        android:verticalSpacing="0dp"
+        android:horizontalSpacing="0dp"
         android:layout_weight="0.8"/>
 
 </LinearLayout>
