@@ -2,7 +2,6 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,11 +11,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.Message;
 import com.example.thomas.voyage.R;
 
 import java.util.ArrayList;
@@ -31,33 +28,28 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class ClassicWorkoutFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
+    private int
+            throwCounter = 0,
+            numRoundTotal=-1,
+            roundNow=-1,
+            numGoalPoints=-1,
+            goalPoinsNowNegative=-1;
+    private List<Integer> undoList = new ArrayList<>();
+    private List<TextView> hitViewList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
+    private View rootView;
+    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ClassicWorkoutFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static ClassicWorkoutFragment newInstance(String param1, String param2) {
-        ClassicWorkoutFragment fragment = new ClassicWorkoutFragment();
+        //ClassicWorkoutFragment fragment = new ClassicWorkoutFragment();
+        /*
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
-        return fragment;
+        */
+        return new ClassicWorkoutFragment();
     }
 
     public ClassicWorkoutFragment() {
@@ -66,20 +58,35 @@ public class ClassicWorkoutFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            Bundle args = getArguments();
+            numRoundTotal = args.getInt("NUM_ROUND_TOTAL");
+            numGoalPoints = args.getInt("NUM_GOAL_POINTS");
+            goalPoinsNowNegative = numGoalPoints;
+        }
+        else
+        {
+            Message.message(getActivity(), "ERROR  getArguments in Fragment");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_classic_workout, container, false);
 
-        View view = inflater.inflate(R.layout.fragment_classic_workout, container, false);
+        hitOneView = (TextView) rootView.findViewById(R.id.workout_first_hit);
+        hitTwoView = (TextView) rootView.findViewById(R.id.workout_second_hit);
+        hitThreeView = (TextView) rootView.findViewById(R.id.workout_third_hit);
+        pointsLeftView = (TextView) rootView.findViewById(R.id.workout_points_left_to_hit);
 
-        GridView cricketView = (GridView) view.findViewById(R.id.classic_workout_gridview);
+        hitViewList.add(hitOneView);
+        hitViewList.add(hitTwoView);
+        hitViewList.add(hitThreeView);
+
+        GridView cricketView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
         cricketView.setAdapter(new SimpleNumberAdapter(getActivity()));
         cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -89,7 +96,7 @@ public class ClassicWorkoutFragment extends Fragment {
         });
 
         // Inflate the layout for this fragment
-        return view;
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -97,6 +104,27 @@ public class ClassicWorkoutFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    public void setOneThrow(int points){
+        goalPoinsNowNegative -= points;
+        undoList.add(points);
+
+        if(goalPoinsNowNegative < 0){
+            goalPoinsNowNegative = numGoalPoints;
+            Message.message(getActivity(), "One more round finished...");
+        }
+
+        pointsLeftView.setText(Integer.toString(goalPoinsNowNegative));
+
+        if(!hitViewList.isEmpty()){
+            hitViewList.get(throwCounter % 3).setText(Integer.toString(undoList.get(throwCounter)));
+        }
+        else{
+            Message.message(getActivity(), "ERROR @ setOneThrow : hitViewList is empty!");
+        }
+
+        throwCounter++;
     }
 
     @Override
@@ -154,10 +182,12 @@ public class ClassicWorkoutFragment extends Fragment {
         }
 
         class ViewHolder {
-            int val;
+            TextView dataView, titleView;
 
             ViewHolder(View v) {
-                val = 1;
+
+                dataView = (TextView) v.findViewById(R.id.fragment_classic_workout_card_data);
+                titleView = (TextView) v.findViewById(R.id.fragment_classic_workout_card_title);
             }
         }
 

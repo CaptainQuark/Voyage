@@ -27,7 +27,8 @@ import java.io.BufferedReader;
 public class QuickCombatClassicActivity extends Activity implements ClassicWorkoutFragment.OnFragmentInteractionListener{
 
     private int multi = 1;
-    ImageButton workoutImageView, versusImageView, historicalImageView;
+    private ClassicWorkoutFragment fragment;
+    private ImageButton workoutImageView, versusImageView, historicalImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,12 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ClassicWorkoutFragment fragment = new ClassicWorkoutFragment();
+        fragment = new ClassicWorkoutFragment();
+
+        Bundle b = new Bundle();
+        b.putInt("NUM_ROUND_TOTAL", 1);
+        b.putInt("NUM_GOAL_POINTS", 501);
+        fragment.setArguments(b);
         fragmentTransaction.add(R.id.classic_fragment_container, fragment);
         fragmentTransaction.commit();
     }
@@ -55,7 +61,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
     public void onFragmentInteraction(Uri uri){
         Message.message(this, "YIHA");
-    };
+    }
 
 
     public void classicOnBackPressed(View view){
@@ -71,6 +77,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 scoreFieldVal = 1; break;
 
             default:
+                fragment.setOneThrow(25);
                 scoreFieldVal = -1;
         }
     }

@@ -14,7 +14,6 @@ public class repoConstants {
             IS_FIRST_RUN = "IS_FIRST_RUN",
             NOT_USED = "NOT_USED",
             ORIGIN = "ORIGIN",
-
             HEROES_NAME = "HEROES_NAME",
             HEROES_PRIMARY_CLASS = "HEROES_PRIMARY_CLASS",
             HEROES_SECONDARY_CLASS = "HEROES_SECONDARY_CLASS",

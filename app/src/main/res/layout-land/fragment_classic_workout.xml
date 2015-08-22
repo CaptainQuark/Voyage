@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:textSize="25sp"
                 android:text="61"
-                android:id="@+id/textView16"
+                android:id="@+id/workout_third_hit"
                 android:layout_marginStart="39dp"
                 android:layout_gravity="bottom"
                 android:fontFamily="sans-serif-light" />

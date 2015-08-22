@@ -50,8 +50,13 @@ public class HeroesPartyActivity extends Activity {
         }
 
         final ArrayList<String> list = new ArrayList<>();
+        /*
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
+        }*/
+
+        for (String i : values ) {
+            list.add(i);
         }
 
         if (heroesHelper.equals(null)) {
@@ -117,7 +122,7 @@ public class HeroesPartyActivity extends Activity {
 
     public void heroesPartyDismissHero(View view){
 
-        if( (selectedHeroIdFromDatabase != -1) && (heroesHelper.getHeroName(selectedHeroIdFromDatabase) != co.NOT_USED) ){
+        if( (selectedHeroIdFromDatabase != -1) && (!heroesHelper.getHeroName(selectedHeroIdFromDatabase).equals(co.NOT_USED)) ){
 
             heroesHelper.markOneRowAsUnused(selectedHeroIdFromDatabase);
             listview.invalidateViews();
