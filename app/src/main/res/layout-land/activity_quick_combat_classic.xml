@@ -1,5 +1,4 @@
-<LinearLayout
-    android:orientation="vertical"
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" 
     android:layout_width="match_parent"
@@ -7,15 +6,424 @@
     tools:context="com.example.thomas.voyage.QuickCombatClassicActivity"
     android:background="@color/soft_gray_background">
 
-    <GridLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></GridLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/classic_linearlayout_session_layout"
+        android:visibility="invisible">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:visibility="visible"></GridLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="6"
+            android:visibility="visible">
+        </FrameLayout>
+
+        <LinearLayout
+            android:background="#a9a9a9"
+            android:orientation="horizontal"
+            android:layout_weight="1.3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:onClick="classicOnBackPressed"
+                android:layout_weight="1"
+                android:background="@drawable/ripple_backbutton"
+                android:src="@mipmap/ic_backbutton"
+                android:tint="@android:color/white"
+                android:cropToPadding="true"
+                android:scaleType="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:text="UNDO"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_backbutton"
+                android:onClick="onClassicUndo" />
+
+            <TextView
+                android:text="MISS"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/ripple_backbutton"
+                android:autoText="false"
+                android:onClick="onClassicMiss" />
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_weight="5.8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/standard_background">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="1"
+                        android:id="@+id/classic_scorefield_0"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="2"
+                        android:id="@+id/classic_scorefield_1"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="1"
+                        android:id="@+id/classic_scorefield_2"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="4"
+                        android:id="@+id/classic_scorefield_3"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="5"
+                        android:id="@+id/classic_scorefield_4"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="6"
+                        android:id="@+id/classic_scorefield_5"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="7"
+                        android:id="@+id/classic_scorefield_6"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="8"
+                        android:id="@+id/classic_scorefield_7"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="9"
+                        android:id="@+id/classic_scorefield_8"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="10"
+                        android:id="@+id/classic_scorefield_9"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="25"
+                        android:id="@+id/classic_scorefield_25"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/ripple_from_darkgrey_to_black"
+                        android:textColor="@android:color/white"
+                        android:onClick="onClassicScoreField" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:background="@color/standard_background">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="11"
+                        android:id="@+id/classic_scorefield_10"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="12"
+                        android:id="@+id/classic_scorefield_11"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="13"
+                        android:id="@+id/classic_scorefield_12"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="14"
+                        android:id="@+id/classic_scorefield_13"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="15"
+                        android:id="@+id/classic_scorefield_14"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="16"
+                        android:id="@+id/classic_scorefield_15"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="17"
+                        android:id="@+id/classic_scorefield_16"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="18"
+                        android:id="@+id/classic_scorefield_17"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="19"
+                        android:id="@+id/classic_scorefield_18"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:text="20"
+                        android:id="@+id/classic_scorefield_19"
+                        android:background="@drawable/ripple_grey_to_black"
+                        android:textColor="@android:color/black"
+                        android:onClick="onClassicScoreField" />
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="50"
+                        android:id="@+id/classic_scorefield_50"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:background="@drawable/ripple_from_darkgrey_to_black"
+                        android:textColor="@android:color/white"
+                        android:onClick="onClassicScoreField" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:text="X1"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="onClassicSetMultiplier"
+                android:background="@android:color/black"
+                android:id="@+id/classic_multi_1" />
+
+            <TextView
+                android:text="X2"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="onClassicSetMultiplier"
+                android:background="@android:color/black"
+                android:id="@+id/classic_multi_2" />
+
+            <TextView
+                android:text="X3"
+                android:gravity="center"
+                android:textSize="17sp"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:onClick="onClassicSetMultiplier"
+                android:background="@android:color/black"
+                android:id="@+id/classic_multi_3" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6">
+        android:layout_height="match_parent"
+        android:id="@+id/classic_framelayout_choose_session_type">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -154,399 +562,13 @@
                 android:tint="#9dffffff"
                 android:id="@+id/classic_back_button"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="51dp" />
         </RelativeLayout>
 
     </FrameLayout>
 
-    <LinearLayout
-        android:background="#a9a9a9"
-        android:orientation="horizontal"
-        android:layout_weight="1.3"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="invisible">
-
-        <ImageView
-            android:onClick="classicOnBackPressed"
-            android:layout_weight="1"
-            android:background="@drawable/ripple_backbutton"
-            android:src="@mipmap/ic_backbutton"
-            android:tint="@android:color/white"
-            android:cropToPadding="true"
-            android:scaleType="center"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:text="UNDO"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/ripple_backbutton"
-            android:onClick="onClassicUndo" />
-
-        <TextView
-            android:text="MISS"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/ripple_backbutton"
-            android:autoText="false"
-            android:onClick="onClassicMiss" />
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_weight="5.8"
-            android:layout_width="0dp"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/standard_background">
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="1"
-                    android:id="@+id/classic_scorefield_0"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="2"
-                    android:id="@+id/classic_scorefield_1"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="1"
-                    android:id="@+id/classic_scorefield_2"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="4"
-                    android:id="@+id/classic_scorefield_3"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="5"
-                    android:id="@+id/classic_scorefield_4"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="6"
-                    android:id="@+id/classic_scorefield_5"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="7"
-                    android:id="@+id/classic_scorefield_6"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="8"
-                    android:id="@+id/classic_scorefield_7"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="9"
-                    android:id="@+id/classic_scorefield_8"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="10"
-                    android:id="@+id/classic_scorefield_9"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="25"
-                    android:id="@+id/classic_scorefield_25"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:background="@drawable/ripple_from_darkgrey_to_black"
-                    android:textColor="@android:color/white"
-                    android:onClick="onClassicScoreField" />
 
 
-            </LinearLayout>
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@color/standard_background">
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="11"
-                    android:id="@+id/classic_scorefield_10"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="12"
-                    android:id="@+id/classic_scorefield_11"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="13"
-                    android:id="@+id/classic_scorefield_12"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="14"
-                    android:id="@+id/classic_scorefield_13"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="15"
-                    android:id="@+id/classic_scorefield_14"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="16"
-                    android:id="@+id/classic_scorefield_15"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="17"
-                    android:id="@+id/classic_scorefield_16"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="18"
-                    android:id="@+id/classic_scorefield_17"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="19"
-                    android:id="@+id/classic_scorefield_18"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    android:text="20"
-                    android:id="@+id/classic_scorefield_19"
-                    android:background="@drawable/ripple_grey_to_black"
-                    android:textColor="@android:color/black"
-                    android:onClick="onClassicScoreField" />
-
-                <TextView
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:text="50"
-                    android:id="@+id/classic_scorefield_50"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:background="@drawable/ripple_from_darkgrey_to_black"
-                    android:textColor="@android:color/white"
-                    android:onClick="onClassicScoreField" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            android:text="X1"
-            android:gravity="center"
-            android:textSize="17sp"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="onClassicSetMultiplier"
-            android:background="@android:color/black"
-            android:id="@+id/classic_multi_1" />
-
-        <TextView
-            android:text="X2"
-            android:gravity="center"
-            android:textSize="17sp"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="onClassicSetMultiplier"
-            android:background="@android:color/black"
-            android:id="@+id/classic_multi_2" />
-
-        <TextView
-            android:text="X3"
-            android:gravity="center"
-            android:textSize="17sp"
-            android:layout_weight="0.5"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:onClick="onClassicSetMultiplier"
-            android:background="@android:color/black"
-            android:id="@+id/classic_multi_3" />
-
-    </LinearLayout>
-
-
-</LinearLayout>
+</FrameLayout>
