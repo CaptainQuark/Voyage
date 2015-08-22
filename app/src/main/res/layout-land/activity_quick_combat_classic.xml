@@ -11,21 +11,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/classic_linearlayout_session_layout"
-        android:visibility="invisible">
+        android:visibility="visible">
 
-        <GridLayout
+        <LinearLayout
+            android:background="@android:color/black"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:visibility="visible"></GridLayout>
+            android:layout_weight="0.8">
 
-        <FrameLayout
+            <TextView
+                android:text="RUNDE ALS GEIST AUFZEICHNEN"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:text="RUNDE VON STATISTIK AUSSCHLIESSEN"
+                android:textColor="@android:color/white"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
             android:visibility="visible"
             android:id="@+id/classic_fragment_container">
-        </FrameLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:background="#a9a9a9"
@@ -424,7 +444,8 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/classic_framelayout_choose_session_type">
+        android:id="@+id/classic_framelayout_choose_session_type"
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="match_parent"

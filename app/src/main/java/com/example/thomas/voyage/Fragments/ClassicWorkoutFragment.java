@@ -1,14 +1,26 @@
 package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Space;
+import android.widget.TextView;
 
 import com.example.thomas.voyage.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -64,8 +76,20 @@ public class ClassicWorkoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_classic_workout, container, false);
+
+        GridView cricketView = (GridView) view.findViewById(R.id.classic_workout_gridview);
+        cricketView.setAdapter(new SimpleNumberAdapter(getActivity()));
+        cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                // handle onItemClick-Action
+            }
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_classic_workout, container, false);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -102,9 +126,57 @@ public class ClassicWorkoutFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+
+    public class SimpleNumberAdapter extends BaseAdapter {
+        private Context mContext;
+        private List<Integer> selectionList = new ArrayList<>();
+
+        public SimpleNumberAdapter(Context c) {
+            mContext = c;
+        }
+
+        public int getCount() {
+            return 50;
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        class ViewHolder {
+            int val;
+
+            ViewHolder(View v) {
+                val = 1;
+            }
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder;
+
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.quick_workout_card, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            return convertView;
+        }
     }
 
 }
