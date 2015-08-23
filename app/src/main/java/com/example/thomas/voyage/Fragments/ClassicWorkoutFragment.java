@@ -125,7 +125,7 @@ public class ClassicWorkoutFragment extends Fragment {
         undoList.add(initialValue * multi);
 
         if(saveToStats){
-            if(multi != 0){
+            if(multi != 0 && initialValue != 25 && initialValue != 50){
                 lastUsedMulti = multi;
                 prefsHandler.setValues(("X" + multi), initialValue);
             }
@@ -354,16 +354,27 @@ public class ClassicWorkoutFragment extends Fragment {
 
             switch (id){
                 case "X1":
-                    totalNumOfMultiOneByValueList.set(index, totalNumOfMultiOneByValueList.get(index) + 1);
+                    totalNumOfMultiOneByValueList.set(index-1, totalNumOfMultiOneByValueList.get(index-1) + 1);
+                    Message.message(getActivity(), totalNumOfMultiOneByValueList.size() + " : X1");
                     break;
                 case "X2":
-                    totalNumOfMultiTwoByValueList.set(index, totalNumOfMultiTwoByValueList.get(index) + 1);
+                    totalNumOfMultiTwoByValueList.set(index-1, totalNumOfMultiTwoByValueList.get(index-1) + 1);
+                    Message.message(getActivity(), totalNumOfMultiTwoByValueList.size() + " : X2");
                     break;
                 case "X3":
-                    totalNumOfMultiThreeByValueList.set(index, totalNumOfMultiThreeByValueList.get(index) + 1);
+                    totalNumOfMultiThreeByValueList.set(index-1, totalNumOfMultiThreeByValueList.get(index-1) + 1);
+                    Message.message(getActivity(), totalNumOfMultiThreeByValueList.size() + " : X3");
                     break;
                 case "SCORE_FIELD_AMOUNT":
-                    totalAmountByFieldValueList.set(index, totalAmountByFieldValueList.get(index) + 1);
+                    Message.message(getActivity(),totalAmountByFieldValueList.size() + " : SCORE");
+                    if(index != 25 && index != 50){
+                        totalAmountByFieldValueList.set(index, totalAmountByFieldValueList.get(index) + 1);
+                    }else if(index == 25){
+                        totalAmountByFieldValueList.set(21, totalAmountByFieldValueList.get(21) + 1);
+                    }else if(index == 50){
+                        totalAmountByFieldValueList.set(22, totalAmountByFieldValueList.get(22) + 1);
+                    }
+
                     break;
                 default:
                     Log.e("ERROR","DEFAULT @ ClassicWorkoutFragment : setValue");
@@ -409,7 +420,9 @@ public class ClassicWorkoutFragment extends Fragment {
                 editor.putLong(TEMP_PREF_VAL_ID, totalAmountByFieldValueList.get(i));
             }
 
-            for(int i = 1; i <= 20; i++){
+            // In Schleife zur Initialisieurng wird zwar von 1 - 20 initialisiert, jedoch mit '1' der 1. Eintrag zur
+            // List hinzugefügt, welcher als Index '0' hat
+            for(int i = 0; i < 20; i++){
                 TEMP_PREF_MULTI_ONE = NUM_OF_MULTI_ONE_BY_VALUE + i;
                 TEMP_PREF_MULTI_TWO = NUM_OF_MULTI_TWO_BY_VALUE + i;
                 TEMP_PREF_MULTI_THREE = NUM_OF_MULTI_THREE_BY_VALUE + i;

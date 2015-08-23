@@ -40,8 +40,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     private LinearLayout gameView;
     private RelativeLayout selectImageView, selectPropertiesView;
     private FrameLayout selectView;
-    private NumberPicker roundPicker;
-    private EditText pointPicker;
+    private NumberPicker roundPicker, pointPicker;
     private List<TextView> multiList = new ArrayList<>();
 
     @Override
@@ -75,16 +74,15 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         roundPicker.setMinValue(1);
         roundPicker.setValue(1);
 
-        pointPicker = (EditText) findViewById(R.id.quick_pointpicker_classic_workout);
-        /*
-        String[] stringArray = {"301", "501", "1001"};
+        pointPicker = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_workout);
+
+        String[] stringArray = {"301","501","1001"};
         pointPicker.setDisplayedValues(null);
         pointPicker.setMaxValue(stringArray.length - 1);
         pointPicker.setMinValue(0);
         pointPicker.setWrapSelectorWheel(true);
-        //pointPicker.setValue(301);
         pointPicker.setDisplayedValues(stringArray);
-        */
+
     }
 
     @Override
@@ -106,7 +104,18 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void goToClassicWorkout(View view){
-        int points = Integer.parseInt(pointPicker.getText().toString());
+
+        int points;
+        switch (pointPicker.getValue()){
+            case 0:
+                points = 301; break;
+            case 1:
+                points = 501; break;
+            case 2:
+                points = 1001; break;
+            default:
+                points = -1; break;
+        }
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
