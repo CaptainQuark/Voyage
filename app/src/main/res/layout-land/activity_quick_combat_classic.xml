@@ -136,7 +136,7 @@
                         android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="1"
+                        android:text="3"
                         android:id="@+id/classic_scorefield_2"
                         android:gravity="center"
                         android:textStyle="bold"

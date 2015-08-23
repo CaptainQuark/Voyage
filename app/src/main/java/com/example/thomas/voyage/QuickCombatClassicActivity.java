@@ -50,7 +50,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         multiList.add(multiTwoView);
         multiList.add(mulitThreeViw);
 
-        multiList.get(multi - 1).setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
+        multiList.get(multi - 1).setBackground(getDrawable(R.drawable.ripple_grey_to_black));
         multiList.get(multi - 1).setTextColor(Color.BLACK);
 
         FragmentManager fragmentManager = getFragmentManager();
@@ -154,7 +154,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
         for(int i = 0; i < multiList.size(); i++){
             if(i == (multi-1)){
-                multiList.get(i).setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
+                multiList.get(i).setBackground(getDrawable(R.drawable.ripple_grey_to_black));
                 multiList.get(i).setTextColor(Color.BLACK);
             }else{
                 multiList.get(i).setBackgroundColor(Color.BLACK);
@@ -169,8 +169,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void onClassicUndo(View view){
-
-        //TODO Implementation
+        fragment.undoLastThrow();
     }
 
     public void onClassicSelectionImage(View view){

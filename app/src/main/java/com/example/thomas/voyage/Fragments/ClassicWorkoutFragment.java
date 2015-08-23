@@ -20,14 +20,6 @@ import com.example.thomas.voyage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ClassicWorkoutFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ClassicWorkoutFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ClassicWorkoutFragment extends Fragment {
 
     private int
@@ -35,7 +27,7 @@ public class ClassicWorkoutFragment extends Fragment {
             numRoundTotal=-1,
             roundNow=-1,
             numGoalPoints=-1,
-            goalPoinsNowNegative=-1;
+            goalPointsNow =-1;
     private List<Integer> undoList = new ArrayList<>();
     private List<TextView> hitViewList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
@@ -65,7 +57,7 @@ public class ClassicWorkoutFragment extends Fragment {
             Bundle args = getArguments();
             numRoundTotal = args.getInt("NUM_ROUND_TOTAL");
             numGoalPoints = args.getInt("NUM_GOAL_POINTS");
-            goalPoinsNowNegative = numGoalPoints;
+            goalPointsNow = numGoalPoints;
         }
         else
         {
@@ -112,15 +104,15 @@ public class ClassicWorkoutFragment extends Fragment {
     }
 
     public void setOneThrow(int points){
-        goalPoinsNowNegative -= points;
+        goalPointsNow -= points;
         undoList.add(points);
 
-        if(goalPoinsNowNegative < 0){
-            goalPoinsNowNegative = numGoalPoints;
+        if(goalPointsNow < 0){
+            goalPointsNow = numGoalPoints;
             Message.message(getActivity(), "One more round finished...");
         }
 
-        pointsLeftView.setText(Integer.toString(goalPoinsNowNegative));
+        pointsLeftView.setText(Integer.toString(goalPointsNow));
 
         if(!hitViewList.isEmpty()){
             hitViewList.get(throwCounter % 3).setText(Integer.toString(undoList.get(throwCounter)));
@@ -135,6 +127,22 @@ public class ClassicWorkoutFragment extends Fragment {
             for( int i = 0; i < hitViewList.size(); i++){
                 hitViewList.get(i).setTextColor(Color.LTGRAY);
             }
+        }
+    }
+
+    public void undoLastThrow(){
+        if(!undoList.isEmpty()){
+            goalPointsNow += undoList.get( undoList.size() - 1 );
+            pointsLeftView.setText(Integer.toString(goalPointsNow));
+
+            throwCounter--;
+            hitViewList.get( (throwCounter % 3) ).setTextColor(Color.LTGRAY);
+            hitViewList.get( throwCounter % 3 ).setText(undoList.get( undoList.size() - 1) + "");
+
+            undoList.remove(undoList.size() - 1);
+        }
+        else{
+            Message.message(getActivity(), "No Actions to undo");
         }
     }
 
