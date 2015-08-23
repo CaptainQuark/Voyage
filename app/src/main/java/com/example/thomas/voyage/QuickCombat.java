@@ -77,9 +77,13 @@ public class QuickCombat extends Activity {
                 break;
 
             case R.id.quick_imageview_classic:
+                Intent i = new Intent(this, QuickCombatClassicActivity.class);
+                startActivity(i);
+                /*
                 cricketImage.setVisibility(View.VISIBLE);
                 shanghaiImage.setVisibility(View.VISIBLE);
                 classicImage.setVisibility(View.INVISIBLE);
+                */
                 break;
 
             default:

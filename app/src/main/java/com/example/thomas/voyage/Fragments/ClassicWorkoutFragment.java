@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.example.thomas.voyage.Message;
 import com.example.thomas.voyage.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,15 +26,15 @@ public class ClassicWorkoutFragment extends Fragment {
 
     private int
             throwCounter = 0,
-            numRoundTotal=-1,
-            roundNow=-1,
-            numGoalPoints=-1,
-            goalPointsNow =-1;
+            numRoundTotal= -1,
+            roundNow= -1,
+            numGoalPoints= -1,
+            goalPointsNow = -1;
     private List<Integer> undoList = new ArrayList<>();
     private List<TextView> hitViewList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
     private View rootView;
-    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView;
+    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView, playUntilView;
 
     public static ClassicWorkoutFragment newInstance(String param1, String param2) {
         //ClassicWorkoutFragment fragment = new ClassicWorkoutFragment();
@@ -58,6 +60,7 @@ public class ClassicWorkoutFragment extends Fragment {
             numRoundTotal = args.getInt("NUM_ROUND_TOTAL");
             numGoalPoints = args.getInt("NUM_GOAL_POINTS");
             goalPointsNow = numGoalPoints;
+            roundNow = 1;
         }
         else
         {
@@ -74,6 +77,9 @@ public class ClassicWorkoutFragment extends Fragment {
         hitTwoView = (TextView) rootView.findViewById(R.id.workout_second_hit);
         hitThreeView = (TextView) rootView.findViewById(R.id.workout_third_hit);
         pointsLeftView = (TextView) rootView.findViewById(R.id.workout_points_left_to_hit);
+        playUntilView = (TextView) rootView.findViewById(R.id.workout_round_time_view);
+
+        pointsLeftView.setText(Integer.toString(goalPointsNow));
 
         hitViewList.add(hitOneView);
         hitViewList.add(hitTwoView);
@@ -82,6 +88,8 @@ public class ClassicWorkoutFragment extends Fragment {
         for(int i = 0; i < hitViewList.size(); i++){
             hitViewList.get(i).setTextColor(Color.LTGRAY);
         }
+
+        playUntilView.setText(roundNow + " / " + numRoundTotal);
 
         GridView cricketView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
         cricketView.setAdapter(new SimpleNumberAdapter(getActivity()));
@@ -96,13 +104,6 @@ public class ClassicWorkoutFragment extends Fragment {
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     public void setOneThrow(int points){
         goalPointsNow -= points;
         undoList.add(points);
@@ -110,6 +111,16 @@ public class ClassicWorkoutFragment extends Fragment {
         if(goalPointsNow < 0){
             goalPointsNow = numGoalPoints;
             Message.message(getActivity(), "One more round finished...");
+            roundNow++;
+
+            if(roundNow > numRoundTotal){
+                Message.message(getActivity(), "You have finished the session!");
+                if (mListener != null) {
+                    mListener.putFragmentToSleep();
+                }
+            }else{
+                playUntilView.setText(roundNow + " / " + numRoundTotal);
+            }
         }
 
         pointsLeftView.setText(Integer.toString(goalPointsNow));
@@ -137,7 +148,7 @@ public class ClassicWorkoutFragment extends Fragment {
 
             throwCounter--;
             hitViewList.get( (throwCounter % 3) ).setTextColor(Color.LTGRAY);
-            hitViewList.get( throwCounter % 3 ).setText(undoList.get( undoList.size() - 1) + "");
+            hitViewList.get( throwCounter % 3 ).setText(undoList.get(undoList.size() - 1) + "");
 
             undoList.remove(undoList.size() - 1);
         }
@@ -177,8 +188,15 @@ public class ClassicWorkoutFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+        public void putFragmentToSleep();
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
 
     public class SimpleNumberAdapter extends BaseAdapter {
         private Context mContext;

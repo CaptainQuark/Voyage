@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/classic_linearlayout_session_layout"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <LinearLayout
             android:background="@android:color/black"
@@ -448,11 +448,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/classic_framelayout_choose_session_type"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:id="@+id/classic_relativelayout_properties_selection">
 
 
             <LinearLayout
@@ -478,7 +479,85 @@
                 android:stateListAnimator="@anim/elevation"
                 android:background="@drawable/rounded_corners"
                 android:src="@mipmap/journey_b0"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop">
+
+                <LinearLayout
+                    android:background="@android:color/black"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Runden"
+                        android:gravity="center"
+                        android:id="@+id/textView14" />
+
+                    <FrameLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <NumberPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:descendantFocusability="blocksDescendants"
+                            android:showDividers="none"
+                            android:divider="@android:color/transparent"
+                            android:id="@+id/quick_roundpicker_classic_workout"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+
+
+                <LinearLayout
+                    android:background="@android:color/black"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Punkte"
+                        android:gravity="center" />
+
+                    <FrameLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:inputType="numberSigned"
+                            android:layout_gravity="center"
+                            android:descendantFocusability="blocksDescendants"
+                            android:id="@+id/quick_pointpicker_classic_workout"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="START"
+                    android:gravity="center"
+                    android:onClick="goToClassicWorkout"
+                    android:background="@drawable/ripple_go_in_combat"
+                    android:id="@+id/textView141" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -499,7 +578,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:id="@+id/classic_relativelayout_image_selection">
 
 
             <ImageButton
@@ -601,10 +681,6 @@
                     android:layout_gravity="center"
                     android:id="@+id/classic_back_button"/>
             </FrameLayout>
-
         </RelativeLayout>
-
     </FrameLayout>
-
-
 </FrameLayout>

@@ -66,8 +66,6 @@
 
                     </FrameLayout>
 
-
-
                 </LinearLayout>
 
 
@@ -144,7 +142,8 @@
             android:stateListAnimator="@anim/elevation"
             android:background="@drawable/rounded_corners"
             android:src="@mipmap/quick_cricket_0"
-            android:scaleType="centerCrop">
+            android:scaleType="centerCrop"
+            android:visibility="visible">
 
         </ImageButton>
 

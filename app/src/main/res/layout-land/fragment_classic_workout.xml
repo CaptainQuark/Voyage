@@ -19,105 +19,166 @@
         android:gravity="center" />
 
     <LinearLayout
-        android:layout_marginStart="350dp"
-        android:layout_marginEnd="350dp"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
+        <Space
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
         <LinearLayout
-            android:layout_weight="0.5"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:orientation="vertical"
+            android:layout_weight="0.8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:gravity="bottom|center_horizontal"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="25sp"
-                android:text="1."
-                android:id="@+id/workout_first_hit"
-                android:layout_gravity="bottom"
-                android:fontFamily="sans-serif-light" />
+            <LinearLayout
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
 
-            <TextView
-                android:gravity="bottom|center_horizontal"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="25sp"
-                android:text="2."
-                android:id="@+id/workout_second_hit"
-                android:layout_marginStart="39dp"
-                android:layout_gravity="bottom"
-                android:fontFamily="sans-serif-light" />
+                <TextView
+                    android:gravity="bottom|center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"
+                    android:text="1."
+                    android:id="@+id/workout_first_hit"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="sans-serif-light" />
 
-            <TextView
-                android:gravity="bottom|center_horizontal"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="25sp"
-                android:text="3."
-                android:id="@+id/workout_third_hit"
-                android:layout_marginStart="39dp"
-                android:layout_gravity="bottom"
-                android:fontFamily="sans-serif-light" />
+                <TextView
+                    android:gravity="bottom|center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"
+                    android:text="2."
+                    android:id="@+id/workout_second_hit"
+                    android:layout_marginStart="39dp"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="sans-serif-light" />
 
+                <TextView
+                    android:gravity="bottom|center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="25sp"
+                    android:text="3."
+                    android:id="@+id/workout_third_hit"
+                    android:layout_marginStart="39dp"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="sans-serif-light" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:text="1. WURF"
+                    android:id="@+id/workout_first_hitasd"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:text="2. WURF"
+                    android:id="@+id/workout_second_hitasd"
+                    android:layout_marginStart="39dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:text="3. WURF"
+                    android:id="@+id/textView16aaa"
+                    android:layout_marginStart="39dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_weight="0.5"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:gravity="bottom|center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="20sp"
+                    android:text="1 / 7"
+                    android:id="@+id/workout_round_time_view"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="sans-serif-light" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
 
 
-            <TextView
-                android:gravity="center_horizontal"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:text="1. WURF"
-                android:id="@+id/workout_first_hitasd"
-                android:textStyle="bold" />
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:textColor="@android:color/black"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="14sp"
+                    android:text="RUNDE"
+                    android:id="@+id/workout_round_time_static_view"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:gravity="center_horizontal"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:text="2. WURF"
-                android:id="@+id/workout_second_hitasd"
-                android:layout_marginStart="39dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:gravity="center_horizontal"
-                android:textColor="@android:color/black"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:textSize="14sp"
-                android:text="3. WURF"
-                android:id="@+id/textView16aaa"
-                android:layout_marginStart="39dp"
-                android:textStyle="bold" />
+            </LinearLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
+
+
 
 
 

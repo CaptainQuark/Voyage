@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -15,9 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
@@ -31,6 +37,11 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     private int multi = 1;
     private ClassicWorkoutFragment fragment;
     private ImageButton workoutImageView, versusImageView, historicalImageView;
+    private LinearLayout gameView;
+    private RelativeLayout selectImageView, selectPropertiesView;
+    private FrameLayout selectView;
+    private NumberPicker roundPicker;
+    private EditText pointPicker;
     private List<TextView> multiList = new ArrayList<>();
 
     @Override
@@ -46,6 +57,12 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         TextView mulitOneView = (TextView) findViewById(R.id.classic_multi_1);
         TextView multiTwoView = (TextView) findViewById(R.id.classic_multi_2);
         TextView mulitThreeViw = (TextView) findViewById(R.id.classic_multi_3);
+
+        selectImageView = (RelativeLayout) findViewById(R.id.classic_relativelayout_image_selection);
+        selectPropertiesView = (RelativeLayout) findViewById(R.id.classic_relativelayout_properties_selection);
+        gameView = (LinearLayout) findViewById(R.id.classic_linearlayout_session_layout);
+        selectView = (FrameLayout) findViewById(R.id.classic_framelayout_choose_session_type);
+
         multiList.add(mulitOneView);
         multiList.add(multiTwoView);
         multiList.add(mulitThreeViw);
@@ -53,16 +70,21 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         multiList.get(multi - 1).setBackground(getDrawable(R.drawable.ripple_grey_to_black));
         multiList.get(multi - 1).setTextColor(Color.BLACK);
 
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new ClassicWorkoutFragment();
+        roundPicker = (NumberPicker) findViewById(R.id.quick_roundpicker_classic_workout);
+        roundPicker.setMaxValue(50);
+        roundPicker.setMinValue(1);
+        roundPicker.setValue(1);
 
-        Bundle b = new Bundle();
-        b.putInt("NUM_ROUND_TOTAL", 1);
-        b.putInt("NUM_GOAL_POINTS", 501);
-        fragment.setArguments(b);
-        fragmentTransaction.add(R.id.classic_fragment_container, fragment);
-        fragmentTransaction.commit();
+        pointPicker = (EditText) findViewById(R.id.quick_pointpicker_classic_workout);
+        /*
+        String[] stringArray = {"301", "501", "1001"};
+        pointPicker.setDisplayedValues(null);
+        pointPicker.setMaxValue(stringArray.length - 1);
+        pointPicker.setMinValue(0);
+        pointPicker.setWrapSelectorWheel(true);
+        //pointPicker.setValue(301);
+        pointPicker.setDisplayedValues(stringArray);
+        */
     }
 
     @Override
@@ -71,11 +93,34 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         hideSystemUI();
     }
 
-
     public void onFragmentInteraction(Uri uri){
         Message.message(this, "YIHA");
     }
 
+    public void putFragmentToSleep(){
+        if(fragment != null)
+            getFragmentManager().beginTransaction().remove(fragment).commit();
+        Message.message(this, "Fragment removed");
+        gameView.setVisibility(View.GONE);
+        selectView.setVisibility(View.VISIBLE);
+    }
+
+    public void goToClassicWorkout(View view){
+        int points = Integer.parseInt(pointPicker.getText().toString());
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragment = new ClassicWorkoutFragment();
+        Bundle b = new Bundle();
+        b.putInt("NUM_ROUND_TOTAL", roundPicker.getValue());
+        b.putInt("NUM_GOAL_POINTS", points);
+        fragment.setArguments(b);
+        fragmentTransaction.add(R.id.classic_fragment_container, fragment);
+        fragmentTransaction.commit();
+
+        gameView.setVisibility(View.VISIBLE);
+        selectView.setVisibility(View.GONE);
+    }
 
     public void classicOnBackPressed(View view){
         super.onBackPressed();
