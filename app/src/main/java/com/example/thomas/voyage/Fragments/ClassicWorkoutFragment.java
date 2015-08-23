@@ -2,6 +2,7 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ public class ClassicWorkoutFragment extends Fragment {
             roundNow= -1,
             numGoalPoints= -1,
             goalPointsNow = -1;
+    private boolean saveToStats = true;
+    private PrefsHandler prefsHandler;
     private List<Integer> undoList = new ArrayList<>();
     private List<TextView> hitViewList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
@@ -65,6 +68,18 @@ public class ClassicWorkoutFragment extends Fragment {
         else
         {
             Message.message(getActivity(), "ERROR  getArguments in Fragment");
+        }
+
+        if(getActivity() != null){
+
+            // SharedPreferences hier initialiseren und an Konstruktor des Containers übergeben,
+            // Initialisierung nur mit 'getActivity' im Fragment möglich, nicht in innerer Klasse
+            SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
+            prefsHandler = new PrefsHandler(prefs, editor);
+
+        }else{
+            Message.message(getActivity(), "ERROR @ getActivity in Fragment");
         }
     }
 
@@ -207,7 +222,7 @@ public class ClassicWorkoutFragment extends Fragment {
         }
 
         public int getCount() {
-            return 50;
+            return 12;
         }
 
         public Object getItem(int position) {
@@ -243,6 +258,76 @@ public class ClassicWorkoutFragment extends Fragment {
             }
 
             return convertView;
+        }
+    }
+
+    private class PrefsHandler{
+
+        private Context c;
+        private SharedPreferences.Editor editor;
+        private static final String SCORE_FIELD_VALUE_WITHOUT_MULTI_ = "SCORE_FIELD_VALUE_WITHOUT_MULTI_",
+                NUM_OF_MULTI_ONE_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_",
+                NUM_OF_MULTI_TWO_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_",
+                NUM_OF_MULTI_THREE_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_";
+        private List<Long> totalScoreByFieldValueList,
+                totalNumOfMultiOneByValueList,
+                totalNumOfMultiTwoByValueList,
+                totalNumOfMultiThreeByValueList;
+
+        public PrefsHandler(SharedPreferences prefs, SharedPreferences.Editor tempEditor){
+            String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";
+
+            // '0' == Anzahl an missed throws
+            for(int i = 0; i <= 22; i++){
+                if(i < 21){
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_VALUE_WITHOUT_MULTI_ + i;
+                }else if(i == 21){
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_VALUE_WITHOUT_MULTI_ + 25;
+                }else if(i == 22){
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_VALUE_WITHOUT_MULTI_ + 50;
+                }
+
+                totalScoreByFieldValueList.add(prefs.getLong(TEMP_PREF_VAL_ID,0));
+            }
+
+            for(int i = 1; i <= 20; i++){
+                TEMP_PREF_MULTI_ONE = NUM_OF_MULTI_ONE_BY_VALUE + i;
+                TEMP_PREF_MULTI_TWO = NUM_OF_MULTI_TWO_BY_VALUE + i;
+                TEMP_PREF_MULTI_THREE = NUM_OF_MULTI_THREE_BY_VALUE + i;
+
+                totalNumOfMultiOneByValueList.add(prefs.getLong(TEMP_PREF_MULTI_ONE, 0));
+                totalNumOfMultiTwoByValueList.add(prefs.getLong(TEMP_PREF_MULTI_TWO, 0));
+                totalNumOfMultiThreeByValueList.add(prefs.getLong(TEMP_PREF_MULTI_THREE, 0));
+            }
+        }
+
+        public void setValue(String id, long val){
+            int index = (int) val;
+            String TEMP_PREF_FILE = "";
+
+            /*
+
+            USAGE:
+
+             'setValue' wird eine Kennung 'id' und ein Wert 'val' übergeben. 'id' steht für Operation im switch,
+             'val' steht für den Wert, abhängig vom Kontext entweder eine Erhöhung um 1 oder eine Erhöhung um einen bestimmten Wert.
+             Bsp.: Einfache Inkrementierung bei Multiplier ("ein weiteres Mal wurde 2X getroffen..."), Erhöhung um Wert (noch kein Bsp).
+
+             Die Listen werden für Verwendung mit innerer Klasse des GridViews verwendet, um Look-Up in SharedPrefs nicht extra zu machen
+             = dienen als Cache. 'editor.'  speichert neuen Wert dann dauerhaft.
+
+             */
+
+            switch (id){
+                case "X1":
+                    totalNumOfMultiOneByValueList.set(index, totalNumOfMultiOneByValueList.get(index) + val);
+                    editor.putLong(NUM_OF_MULTI_ONE_BY_VALUE, totalNumOfMultiOneByValueList.get(index));
+                    break;
+
+
+            }
+
+            editor.apply();
         }
     }
 
