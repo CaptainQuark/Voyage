@@ -176,10 +176,10 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
         }
 
-        /*
-        if(scoreFieldVal != 25 && scoreFieldVal != 50){
-            scoreFieldVal *= multi;
-        }*/
+
+        if(scoreFieldVal == 25 || scoreFieldVal == 50){
+            multi = 1;
+        }
 
         fragment.setOneThrow(scoreFieldVal, multi);
     }

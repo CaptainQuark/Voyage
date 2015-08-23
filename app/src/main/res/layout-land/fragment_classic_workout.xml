@@ -43,7 +43,7 @@
 
                 <TextView
                     android:gravity="bottom|center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#010101"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -55,7 +55,7 @@
 
                 <TextView
                     android:gravity="bottom|center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#010101"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -68,7 +68,7 @@
 
                 <TextView
                     android:gravity="bottom|center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#010101"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -146,7 +146,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:text="1 / 7"
                     android:id="@+id/workout_round_time_view"
                     android:layout_gravity="bottom"
@@ -178,27 +178,54 @@
 
     </LinearLayout>
 
-
-
-
-
-
-
-    <GridView
-        android:id="@+id/classic_workout_gridview"
+    <FrameLayout
+        android:clickable="true"
+        android:onClick="toggleStatsVisability"
+        android:id="@+id/classic_workout_framelayout_stats_in_detail"
+        android:layout_weight="2.5"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:numColumns="auto_fit"
-        android:columnWidth="160dp"
-        android:stretchMode="none"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="30dp"
-        android:paddingStart="0dp"
-        android:paddingEnd="0dp"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
-        android:layout_weight="0.8"/>
-    <!-- android:paddingBottom="35dp" -->
+        android:layout_height="0dp" >
+
+        <GridView
+            android:clickable="false"
+            android:visibility="invisible"
+            android:id="@+id/classic_workout_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="auto_fit"
+            android:columnWidth="160dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="25dp"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"/>
+        <!-- android:paddingBottom="35dp" -->
+
+        <TextView
+            android:id="@+id/quick_classic_textview_hide_stats"
+            android:text="AUSBLENDEN"
+            android:textSize="10sp"
+            android:paddingBottom="15dp"
+            android:gravity="center_horizontal|bottom"
+            android:layout_gravity="start|bottom"
+            android:textColor="@android:color/darker_gray"
+            android:layout_width="100dp"
+            android:layout_height="200dp" />
+
+        <TextView
+            android:background="@color/soft_gray_background"
+            android:id="@+id/quick_classic_textview_show_stats"
+            android:text="STATISTIKEN EINBLENDEN"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

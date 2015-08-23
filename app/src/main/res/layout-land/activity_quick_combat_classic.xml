@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/classic_linearlayout_session_layout"
-        android:visibility="invisible">
+        android:visibility="gone">
 
         <LinearLayout
-            android:background="@android:color/black"
+            android:background="#20010101"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.6">
+            android:layout_weight="0.4">
 
             <TextView
                 android:text="RUNDE ALS GEIST AUFZEICHNEN"
@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#cf010101" />
+                android:textSize="12sp" />
 
             <TextView
                 android:text="RUNDE VON STATISTIK AUSSCHLIESSEN"
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:background="#cf010101" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 

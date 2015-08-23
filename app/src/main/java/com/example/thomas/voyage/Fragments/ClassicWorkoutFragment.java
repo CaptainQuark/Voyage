@@ -2,9 +2,11 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -23,7 +26,7 @@ import com.example.thomas.voyage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClassicWorkoutFragment extends Fragment {
+public class ClassicWorkoutFragment extends Fragment implements View.OnClickListener{
 
     private int
             throwCounter = 0,
@@ -42,7 +45,8 @@ public class ClassicWorkoutFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private View rootView;
     private GridView detailGridView;
-    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView, playUntilView;
+    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView, playUntilView, showStatsView, hideStatsView;
+    private FrameLayout frameStatsView;
     private DBscorefieldAndMultiAmountAdapter scoreHelper;
 
     public static ClassicWorkoutFragment newInstance(String param1, String param2) {
@@ -94,6 +98,12 @@ public class ClassicWorkoutFragment extends Fragment {
         hitThreeView = (TextView) rootView.findViewById(R.id.workout_third_hit);
         pointsLeftView = (TextView) rootView.findViewById(R.id.workout_points_left_to_hit);
         playUntilView = (TextView) rootView.findViewById(R.id.workout_round_time_view);
+        showStatsView = (TextView) rootView.findViewById(R.id.quick_classic_textview_show_stats);
+        frameStatsView = (FrameLayout) rootView.findViewById(R.id.classic_workout_framelayout_stats_in_detail);
+        hideStatsView = (TextView) rootView.findViewById(R.id.quick_classic_textview_hide_stats);
+
+        frameStatsView.setOnClickListener(this);
+        hideStatsView.setOnClickListener(this);
 
         pointsLeftView.setText(Integer.toString(goalPointsNow));
 
@@ -102,10 +112,11 @@ public class ClassicWorkoutFragment extends Fragment {
         hitViewList.add(hitThreeView);
 
         for(int i = 0; i < hitViewList.size(); i++){
-            hitViewList.get(i).setTextColor(Color.LTGRAY);
+            hitViewList.get(i).setTextColor(Color.parseColor("#FF969696"));
         }
 
-        playUntilView.setText(roundNow + " / " + numRoundTotal);
+        if(roundNow < numRoundTotal) playUntilView.setText(roundNow + " / " + numRoundTotal);
+        else playUntilView.setText("LETZTE RUNDE");
 
         detailGridView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
         detailGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
@@ -118,6 +129,23 @@ public class ClassicWorkoutFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return rootView;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+
+            case R.id.classic_workout_framelayout_stats_in_detail:
+                showStatsView.setVisibility(View.GONE);
+                detailGridView.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.quick_classic_textview_hide_stats:
+                showStatsView.setVisibility(View.VISIBLE);
+                detailGridView.setVisibility(View.GONE);
+                break;
+        }
     }
 
     public void setOneThrow(int initialValue, int multi){
@@ -170,7 +198,8 @@ public class ClassicWorkoutFragment extends Fragment {
                     mListener.putFragmentToSleep();
                 }
             }else{
-                playUntilView.setText(roundNow + " / " + numRoundTotal);
+                if(roundNow < numRoundTotal) playUntilView.setText(roundNow + " / " + numRoundTotal);
+                else playUntilView.setText("LETZTE RUNDE");
             }
         }
 
@@ -187,7 +216,7 @@ public class ClassicWorkoutFragment extends Fragment {
         throwCounter++;
         if( (throwCounter % 3) == 0){
             for( int i = 0; i < hitViewList.size(); i++){
-                hitViewList.get(i).setTextColor(Color.LTGRAY);
+                hitViewList.get(i).setTextColor(Color.parseColor("#FF969696"));
             }
         }
 
@@ -229,7 +258,7 @@ public class ClassicWorkoutFragment extends Fragment {
             pointsLeftView.setText(Integer.toString(goalPointsNow));
 
             throwCounter--;
-            hitViewList.get( (throwCounter % 3) ).setTextColor(Color.LTGRAY);
+            hitViewList.get( (throwCounter % 3) ).setTextColor(Color.parseColor("#FF969696"));
             hitViewList.get( throwCounter % 3 ).setText(undoList.get(undoList.size() - 1) + "");
 
             undoList.remove(undoList.size() - 1);
@@ -329,10 +358,12 @@ public class ClassicWorkoutFragment extends Fragment {
             switch (position){
 
                 case 0:
-                    holder.dataView.setText("5er X1 gesamt: " + scoreHelper.getMulitplierOne(5));
+                    holder.titleView.setText("singles 5");
+                    holder.dataView.setText(scoreHelper.getMulitplierOne(5) + "");
                     break;
                 case 1:
-                    holder.dataView.setText("5er X2 gesamt: " + scoreHelper.getMultiplierTwo(5));
+                    holder.titleView.setText("doubles 5");
+                    holder.dataView.setText(Integer.toString(scoreHelper.getMultiplierTwo(5)));
                     break;
             }
 
