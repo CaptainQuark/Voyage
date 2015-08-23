@@ -12,7 +12,7 @@ public class PrepareCombatActivity extends Activity {
 
     private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "", image = "", origin = "";
     private int heroHitpoints = -1, heroCosts  =-1;
-    private repoConstants co = new repoConstants();
+    private ConstRes co = new ConstRes();
 
 
     @Override

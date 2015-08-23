@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 public class MerchantInventoryActivity extends Activity {
 
-    private repoConstants co = new repoConstants();
+    private ConstRes co = new ConstRes();
     private DBmerchantItemsAdapter merchHelper;
     private DBplayerItemsAdapter playerHelper;
     private TextView buyView, dismissView;
@@ -174,7 +174,7 @@ public class MerchantInventoryActivity extends Activity {
 
     private int getPosOfFreeSlotInPlayerItemDatabase(){
 
-        repoConstants co = new repoConstants();
+        ConstRes co = new ConstRes();
         int pos = -1;
 
         for(int i = 1; i <= playerHelper.getTaskCount(); i++){

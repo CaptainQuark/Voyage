@@ -26,7 +26,7 @@ public class HeroesPartyActivity extends Activity {
     private long slotsInHeroesDatabase = 0;
     private int selectedHeroIdFromDatabase = -1;
     private String origin = "";
-    private repoConstants co = new repoConstants();
+    private ConstRes co = new ConstRes();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,7 +1,7 @@
 package com.example.thomas.voyage;
 
 
-public class repoConstants {
+public class ConstRes {
 
     public final int
             TOTAL_ITEMS_PLAYER_LV1 = 50,

@@ -19,7 +19,7 @@ public class StartActivity extends Activity {
     private DBplayerItemsAdapter itemPlayerHelper;
     private DBmerchantItemsAdapter itemMerchantHelper;
     private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket;
-    private repoConstants co;
+    private ConstRes co;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class StartActivity extends Activity {
         merchantHelper = new DBmerchantHeroesAdapter(this);
         itemPlayerHelper = new DBplayerItemsAdapter(this);
         itemMerchantHelper = new DBmerchantItemsAdapter(this);
-        co = new repoConstants();
+        co = new ConstRes();
 
         isAppFirstStarted();
 
