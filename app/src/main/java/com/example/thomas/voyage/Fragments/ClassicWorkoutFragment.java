@@ -170,6 +170,7 @@ public class ClassicWorkoutFragment extends Fragment {
 
     public void undoLastThrow(){
         if(!undoList.isEmpty()){
+            prefsHandler.undoLastChange(lastUsedScoreField, lastUsedMulti);
             goalPointsNow += undoList.get( undoList.size() - 1 );
             pointsLeftView.setText(Integer.toString(goalPointsNow));
 
@@ -196,14 +197,9 @@ public class ClassicWorkoutFragment extends Fragment {
     }
 
     @Override
-    public void onPause(){
-        super.onPause();
-        prefsHandler.saveValuesToPreferences();
-    }
-
-    @Override
     public void onDetach() {
         super.onDetach();
+        prefsHandler.saveValuesToPreferences();
         mListener = null;
     }
 
@@ -374,7 +370,24 @@ public class ClassicWorkoutFragment extends Fragment {
             }
         }
 
-        public void
+        public void undoLastChange(int val, int multi){
+
+            totalAmountByFieldValueList.set(val, totalAmountByFieldValueList.get(val) - 1);
+
+            switch (multi){
+                case 1:
+                    totalNumOfMultiOneByValueList.set(multi, totalNumOfMultiOneByValueList.get(multi) - 1);
+                    break;
+                case 2:
+                    totalNumOfMultiTwoByValueList.set(multi, totalNumOfMultiTwoByValueList.get(multi) - 1);
+                    break;
+                case 3:
+                    totalNumOfMultiThreeByValueList.set(multi, totalNumOfMultiThreeByValueList.get(multi) - 1);
+                    break;
+                default:
+                    Log.e("ERROR", "DEFAULT @ ClassicWorkoutFragment : undoLastChange in PrefHandler.class");
+            }
+        }
 
         public void saveValuesToPreferences(){
             String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";
