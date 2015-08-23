@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,6 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.Message;
 import com.example.thomas.voyage.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -262,32 +261,38 @@ public class ClassicWorkoutFragment extends Fragment {
     }
 
     private class PrefsHandler{
-
-        private Context c;
         private SharedPreferences.Editor editor;
-        private static final String SCORE_FIELD_VALUE_WITHOUT_MULTI_ = "SCORE_FIELD_VALUE_WITHOUT_MULTI_",
+
+        // speichern Anzahl der Treffer pro Zahl, nicht deren summierter Wert
+        private static final String SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ = "SCORE_FIELD_AMOUNT_WITHOUT_MULTI_",
                 NUM_OF_MULTI_ONE_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_",
                 NUM_OF_MULTI_TWO_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_",
                 NUM_OF_MULTI_THREE_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_";
-        private List<Long> totalScoreByFieldValueList,
+        private List<Long> totalAmountByFieldValueList,
                 totalNumOfMultiOneByValueList,
                 totalNumOfMultiTwoByValueList,
                 totalNumOfMultiThreeByValueList;
 
         public PrefsHandler(SharedPreferences prefs, SharedPreferences.Editor tempEditor){
             String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";
+            totalNumOfMultiOneByValueList = new ArrayList<>();
+            totalNumOfMultiTwoByValueList = new ArrayList<>();
+            totalNumOfMultiThreeByValueList = new ArrayList<>();
+            totalAmountByFieldValueList = new ArrayList<>();
+
+            editor = tempEditor;
 
             // '0' == Anzahl an missed throws
             for(int i = 0; i <= 22; i++){
                 if(i < 21){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_VALUE_WITHOUT_MULTI_ + i;
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + i;
                 }else if(i == 21){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_VALUE_WITHOUT_MULTI_ + 25;
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 25;
                 }else if(i == 22){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_VALUE_WITHOUT_MULTI_ + 50;
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 50;
                 }
 
-                totalScoreByFieldValueList.add(prefs.getLong(TEMP_PREF_VAL_ID,0));
+                totalAmountByFieldValueList.add(prefs.getLong(TEMP_PREF_VAL_ID, 0));
             }
 
             for(int i = 1; i <= 20; i++){
@@ -301,9 +306,8 @@ public class ClassicWorkoutFragment extends Fragment {
             }
         }
 
-        public void setValue(String id, long val){
-            int index = (int) val;
-            String TEMP_PREF_FILE = "";
+        public void getValues(String id, long val){
+            int index = -1;
 
             /*
 
@@ -320,15 +324,57 @@ public class ClassicWorkoutFragment extends Fragment {
 
             switch (id){
                 case "X1":
-                    totalNumOfMultiOneByValueList.set(index, totalNumOfMultiOneByValueList.get(index) + val);
-                    editor.putLong(NUM_OF_MULTI_ONE_BY_VALUE, totalNumOfMultiOneByValueList.get(index));
+                    index = (int) val;
+                    totalNumOfMultiOneByValueList.set(index, totalNumOfMultiOneByValueList.get(index) + 1);
                     break;
+                case "X2":
+                    index = (int) val;
+                    totalNumOfMultiTwoByValueList.set(index, totalNumOfMultiTwoByValueList.get(index) + 1);
+                    break;
+                case "X3":
+                    index = (int) val;
+                    totalNumOfMultiThreeByValueList.set(index, totalNumOfMultiThreeByValueList.get(index) + 1);
+                    break;
+                case "SCORE_FIELD_AMOUNT":
+                    index = (int) val;
+                    totalAmountByFieldValueList.set(index, totalAmountByFieldValueList.get(index) + 1);
+                    break;
+                default:
+                    Log.e("ERROR","DEFAULT @ ClassicWorkoutFragment : setValue");
+            }
+        }
 
+        public void saveValuesToPreferences(){
+            String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";
 
+            // TODO: 23-Aug-15 save values to 'editor.'
+            // editor.putLong(NUM_OF_MULTI_ONE_BY_VALUE, totalNumOfMultiOneByValueList.get(index));
+            // editor.apply();
+
+            // '0' == Anzahl an missed throws
+            for(int i = 0; i <= 22; i++){
+                if(i < 21){
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + i;
+                }else if(i == 21){
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 25;
+                }else if(i == 22){
+                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 50;
+                }
+
+                editor.putLong(TEMP_PREF_VAL_ID, totalAmountByFieldValueList.get(i));
+            }
+
+            for(int i = 1; i <= 20; i++){
+                TEMP_PREF_MULTI_ONE = NUM_OF_MULTI_ONE_BY_VALUE + i;
+                TEMP_PREF_MULTI_TWO = NUM_OF_MULTI_TWO_BY_VALUE + i;
+                TEMP_PREF_MULTI_THREE = NUM_OF_MULTI_THREE_BY_VALUE + i;
+
+                editor.putLong(TEMP_PREF_MULTI_ONE, totalNumOfMultiOneByValueList.get(i));
+                editor.putLong(TEMP_PREF_MULTI_TWO, totalNumOfMultiTwoByValueList.get(i));
+                editor.putLong(TEMP_PREF_MULTI_THREE, totalNumOfMultiThreeByValueList.get(i));
             }
 
             editor.apply();
         }
     }
-
 }
