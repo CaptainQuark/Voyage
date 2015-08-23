@@ -29,7 +29,9 @@ public class ClassicWorkoutFragment extends Fragment {
             numRoundTotal= -1,
             roundNow= -1,
             numGoalPoints= -1,
-            goalPointsNow = -1;
+            goalPointsNow = -1,
+            lastUsedScoreField = -1,
+            lastUsedMulti = -1;
     private boolean saveToStats = true;
     private PrefsHandler prefsHandler;
     private List<Integer> undoList = new ArrayList<>();
@@ -118,9 +120,20 @@ public class ClassicWorkoutFragment extends Fragment {
         return rootView;
     }
 
-    public void setOneThrow(int points){
-        goalPointsNow -= points;
-        undoList.add(points);
+    public void setOneThrow(int initialValue, int multi){
+        goalPointsNow -= (initialValue * multi);
+        undoList.add(initialValue * multi);
+
+        if(saveToStats){
+            if(multi != 0){
+                lastUsedMulti = multi;
+                prefsHandler.setValues(("X" + multi), initialValue);
+            }
+
+            lastUsedScoreField = initialValue;
+            prefsHandler.setValues("SCORE_FIELD_AMOUNT", initialValue);
+        }
+
 
         if(goalPointsNow < 0){
             goalPointsNow = numGoalPoints;
@@ -180,6 +193,12 @@ public class ClassicWorkoutFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        prefsHandler.saveValuesToPreferences();
     }
 
     @Override
@@ -306,43 +325,56 @@ public class ClassicWorkoutFragment extends Fragment {
             }
         }
 
-        public void getValues(String id, long val){
+        public long getValues(String id, long val){
+            long value = -1;
             int index = -1;
-
-            /*
-
-            USAGE:
-
-             'setValue' wird eine Kennung 'id' und ein Wert 'val' übergeben. 'id' steht für Operation im switch,
-             'val' steht für den Wert, abhängig vom Kontext entweder eine Erhöhung um 1 oder eine Erhöhung um einen bestimmten Wert.
-             Bsp.: Einfache Inkrementierung bei Multiplier ("ein weiteres Mal wurde 2X getroffen..."), Erhöhung um Wert (noch kein Bsp).
-
-             Die Listen werden für Verwendung mit innerer Klasse des GridViews verwendet, um Look-Up in SharedPrefs nicht extra zu machen
-             = dienen als Cache. 'editor.'  speichert neuen Wert dann dauerhaft.
-
-             */
 
             switch (id){
                 case "X1":
                     index = (int) val;
-                    totalNumOfMultiOneByValueList.set(index, totalNumOfMultiOneByValueList.get(index) + 1);
+                    value = totalNumOfMultiOneByValueList.get(index) + 1;
                     break;
                 case "X2":
                     index = (int) val;
-                    totalNumOfMultiTwoByValueList.set(index, totalNumOfMultiTwoByValueList.get(index) + 1);
+                    value = totalNumOfMultiTwoByValueList.get(index) + 1;
                     break;
                 case "X3":
                     index = (int) val;
-                    totalNumOfMultiThreeByValueList.set(index, totalNumOfMultiThreeByValueList.get(index) + 1);
+                    value = totalNumOfMultiThreeByValueList.get(index) + 1;
                     break;
                 case "SCORE_FIELD_AMOUNT":
                     index = (int) val;
+                    value = totalAmountByFieldValueList.get(index) + 1;
+                    break;
+                default:
+                    Log.e("ERROR","DEFAULT @ ClassicWorkoutFragment : setValue");
+            }
+
+            return value;
+        }
+
+        public void setValues(String id, long val){
+            int index = (int) val;
+
+            switch (id){
+                case "X1":
+                    totalNumOfMultiOneByValueList.set(index, totalNumOfMultiOneByValueList.get(index) + 1);
+                    break;
+                case "X2":
+                    totalNumOfMultiTwoByValueList.set(index, totalNumOfMultiTwoByValueList.get(index) + 1);
+                    break;
+                case "X3":
+                    totalNumOfMultiThreeByValueList.set(index, totalNumOfMultiThreeByValueList.get(index) + 1);
+                    break;
+                case "SCORE_FIELD_AMOUNT":
                     totalAmountByFieldValueList.set(index, totalAmountByFieldValueList.get(index) + 1);
                     break;
                 default:
                     Log.e("ERROR","DEFAULT @ ClassicWorkoutFragment : setValue");
             }
         }
+
+        public void
 
         public void saveValuesToPreferences(){
             String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";

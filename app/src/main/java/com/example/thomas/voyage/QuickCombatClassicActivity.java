@@ -180,11 +180,12 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
         }
 
+        /*
         if(scoreFieldVal != 25 && scoreFieldVal != 50){
             scoreFieldVal *= multi;
-        }
+        }*/
 
-        fragment.setOneThrow(scoreFieldVal);
+        fragment.setOneThrow(scoreFieldVal, multi);
     }
 
     public void onClassicSetMultiplier(View view){
@@ -210,7 +211,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void onClassicMiss(View view){
-        fragment.setOneThrow(0);
+        fragment.setOneThrow(0, 0);
     }
 
     public void onClassicUndo(View view){
