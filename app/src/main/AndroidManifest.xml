@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/VoyageDark" >
         <activity
-            android:name=".StartActivity"
+            android:name=".BasicActivities.StartActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape" >
             <intent-filter>
@@ -24,45 +24,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HeroesPartyActivity"
+            android:name=".BasicActivities.HeroesPartyActivity"
             android:label="@string/title_activity_heroes_party"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".MerchantHeroActivity"
+            android:name=".BasicActivities.MerchantHeroActivity"
             android:label="@string/title_activity_merchant"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".WorldMapQuickCombatActivity"
+            android:name=".CombatActivities.WorldMapQuickCombatActivity"
             android:label="@string/title_activity_screen_slide"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".CombatActivity"
+            android:name=".CombatActivities.CombatActivity"
             android:label="@string/title_activity_combat"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".PrepareCombatActivity"
+            android:name=".CombatActivities.PrepareCombatActivity"
             android:label="@string/title_activity_combat_white"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".MerchantInventoryActivity"
+            android:name=".BasicActivities.MerchantInventoryActivity"
             android:label="@string/title_activity_merchant_inventory"
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".QuickCombat"
+            android:name=".CombatActivities.QuickCombat"
             android:label="@string/title_activity_quick_combat" >
         </activity>
         <activity
-            android:name=".QuickCombatCricket"
+            android:name=".CombatActivities.QuickCombatCricket"
             android:label="@string/title_activity_quick_combat_cricket" >
         </activity>
         <activity
-            android:name=".QuickCombatClassicActivity"
+            android:name=".CombatActivities.QuickCombatClassicActivity"
             android:label="@string/title_activity_quick_combat_classic" >
         </activity>
     </application>

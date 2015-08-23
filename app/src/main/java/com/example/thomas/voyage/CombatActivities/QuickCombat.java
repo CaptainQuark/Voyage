@@ -1,8 +1,9 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -14,12 +15,18 @@ import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
+import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuickCombat extends Activity {
 
     GridView cricketView;
+    ConstRes c;
     int[] arrayOfSelectedValues;
     private List<Integer> selectionList = new ArrayList<>();
     ImageButton cricketImage, shanghaiImage, classicImage;
@@ -29,12 +36,10 @@ public class QuickCombat extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_combat);
         hideSystemUI();
+        iniViews();
 
-        cricketImage = (ImageButton) findViewById(R.id.quick_imageview_cricket);
-        shanghaiImage = (ImageButton) findViewById(R.id.quick_imageview_shanghai);
-        classicImage = (ImageButton) findViewById(R.id.quick_imageview_classic);
+        isQuickCombatfirstStarted();
 
-        cricketView = (GridView) findViewById(R.id.quick_gridView_selected_numbers);
         NumberPicker numberPickerCricket = (NumberPicker) findViewById(R.id.quick_numberpicker_cricket);
         numberPickerCricket.setMaxValue(50);
         numberPickerCricket.setMinValue(1);
@@ -58,6 +63,30 @@ public class QuickCombat extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+    }
+
+    private void isQuickCombatfirstStarted(){
+        c = new ConstRes();
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
+        if(prefs.getBoolean(c.QUICK_COMBAT_FIRST_STARTED, true)){
+            Message.message(this, "SCOREFIELDS AND MULTIS DB CREATED");
+            DBscorefieldAndMultiAmountAdapter scoreHelper = new DBscorefieldAndMultiAmountAdapter(this);
+
+            long validation = 0;
+            for(int i = 0; i <= 20; i++){
+                validation = scoreHelper.insertData(i, 0, 0, 0);
+            }
+
+            scoreHelper.insertData(25, 0, 0, 0);
+            scoreHelper.insertData(50, 0, 0, 0);
+
+            if(validation < 0) Message.message(this, "ERROR @ insert for 20 values in scoreDatabase");
+
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putBoolean(c.QUICK_COMBAT_FIRST_STARTED, false);
+            editor.apply();
+        }
     }
 
     public void quickImageTapped(View view){
@@ -228,5 +257,13 @@ public class QuickCombat extends Activity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    private void iniViews(){
+        cricketImage = (ImageButton) findViewById(R.id.quick_imageview_cricket);
+        shanghaiImage = (ImageButton) findViewById(R.id.quick_imageview_shanghai);
+        classicImage = (ImageButton) findViewById(R.id.quick_imageview_classic);
+
+        cricketView = (GridView) findViewById(R.id.quick_gridView_selected_numbers);
     }
 }

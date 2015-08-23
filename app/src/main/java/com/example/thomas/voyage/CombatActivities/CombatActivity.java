@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,6 +13,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.thomas.voyage.ContainerClasses.Hero;
+import com.example.thomas.voyage.ContainerClasses.Monster;
+import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
+import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ImgRes;
+import com.example.thomas.voyage.BasicActivities.StartActivity;
 
 import java.util.ArrayList;
 import java.util.List;

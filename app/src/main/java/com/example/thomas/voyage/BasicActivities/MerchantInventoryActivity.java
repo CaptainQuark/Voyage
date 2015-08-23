@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,6 +11,13 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.thomas.voyage.Databases.DBmerchantItemsAdapter;
+import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
+import com.example.thomas.voyage.ContainerClasses.Item;
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 public class MerchantInventoryActivity extends Activity {
 

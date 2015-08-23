@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.Databases;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.R;
 
 public class DBheroesAdapter {
 
@@ -366,8 +369,8 @@ public class DBheroesAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
-            //com.example.thomas.voyage.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
 
         }
 

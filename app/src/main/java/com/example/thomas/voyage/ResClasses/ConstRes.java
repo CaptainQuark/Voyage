@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.ResClasses;
 
 
 public class ConstRes {
@@ -12,6 +12,7 @@ public class ConstRes {
 
     public final String
             IS_FIRST_RUN = "IS_FIRST_RUN",
+            QUICK_COMBAT_FIRST_STARTED = "QUICK_COMBAT_FIRST_STARTED",
             NOT_USED = "NOT_USED",
             ORIGIN = "ORIGIN",
             HEROES_NAME = "HEROES_NAME",

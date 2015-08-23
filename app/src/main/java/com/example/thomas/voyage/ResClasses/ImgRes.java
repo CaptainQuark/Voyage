@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.ResClasses;
 
 import android.content.Context;
 

@@ -1,8 +1,6 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
-
-import java.util.Random;
 
 public class ItemPool {
 

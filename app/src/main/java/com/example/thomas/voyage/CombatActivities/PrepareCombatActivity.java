@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.thomas.voyage.BasicActivities.HeroesPartyActivity;
+import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 public class PrepareCombatActivity extends Activity {
 

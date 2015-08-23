@@ -1,34 +1,23 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
+import com.example.thomas.voyage.R;
 
-import java.io.BufferedReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,9 +69,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         pointPicker.setDisplayedValues(null);
         pointPicker.setMaxValue(stringArray.length - 1);
         pointPicker.setMinValue(0);
-        pointPicker.setWrapSelectorWheel(true);
         pointPicker.setDisplayedValues(stringArray);
-
     }
 
     @Override

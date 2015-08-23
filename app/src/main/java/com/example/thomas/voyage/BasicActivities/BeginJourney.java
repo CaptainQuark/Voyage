@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.BasicActivities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
+import com.example.thomas.voyage.R;
 
 
 public class BeginJourney extends FragmentActivity {

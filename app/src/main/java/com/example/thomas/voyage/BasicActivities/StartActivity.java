@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,6 +7,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
+import com.example.thomas.voyage.CombatActivities.QuickCombat;
+import com.example.thomas.voyage.CombatActivities.QuickCombatClassicActivity;
+import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
+import com.example.thomas.voyage.ContainerClasses.Hero;
+import com.example.thomas.voyage.ContainerClasses.Item;
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Databases.DBheroesAdapter;
+import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
+import com.example.thomas.voyage.Databases.DBmerchantItemsAdapter;
+import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
+import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
+import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +34,7 @@ public class StartActivity extends Activity {
     private DBplayerItemsAdapter itemPlayerHelper;
     private DBmerchantItemsAdapter itemMerchantHelper;
     private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket;
-    private ConstRes co;
+    private ConstRes c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +46,10 @@ public class StartActivity extends Activity {
         merchantHelper = new DBmerchantHeroesAdapter(this);
         itemPlayerHelper = new DBplayerItemsAdapter(this);
         itemMerchantHelper = new DBmerchantItemsAdapter(this);
-        co = new ConstRes();
+        c = new ConstRes();
 
         isAppFirstStarted();
+        isQuickCombatfirstStarted();
 
         textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
         textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
@@ -57,26 +73,50 @@ public class StartActivity extends Activity {
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
 
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        Boolean isFirstRun = prefs.getBoolean(co.IS_FIRST_RUN, true);
+        Boolean isFirstRun = prefs.getBoolean(c.IS_FIRST_RUN, true);
 
         if (isFirstRun) {
             Message.message(this, "IS_FIRST_RUN: " + isFirstRun);
 
-            long validation = prepareHeroesDatabaseForGame(co.TOTAL_HEROES_PLAYER);
+            long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
                 Message.message(this, "ERROR @ insertToHeroesDatabase");
             }
 
-            validation = insertToMerchantDatabase(co.TOTAL_HEROES_MERCHANT);
+            validation = insertToMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
             if (validation < 0) {
                 Message.message(this, "ERROR @ insertToMerchantHeroesDatabase");
             }
 
-            preparePlayersItemDatabase(co.TOTAL_ITEMS_PLAYER_LV1);
-            insertToItemMerchantDatabase(co.TOTAL_ITEMS_MERCHANT_LV1);
+            preparePlayersItemDatabase(c.TOTAL_ITEMS_PLAYER_LV1);
+            insertToItemMerchantDatabase(c.TOTAL_ITEMS_MERCHANT_LV1);
 
             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putBoolean(co.IS_FIRST_RUN, false);
+            editor.putBoolean(c.IS_FIRST_RUN, false);
+            editor.apply();
+        }
+    }
+
+    private void isQuickCombatfirstStarted(){
+        c = new ConstRes();
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+
+        if(prefs.getBoolean(c.QUICK_COMBAT_FIRST_STARTED, true)){
+            Message.message(this, "SCOREFIELDS AND MULTIS DB CREATED");
+            DBscorefieldAndMultiAmountAdapter scoreHelper = new DBscorefieldAndMultiAmountAdapter(this);
+
+            long validation = 0;
+            for(int i = 0; i <= 20; i++){
+                validation = scoreHelper.insertData(i, 0, 0, 0);
+            }
+
+            scoreHelper.insertData(25, 0, 0, 0);
+            scoreHelper.insertData(50, 0, 0, 0);
+
+            if(validation < 0) Message.message(this, "ERROR @ insert for 20 values in scoreDatabase");
+
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            editor.putBoolean(c.QUICK_COMBAT_FIRST_STARTED, false);
             editor.apply();
         }
     }
@@ -102,7 +142,7 @@ public class StartActivity extends Activity {
         long count = 0;
 
         for(int i = 1; i <= size; i++){
-            if(!heroesHelper.getHeroName(i).equals(co.NOT_USED)){
+            if(!heroesHelper.getHeroName(i).equals(c.NOT_USED)){
                 count++;
             }
         }
@@ -119,7 +159,7 @@ public class StartActivity extends Activity {
         int countUsed = 0;
 
         for(int i = 1; i <= itemMerchantHelper.getTaskCount(); i++){
-            if(! itemMerchantHelper.getItemName(i).equals(co.NOT_USED) ){
+            if(! itemMerchantHelper.getItemName(i).equals(c.NOT_USED) ){
                 countUsed++;
             }
         }

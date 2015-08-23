@@ -1,6 +1,8 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
+
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 
 public class Hero {

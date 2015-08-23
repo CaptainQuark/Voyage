@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
+
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.R;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,7 +16,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.Message;
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
 
 import java.util.ArrayList;
@@ -33,12 +34,16 @@ public class ClassicWorkoutFragment extends Fragment {
             lastUsedScoreField = -1,
             lastUsedMulti = -1;
     private boolean saveToStats = true;
-    private PrefsHandler prefsHandler;
+
+    // MultiValKeyHistory-Liste hat *keine* Verwendung - später vielleicht als Cache einbauen, um nicht ständig Read-/Write auf Datenbank auszuführen
+    private List<MultiValKeyHistory> multiValKeyHistoryList;
     private List<Integer> undoList = new ArrayList<>();
     private List<TextView> hitViewList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
     private View rootView;
+    private GridView detailGridView;
     private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView, playUntilView;
+    private DBscorefieldAndMultiAmountAdapter scoreHelper;
 
     public static ClassicWorkoutFragment newInstance(String param1, String param2) {
         //ClassicWorkoutFragment fragment = new ClassicWorkoutFragment();
@@ -57,8 +62,8 @@ public class ClassicWorkoutFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             Bundle args = getArguments();
             numRoundTotal = args.getInt("NUM_ROUND_TOTAL");
@@ -66,18 +71,13 @@ public class ClassicWorkoutFragment extends Fragment {
             goalPointsNow = numGoalPoints;
             roundNow = 1;
         }
-        else
-        {
+        else{
             Message.message(getActivity(), "ERROR  getArguments in Fragment");
         }
 
         if(getActivity() != null){
-
-            // SharedPreferences hier initialiseren und an Konstruktor des Containers übergeben,
-            // Initialisierung nur mit 'getActivity' im Fragment möglich, nicht in innerer Klasse
-            SharedPreferences prefs = this.getActivity().getPreferences(Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = getActivity().getPreferences(Context.MODE_PRIVATE).edit();
-            prefsHandler = new PrefsHandler(prefs, editor);
+            scoreHelper = new DBscorefieldAndMultiAmountAdapter(this.getActivity());
+            multiValKeyHistoryList = new ArrayList<>();
 
         }else{
             Message.message(getActivity(), "ERROR @ getActivity in Fragment");
@@ -107,9 +107,9 @@ public class ClassicWorkoutFragment extends Fragment {
 
         playUntilView.setText(roundNow + " / " + numRoundTotal);
 
-        GridView cricketView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
-        cricketView.setAdapter(new SimpleNumberAdapter(getActivity()));
-        cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        detailGridView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
+        detailGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
+        detailGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 // handle onItemClick-Action
@@ -121,20 +121,44 @@ public class ClassicWorkoutFragment extends Fragment {
     }
 
     public void setOneThrow(int initialValue, int multi){
+        lastUsedScoreField = initialValue;
         goalPointsNow -= (initialValue * multi);
         undoList.add(initialValue * multi);
+        multiValKeyHistoryList.add(new MultiValKeyHistory(initialValue, multi));
 
         if(saveToStats){
-            if(multi != 0 && initialValue != 25 && initialValue != 50){
-                lastUsedMulti = multi;
-                prefsHandler.setValues(("X" + multi), initialValue);
-            }
+            if(multi != 0){
+                int tempVal;
 
-            lastUsedScoreField = initialValue;
-            prefsHandler.setValues("SCORE_FIELD_AMOUNT", initialValue);
+                switch (multi){
+                    case 1:
+                        tempVal = scoreHelper.getMulitplierOne(initialValue);
+                        tempVal++;
+                        scoreHelper.updateX1(initialValue, tempVal);
+                        break;
+
+                    case 2:
+                        tempVal = scoreHelper.getMultiplierTwo(initialValue);
+                        tempVal++;
+                        scoreHelper.updateX2(initialValue, tempVal);
+                        break;
+
+                    case 3:
+                        tempVal = scoreHelper.getMulitplierThree(initialValue);
+                        tempVal++;
+                        scoreHelper.updateX3(initialValue, tempVal);
+                        break;
+
+                    default:
+                        Message.message(getActivity(), "DEFAULT @ setOneThrow : multi");
+                        break;
+                }
+
+                //Message.message(getActivity(), "Database size: " + scoreHelper.getTaskCount());
+            }
         }
 
-
+        // Auf Ende der Session überprüfen
         if(goalPointsNow < 0){
             goalPointsNow = numGoalPoints;
             Message.message(getActivity(), "One more round finished...");
@@ -166,11 +190,41 @@ public class ClassicWorkoutFragment extends Fragment {
                 hitViewList.get(i).setTextColor(Color.LTGRAY);
             }
         }
+
+        detailGridView.invalidateViews();
     }
 
     public void undoLastThrow(){
         if(!undoList.isEmpty()){
-            prefsHandler.undoLastChange(lastUsedScoreField, lastUsedMulti);
+            int tempVal;
+            int initialValue = multiValKeyHistoryList.get(multiValKeyHistoryList.size() - 1).getMulti();
+
+            switch (multiValKeyHistoryList.get(multiValKeyHistoryList.size() - 1).getMulti()){
+                case 1:
+                    tempVal = scoreHelper.getMulitplierOne(initialValue);
+                    tempVal--;
+                    scoreHelper.updateX1(initialValue, tempVal);
+                    break;
+
+                case 2:
+                    tempVal = scoreHelper.getMultiplierTwo(initialValue);
+                    tempVal--;
+                    scoreHelper.updateX2(initialValue, tempVal);
+                    break;
+
+                case 3:
+                    tempVal = scoreHelper.getMulitplierThree(initialValue);
+                    tempVal--;
+                    scoreHelper.updateX3(initialValue, tempVal);
+                    break;
+
+                default:
+                    Message.message(getActivity(), "DEFAULT @ setOneThrow : multi");
+                    break;
+            }
+
+            multiValKeyHistoryList.remove( multiValKeyHistoryList.size() -1 );
+
             goalPointsNow += undoList.get( undoList.size() - 1 );
             pointsLeftView.setText(Integer.toString(goalPointsNow));
 
@@ -183,6 +237,8 @@ public class ClassicWorkoutFragment extends Fragment {
         else{
             Message.message(getActivity(), "No Actions to undo");
         }
+
+        detailGridView.invalidateViews();
     }
 
     @Override
@@ -199,7 +255,6 @@ public class ClassicWorkoutFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        prefsHandler.saveValuesToPreferences();
         mListener = null;
     }
 
@@ -271,168 +326,30 @@ public class ClassicWorkoutFragment extends Fragment {
                 holder = (ViewHolder) convertView.getTag();
             }
 
+            switch (position){
+
+                case 0:
+                    holder.dataView.setText("5er X1 gesamt: " + scoreHelper.getMulitplierOne(5));
+                    break;
+                case 1:
+                    holder.dataView.setText("5er X2 gesamt: " + scoreHelper.getMultiplierTwo(5));
+                    break;
+            }
+
             return convertView;
         }
     }
 
-    private class PrefsHandler{
-        private SharedPreferences.Editor editor;
+    private class MultiValKeyHistory {
+        private int val, multi;
 
-        // speichern Anzahl der Treffer pro Zahl, nicht deren summierter Wert
-        private static final String SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ = "SCORE_FIELD_AMOUNT_WITHOUT_MULTI_",
-                NUM_OF_MULTI_ONE_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_",
-                NUM_OF_MULTI_TWO_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_",
-                NUM_OF_MULTI_THREE_BY_VALUE = "NUM_OF_MULTI_ONE_BY_VALUE_";
-        private List<Long> totalAmountByFieldValueList,
-                totalNumOfMultiOneByValueList,
-                totalNumOfMultiTwoByValueList,
-                totalNumOfMultiThreeByValueList;
-
-        public PrefsHandler(SharedPreferences prefs, SharedPreferences.Editor tempEditor){
-            String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";
-            totalNumOfMultiOneByValueList = new ArrayList<>();
-            totalNumOfMultiTwoByValueList = new ArrayList<>();
-            totalNumOfMultiThreeByValueList = new ArrayList<>();
-            totalAmountByFieldValueList = new ArrayList<>();
-
-            editor = tempEditor;
-
-            // '0' == Anzahl an missed throws
-            for(int i = 0; i <= 22; i++){
-                if(i < 21){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + i;
-                }else if(i == 21){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 25;
-                }else if(i == 22){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 50;
-                }
-
-                totalAmountByFieldValueList.add(prefs.getLong(TEMP_PREF_VAL_ID, 0));
-            }
-
-            for(int i = 1; i <= 20; i++){
-                TEMP_PREF_MULTI_ONE = NUM_OF_MULTI_ONE_BY_VALUE + i;
-                TEMP_PREF_MULTI_TWO = NUM_OF_MULTI_TWO_BY_VALUE + i;
-                TEMP_PREF_MULTI_THREE = NUM_OF_MULTI_THREE_BY_VALUE + i;
-
-                totalNumOfMultiOneByValueList.add(prefs.getLong(TEMP_PREF_MULTI_ONE, 0));
-                totalNumOfMultiTwoByValueList.add(prefs.getLong(TEMP_PREF_MULTI_TWO, 0));
-                totalNumOfMultiThreeByValueList.add(prefs.getLong(TEMP_PREF_MULTI_THREE, 0));
-            }
+        public MultiValKeyHistory(int valTemp, int multiTemp){
+            val = valTemp;
+            multi = multiTemp;
         }
 
-        public long getValues(String id, long val){
-            long value = -1;
-            int index = -1;
+        public int getVal(){ return val; }
 
-            switch (id){
-                case "X1":
-                    index = (int) val;
-                    value = totalNumOfMultiOneByValueList.get(index) + 1;
-                    break;
-                case "X2":
-                    index = (int) val;
-                    value = totalNumOfMultiTwoByValueList.get(index) + 1;
-                    break;
-                case "X3":
-                    index = (int) val;
-                    value = totalNumOfMultiThreeByValueList.get(index) + 1;
-                    break;
-                case "SCORE_FIELD_AMOUNT":
-                    index = (int) val;
-                    value = totalAmountByFieldValueList.get(index) + 1;
-                    break;
-                default:
-                    Log.e("ERROR","DEFAULT @ ClassicWorkoutFragment : setValue");
-            }
-
-            return value;
-        }
-
-        public void setValues(String id, long val){
-            int index = (int) val;
-
-            switch (id){
-                case "X1":
-                    totalNumOfMultiOneByValueList.set(index-1, totalNumOfMultiOneByValueList.get(index-1) + 1);
-                    Message.message(getActivity(), totalNumOfMultiOneByValueList.size() + " : X1");
-                    break;
-                case "X2":
-                    totalNumOfMultiTwoByValueList.set(index-1, totalNumOfMultiTwoByValueList.get(index-1) + 1);
-                    Message.message(getActivity(), totalNumOfMultiTwoByValueList.size() + " : X2");
-                    break;
-                case "X3":
-                    totalNumOfMultiThreeByValueList.set(index-1, totalNumOfMultiThreeByValueList.get(index-1) + 1);
-                    Message.message(getActivity(), totalNumOfMultiThreeByValueList.size() + " : X3");
-                    break;
-                case "SCORE_FIELD_AMOUNT":
-                    Message.message(getActivity(),totalAmountByFieldValueList.size() + " : SCORE");
-                    if(index != 25 && index != 50){
-                        totalAmountByFieldValueList.set(index, totalAmountByFieldValueList.get(index) + 1);
-                    }else if(index == 25){
-                        totalAmountByFieldValueList.set(21, totalAmountByFieldValueList.get(21) + 1);
-                    }else if(index == 50){
-                        totalAmountByFieldValueList.set(22, totalAmountByFieldValueList.get(22) + 1);
-                    }
-
-                    break;
-                default:
-                    Log.e("ERROR","DEFAULT @ ClassicWorkoutFragment : setValue");
-            }
-        }
-
-        public void undoLastChange(int val, int multi){
-
-            totalAmountByFieldValueList.set(val, totalAmountByFieldValueList.get(val) - 1);
-
-            switch (multi){
-                case 1:
-                    totalNumOfMultiOneByValueList.set(multi, totalNumOfMultiOneByValueList.get(multi) - 1);
-                    break;
-                case 2:
-                    totalNumOfMultiTwoByValueList.set(multi, totalNumOfMultiTwoByValueList.get(multi) - 1);
-                    break;
-                case 3:
-                    totalNumOfMultiThreeByValueList.set(multi, totalNumOfMultiThreeByValueList.get(multi) - 1);
-                    break;
-                default:
-                    Log.e("ERROR", "DEFAULT @ ClassicWorkoutFragment : undoLastChange in PrefHandler.class");
-            }
-        }
-
-        public void saveValuesToPreferences(){
-            String TEMP_PREF_VAL_ID = "", TEMP_PREF_MULTI_ONE = "", TEMP_PREF_MULTI_TWO = "", TEMP_PREF_MULTI_THREE = "";
-
-            // TODO: 23-Aug-15 save values to 'editor.'
-            // editor.putLong(NUM_OF_MULTI_ONE_BY_VALUE, totalNumOfMultiOneByValueList.get(index));
-            // editor.apply();
-
-            // '0' == Anzahl an missed throws
-            for(int i = 0; i <= 22; i++){
-                if(i < 21){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + i;
-                }else if(i == 21){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 25;
-                }else if(i == 22){
-                    TEMP_PREF_VAL_ID = SCORE_FIELD_AMOUNT_WITHOUT_MULTI_ + 50;
-                }
-
-                editor.putLong(TEMP_PREF_VAL_ID, totalAmountByFieldValueList.get(i));
-            }
-
-            // In Schleife zur Initialisieurng wird zwar von 1 - 20 initialisiert, jedoch mit '1' der 1. Eintrag zur
-            // List hinzugefügt, welcher als Index '0' hat
-            for(int i = 0; i < 20; i++){
-                TEMP_PREF_MULTI_ONE = NUM_OF_MULTI_ONE_BY_VALUE + i;
-                TEMP_PREF_MULTI_TWO = NUM_OF_MULTI_TWO_BY_VALUE + i;
-                TEMP_PREF_MULTI_THREE = NUM_OF_MULTI_THREE_BY_VALUE + i;
-
-                editor.putLong(TEMP_PREF_MULTI_ONE, totalNumOfMultiOneByValueList.get(i));
-                editor.putLong(TEMP_PREF_MULTI_TWO, totalNumOfMultiTwoByValueList.get(i));
-                editor.putLong(TEMP_PREF_MULTI_THREE, totalNumOfMultiThreeByValueList.get(i));
-            }
-
-            editor.apply();
-        }
+        public int getMulti(){ return multi; }
     }
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools" 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.thomas.voyage.QuickCombatClassicActivity"
+    tools:context="com.example.thomas.voyage.CombatActivities.QuickCombatClassicActivity"
     android:background="@color/soft_gray_background">
 
     <LinearLayout
@@ -538,10 +538,9 @@
                         <NumberPicker
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:divider="@android:color/transparent"
-                            android:layout_gravity="center"
-                            android:showDividers="none"
                             android:descendantFocusability="blocksDescendants"
+                            android:showDividers="none"
+                            android:divider="@android:color/transparent"
                             android:id="@+id/quick_pointpicker_classic_workout"/>
 
                     </FrameLayout>

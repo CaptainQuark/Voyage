@@ -1,8 +1,6 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
-
-import com.example.thomas.voyage.ItemPool;
 
 
 public class Item {

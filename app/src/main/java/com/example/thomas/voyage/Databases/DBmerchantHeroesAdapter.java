@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.Databases;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import com.example.thomas.voyage.ContainerClasses.Message;
 
 public class DBmerchantHeroesAdapter {
 
@@ -388,8 +390,8 @@ public class DBmerchantHeroesAdapter {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.Message.message(context, "constructor called");
-            //com.example.thomas.voyage.Message.message(context, "MerchantDatabase constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "MerchantDatabase constructor called");
 
         }
 

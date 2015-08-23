@@ -1,4 +1,4 @@
-package com.example.thomas.voyage;
+package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.example.thomas.voyage.CombatActivities.CombatActivity;
+import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
+import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
+import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Databases.DBheroesAdapter;
+import com.example.thomas.voyage.BasicActivities.MerchantHeroActivity;
+import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
+import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
 
