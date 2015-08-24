@@ -24,12 +24,14 @@ import java.util.List;
 public class QuickCombatClassicActivity extends Activity implements ClassicWorkoutFragment.OnFragmentInteractionListener{
 
     private int multi = 1;
+    private boolean saveToStats = true;
     private ClassicWorkoutFragment fragment;
     private ImageButton workoutImageView, versusImageView, historicalImageView;
     private LinearLayout gameView, optionsView;
     private RelativeLayout selectImageView, selectPropertiesView;
     private FrameLayout selectView;
     private NumberPicker roundPicker, pointPicker;
+    private TextView noStatsRecordingView, activateGhostRecordView;
     private List<TextView> multiList = new ArrayList<>();
 
     @Override
@@ -52,6 +54,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         selectPropertiesView = (RelativeLayout) findViewById(R.id.classic_relativelayout_properties_selection);
         gameView = (LinearLayout) findViewById(R.id.classic_linearlayout_session_layout);
         selectView = (FrameLayout) findViewById(R.id.classic_framelayout_choose_session_type);
+        noStatsRecordingView = (TextView) findViewById(R.id.classic_textview_prohib_from_recording);
+        activateGhostRecordView = (TextView) findViewById(R.id.classic_textview_record_as_ghost);
 
         multiList.add(mulitOneView);
         multiList.add(multiTwoView);
@@ -96,6 +100,19 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         Message.message(this, "Fragment removed");
         gameView.setVisibility(View.GONE);
         selectView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public boolean getSaveStatsChoice() {
+        boolean temp = saveToStats;
+        saveToStats = false;
+
+        return temp;
+    }
+
+    public void classicWorkoutDisableStatsRecording(View view){
+        saveToStats = false;
+        Message.message(this, "No recording for this round");
     }
 
     public void goToClassicWorkout(View view){

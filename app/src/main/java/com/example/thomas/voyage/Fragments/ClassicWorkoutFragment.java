@@ -3,7 +3,6 @@ package com.example.thomas.voyage.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -41,8 +40,8 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
     private List<TextView> hitViewList = new ArrayList<>();
     private OnFragmentInteractionListener mListener;
     private View rootView;
-    private GridView detailGridView;
-    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView, playUntilView, showStatsView, hideStatsView;
+    private GridView statsGridView;
+    private TextView hitOneView, hitTwoView, hitThreeView, pointsLeftView, playUntilView, showStatsView, hideStatsView, noStatsRecordingView, activateGhostRecordView;
     private FrameLayout frameStatsView;
     private DBscorefieldAndMultiAmountAdapter scoreHelper;
 
@@ -115,9 +114,9 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         if(roundNow < numRoundTotal) playUntilView.setText(roundNow + " / " + numRoundTotal);
         else playUntilView.setText("LETZTE RUNDE");
 
-        detailGridView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
-        detailGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
-        detailGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        statsGridView = (GridView) rootView.findViewById(R.id.classic_workout_gridview);
+        statsGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
+        statsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
                 // handle onItemClick-Action
@@ -135,12 +134,12 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
             case R.id.classic_workout_framelayout_stats_in_detail:
                 showStatsView.setVisibility(View.GONE);
-                detailGridView.setVisibility(View.VISIBLE);
+                statsGridView.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.quick_classic_textview_hide_stats:
                 showStatsView.setVisibility(View.VISIBLE);
-                detailGridView.setVisibility(View.GONE);
+                statsGridView.setVisibility(View.GONE);
                 break;
         }
     }
@@ -153,30 +152,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         undoList.add(initialValue * multi);
         multiValKeyHistoryList.add(new MultiValKeyHistory(initialValue, multi));
 
-        /*
-        if(initialValue > 0 && (initialValue*multi) <= 170 && (throwCounter % 3 == 0)){
-            CheckoutRes check = new CheckoutRes();
-            int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
-            if(array[0] != -1){
-                for (int i = 0; i < array.length; i++){
-
-                    if(i == 0){
-                        hitOneView.setText(array[i] + "");
-                        hitOneView.setTextColor(Color.RED);
-                    }
-                    else if(i == 1){
-                        hitTwoView.setText(array[i] + "");
-                        hitTwoView.setTextColor(Color.RED);
-                    }
-                    else if(i == 2){
-                        hitThreeView.setText(array[i] + "");
-                        hitThreeView.setTextColor(Color.RED);
-                    }
-                }
-            }
-
-        }
-        */
+        if(goalPointsNow == numGoalPoints) saveToStats = mListener.getSaveStatsChoice();
 
         if(saveToStats){
             if(multi != 0){
@@ -239,14 +215,83 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         }
 
         throwCounter++;
+
+         /*
+        if(initialValue > 0 && (initialValue*multi) <= 170 && (throwCounter % 3 == 0)){
+            CheckoutRes check = new CheckoutRes();
+            int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
+            if(array[0] != -1){
+                for (int i = 0; i < array.length; i++){
+
+                    if(i == 0){
+                        hitOneView.setText(array[i] + "");
+                        hitOneView.setTextColor(Color.RED);
+                    }
+                    else if(i == 1){
+                        hitTwoView.setText(array[i] + "");
+                        hitTwoView.setTextColor(Color.RED);
+                    }
+                    else if(i == 2){
+                        hitThreeView.setText(array[i] + "");
+                        hitThreeView.setTextColor(Color.RED);
+                    }
+                }
+            }
+
+        }
+        */
+
         if( (throwCounter % 3) == 0){
 
-            for( int i = 0; i < hitViewList.size(); i++){
-                hitViewList.get(i).setTextColor(Color.parseColor("#FF969696"));
+            if(initialValue > 0 && goalPointsNow <= 170){
+                CheckoutRes check = new CheckoutRes();
+                int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
+                if(array[0] != -1){
+                    for (int i = 0; i < array.length; i++){
+
+                        if(i == 0){
+                            hitOneView.setText(array[i] + "");
+                            hitOneView.setTextColor(Color.RED);
+                        }
+                        else if(i == 1){
+                            hitTwoView.setText(array[i] + "");
+                            hitTwoView.setTextColor(Color.RED);
+                        }
+                        else if(i == 2){
+                            hitThreeView.setText(array[i] + "");
+                            hitThreeView.setTextColor(Color.RED);
+                        }
+                    }
+                }
+
+            }else{
+                for( int i = 0; i < hitViewList.size(); i++){
+                    hitViewList.get(i).setTextColor(Color.parseColor("#FF969696"));
+                }
+            }
+        }else if( (throwCounter % 3) == 1){
+
+            if(initialValue > 0 && goalPointsNow <= 170){
+
+                CheckoutRes check = new CheckoutRes();
+                int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
+                if(array[0] != -1 && array.length <= 2){
+                    for (int i = 0; i < array.length; i++){
+
+                        if(i == 0){
+                            hitTwoView.setText(array[i] + "");
+                            hitTwoView.setTextColor(Color.RED);
+                        }
+                        else if(i == 1){
+                            hitThreeView.setText(array[i] + "");
+                            hitThreeView.setTextColor(Color.RED);
+                        }
+                    }
+                }
             }
         }
 
-        detailGridView.invalidateViews();
+        statsGridView.invalidateViews();
     }
 
     public void undoLastThrow(){
@@ -294,7 +339,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             mListener.dismissRecordButtons(true);
         }
 
-        detailGridView.invalidateViews();
+        statsGridView.invalidateViews();
     }
 
     @Override
@@ -329,6 +374,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         // TODO: Update argument type and name
         public void dismissRecordButtons(boolean setVisible);
         public void putFragmentToSleep();
+        public boolean getSaveStatsChoice();
     }
 
     public class SimpleNumberAdapter extends BaseAdapter {

@@ -38,8 +38,6 @@ public class QuickCombatActivity extends Activity {
         hideSystemUI();
         iniViews();
 
-        isQuickCombatfirstStarted();
-
         NumberPicker numberPickerCricket = (NumberPicker) findViewById(R.id.quick_numberpicker_cricket);
         numberPickerCricket.setMaxValue(50);
         numberPickerCricket.setMinValue(1);
@@ -63,30 +61,6 @@ public class QuickCombatActivity extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
-    }
-
-    private void isQuickCombatfirstStarted(){
-        c = new ConstRes();
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-
-        if(prefs.getBoolean(c.QUICK_COMBAT_FIRST_STARTED, true)){
-            Message.message(this, "SCOREFIELDS AND MULTIS DB CREATED");
-            DBscorefieldAndMultiAmountAdapter scoreHelper = new DBscorefieldAndMultiAmountAdapter(this);
-
-            long validation = 0;
-            for(int i = 0; i <= 20; i++){
-                validation = scoreHelper.insertData(i, 0, 0, 0);
-            }
-
-            scoreHelper.insertData(25, 0, 0, 0);
-            scoreHelper.insertData(50, 0, 0, 0);
-
-            if(validation < 0) Message.message(this, "ERROR @ insert for 20 values in scoreDatabase");
-
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putBoolean(c.QUICK_COMBAT_FIRST_STARTED, false);
-            editor.apply();
-        }
     }
 
     public void quickImageTapped(View view){

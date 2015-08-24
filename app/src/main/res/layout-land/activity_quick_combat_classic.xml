@@ -39,7 +39,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:textSize="12sp"
-                android:id="@+id/classic_textview_prohib_from_recording" />
+                android:id="@+id/classic_textview_prohib_from_recording"
+                android:onClick="classicWorkoutDisableStatsRecording" />
 
         </LinearLayout>
 
