@@ -32,7 +32,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             numGoalPoints= -1,
             goalPointsNow = -1,
             lastUsedScoreField = -1,
-            lastUsedMulti = -1;
+            lastUsedMulti = -1, FINISH_FACTOR = 2;
     private boolean saveToStats = true;
 
     // MultiValKeyHistory-Liste hat *keine* Verwendung - später vielleicht als Cache einbauen, um nicht ständig Read-/Write auf Datenbank auszuführen
@@ -153,25 +153,30 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         undoList.add(initialValue * multi);
         multiValKeyHistoryList.add(new MultiValKeyHistory(initialValue, multi));
 
+        /*
         if(initialValue > 0 && (initialValue*multi) <= 170 && (throwCounter % 3 == 0)){
             CheckoutRes check = new CheckoutRes();
             int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
-            for (int i = 0; i < array.length; i++){
+            if(array[0] != -1){
+                for (int i = 0; i < array.length; i++){
 
-                if(i == 0){
-                    hitOneView.setText(array[i] + "");
-                    hitOneView.setTextColor(Color.RED);
-                }
-                else if(i == 1){
-                    hitTwoView.setText(array[i] + "");
-                    hitTwoView.setTextColor(Color.RED);
-                }
-                else if(i == 2){
-                    hitThreeView.setText(array[i] + "");
-                    hitThreeView.setTextColor(Color.RED);
+                    if(i == 0){
+                        hitOneView.setText(array[i] + "");
+                        hitOneView.setTextColor(Color.RED);
+                    }
+                    else if(i == 1){
+                        hitTwoView.setText(array[i] + "");
+                        hitTwoView.setTextColor(Color.RED);
+                    }
+                    else if(i == 2){
+                        hitThreeView.setText(array[i] + "");
+                        hitThreeView.setTextColor(Color.RED);
+                    }
                 }
             }
+
         }
+        */
 
         if(saveToStats){
             if(multi != 0){
@@ -206,22 +211,21 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         }
 
         // Auf Ende der Session überprüfen
-        if( (goalPointsNow < 0) && (initialValue * 2 == arrayList.get(arrayList.size() -1)) ){
-            goalPointsNow = numGoalPoints;
-            Message.message(getActivity(), "One more round finished...");
-            roundNow++;
+        if( goalPointsNow < 0 ){
 
-            if(roundNow > numRoundTotal){
-                Message.message(getActivity(), "You have finished the session!");
-                if (mListener != null) {
-                    mListener.putFragmentToSleep();
+                goalPointsNow = numGoalPoints;
+                Message.message(getActivity(), "One more round finished...");
+                roundNow++;
+
+                if(roundNow > numRoundTotal){
+                    Message.message(getActivity(), "You have finished the session!");
+                    if (mListener != null) {
+                        mListener.putFragmentToSleep();
+                    }
+                }else{
+                    if(roundNow < numRoundTotal) playUntilView.setText(roundNow + " / " + numRoundTotal);
+                    else playUntilView.setText("LETZTE RUNDE");
                 }
-            }else{
-                if(roundNow < numRoundTotal) playUntilView.setText(roundNow + " / " + numRoundTotal);
-                else playUntilView.setText("LETZTE RUNDE");
-            }
-        }else{
-            Message.message(getActivity(), "Double zum Abschluss notwendig!");
         }
 
         pointsLeftView.setText(Integer.toString(goalPointsNow));
@@ -236,6 +240,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
         throwCounter++;
         if( (throwCounter % 3) == 0){
+
             for( int i = 0; i < hitViewList.size(); i++){
                 hitViewList.get(i).setTextColor(Color.parseColor("#FF969696"));
             }

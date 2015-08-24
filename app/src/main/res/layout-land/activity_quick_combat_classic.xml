@@ -478,7 +478,16 @@
                 android:stateListAnimator="@anim/elevation"
                 android:background="@drawable/rounded_corners"
                 android:src="@mipmap/monster_dummy_2"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop">
+
+                <TextView
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:text="NOCH IN ARBEIT"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="vertical"
@@ -582,7 +591,15 @@
                 android:stateListAnimator="@anim/elevation"
                 android:background="@drawable/rounded_corners"
                 android:src="@mipmap/journey_b3"
-                android:scaleType="centerCrop"/>
+                android:scaleType="centerCrop">
+
+                <TextView
+                    android:gravity="center"
+                    android:textSize="13sp"
+                    android:text="NOCH IN ARBEIT"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
 
 
         </RelativeLayout>
