@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.CheckoutRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +151,10 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         goalPointsNow -= (initialValue * multi);
         undoList.add(initialValue * multi);
         multiValKeyHistoryList.add(new MultiValKeyHistory(initialValue, multi));
+
+        if(initialValue > 0){
+            CheckoutRes check = new CheckoutRes(goalPointsNow);
+        }
 
         if(saveToStats){
             if(multi != 0){
