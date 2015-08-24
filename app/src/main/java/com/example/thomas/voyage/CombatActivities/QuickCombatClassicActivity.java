@@ -26,7 +26,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     private int multi = 1;
     private ClassicWorkoutFragment fragment;
     private ImageButton workoutImageView, versusImageView, historicalImageView;
-    private LinearLayout gameView;
+    private LinearLayout gameView, optionsView;
     private RelativeLayout selectImageView, selectPropertiesView;
     private FrameLayout selectView;
     private NumberPicker roundPicker, pointPicker;
@@ -37,6 +37,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_combat_classic);
         hideSystemUI();
+
+        optionsView = (LinearLayout) findViewById(R.id.classic_linearlayout_additional_options);
 
         workoutImageView = (ImageButton) findViewById(R.id.classic_image_workout);
         versusImageView = (ImageButton) findViewById(R.id.classic_image_versus);
@@ -78,8 +80,14 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         hideSystemUI();
     }
 
-    public void onFragmentInteraction(Uri uri){
-        Message.message(this, "YIHA");
+    @Override
+    public void dismissRecordButtons(boolean setVisible) {
+        if(setVisible){
+            optionsView.setVisibility(View.VISIBLE);
+
+        }else{
+            optionsView.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void putFragmentToSleep(){

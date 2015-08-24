@@ -20,14 +20,59 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_weight="1"
+        android:layout_weight="1.2"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <Space
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+
+            <LinearLayout
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+                <TextView
+                    android:gravity="bottom|center_horizontal"
+                    android:textColor="#767676"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="13sp"
+                    android:text="EVERY OUT"
+                    android:id="@+id/workout_mode_name"
+                    android:layout_gravity="bottom"
+                    android:fontFamily="sans-serif-light" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp">
+
+
+                <TextView
+                    android:gravity="center_horizontal"
+                    android:textColor="#767676"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:textSize="11sp"
+                    android:text="MODUS"
+                    android:id="@+id/workout_mode_static_view"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:orientation="vertical"
@@ -48,7 +93,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:textSize="25sp"
-                    android:text="1."
+                    android:text=""
                     android:id="@+id/workout_first_hit"
                     android:layout_gravity="bottom"
                     android:fontFamily="sans-serif-light" />
@@ -60,7 +105,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:textSize="25sp"
-                    android:text="2."
+                    android:text=""
                     android:id="@+id/workout_second_hit"
                     android:layout_marginStart="39dp"
                     android:layout_gravity="bottom"
@@ -73,7 +118,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:textSize="25sp"
-                    android:text="3."
+                    android:text=""
                     android:id="@+id/workout_third_hit"
                     android:layout_marginStart="39dp"
                     android:layout_gravity="bottom"
@@ -142,11 +187,11 @@
 
                 <TextView
                     android:gravity="bottom|center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#767676"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:textSize="16sp"
+                    android:textSize="13sp"
                     android:text="1 / 7"
                     android:id="@+id/workout_round_time_view"
                     android:layout_gravity="bottom"
@@ -162,11 +207,11 @@
 
                 <TextView
                     android:gravity="center_horizontal"
-                    android:textColor="@android:color/black"
+                    android:textColor="#767676"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
+                    android:textSize="11sp"
                     android:text="RUNDE"
                     android:id="@+id/workout_round_time_static_view"
                     android:textStyle="bold" />
@@ -177,6 +222,7 @@
 
 
     </LinearLayout>
+
 
     <FrameLayout
         android:clickable="true"
@@ -197,7 +243,7 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="25dp"
+            android:paddingTop="10dp"
             android:paddingStart="60dp"
             android:paddingEnd="60dp"
             android:verticalSpacing="0dp"
@@ -208,7 +254,7 @@
             android:id="@+id/quick_classic_textview_hide_stats"
             android:text="AUSBLENDEN"
             android:textSize="10sp"
-            android:paddingBottom="15dp"
+            android:paddingBottom="30dp"
             android:gravity="center_horizontal|bottom"
             android:layout_gravity="start|bottom"
             android:textColor="@android:color/darker_gray"

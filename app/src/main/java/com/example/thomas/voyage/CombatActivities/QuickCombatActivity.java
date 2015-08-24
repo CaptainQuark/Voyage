@@ -23,7 +23,7 @@ import com.example.thomas.voyage.ResClasses.ConstRes;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickCombat extends Activity {
+public class QuickCombatActivity extends Activity {
 
     GridView cricketView;
     ConstRes c;
@@ -52,7 +52,7 @@ public class QuickCombat extends Activity {
                                     int position, long id) {
                 v.setSelected(true);
                 /*
-                Toast.makeText(QuickCombat.this, "" + position,
+                Toast.makeText(QuickCombatActivity.this, "" + position,
                         Toast.LENGTH_SHORT).show();
             }
         });*/
@@ -133,7 +133,7 @@ public class QuickCombat extends Activity {
                 arrayOfSelectedValues[i] = selectionList.get(i);
             }
 
-            Intent i = new Intent(this, QuickCombatCricket.class);
+            Intent i = new Intent(this, QuickCombatCricketActivity.class);
             i.putExtra("LIST_OF_SELECTED_VALUES", arrayOfSelectedValues);
             startActivity(i);
             finish();

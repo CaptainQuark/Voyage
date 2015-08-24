@@ -2,14 +2,10 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -149,6 +145,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
     }
 
     public void setOneThrow(int initialValue, int multi){
+        mListener.dismissRecordButtons(false);
         lastUsedScoreField = initialValue;
         goalPointsNow -= (initialValue * multi);
         undoList.add(initialValue * multi);
@@ -265,6 +262,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         }
         else{
             Message.message(getActivity(), "No Actions to undo");
+            mListener.dismissRecordButtons(true);
         }
 
         detailGridView.invalidateViews();
@@ -300,15 +298,8 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
+        public void dismissRecordButtons(boolean setVisible);
         public void putFragmentToSleep();
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     public class SimpleNumberAdapter extends BaseAdapter {

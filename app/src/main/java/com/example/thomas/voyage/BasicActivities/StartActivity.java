@@ -9,7 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
-import com.example.thomas.voyage.CombatActivities.QuickCombat;
+import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.QuickCombatClassicActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
@@ -254,7 +254,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToQuickCombat(View view){
-        Intent i = new Intent(getApplicationContext(), QuickCombat.class);
+        Intent i = new Intent(getApplicationContext(), QuickCombatActivity.class);
         startActivity(i);
     }
     public void toScreenSlideActivity(View view) {

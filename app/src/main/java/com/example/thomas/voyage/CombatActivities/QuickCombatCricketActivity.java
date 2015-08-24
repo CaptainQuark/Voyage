@@ -21,7 +21,7 @@ import com.example.thomas.voyage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickCombatCricket extends Activity {
+public class QuickCombatCricketActivity extends Activity {
 
     private int activePlayer = 0, numPlayers = 2, tempNumThrows = 0, maxNumberOfNeededHits = 0;
     private float oneFractionOfTotalHitsNeeded = 0;

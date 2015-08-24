@@ -54,11 +54,11 @@
             android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
-            android:name=".CombatActivities.QuickCombat"
+            android:name=".CombatActivities.QuickCombatActivity"
             android:label="@string/title_activity_quick_combat" >
         </activity>
         <activity
-            android:name=".CombatActivities.QuickCombatCricket"
+            android:name=".CombatActivities.QuickCombatCricketActivity"
             android:label="@string/title_activity_quick_combat_cricket" >
         </activity>
         <activity
