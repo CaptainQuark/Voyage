@@ -212,12 +212,219 @@ public class CheckoutRes {
                 array = new int[3];
                 array[0] = 60; array[1] = 13; array[2] = 40;
                 break;
-
-
-
-
-
-
+            case 112:
+                array = new int[3];
+                array[0] = 60; array[1] = 20; array[2] = 32;
+                break;
+            case 111:
+                array = new int[3];
+                array[0] = 60; array[1] = 19; array[2] = 32;
+                break;
+            case 110:
+                array = new int[3];
+                array[0] = 60; array[1] = 18; array[2] = 32;
+                break;
+            case 109:
+                array = new int[3];
+                array[0] = 60; array[1] = 17; array[2] = 40;
+                break;
+            case 108:
+                array = new int[3];
+                array[0] = 60; array[1] = 16; array[2] = 40;
+                break;
+            case 107:
+                array = new int[2];
+                array[0] = 57; array[1] = 50;
+                break;
+            case 106:
+                array = new int[3];
+                array[0] = 60; array[1] = 10; array[2] = 36;
+                break;
+            case 105:
+                array = new int[3];
+                array[0] = 60; array[1] = 14; array[2] = 32;
+                break;
+            case 104:
+                array = new int[2];
+                array[0] = 54; array[1] = 50;
+                break;
+            case 103:
+                array = new int[3];
+                array[0] = 60; array[1] = 3; array[2] = 40;
+                break;
+            case 102:
+                array = new int[3];
+                array[0] = 60; array[1] = 10; array[2] = 32;
+                break;
+            case 101:
+                array = new int[2];
+                array[0] = 51; array[1] = 50;
+                break;
+            case 100:
+                array = new int[2];
+                array[0] = 60; array[1] = 40;
+                break;
+            case 99:
+                array = new int[3];
+                array[0] = 60; array[1] = 7; array[2] = 32;
+                break;
+            case 98:
+                array = new int[2];
+                array[0] = 60; array[1] = 36;
+                break;
+            case 97:
+                array = new int[2];
+                array[0] = 57; array[1] = 40;
+                break;
+            case 96:
+                array = new int[2];
+                array[0] = 60; array[1] = 36;
+                break;
+            case 95:
+                array = new int[2];
+                array[0] = 57; array[1] = 38;
+                break;
+            case 94:
+                array = new int[2];
+                array[0] = 54; array[1] = 40;
+                break;
+            case 93:
+                array = new int[2];
+                array[0] = 57; array[1] = 36;
+                break;
+            case 92:
+                array = new int[2];
+                array[0] = 60; array[1] = 32;
+                break;
+            case 91:
+                array = new int[2];
+                array[0] = 51; array[1] = 40;
+                break;
+            case 90:
+                array = new int[2];
+                array[0] = 54; array[1] = 36;
+                break;
+            case 89:
+                array = new int[2];
+                array[0] = 57; array[1] = 32;
+                break;
+            case 88:
+                array = new int[2];
+                array[0] = 48; array[1] = 40;
+                break;
+            case 87:
+                array = new int[2];
+                array[0] = 51; array[1] = 36;
+                break;
+            case 86:
+                array = new int[2];
+                array[0] = 54; array[1] = 32;
+                break;
+            case 85:
+                array = new int[2];
+                array[0] = 45; array[1] = 40;
+                break;
+            case 84:
+                array = new int[2];
+                array[0] = 60; array[1] = 24;
+                break;
+            case 83:
+                array = new int[2];
+                array[0] = 51; array[1] = 32;
+                break;
+            case 82:
+                array = new int[2];
+                array[0] = 32; array[1] = 40;
+                break;
+            case 81:
+                array = new int[2];
+                array[0] = 45; array[1] = 36;
+                break;
+            case 80:
+                array = new int[2];
+                array[0] = 60; array[1] = 20;
+                break;
+            case 79:
+                array = new int[2];
+                array[0] = 39; array[1] = 40;
+                break;
+            case 78:
+                array = new int[2];
+                array[0] = 54; array[1] = 24;
+                break;
+            case 77:
+                array = new int[2];
+                array[0] = 57; array[1] = 20;
+                break;
+            case 76:
+                array = new int[2];
+                array[0] = 60; array[1] = 16;
+                break;
+            case 75:
+                array = new int[2];
+                array[0] = 51; array[1] = 24;
+                break;
+            case 74:
+                array = new int[2];
+                array[0] = 54; array[1] = 20;
+                break;
+            case 73:
+                array = new int[2];
+                array[0] = 57; array[1] = 16;
+                break;
+            case 72:
+                array = new int[2];
+                array[0] = 36; array[1] = 36;
+                break;
+            case 71:
+                array = new int[2];
+                array[0] = 51; array[1] = 20;
+                break;
+            case 70:
+                array = new int[2];
+                array[0] = 20; array[1] = 40;
+                break;
+            case 69:
+                array = new int[2];
+                array[0] = 39; array[1] = 30;
+                break;
+            case 68:
+                array = new int[2];
+                array[0] = 60; array[1] = 8;
+                break;
+            case 67:
+                array = new int[2];
+                array[0] = 51; array[1] = 16;
+                break;
+            case 66:
+                array = new int[2];
+                array[0] = 30; array[1] = 36;
+                break;
+            case 65:
+                array = new int[2];
+                array[0] = 25; array[1] = 40;
+                break;
+            case 64:
+                array = new int[2];
+                array[0] = 48; array[1] = 16;
+                break;
+            case 63:
+                array = new int[2];
+                array[0] = 39; array[1] = 24;
+                break;
+            case 62:
+                array = new int[2];
+                array[0] = 30; array[1] = 32;
+                break;
+            case 61:
+                array = new int[2];
+                array[0] = 25; array[1] = 36;
+                break;
+            case 60:
+                array = new int[2];
+                array[0] = 20; array[1] = 40;
+                break;
+            
         }
 
         return array;
