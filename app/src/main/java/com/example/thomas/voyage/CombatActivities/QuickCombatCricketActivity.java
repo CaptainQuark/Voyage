@@ -53,7 +53,7 @@ public class QuickCombatCricketActivity extends Activity {
 
         numOfAchievedNeededHitsList.add(0);
         numOfAchievedNeededHitsList.add(0);
-        Message.message(getApplication(), "numOfAchievedNeededHitsList: " + numOfAchievedNeededHitsList.size());
+        //Message.message(getApplication(), "numOfAchievedNeededHitsList: " + numOfAchievedNeededHitsList.size());
 
 
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
@@ -72,7 +72,7 @@ public class QuickCombatCricketActivity extends Activity {
             cardDataList.add( new CardData(i) );
         }
 
-        cricketView = (GridView) findViewById(R.id.classic_workout_gridview);
+        cricketView = (GridView) findViewById(R.id.cricket_gridview);
         cricketView.setAdapter(new SimpleNumberAdapter(this));
         cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
