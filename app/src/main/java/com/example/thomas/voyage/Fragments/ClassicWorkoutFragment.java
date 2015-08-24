@@ -145,14 +145,17 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
     }
 
     public void setOneThrow(int initialValue, int multi){
+
+        if(goalPointsNow == numGoalPoints) {
+            saveToStats = mListener.getSaveStatsChoice();
+        }
+
         List<Integer> arrayList = new ArrayList<>();
         mListener.dismissRecordButtons(false);
         lastUsedScoreField = initialValue;
         goalPointsNow -= (initialValue * multi);
         undoList.add(initialValue * multi);
         multiValKeyHistoryList.add(new MultiValKeyHistory(initialValue, multi));
-
-        if(goalPointsNow == numGoalPoints) saveToStats = mListener.getSaveStatsChoice();
 
         if(saveToStats){
             if(multi != 0){
@@ -243,52 +246,9 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
         if( (throwCounter % 3) == 0){
 
-            if(initialValue > 0 && goalPointsNow <= 170){
-                CheckoutRes check = new CheckoutRes();
-                int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
-                if(array[0] != -1){
-                    for (int i = 0; i < array.length; i++){
-
-                        if(i == 0){
-                            hitOneView.setText(array[i] + "");
-                            hitOneView.setTextColor(Color.RED);
-                        }
-                        else if(i == 1){
-                            hitTwoView.setText(array[i] + "");
-                            hitTwoView.setTextColor(Color.RED);
-                        }
-                        else if(i == 2){
-                            hitThreeView.setText(array[i] + "");
-                            hitThreeView.setTextColor(Color.RED);
-                        }
-                    }
-                }
-
-            }else{
                 for( int i = 0; i < hitViewList.size(); i++){
                     hitViewList.get(i).setTextColor(Color.parseColor("#FF969696"));
                 }
-            }
-        }else if( (throwCounter % 3) == 1){
-
-            if(initialValue > 0 && goalPointsNow <= 170){
-
-                CheckoutRes check = new CheckoutRes();
-                int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
-                if(array[0] != -1 && array.length <= 2){
-                    for (int i = 0; i < array.length; i++){
-
-                        if(i == 0){
-                            hitTwoView.setText(array[i] + "");
-                            hitTwoView.setTextColor(Color.RED);
-                        }
-                        else if(i == 1){
-                            hitThreeView.setText(array[i] + "");
-                            hitThreeView.setTextColor(Color.RED);
-                        }
-                    }
-                }
-            }
         }
 
         statsGridView.invalidateViews();

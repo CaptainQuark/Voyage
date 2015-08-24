@@ -105,7 +105,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     @Override
     public boolean getSaveStatsChoice() {
         boolean temp = saveToStats;
-        saveToStats = false;
+        saveToStats = true;
 
         return temp;
     }
