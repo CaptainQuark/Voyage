@@ -146,14 +146,31 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
     }
 
     public void setOneThrow(int initialValue, int multi){
+        List<Integer> arrayList = new ArrayList<>();
         mListener.dismissRecordButtons(false);
         lastUsedScoreField = initialValue;
         goalPointsNow -= (initialValue * multi);
         undoList.add(initialValue * multi);
         multiValKeyHistoryList.add(new MultiValKeyHistory(initialValue, multi));
 
-        if(initialValue > 0){
-            CheckoutRes check = new CheckoutRes(goalPointsNow);
+        if(initialValue > 0 && (initialValue*multi) <= 170 && (throwCounter % 3 == 0)){
+            CheckoutRes check = new CheckoutRes();
+            int[] array = check.getArrayOfCheckoutVals(goalPointsNow);
+            for (int i = 0; i < array.length; i++){
+
+                if(i == 0){
+                    hitOneView.setText(array[i] + "");
+                    hitOneView.setTextColor(Color.RED);
+                }
+                else if(i == 1){
+                    hitTwoView.setText(array[i] + "");
+                    hitTwoView.setTextColor(Color.RED);
+                }
+                else if(i == 2){
+                    hitThreeView.setText(array[i] + "");
+                    hitThreeView.setTextColor(Color.RED);
+                }
+            }
         }
 
         if(saveToStats){
@@ -189,7 +206,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         }
 
         // Auf Ende der Session überprüfen
-        if(goalPointsNow < 0){
+        if( (goalPointsNow < 0) && (initialValue * 2 == arrayList.get(arrayList.size() -1)) ){
             goalPointsNow = numGoalPoints;
             Message.message(getActivity(), "One more round finished...");
             roundNow++;
@@ -203,6 +220,8 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
                 if(roundNow < numRoundTotal) playUntilView.setText(roundNow + " / " + numRoundTotal);
                 else playUntilView.setText("LETZTE RUNDE");
             }
+        }else{
+            Message.message(getActivity(), "Double zum Abschluss notwendig!");
         }
 
         pointsLeftView.setText(Integer.toString(goalPointsNow));

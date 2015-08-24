@@ -424,7 +424,7 @@ public class CheckoutRes {
                 array = new int[2];
                 array[0] = 20; array[1] = 40;
                 break;
-            
+
         }
 
         return array;
