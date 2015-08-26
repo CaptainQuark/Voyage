@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/classic_linearlayout_session_layout"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <LinearLayout
             android:background="#010101"
