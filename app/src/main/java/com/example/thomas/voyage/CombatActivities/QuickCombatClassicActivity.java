@@ -33,6 +33,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     private NumberPicker roundPicker, pointPicker;
     private TextView noStatsRecordingView, activateGhostRecordView;
     private List<TextView> multiList = new ArrayList<>();
+    private String[] stringArray = {"101","301","501","1001"};
+    private int[] stringArrayPartner = {101,301,501,1001};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +72,6 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         roundPicker.setValue(1);
 
         pointPicker = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_workout);
-
-        String[] stringArray = {"301","501","1001"};
         pointPicker.setDisplayedValues(null);
         pointPicker.setMaxValue(stringArray.length - 1);
         pointPicker.setMinValue(0);
@@ -115,9 +115,13 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         Message.message(this, "No recording for this round");
     }
 
+    public void classicWorkoutRecordGhost(View view){
+        Message.message(this, "WA'SUP!!!\n...no ghost yet implemented...");
+    }
+
     public void goToClassicWorkout(View view){
 
-        int points;
+        /*
         switch (pointPicker.getValue()){
             case 0:
                 points = 301; break;
@@ -128,13 +132,14 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
             default:
                 points = -1; break;
         }
+        */
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragment = new ClassicWorkoutFragment();
         Bundle b = new Bundle();
         b.putInt("NUM_ROUND_TOTAL", roundPicker.getValue());
-        b.putInt("NUM_GOAL_POINTS", points);
+        b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPicker.getValue()]);
         fragment.setArguments(b);
         fragmentTransaction.add(R.id.classic_fragment_container, fragment);
         fragmentTransaction.commit();

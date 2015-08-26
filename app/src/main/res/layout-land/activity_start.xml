@@ -197,7 +197,8 @@
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:onClick="startWearTest" />
 
             <TextView
                 android:id="@+id/textView15"

@@ -23,14 +23,15 @@ import java.util.List;
 
 public class QuickCombatCricketActivity extends Activity {
 
-    private int activePlayer = 0, numPlayers = 2, tempNumThrows = 0, maxNumberOfNeededHits = 0;
+    private int activePlayer = 0, numPlayers = 2, tempNumThrows = 0, maxNumberOfNeededHits = 0, multi = 1, lastMultiIndex = 0, tempActivePlayer = 0;
     private float oneFractionOfTotalHitsNeeded = 0;
     final int totalNumThrowsPerPlayer = 3;
     int[] valuesArray;
     private GridView cricketView;
     private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>(), numOfAchievedNeededHitsList;
     private List<CardData> cardDataList = new ArrayList<>();
-    private TextView playerNameOneView, playerNameTwoView, playerScoreOneView, playerScoreTwoView, throwCountView;
+    private List<TextView> multiView = new ArrayList<>();
+    private TextView playerScoreOneView, playerScoreTwoView, throwCountView;
     private ImageView indicationBarOne, indicationBarTwo;
     private LinearLayout.LayoutParams paramsIndiBarOne, paramsIndiBarTwo;
 
@@ -55,6 +56,9 @@ public class QuickCombatCricketActivity extends Activity {
         numOfAchievedNeededHitsList.add(0);
         //Message.message(getApplication(), "numOfAchievedNeededHitsList: " + numOfAchievedNeededHitsList.size());
 
+        multiView.add( (TextView) findViewById(R.id.classic_cricket_multi_1));
+        multiView.add( (TextView) findViewById(R.id.classic_cricket_multi_2));
+        multiView.add( (TextView) findViewById(R.id.classic_cricket_multi_3));
 
         playerScoreOneView = (TextView) findViewById(R.id.cricket_score_player_1);
         playerScoreTwoView = (TextView) findViewById(R.id.cricket_score_player_2);
@@ -86,6 +90,35 @@ public class QuickCombatCricketActivity extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+    }
+
+    public void onClassicCricketMulti(View view){
+        int index = 0;
+
+        switch (view.getId()){
+            case R.id.classic_cricket_multi_1:
+                index = 0; break;
+            case R.id.classic_cricket_multi_2:
+                index = 1; break;
+            case R.id.classic_cricket_multi_3:
+                index = 2; break;
+            default:
+                Message.message(this, "DEFAULT @ 'onClassicCricketMulti");
+                break;
+        }
+
+        if(tempNumThrows == totalNumThrowsPerPlayer){
+            if(activePlayer == 0) tempActivePlayer = 1;
+        }else{
+            tempActivePlayer = activePlayer;
+        }
+
+        for(int i = 0; i < 3; i++) multiView.get(i).setBackgroundColor(Color.WHITE);
+        if(tempActivePlayer == 0) multiView.get(index).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_1));
+        else multiView.get(index).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_2));
+
+        multi = index + 1;
+        lastMultiIndex = index;
     }
 
     public void quickCricketBackButton(View view){
@@ -137,6 +170,7 @@ public class QuickCombatCricketActivity extends Activity {
             throwCountView.setText( ((tempNumThrows%3)+1) + ".");
 
             // Indication-Bar-Berechnungen
+            /*
             try{
                 numOfAchievedNeededHitsList.set(activePlayer, numOfAchievedNeededHitsList.get(activePlayer) + 1);
 
@@ -168,11 +202,14 @@ public class QuickCombatCricketActivity extends Activity {
 
                 Message.message(getApplicationContext(), e + "");
             }
-
+            */
 
             // Fortschritt für konkrete Ziel-Zahl berechnen
+
+            float tempProgress = (cardDataList.get(position).progressPlayers.get(activePlayer));
+
             cardDataList.get(position).progressPlayers.set(activePlayer,
-                    cardDataList.get(position).progressPlayers.get(activePlayer) + 0.33f);
+                    cardDataList.get(position).progressPlayers.get(activePlayer) + (0.33f * multi));
 
             // Überprüfen, ob konkrete Ziel-Zahl jetzt geschlossen werden soll
             int validateIsClosed = 0;
@@ -185,7 +222,20 @@ public class QuickCombatCricketActivity extends Activity {
             }
             else if( cardDataList.get(position).progressPlayers.get(activePlayer) > 0.99f){
 
-                scoreList.set(activePlayer, scoreList.get(activePlayer) + valuesArray[position]);
+                if(tempProgress < 0.99f){
+                    if(tempProgress == 0.0f){
+                        multi = 0;
+                    }
+                    else if (tempProgress == 0.33f) {
+                        multi = multi - 2;
+                    }
+                    else if (tempProgress == 0.66f){
+                        multi = multi - 1;
+                    }
+
+                }
+
+                scoreList.set(activePlayer, scoreList.get(activePlayer) + (valuesArray[position] * multi));
                 if(activePlayer == 0) playerScoreOneView.setText(scoreList.get(activePlayer) + "");
                 if(activePlayer == 1) playerScoreTwoView.setText(scoreList.get(activePlayer) + "");
             }
@@ -207,12 +257,26 @@ public class QuickCombatCricketActivity extends Activity {
                         }
 
                         if( numToWin == valuesArray.length ){
-                            Message.message(getApplicationContext(), "Spieler + " + (playerNum+1) + " hat gewonnen!");
+                            Message.message(getApplicationContext(), "Spieler " + (playerNum+1) + " hat gewonnen!");
                         }
                     }
                 }
             }
         }
+
+        // Mulitplier-Anzeige wieder auf 'X1' zurücksetzen
+        tempActivePlayer = 0;
+        if(tempNumThrows == totalNumThrowsPerPlayer){
+            if(activePlayer == 0) tempActivePlayer = 1;
+        }else{
+            tempActivePlayer = activePlayer;
+        }
+
+        multiView.get(lastMultiIndex).setBackgroundColor(Color.WHITE);
+        multi = 1;
+        lastMultiIndex = multi;
+        if(tempActivePlayer == 0) multiView.get(0).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_1));
+        else multiView.get(0).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_2));
     }
 
     private class CardData{

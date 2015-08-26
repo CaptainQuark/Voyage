@@ -6,6 +6,10 @@
         android:name="com.google.android.wearable"
         android:required="false" />
 
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -55,15 +59,27 @@
         </activity>
         <activity
             android:name=".CombatActivities.QuickCombatActivity"
-            android:label="@string/title_activity_quick_combat" >
+            android:label="@string/title_activity_quick_combat"
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".CombatActivities.QuickCombatCricketActivity"
-            android:label="@string/title_activity_quick_combat_cricket" >
+            android:label="@string/title_activity_quick_combat_cricket"
+            android:screenOrientation="sensorLandscape" >
         </activity>
         <activity
             android:name=".CombatActivities.QuickCombatClassicActivity"
-            android:label="@string/title_activity_quick_combat_classic" >
+            android:label="@string/title_activity_quick_combat_classic"
+            android:screenOrientation="sensorLandscape" >
+        </activity>
+        <activity
+            android:name=".BasicActivities.WearMessageTestActivity"
+            android:label="@string/title_activity_wear_message_test" >
+        </activity>
+        <activity
+            android:name=".CombatActivities.QuickCombatShanghaiActivity"
+            android:label="@string/title_activity_quick_combat_shanghai"
+            android:screenOrientation="sensorLandscape" >
         </activity>
     </application>
 

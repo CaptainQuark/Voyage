@@ -1,62 +1,45 @@
-package com.example.voyage;
+package com.example.thomas.voyage.BasicActivities;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.res.Resources;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.wearable.activity.WearableActivity;
-import android.support.wearable.view.BoxInsetLayout;
-import android.support.wearable.view.DotsPageIndicator;
-import android.support.wearable.view.GridViewPager;
 import android.util.Log;
-import android.view.View;
-import android.view.WindowInsets;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.example.thomas.voyage.R;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
-import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataItem;
 import com.google.android.gms.wearable.DataMap;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-import com.google.android.gms.wearable.WearableListenerService;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
-public class StartActivity extends WearableActivity implements GoogleApiClient.ConnectionCallbacks,
+public class WearMessageTestActivity extends Activity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     GoogleApiClient googleClient;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+        setContentView(R.layout.activity_wear_message_test);
+
     }
+
+    // Connect to the data layer when the Activity starts
     @Override
     protected void onStart() {
         super.onStart();
         googleClient.connect();
     }
 
+// Send a data object when the data layer connection is successful.
+
     @Override
     public void onConnected(Bundle connectionHint) {
-
-        Log.v("myApp", "OnConnected entered");
 
         String WEARABLE_DATA_PATH = "/wearable_data";
 
@@ -87,7 +70,6 @@ public class StartActivity extends WearableActivity implements GoogleApiClient.C
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) { }
 
-
     class SendToDataLayerThread extends Thread {
         String path;
         DataMap dataMap;
@@ -117,6 +99,3 @@ public class StartActivity extends WearableActivity implements GoogleApiClient.C
         }
     }
 }
-
-
-

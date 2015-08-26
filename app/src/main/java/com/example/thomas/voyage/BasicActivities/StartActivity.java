@@ -243,6 +243,11 @@ public class StartActivity extends Activity {
         return id;
     }
 
+    public void startWearTest(View view){
+        Intent i = new Intent(this, WearMessageTestActivity.class);
+        startActivity(i);
+    }
+
     public void clickToHeroMerchant(View view) {
         Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
         startActivity(i);
