@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/classic_linearlayout_session_layout"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
-            android:background="#20010101"
+            android:background="#010101"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.4"
+            android:layout_weight="0.7"
             android:id="@+id/classic_linearlayout_additional_options">
 
             <TextView
@@ -49,7 +49,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="6"
-            android:layout_marginTop="15dp"
             android:visibility="visible"
             android:id="@+id/classic_fragment_container">
         </LinearLayout>
