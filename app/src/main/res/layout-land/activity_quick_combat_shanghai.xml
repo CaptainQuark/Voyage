@@ -92,7 +92,7 @@
                 android:layout_height="0dp">
 
                 <TextView
-                    android:onClick="quickCombatShanghaiMissButton"
+                    android:onClick="onShanghaiMissButton"
                     android:text="MISS"
                     android:textColor="@android:color/black"
                     android:gravity="center"
@@ -180,7 +180,8 @@
                 android:textColor="@android:color/white"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                android:layout_height="0dp"
+                android:id="@+id/shanghai_round_count" />
 
             <GridLayout
                 android:layout_weight="4"
