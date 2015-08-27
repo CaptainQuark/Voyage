@@ -239,11 +239,15 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void onClassicMiss(View view){
-        workoutFragment.setOneThrow(0, 0);
+
+        versusFragment.handleThrow(0,0);
+        //workoutFragment.setOneThrow(0, 0);
     }
 
     public void onClassicUndo(View view){
-        workoutFragment.undoLastThrow();
+
+        versusFragment.undoLastThrow();
+        //workoutFragment.undoLastThrow();
     }
 
     public void onClassicSelectionImage(View view){

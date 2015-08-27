@@ -25,8 +25,10 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
 
     private DBscorefieldAndMultiAmountAdapter scoreHelper;
     private OnVersusInteractionListener mListener;
+    private List<Integer> undoList = new ArrayList<>();
     private List<TextView> scoreFieldList = new ArrayList<>();
     private List<PlayerDataHolder> playerHolderList = new ArrayList<>();
+    private List<MultiValKeyHistory> multiValKeyHistoryList = new ArrayList<>();
     private ImageView activeOneView, activeTwoView;
     private TextView showStatsView, hideStatsView;
     private GridView statsGridView;
@@ -119,6 +121,9 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         if(throwCount == 1)  for(int i = 0; i < 3; i++) scoreFieldList.get(i).setTextColor(Color.LTGRAY);
 
         playerHolderList.get(activePlayer).pointsByLegNow -= (val * multi);
+        multiValKeyHistoryList.add( new MultiValKeyHistory(val, multi));
+        undoList.add(val * multi);
+
         playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
         scoreFieldList.get(throwCount-1).setText(Integer.toString( val * multi) );
         scoreFieldList.get(throwCount-1).setTextColor(Color.BLACK);
@@ -154,6 +159,79 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
 
             throwCount = 0;
         }
+    }
+
+    public void undoLastThrow(){
+        if(!undoList.isEmpty()){
+            int tempVal;
+            int initialValue = multiValKeyHistoryList.get(multiValKeyHistoryList.size() - 1).getMulti();
+
+            /*
+            switch (multiValKeyHistoryList.get(multiValKeyHistoryList.size() - 1).getMulti()){
+                case 1:
+                    tempVal = scoreHelper.getMulitplierOne(initialValue);
+                    tempVal--;
+                    scoreHelper.updateX1(initialValue, tempVal);
+                    break;
+
+                case 2:
+                    tempVal = scoreHelper.getMultiplierTwo(initialValue);
+                    tempVal--;
+                    scoreHelper.updateX2(initialValue, tempVal);
+                    break;
+
+                case 3:
+                    tempVal = scoreHelper.getMulitplierThree(initialValue);
+                    tempVal--;
+                    scoreHelper.updateX3(initialValue, tempVal);
+                    break;
+
+                default:
+                    Message.message(getActivity(), "DEFAULT @ setOneThrow : multi");
+                    break;
+            }*/
+
+            multiValKeyHistoryList.remove( multiValKeyHistoryList.size() -1 );
+            
+            throwCount--;
+            int tempActivePlayer = 0;
+            if(throwCount < 0){
+                Message.message(getActivity(), "throwCount: " + throwCount);
+                throwCount = 2;
+                if(activePlayer == 0) activePlayer = 1;
+            }
+
+            playerHolderList.get(activePlayer).pointsByLegNow += undoList.get( undoList.size() - 1 );
+            playerHolderList.get(activePlayer).playerViewsList.get(2).setText(Integer.toString( playerHolderList.get(activePlayer).pointsByLegNow) );
+
+            scoreFieldList.get( (throwCount % 3) ).setTextColor(Color.parseColor("#FF969696"));
+            scoreFieldList.get( throwCount % 3 ).setText(undoList.get(undoList.size() - 1) + "");
+
+            undoList.remove(undoList.size() - 1);
+            /*
+            Message.message(getActivity(), "multiValList size: " + multiValKeyHistoryList.size());
+            Message.message(getActivity(), "playerHolder size: " + playerHolderList.size());
+            Message.message(getActivity(), "undoList size: " + undoList.size());*/
+        }
+        else{
+            Message.message(getActivity(), "No Actions to undo");
+            mListener.dismissRecordButtons(true);
+        }
+
+        statsGridView.invalidateViews();
+    }
+
+    private class MultiValKeyHistory {
+        private int val, multi;
+
+        public MultiValKeyHistory(int valTemp, int multiTemp){
+            val = valTemp;
+            multi = multiTemp;
+        }
+
+        public int getVal(){ return val; }
+
+        public int getMulti(){ return multi; }
     }
 
     private class PlayerDataHolder{
