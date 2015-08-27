@@ -244,8 +244,7 @@ public class StartActivity extends Activity {
     }
 
     public void startWearTest(View view){
-        Intent i = new Intent(this, WearMessageTestActivity.class);
-        startActivity(i);
+
     }
 
     public void clickToHeroMerchant(View view) {
@@ -279,8 +278,6 @@ public class StartActivity extends Activity {
     }
 
     public void clickToClassic(View view){
-        Intent i = new Intent(getApplicationContext(), QuickCombatClassicActivity.class);
-        startActivity(i);
     }
 
     private void hideSystemUI() {
