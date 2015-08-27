@@ -27,10 +27,11 @@ import java.util.List;
 
 public class QuickCombatShanghaiActivity extends Activity {
 
-    private int activePlayer = 0, roundCount = 1, throwCount = 1, numThrowsPerPlayerPerRound = 3;
+    private int activePlayer = 0, roundCount = 1, throwCount = 1;
     private int[] valArray = {1,2,3,4,5,6,7,8,9};
     private boolean[] shanghaiArray = {false,false,false};
     private List<PlayerDataHolder> playerDataList;
+    private List<TextView> scoreFieldViewList = new ArrayList<>();
     private TextView throwCountView, roundCountView;
 
     @Override
@@ -43,6 +44,11 @@ public class QuickCombatShanghaiActivity extends Activity {
 
         playerDataList = new ArrayList<>();
         for(int i = 0; i < 2; i++) playerDataList.add( new PlayerDataHolder(this, (i+1)) );
+
+        for(int i = 0; i < 3; i++) {
+            scoreFieldViewList.add((TextView) findViewById(QuickCombatShanghaiActivity.this
+                    .getResources().getIdentifier("shanghai_score_field_" + (i + 1), "id", QuickCombatShanghaiActivity.this.getPackageName()) ));
+        }
     }
 
     @Override
@@ -52,26 +58,17 @@ public class QuickCombatShanghaiActivity extends Activity {
     }
 
     public void onShanghaiScoreField(View view){
-        int scoreMulti = -1;
+        int scoreMulti = -1,  numThrowsPerPlayerPerRound = 3;
 
         switch (view.getId()){
 
-            case R.id.shanghai_score_field_3_pl_1:
+            case R.id.shanghai_score_field_3:
                 scoreMulti = 3;
                 break;
-            case R.id.shanghai_score_field_2_pl_1:
+            case R.id.shanghai_score_field_2:
                 scoreMulti = 2;
                 break;
-            case R.id.shanghai_score_field_1_pl_1:
-                scoreMulti = 1;
-                break;
-            case R.id.shanghai_score_field_3_pl_2:
-                scoreMulti = 3;
-                break;
-            case R.id.shanghai_score_field_2_pl_2:
-                scoreMulti = 2;
-                break;
-            case R.id.shanghai_score_field_1_pl_2:
+            case R.id.shanghai_score_field_1:
                 scoreMulti = 1;
                 break;
             case R.id.shanghai_miss_button:
@@ -83,22 +80,62 @@ public class QuickCombatShanghaiActivity extends Activity {
                 break;
         }
 
-        playerDataList.get(activePlayer).addNewScoreValue(valArray[roundCount - 1] * scoreMulti);
-        if(scoreMulti > 0) shanghaiArray[scoreMulti-1] = true;
+        if(roundCount <= valArray.length) playerDataList.get(activePlayer).addNewScoreValue(valArray[roundCount - 1] * scoreMulti);
+
+        if(scoreMulti > 0){
+            shanghaiArray[scoreMulti-1] = true;
+
+            if( activePlayer == 0) scoreFieldViewList.get(scoreMulti - 1).setBackground(getDrawable(R.drawable.ripple_round_player_one_field_finished));
+            else scoreFieldViewList.get(scoreMulti - 1).setBackground(getDrawable(R.drawable.ripple_round_player_two_field_finished));
+
+        }
 
         if(throwCount < numThrowsPerPlayerPerRound){
             throwCount++;
+            throwCountView.setText(throwCount + ".");
 
         }else {
             if (shanghaiArray[0] && shanghaiArray[1] && shanghaiArray[2]) {
                 Message.message(this, "Du Gewinner! Shanghai Shanghai!");
 
             } else {
+
+                if (roundCount > valArray.length) {
+                    Message.message(this, "Spiel zu Ende!");
+
+                }else{
+
+                    if(activePlayer == 0) {
+                        activePlayer = 1;
+                        for (int i = 0; i < scoreFieldViewList.size(); i++)
+                            scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_two));
+                    }else{
+                        roundCount++;
+                        if(roundCount > valArray.length) Message.message(this, "Spiel zu Ende!");
+                        
+                        else {
+                            for (int k = 0; k < 3; k++) scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount-1]));
+                            roundCountView.setText(valArray[roundCount - 1] + "");
+                            activePlayer = 0;
+                            for (int i = 0; i < scoreFieldViewList.size(); i++)
+                                scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_one));
+                        }
+                    }
+
+                    throwCount = 1;
+                    throwCountView.setText(throwCount + ".");
+                    for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
+
+                }
+
+                /*
                 if (activePlayer == 0){
                     activePlayer = 1;
                     roundCount++;
                     throwCount = 1;
+                    throwCountView.setText(throwCount + ".");
                     for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
+                    for(int i = 0; i < scoreFieldViewList.size(); i++) scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_two));
 
                 }else{
                     if (roundCount > valArray.length) {
@@ -106,13 +143,19 @@ public class QuickCombatShanghaiActivity extends Activity {
 
                     } else {
                         roundCountView.setText(valArray[roundCount - 1] + "");
-                        for (int i = 0; i < 2; i++) {
-                            for (int k = 0; k < 3; k++) {
-                                playerDataList.get(i).scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount]));
-                            }
+
+                        for (int k = 0; k < 3; k++) {
+                            scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount]));
                         }
+
+                        activePlayer = 0;
+                        roundCount++;
+                        throwCount = 1;
+                        throwCountView.setText(throwCount + ".");
+                        for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
+                        for(int i = 0; i < scoreFieldViewList.size(); i++) scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_one));
                     }
-                }
+                }*/
             }
         }
     }
@@ -122,11 +165,14 @@ public class QuickCombatShanghaiActivity extends Activity {
         finish();
     }
 
+    public void onShanghaiUndo(View view){
+        Message.message(this, "WA'SUP!!!\n...no undo implemented yet...");
+    }
+
      private class PlayerDataHolder{
 
         private Context c;
         int score = 0;
-        List<TextView> scoreFieldViewList = new ArrayList<>();
         TextView scoreView;
         int id;
 
@@ -136,12 +182,6 @@ public class QuickCombatShanghaiActivity extends Activity {
 
             id = playerId;
             scoreView = (TextView) findViewById((QuickCombatShanghaiActivity.this.getResources().getIdentifier("shanghai_score_player_" + id, "id", QuickCombatShanghaiActivity.this.getPackageName())));
-
-            for(int i = 0; i < 3; i++) {
-                scoreFieldViewList.add((TextView) findViewById(QuickCombatShanghaiActivity.this
-                        .getResources().getIdentifier("shanghai_score_field_" + (i + 1) + "_pl_" + id, "id", QuickCombatShanghaiActivity.this.getPackageName()) ));
-            }
-
         }
 
         public void addNewScoreValue(int val){
