@@ -81,6 +81,10 @@
             android:label="@string/title_activity_quick_combat_shanghai"
             android:screenOrientation="sensorLandscape" >
         </activity>
+        <activity
+            android:name=".Fragments.ClassicVersusFragment"
+            android:label="@string/title_activity_classic_versus_fragment" >
+        </activity>
     </application>
 
 </manifest>

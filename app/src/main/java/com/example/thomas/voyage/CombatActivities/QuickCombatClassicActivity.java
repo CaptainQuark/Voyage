@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -15,17 +14,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Fragments.ClassicVersusFragment;
 import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
 import com.example.thomas.voyage.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickCombatClassicActivity extends Activity implements ClassicWorkoutFragment.OnFragmentInteractionListener{
+public class QuickCombatClassicActivity extends Activity implements ClassicWorkoutFragment.OnFragmentInteractionListener, ClassicVersusFragment.OnVersusInteractionListener{
 
     private int multi = 1;
     private boolean saveToStats = true;
-    private ClassicWorkoutFragment fragment;
+    private ClassicWorkoutFragment workoutFragment;
+    private ClassicVersusFragment versusFragment;
     private ImageButton workoutImageView, versusImageView, historicalImageView;
     private LinearLayout gameView, optionsView;
     private RelativeLayout selectImageView, selectPropertiesView;
@@ -95,8 +96,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void putFragmentToSleep(){
-        if(fragment != null)
-            getFragmentManager().beginTransaction().remove(fragment).commit();
+        if(workoutFragment != null)
+            getFragmentManager().beginTransaction().remove(workoutFragment).commit();
         Message.message(this, "Fragment removed");
         gameView.setVisibility(View.GONE);
         selectView.setVisibility(View.VISIBLE);
@@ -136,12 +137,12 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragment = new ClassicWorkoutFragment();
+        workoutFragment = new ClassicWorkoutFragment();
         Bundle b = new Bundle();
         b.putInt("NUM_ROUND_TOTAL", roundPicker.getValue());
         b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPicker.getValue()]);
-        fragment.setArguments(b);
-        fragmentTransaction.add(R.id.classic_fragment_container, fragment);
+        workoutFragment.setArguments(b);
+        fragmentTransaction.add(R.id.classic_fragment_container, workoutFragment);
         fragmentTransaction.commit();
 
         gameView.setVisibility(View.VISIBLE);
@@ -211,7 +212,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
             multi = 1;
         }
 
-        fragment.setOneThrow(scoreFieldVal, multi);
+        workoutFragment.setOneThrow(scoreFieldVal, multi);
     }
 
     public void onClassicSetMultiplier(View view){
@@ -237,11 +238,11 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void onClassicMiss(View view){
-        fragment.setOneThrow(0, 0);
+        workoutFragment.setOneThrow(0, 0);
     }
 
     public void onClassicUndo(View view){
-        fragment.undoLastThrow();
+        workoutFragment.undoLastThrow();
     }
 
     public void onClassicSelectionImage(View view){
@@ -258,6 +259,15 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 workoutImageView.setVisibility(View.VISIBLE);
                 versusImageView.setVisibility(View.INVISIBLE);
                 historicalImageView.setVisibility(View.VISIBLE);
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                versusFragment = new ClassicVersusFragment();
+                fragmentTransaction.add(R.id.classic_fragment_container, versusFragment);
+                fragmentTransaction.commit();
+
+                gameView.setVisibility(View.VISIBLE);
+                selectView.setVisibility(View.GONE);
                 break;
 
             case R.id.classic_image_historical:

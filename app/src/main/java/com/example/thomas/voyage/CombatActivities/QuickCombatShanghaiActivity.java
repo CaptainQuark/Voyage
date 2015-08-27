@@ -128,35 +128,6 @@ public class QuickCombatShanghaiActivity extends Activity {
                     for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
 
                 }
-
-                /*
-                if (activePlayer == 0){
-                    activePlayer = 1;
-                    roundCount++;
-                    throwCount = 1;
-                    throwCountView.setText(throwCount + ".");
-                    for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
-                    for(int i = 0; i < scoreFieldViewList.size(); i++) scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_two));
-
-                }else{
-                    if (roundCount > valArray.length) {
-                        Message.message(this, "Spiel zu Ende!");
-
-                    } else {
-                        roundCountView.setText(valArray[roundCount - 1] + "");
-
-                        for (int k = 0; k < 3; k++) {
-                            scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount]));
-                        }
-
-                        activePlayer = 0;
-                        roundCount++;
-                        throwCount = 1;
-                        throwCountView.setText(throwCount + ".");
-                        for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
-                        for(int i = 0; i < scoreFieldViewList.size(); i++) scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_one));
-                    }
-                }*/
             }
         }
     }

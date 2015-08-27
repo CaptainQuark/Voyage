@@ -142,7 +142,6 @@
                     android:layout_height="match_parent"
                     android:textSize="14sp"
                     android:text="1. WURF"
-                    android:id="@+id/workout_first_hitasd"
                     android:textStyle="bold" />
 
                 <TextView
@@ -153,7 +152,6 @@
                     android:layout_height="match_parent"
                     android:textSize="14sp"
                     android:text="2. WURF"
-                    android:id="@+id/workout_second_hitasd"
                     android:layout_marginStart="39dp"
                     android:textStyle="bold" />
 
@@ -165,7 +163,6 @@
                     android:layout_height="match_parent"
                     android:textSize="14sp"
                     android:text="3. WURF"
-                    android:id="@+id/textView16aaa"
                     android:layout_marginStart="39dp"
                     android:textStyle="bold" />
 

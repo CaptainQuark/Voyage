@@ -1,0 +1,236 @@
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thomas.voyage.Fragments.ClassicVersusFragment"
+    android:background="@color/soft_gray_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:background="@android:color/black"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:gravity="start|center_vertical"
+            android:paddingStart="40dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Spielername"
+            android:textSize="30sp"
+            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/quick_shanghai_player_name_1" />
+
+        <FrameLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="3"
+                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/ripple_round_soft_grey_to_white"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:gravity="center"
+            android:text="501"
+            android:textSize="45sp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@android:color/black"
+        android:orientation="horizontal"
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <TextView
+            android:gravity="start|center_vertical"
+            android:paddingStart="40dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Spielername"
+            android:textSize="30sp"
+            android:layout_weight="5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/quick_shanghai_player_name_2" />
+
+        <FrameLayout
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:text="3"
+                android:textSize="25sp"
+                android:textColor="@android:color/black"
+                android:background="@drawable/ripple_round_soft_grey_to_white"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:gravity="center"
+            android:text="501"
+            android:textSize="45sp"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:textColor="@android:color/white" />
+
+        <ImageView
+            android:layout_weight="0.5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+
+    </LinearLayout>
+
+    <GridLayout
+        android:columnCount="3"
+        android:rowCount="2"
+        android:orientation="horizontal"
+        android:layout_weight="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginRight="250dp">
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="2"
+            android:layout_gravity="bottom|center"
+            android:text="501"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:textSize="40sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/versus_score_field_1"
+            android:fontFamily="sans-serif-light" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="top|center"
+            android:text="1. WURF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="2"
+            android:layout_gravity="bottom|center"
+            android:text="501"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:textSize="40sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/versus_score_field_2"
+            android:fontFamily="sans-serif-light" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="top|center"
+            android:text="2. WURF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="2"
+            android:layout_gravity="bottom|center"
+            android:text="501"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="0"
+            android:layout_column="2"
+            android:textSize="40sp"
+            android:textColor="@android:color/black"
+            android:layout_marginBottom="4dp"
+            android:id="@+id/versus_score_field_3"
+            android:fontFamily="sans-serif-light" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="top|center"
+            android:text="3. WURF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+
+
+    </GridLayout>
+
+    <FrameLayout
+        android:layout_weight="7"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <GridView
+            android:clickable="false"
+            android:visibility="invisible"
+            android:id="@+id/classic_versus_gridview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="auto_fit"
+            android:columnWidth="160dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingStart="60dp"
+            android:paddingEnd="60dp"
+            android:verticalSpacing="0dp"
+            android:horizontalSpacing="0dp"/>
+
+    </FrameLayout>
+
+</LinearLayout>
