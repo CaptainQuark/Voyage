@@ -99,14 +99,15 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:onClick="onShanghaiScoreField" />
+                    android:onClick="onShanghaiScoreField"
+                    android:id="@+id/shanghai_miss_button" />
 
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/ic_backbutton"
-                    android:id="@+id/shanghai_miss_button"
+                    android:id="@+id/shanghai_back_button"
                     android:onClick="onShanghaiBackButton" />
 
                 <TextView
