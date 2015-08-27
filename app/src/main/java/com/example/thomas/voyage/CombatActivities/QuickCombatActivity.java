@@ -122,7 +122,6 @@ public class QuickCombatActivity extends Activity {
         Intent i = new Intent(this, QuickCombatShanghaiActivity.class);
         i.putExtra(c.POINTS_TO_TRANSFER, arrayValuesPickerShanghai[npShanghai.getValue()]);
         startActivity(i);
-        finish();
     }
 
     public void goToCricket(View view){
@@ -141,14 +140,12 @@ public class QuickCombatActivity extends Activity {
             Intent i = new Intent(this, QuickCombatCricketActivity.class);
             i.putExtra("LIST_OF_SELECTED_VALUES", arrayOfSelectedValues);
             startActivity(i);
-            finish();
         }
 
     }
 
     public void quickCombatBackButton(View view){
         super.onBackPressed();
-        finish();
     }
 
 

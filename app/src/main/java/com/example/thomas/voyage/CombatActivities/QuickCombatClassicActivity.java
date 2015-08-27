@@ -205,9 +205,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 scoreFieldVal = 50; break;
             default:
                 Message.message(this, "DEFAULT @ onClassicScoreField");
-
         }
-
 
         if(scoreFieldVal == 25 || scoreFieldVal == 50){
             multi = 1;

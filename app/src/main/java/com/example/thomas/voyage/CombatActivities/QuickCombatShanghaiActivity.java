@@ -32,8 +32,10 @@ public class QuickCombatShanghaiActivity extends Activity {
     private int[] valArray;
     private boolean[] shanghaiArray = {false,false,false};
     private List<PlayerDataHolder> playerDataList;
+    private List<ThrowDataHolder> throwDataList;
     private List<TextView> scoreFieldViewList = new ArrayList<>();
-    private TextView throwCountView, roundCountView;
+    private List<Integer> undoList = new ArrayList<>();
+    private TextView throwCountView, roundCountView, undoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class QuickCombatShanghaiActivity extends Activity {
         iniVals(this);
 
         playerDataList = new ArrayList<>();
+        throwDataList = new ArrayList<>();
+
         for(int i = 0; i < 2; i++) playerDataList.add( new PlayerDataHolder(this, (i+1)) );
 
         for(int i = 0; i < 3; i++) {
@@ -81,7 +85,13 @@ public class QuickCombatShanghaiActivity extends Activity {
                 break;
         }
 
-        if(roundCount <= valArray.length) playerDataList.get(activePlayer).addNewScoreValue(valArray[roundCount - 1] * scoreMulti);
+        if(roundCount <= valArray.length){
+            playerDataList.get(activePlayer).addNewScoreValue(valArray[roundCount - 1] * scoreMulti);
+            undoList.add(valArray[roundCount - 1] * scoreMulti);
+            throwDataList.add( new ThrowDataHolder( valArray[roundCount-1], scoreMulti));
+        }
+
+        if(undoList.size() == 1) undoButton.setTextColor(Color.BLACK);
 
         if(scoreMulti > 0){
             shanghaiArray[scoreMulti-1] = true;
@@ -138,7 +148,51 @@ public class QuickCombatShanghaiActivity extends Activity {
     }
 
     public void onShanghaiUndo(View view){
-        Message.message(this, "WA'SUP!!!\n...no undo implemented yet...");
+        if(!undoList.isEmpty()){
+
+            throwCount--;
+
+            if(throwCount == 0){
+                throwCount = 3;
+
+                if(activePlayer == 0){
+                    activePlayer = 1;
+                    roundCount--;
+                    roundCountView.setText( valArray[roundCount-1] + "");
+                    for (int k = 0; k < 3; k++) scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount-1]));
+                }
+                else activePlayer = 0;
+            }
+
+            throwCountView.setText(throwCount + ".");
+            playerDataList.get(activePlayer).reverseScoreValue(undoList.get(undoList.size() - 1));
+
+            if(activePlayer == 0) scoreFieldViewList.get( throwDataList.get( throwDataList.size()-1).getMulti() -1 ).setBackground(getDrawable(R.drawable.ripple_round_player_one));
+            else if(activePlayer == 1) scoreFieldViewList.get( throwDataList.get( throwDataList.size()-1).getMulti() -1 ).setBackground(getDrawable(R.drawable.ripple_round_player_two));
+
+            throwDataList.remove( throwDataList.size() - 1 );
+            undoList.remove( undoList.size() - 1 );
+
+            if(undoList.isEmpty()) undoButton.setTextColor(Color.GRAY);
+
+        }else{
+            Message.message(this, "WA'SUP!!!\n...no more actions to undo...");
+
+        }
+    }
+
+    private class ThrowDataHolder{
+        int value;
+        int multi;
+
+        public ThrowDataHolder(int val, int multi){
+            value = val;
+            this.multi = multi;
+        }
+
+        public int getValue(){ return value; }
+
+        public int getMulti(){ return multi; }
     }
 
      private class PlayerDataHolder{
@@ -160,6 +214,11 @@ public class QuickCombatShanghaiActivity extends Activity {
             score += val;
             scoreView.setText(Integer.toString(score));
         }
+
+         public void reverseScoreValue(int val){
+             score -= val;
+             scoreView.setText(Integer.toString(score));
+         }
     }
 
 
@@ -176,6 +235,7 @@ public class QuickCombatShanghaiActivity extends Activity {
 
         throwCountView = (TextView) findViewById(R.id.shanghai_throw_count);
         roundCountView = (TextView) findViewById(R.id.shanghai_round_count);
+        undoButton = (TextView) findViewById(R.id.shanghai_undo_button);
     }
 
     private void iniVals(Context c){
