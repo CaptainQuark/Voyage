@@ -26,7 +26,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
     private OnVersusInteractionListener mListener;
     private List<TextView> scoreFieldList = new ArrayList<>();
     private List<PlayerDataHolder> playerHolderList = new ArrayList<>();
-    private int activePlayer = 0, numLegsToWin = 9, throwCount = 1;
+    private int activePlayer = 0, numLegsToWin = 9, throwCount = 0, pointsToFinishLeg = 501;
     private static final int NUM_THROWS_PER_ROUND = 3;
 
     @Override
@@ -44,7 +44,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         for(int i = 0; i < 3; i++) scoreFieldList.add(
                 (TextView) rootView.findViewById(getActivity().getResources().getIdentifier("versus_score_field_" + (i + 1), "id", getActivity().getPackageName())));
 
-        for(int i = 0; i < 2; i++) playerHolderList.add( new PlayerDataHolder(i, 501, rootView));
+        for(int i = 0; i < 2; i++) playerHolderList.add( new PlayerDataHolder(i, pointsToFinishLeg, rootView));
 
         GridView statsGridView = (GridView) rootView.findViewById(R.id.classic_versus_gridview);
         statsGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
@@ -92,28 +92,31 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             mListener.dismissRecordButtons(false);
         }
 
-        if(throwCount <= NUM_THROWS_PER_ROUND){
 
-            playerHolderList.get(activePlayer).pointsByLegNow -= (val * multi);
-            playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
-            scoreFieldList.get(throwCount-1).setText(Integer.toString( val * multi) );
+        throwCount++;
 
-            throwCount++;
+        playerHolderList.get(activePlayer).pointsByLegNow -= (val * multi);
+        playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
+        scoreFieldList.get(throwCount-1).setText(Integer.toString( val * multi) );
 
-            if(playerHolderList.get(activePlayer).pointsByLegNow <= 0){
-                // Wenn leg abgeschlossen wurde
 
-                for(int i = 0; i < 3; i++) scoreFieldList.get(i).setText("-");
+        if(playerHolderList.get(activePlayer).pointsByLegNow <= 0){
+            // Wenn leg abgeschlossen wurde
 
-                playerHolderList.get(activePlayer).legCount++;
-                playerHolderList.get(activePlayer).playerViewsList.get(1).setText( playerHolderList.get(activePlayer).legCount + "");
-
-                if(playerHolderList.get(activePlayer).legCount == playerHolderList.get(activePlayer).pointsByLegThreshold){
-                    Message.message(getActivity(), "Du Gewinner");
-                }
+            for(int i = 0; i < 3; i++) scoreFieldList.get(i).setText("-");
+            for(int i = 0; i < 2; i++){
+                playerHolderList.get(i).resetPointValues();
             }
 
-        }else{
+            playerHolderList.get(activePlayer).legCount++;
+            playerHolderList.get(activePlayer).playerViewsList.get(1).setText( playerHolderList.get(activePlayer).legCount + "");
+
+            if(playerHolderList.get(activePlayer).legCount == pointsToFinishLeg){
+                Message.message(getActivity(), "Du Gewinner");
+            }
+        }
+
+        if(throwCount == NUM_THROWS_PER_ROUND){
             for(int i = 0; i < 3; i++) scoreFieldList.get(i).setText("-");
 
             if(activePlayer == 0){
@@ -122,11 +125,10 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
                 activePlayer = 0;
             }
 
-            throwCount = 1;
+            throwCount = 0;
         }
 
-
-        playerHolderList.get(activePlayer).playerViewsList.get(0).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
+        playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
 
     }
 
@@ -138,9 +140,6 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         ImageView isActiveView;
 
         public PlayerDataHolder(int id, int pointsThreshold, View rootView){
-            pointsByLegThreshold = pointsThreshold;
-            resetPointValues();
-
             /*
             playerViewsList indizes:
 
@@ -166,10 +165,14 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             isActiveView = (ImageView) rootView.findViewById(getActivity().getResources().getIdentifier("shanghai_active_player_" + (id+1), "id", getActivity().getPackageName()));
 
             playerViewsList.get(0).setText(playerName);
+
+            pointsByLegThreshold = pointsThreshold;
+            resetPointValues();
         }
 
         public void resetPointValues(){
             pointsByLegNow = pointsByLegThreshold;
+             playerViewsList.get(2).setText( pointsByLegThreshold + "");
         }
     }
 
