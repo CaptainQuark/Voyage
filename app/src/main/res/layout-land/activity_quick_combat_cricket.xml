@@ -212,12 +212,12 @@
 
         <GridView
             android:paddingEnd="30dp"
-            android:paddingStart="30dp"
+            android:paddingStart="60dp"
             android:paddingTop="20dp"
             android:id="@+id/cricket_gridview"
             android:numColumns="auto_fit"
             android:columnWidth="260dp"
-            android:stretchMode="spacingWidth"
+            android:stretchMode="spacingWidthUniform"
             android:gravity="center"
             android:verticalSpacing="20dp"
             android:horizontalSpacing="10dp"
