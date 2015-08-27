@@ -3,6 +3,7 @@ package com.example.thomas.voyage.Fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,9 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
     private OnVersusInteractionListener mListener;
     private List<TextView> scoreFieldList = new ArrayList<>();
     private List<PlayerDataHolder> playerHolderList = new ArrayList<>();
+    private ImageView activeOneView, activeTwoView;
+    private TextView showStatsView, hideStatsView;
+    private GridView statsGridView;
     private int activePlayer = 0, numLegsToWin = 9, throwCount = 0, pointsToFinishLeg = 501;
     private static final int NUM_THROWS_PER_ROUND = 3;
 
@@ -46,7 +50,13 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
 
         for(int i = 0; i < 2; i++) playerHolderList.add( new PlayerDataHolder(i, pointsToFinishLeg, rootView));
 
-        GridView statsGridView = (GridView) rootView.findViewById(R.id.classic_versus_gridview);
+        activeOneView = (ImageView) rootView.findViewById(R.id.shanghai_active_player_1);
+        activeTwoView = (ImageView) rootView.findViewById(R.id.shanghai_active_player_2);
+        showStatsView = (TextView) rootView.findViewById(R.id.quick_classic_versus_textview_show_stats);
+        hideStatsView = (TextView) rootView.findViewById(R.id.quick_classic_versus_hide_stats);
+        showStatsView.setOnClickListener(this);
+
+        statsGridView = (GridView) rootView.findViewById(R.id.classic_versus_gridview);
         statsGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
         statsGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -63,6 +73,17 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
     public void onClick(View v) {
 
         switch (v.getId()) {
+            case R.id.quick_classic_versus_textview_show_stats:
+                showStatsView.setVisibility(View.GONE);
+                statsGridView.setVisibility(View.VISIBLE);
+                hideStatsView.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.quick_classic_versus_hide_stats:
+                showStatsView.setVisibility(View.VISIBLE);
+                statsGridView.setVisibility(View.GONE);
+                hideStatsView.setVisibility(View.GONE);
+                break;
 
             default:
                 Message.message(getActivity(), "DEFAULT @ onClick");
@@ -94,11 +115,12 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
 
 
         throwCount++;
+        if(throwCount == 1)  for(int i = 0; i < 3; i++) scoreFieldList.get(i).setTextColor(Color.LTGRAY);
 
         playerHolderList.get(activePlayer).pointsByLegNow -= (val * multi);
         playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
         scoreFieldList.get(throwCount-1).setText(Integer.toString( val * multi) );
-
+        scoreFieldList.get(throwCount-1).setTextColor(Color.BLACK);
 
         if(playerHolderList.get(activePlayer).pointsByLegNow <= 0){
             // Wenn leg abgeschlossen wurde
@@ -117,19 +139,20 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         }
 
         if(throwCount == NUM_THROWS_PER_ROUND){
-            for(int i = 0; i < 3; i++) scoreFieldList.get(i).setText("-");
 
             if(activePlayer == 0){
                 activePlayer = 1;
+                activeOneView.setBackgroundColor(Color.BLACK);
+                activeTwoView.setBackgroundResource(R.color.quick_combat_player_2);
+
             }else{
                 activePlayer = 0;
+                activeOneView.setBackgroundResource(R.color.quick_combat_player_1);
+                activeTwoView.setBackgroundColor(Color.BLACK);
             }
 
             throwCount = 0;
         }
-
-        playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
-
     }
 
     private class PlayerDataHolder{
