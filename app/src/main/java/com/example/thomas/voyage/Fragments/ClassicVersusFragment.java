@@ -33,6 +33,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
     private TextView showStatsView, hideStatsView;
     private GridView statsGridView;
     private int activePlayer = 0, numLegsToWin = 9, throwCount = 0, pointsToFinishLeg = 501;
+    private boolean restrictionReached = false;
     private static final int NUM_THROWS_PER_ROUND = 3;
 
     @Override
@@ -123,6 +124,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         playerHolderList.get(activePlayer).pointsByLegNow -= (val * multi);
         multiValKeyHistoryList.add( new MultiValKeyHistory(val, multi));
         undoList.add(val * multi);
+        if(restrictionReached) restrictionReached = false;
 
         playerHolderList.get(activePlayer).playerViewsList.get(2).setText( playerHolderList.get(activePlayer).pointsByLegNow + "");
         scoreFieldList.get(throwCount-1).setText(Integer.toString( val * multi) );
@@ -162,7 +164,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
     }
 
     public void undoLastThrow(){
-        if(!undoList.isEmpty()){
+        if(!undoList.isEmpty() && !restrictionReached){
             int tempVal;
             int initialValue = multiValKeyHistoryList.get(multiValKeyHistoryList.size() - 1).getMulti();
 
@@ -192,29 +194,53 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             }*/
 
             multiValKeyHistoryList.remove( multiValKeyHistoryList.size() -1 );
-            
+
             throwCount--;
-            int tempActivePlayer = 0;
+
             if(throwCount < 0){
-                Message.message(getActivity(), "throwCount: " + throwCount);
+                //Message.message(getActivity(), "activePlayer : " + activePlayer);
                 throwCount = 2;
                 if(activePlayer == 0) activePlayer = 1;
+                else activePlayer = 0;
+            }
+            if(activePlayer == 0){
+                playerHolderList.get(activePlayer).isActiveView.setBackgroundResource(R.color.quick_combat_player_1);
+                playerHolderList.get(1).isActiveView.setBackgroundColor(Color.BLACK);
+            }
+            else {
+                playerHolderList.get(activePlayer).isActiveView.setBackgroundResource(R.color.quick_combat_player_2);
+                playerHolderList.get(0).isActiveView.setBackgroundColor(Color.BLACK);
             }
 
-            playerHolderList.get(activePlayer).pointsByLegNow += undoList.get( undoList.size() - 1 );
-            playerHolderList.get(activePlayer).playerViewsList.get(2).setText(Integer.toString( playerHolderList.get(activePlayer).pointsByLegNow) );
+            int tempPoints = playerHolderList.get(activePlayer).pointsByLegNow + undoList.get( undoList.size() - 1 );
+            playerHolderList.get(activePlayer).pointsByLegNow = tempPoints;
+
+            if(tempPoints == 501){
+                //Message.message(getActivity(), "activePlayer hast 501");
+
+                int tempPointsOtherPlayer;
+
+                if( activePlayer == 0) tempPointsOtherPlayer = playerHolderList.get(1).pointsByLegNow;
+                else tempPointsOtherPlayer = playerHolderList.get(0).pointsByLegNow;
+
+                if(tempPointsOtherPlayer == 501){
+                    restrictionReached = true;
+                    //Message.message(getActivity(), "restriction reached : " + restrictionReached);
+
+                    if(throwCount != 0) Message.message(getActivity(), "Undo restricted to one leg maximum.");
+
+                }
+            }
+
+            playerHolderList.get(activePlayer).playerViewsList.get(2).setText(Integer.toString(playerHolderList.get(activePlayer).pointsByLegNow));
 
             scoreFieldList.get( (throwCount % 3) ).setTextColor(Color.parseColor("#FF969696"));
             scoreFieldList.get( throwCount % 3 ).setText(undoList.get(undoList.size() - 1) + "");
 
             undoList.remove(undoList.size() - 1);
-            /*
-            Message.message(getActivity(), "multiValList size: " + multiValKeyHistoryList.size());
-            Message.message(getActivity(), "playerHolder size: " + playerHolderList.size());
-            Message.message(getActivity(), "undoList size: " + undoList.size());*/
         }
         else{
-            Message.message(getActivity(), "No Actions to undo");
+            Message.message(getActivity(), "No more actions to undo");
             mListener.dismissRecordButtons(true);
         }
 
