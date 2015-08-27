@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/soft_gray_background"
     tools:context="com.example.thomas.voyage.CombatActivities.QuickCombatCricketActivity">
 
     <LinearLayout
@@ -44,7 +44,7 @@
                 android:id="@+id/cricket_name_player_1"
                 android:text="spieler 1"
                 android:textColor="@android:color/black"
-                android:textSize="34sp"
+                android:textSize="24sp"
                 android:paddingLeft="@dimen/cricket_values_in_titelbar"
                 android:gravity="center_vertical|bottom"
                 android:textAllCaps="true"
@@ -56,7 +56,7 @@
                 android:id="@+id/cricket_score_player_1"
                 android:text="0"
                 android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:paddingStart="@dimen/cricket_values_in_titelbar"
                 android:gravity="start"
                 android:textAllCaps="true"
@@ -176,7 +176,7 @@
                 android:id="@+id/cricket_name_player_2"
                 android:text="spieler 2"
                 android:textColor="@android:color/black"
-                android:textSize="34sp"
+                android:textSize="24sp"
                 android:paddingRight="@dimen/cricket_values_in_titelbar"
                 android:gravity="end|bottom"
                 android:textAllCaps="true"
@@ -188,7 +188,7 @@
                 android:id="@+id/cricket_score_player_2"
                 android:text="0"
                 android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:paddingEnd="@dimen/cricket_values_in_titelbar"
                 android:gravity="end"
                 android:textAllCaps="true"
@@ -211,8 +211,9 @@
 
 
         <GridView
+            android:layout_marginTop="30dp"
             android:paddingEnd="30dp"
-            android:paddingStart="60dp"
+            android:paddingStart="30dp"
             android:paddingTop="20dp"
             android:id="@+id/cricket_gridview"
             android:numColumns="auto_fit"

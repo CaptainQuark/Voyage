@@ -113,7 +113,7 @@ public class QuickCombatCricketActivity extends Activity {
             tempActivePlayer = activePlayer;
         }
 
-        for(int i = 0; i < 3; i++) multiView.get(i).setBackgroundColor(Color.WHITE);
+        for(int i = 0; i < 3; i++) multiView.get(i).setBackgroundResource(R.color.soft_gray_background);
         if(tempActivePlayer == 0) multiView.get(index).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_1));
         else multiView.get(index).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_2));
 
@@ -272,7 +272,7 @@ public class QuickCombatCricketActivity extends Activity {
             tempActivePlayer = activePlayer;
         }
 
-        multiView.get(lastMultiIndex).setBackgroundColor(Color.WHITE);
+        multiView.get(lastMultiIndex).setBackgroundResource(R.color.soft_gray_background);
         multi = 1;
         lastMultiIndex = multi;
         if(tempActivePlayer == 0) multiView.get(0).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_1));
