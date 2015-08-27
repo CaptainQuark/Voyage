@@ -112,7 +112,7 @@ public class QuickCombatShanghaiActivity extends Activity {
                     }else{
                         roundCount++;
                         if(roundCount > valArray.length) Message.message(this, "Spiel zu Ende!");
-                        
+
                         else {
                             for (int k = 0; k < 3; k++) scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount-1]));
                             roundCountView.setText(valArray[roundCount - 1] + "");

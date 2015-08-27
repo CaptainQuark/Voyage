@@ -177,7 +177,7 @@
             <TextView
                 android:text="1"
                 android:textSize="40sp"
-                android:gravity="center"
+                android:gravity="center_horizontal|bottom"
                 android:textColor="@android:color/black"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -189,7 +189,9 @@
                 android:columnCount="3"
                 android:rowCount="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="0dp"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp">
 
                 <FrameLayout
                     android:layout_column="0"
@@ -202,7 +204,7 @@
 
                     <TextView
                         android:gravity="center"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:onClick="onShanghaiScoreField"
                         android:text="3"
                         android:id="@+id/shanghai_score_field_3"
@@ -210,8 +212,8 @@
                         android:background="@drawable/ripple_round_player_one"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="55sp"
+                        android:fontFamily="sans-serif-light" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -225,7 +227,7 @@
 
                     <TextView
                         android:gravity="center"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:onClick="onShanghaiScoreField"
                         android:text="2"
                         android:id="@+id/shanghai_score_field_2"
@@ -233,8 +235,8 @@
                         android:background="@drawable/ripple_round_player_one"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="55sp"
+                        android:fontFamily="sans-serif-light" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -248,7 +250,7 @@
 
                     <TextView
                         android:gravity="center"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:onClick="onShanghaiScoreField"
                         android:text="1"
                         android:id="@+id/shanghai_score_field_1"
@@ -256,8 +258,8 @@
                         android:background="@drawable/ripple_round_player_one"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:textSize="25sp"
-                        android:textStyle="bold" />
+                        android:textSize="55sp"
+                        android:fontFamily="sans-serif-light" />
                 </FrameLayout>
 
             </GridLayout>
