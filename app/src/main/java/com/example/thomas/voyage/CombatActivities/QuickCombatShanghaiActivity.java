@@ -27,8 +27,9 @@ import java.util.List;
 
 public class QuickCombatShanghaiActivity extends Activity {
 
-    private int activePlayer = 0, roundCount = 0, throwCount = 1, numThrowsPerPlayerPerRound = 3;
-    private int[] valArray = {1,2,3,4,5,6,7,8,9}, shanghaiArray = {0,0,0};
+    private int activePlayer = 0, roundCount = 1, throwCount = 1, numThrowsPerPlayerPerRound = 3;
+    private int[] valArray = {1,2,3,4,5,6,7,8,9};
+    private boolean[] shanghaiArray = {false,false,false};
     private List<PlayerDataHolder> playerDataList;
     private TextView throwCountView, roundCountView;
 
@@ -73,73 +74,59 @@ public class QuickCombatShanghaiActivity extends Activity {
             case R.id.shanghai_score_field_1_pl_2:
                 scoreMulti = 1;
                 break;
+            case R.id.shanghai_miss_button:
+                Message.message(this, "missButton");
+                scoreMulti = 0;
+                break;
             default:
                 Message.message(this, "DEFAULT @ 'onShanghaiScoreField'");
                 break;
         }
 
-        playerDataList.get(activePlayer).addNewScoreValue(valArray[roundCount] * scoreMulti);
-        throwCount++;
+        playerDataList.get(activePlayer).addNewScoreValue(valArray[roundCount - 1] * scoreMulti);
+        if(scoreMulti > 0) shanghaiArray[scoreMulti-1] = true;
 
-        if(throwCount <= numThrowsPerPlayerPerRound){
+        if(throwCount < numThrowsPerPlayerPerRound){
+            throwCount++;
 
-            shanghaiArray[roundCount-1] = scoreMulti;
+        }else {
+            if (shanghaiArray[0] && shanghaiArray[1] && shanghaiArray[2]) {
+                Message.message(this, "Du Gewinner! Shanghai Shanghai!");
 
-            if(throwCountView == roundCountView){
-                if(checkForShanghai(1) && checkForShanghai(2) && checkForShanghai(3)){
-                    Message.message(this, "Du Gewinner! Shanghai Shanghai!");
-                }
-
-            }else{
-
-                if( activePlayer == 0) activePlayer = 1;
-                else{
+            } else {
+                if (activePlayer == 0){
+                    activePlayer = 1;
                     roundCount++;
-                    throwCount = 0;
+                    throwCount = 1;
+                    for(int i = 0; i < shanghaiArray.length; i++) shanghaiArray[i] = false;
 
-                    if(roundCount > valArray.length){
+                }else{
+                    if (roundCount > valArray.length) {
                         Message.message(this, "Spiel zu Ende!");
 
-                    }else{
-                        roundCountView.setText(valArray[roundCount] + "");
-                        for(int i = 0; i < 2; i++){
-                            for(int k = 0; i < 3; i++){
-                                playerDataList.get(i).scoreFieldViewList.get(k).setText(Integer.toString( (k+1) * valArray[roundCount]));
+                    } else {
+                        roundCountView.setText(valArray[roundCount - 1] + "");
+                        for (int i = 0; i < 2; i++) {
+                            for (int k = 0; k < 3; k++) {
+                                playerDataList.get(i).scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount]));
                             }
                         }
                     }
-
                 }
             }
         }
     }
 
-    public void onShanghaiMissButton(View view){
-
+    public void onShanghaiBackButton(View view){
+        super.onBackPressed();
+        finish();
     }
 
-    public boolean checkForShanghai(int val){
-        boolean check = false;
-        for(int i = 0; i < shanghaiArray.length; i++){
-            if(shanghaiArray[i] == valArray[i] * (i+val)) check = true;
-        }
-
-        return check;
-    }
-
-
-
-
-
-
-
-
-
-    private class PlayerDataHolder{
+     private class PlayerDataHolder{
 
         private Context c;
         int score = 0;
-        List<TextView> scoreFieldViewList;
+        List<TextView> scoreFieldViewList = new ArrayList<>();
         TextView scoreView;
         int id;
 
@@ -149,21 +136,27 @@ public class QuickCombatShanghaiActivity extends Activity {
 
             id = playerId;
             scoreView = (TextView) findViewById((QuickCombatShanghaiActivity.this.getResources().getIdentifier("shanghai_score_player_" + id, "id", QuickCombatShanghaiActivity.this.getPackageName())));
-            scoreFieldViewList = new ArrayList<>();
-
 
             for(int i = 0; i < 3; i++) {
-                scoreFieldViewList.add((TextView) findViewById(QuickCombatShanghaiActivity.this.getResources().getIdentifier("shanghai_score_field_" + (i+1) + "_pl_" + id, "id", QuickCombatShanghaiActivity.this.getPackageName()) ));
+                scoreFieldViewList.add((TextView) findViewById(QuickCombatShanghaiActivity.this
+                        .getResources().getIdentifier("shanghai_score_field_" + (i + 1) + "_pl_" + id, "id", QuickCombatShanghaiActivity.this.getPackageName()) ));
             }
 
         }
-
 
         public void addNewScoreValue(int val){
             score += val;
             scoreView.setText(Integer.toString(score));
         }
     }
+
+
+
+
+
+
+
+
 
 
 

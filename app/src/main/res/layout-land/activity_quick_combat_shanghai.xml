@@ -44,7 +44,7 @@
                 android:id="@+id/shanghai_name_player_1"
                 android:text="spieler 1"
                 android:textColor="@android:color/black"
-                android:textSize="34sp"
+                android:textSize="24sp"
                 android:paddingLeft="@dimen/cricket_values_in_titelbar"
                 android:gravity="center_vertical|bottom"
                 android:textAllCaps="true"
@@ -56,7 +56,7 @@
                 android:id="@+id/shanghai_score_player_1"
                 android:text="0"
                 android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:paddingStart="@dimen/cricket_values_in_titelbar"
                 android:gravity="start"
                 android:textAllCaps="true"
@@ -92,21 +92,22 @@
                 android:layout_height="0dp">
 
                 <TextView
-                    android:onClick="onShanghaiMissButton"
                     android:text="MISS"
                     android:textColor="@android:color/black"
                     android:gravity="center"
                     android:textSize="18sp"
                     android:layout_weight="1"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:onClick="onShanghaiScoreField" />
 
                 <ImageView
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:src="@mipmap/ic_backbutton"
-                    android:onClick="quickShanghaiBackButton" />
+                    android:id="@+id/shanghai_miss_button"
+                    android:onClick="onShanghaiBackButton" />
 
                 <TextView
                     android:text="UNDO"
@@ -133,7 +134,7 @@
                 android:id="@+id/shanghai_name_player_2"
                 android:text="spieler 2"
                 android:textColor="@android:color/black"
-                android:textSize="34sp"
+                android:textSize="24sp"
                 android:paddingRight="@dimen/cricket_values_in_titelbar"
                 android:gravity="end|bottom"
                 android:textAllCaps="true"
@@ -145,7 +146,7 @@
                 android:id="@+id/shanghai_score_player_2"
                 android:text="0"
                 android:textColor="@android:color/black"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 android:paddingEnd="@dimen/cricket_values_in_titelbar"
                 android:gravity="end"
                 android:textAllCaps="true"
