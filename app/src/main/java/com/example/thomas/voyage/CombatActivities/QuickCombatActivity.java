@@ -27,9 +27,11 @@ public class QuickCombatActivity extends Activity {
 
     GridView cricketView;
     ConstRes c;
-    int[] arrayOfSelectedValues;
+    String[] arrayDisplayPickerShanghai = {};
+    int[] arrayOfSelectedValues, arrayValuesPickerShanghai;
     private List<Integer> selectionList = new ArrayList<>();
     ImageButton cricketImage, shanghaiImage, classicImage;
+    NumberPicker npShanghai;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,12 @@ public class QuickCombatActivity extends Activity {
         iniViews();
 
         NumberPicker numberPickerCricket = (NumberPicker) findViewById(R.id.quick_numberpicker_cricket);
+        npShanghai = (NumberPicker) findViewById(R.id.quick_shanghai_numberpicker);
+
         numberPickerCricket.setMaxValue(50);
         numberPickerCricket.setMinValue(1);
         numberPickerCricket.setValue(1);
+        
         cricketView.setAdapter(new SimpleNumberAdapter(this));
         cricketView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
         /*
@@ -68,20 +73,35 @@ public class QuickCombatActivity extends Activity {
         switch (view.getId()){
 
             case R.id.quick_imageview_cricket:
+
                 cricketImage.setVisibility(View.INVISIBLE);
                 shanghaiImage.setVisibility(View.VISIBLE);
                 classicImage.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.quick_imageview_shanghai:
-                Intent j = new Intent(this, QuickCombatShanghaiActivity.class);
-                startActivity(j);
+
                 cricketImage.setVisibility(View.VISIBLE);
                 shanghaiImage.setVisibility(View.INVISIBLE);
                 classicImage.setVisibility(View.VISIBLE);
+
+                arrayValuesPickerShanghai = new int[20];
+                arrayDisplayPickerShanghai = new String[arrayValuesPickerShanghai.length];
+
+                for(int i = 0; i < arrayValuesPickerShanghai.length; i++){
+                    arrayValuesPickerShanghai[i] = i+1;
+                    arrayDisplayPickerShanghai[i] = Integer.toString(i+1);
+                }
+
+                npShanghai.setDisplayedValues(null);
+                npShanghai.setMaxValue(arrayDisplayPickerShanghai.length - 1);
+                npShanghai.setMinValue(0);
+                npShanghai.setDisplayedValues(arrayDisplayPickerShanghai);
+                npShanghai.setValue(6);
                 break;
 
             case R.id.quick_imageview_classic:
+
                 Intent i = new Intent(this, QuickCombatClassicActivity.class);
                 startActivity(i);
                 finish();
@@ -95,6 +115,14 @@ public class QuickCombatActivity extends Activity {
             default:
                 Message.message(this, "ERROR @ quickImageTapped : wrong view.getId()");
         }
+    }
+
+    public void goToShanghai(View view){
+        ConstRes c = new ConstRes();
+        Intent i = new Intent(this, QuickCombatShanghaiActivity.class);
+        i.putExtra(c.POINTS_TO_TRANSFER, arrayValuesPickerShanghai[npShanghai.getValue()]);
+        startActivity(i);
+        finish();
     }
 
     public void goToCricket(View view){

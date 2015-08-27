@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 public class QuickCombatShanghaiActivity extends Activity {
 
     private int activePlayer = 0, roundCount = 1, throwCount = 1;
-    private int[] valArray = {1,2,3,4,5,6,7,8,9};
+    private int[] valArray;
     private boolean[] shanghaiArray = {false,false,false};
     private List<PlayerDataHolder> playerDataList;
     private List<TextView> scoreFieldViewList = new ArrayList<>();
@@ -207,11 +208,20 @@ public class QuickCombatShanghaiActivity extends Activity {
     }
 
     private void iniVals(Context c){
+        ConstRes constRes = new ConstRes();
         int playerNum = 2;
 
-        Bundle b = new Bundle();
+        Bundle b = getIntent().getExtras();
         if( b != null){
-            playerNum = b.getInt("PLAYER_NUM");
+            int length = b.getInt(constRes.POINTS_TO_TRANSFER);
+            valArray = new int[length];
+            for(int i = 0; i < length; i++) valArray[i] = i+1;
+            Message.message(this, "valArray length: " + valArray.length);
+
+        }else{
+            Message.message(this, "no bundle data recieved");
+            valArray = new int[1];
+            valArray[0] = 1;
         }
     }
 
