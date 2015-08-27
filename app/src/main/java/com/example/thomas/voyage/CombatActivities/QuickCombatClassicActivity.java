@@ -91,7 +91,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
             optionsView.setVisibility(View.VISIBLE);
 
         }else{
-            optionsView.setVisibility(View.INVISIBLE);
+            optionsView.setVisibility(View.GONE);
         }
     }
 
@@ -212,7 +212,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
             multi = 1;
         }
 
-        workoutFragment.setOneThrow(scoreFieldVal, multi);
+        //workoutFragment.setOneThrow(scoreFieldVal, multi);
+        versusFragment.handleThrow(scoreFieldVal, multi);
     }
 
     public void onClassicSetMultiplier(View view){

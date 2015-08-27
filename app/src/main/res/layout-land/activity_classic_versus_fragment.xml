@@ -39,7 +39,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:id="@+id/classic_shanghai_leg_count_view_1" />
 
         </FrameLayout>
 
@@ -50,12 +51,15 @@
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:id="@+id/classic_shanghai_points_player_1" />
 
         <ImageView
+            android:background="@color/quick_combat_player_1"
             android:layout_weight="0.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:id="@+id/shanghai_active_player_1" />
 
 
     </LinearLayout>
@@ -91,7 +95,8 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:layout_width="40dp"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:id="@+id/classic_shanghai_leg_count_view_2" />
 
         </FrameLayout>
 
@@ -102,12 +107,14 @@
             android:layout_weight="2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:id="@+id/classic_shanghai_points_player_2" />
 
         <ImageView
             android:layout_weight="0.5"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:id="@+id/shanghai_active_player_2" />
 
 
     </LinearLayout>
