@@ -24,7 +24,7 @@
             
             <TextView
                 android:background="@android:color/black"
-                android:text="START"
+                android:text="ANZAHL DER WERTE"
                 android:gravity="center"
                 android:layout_weight="2"
                 android:layout_width="match_parent"

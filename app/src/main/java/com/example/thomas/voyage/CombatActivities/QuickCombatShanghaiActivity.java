@@ -209,14 +209,12 @@ public class QuickCombatShanghaiActivity extends Activity {
 
     private void iniVals(Context c){
         ConstRes constRes = new ConstRes();
-        int playerNum = 2;
 
         Bundle b = getIntent().getExtras();
         if( b != null){
             int length = b.getInt(constRes.POINTS_TO_TRANSFER);
             valArray = new int[length];
             for(int i = 0; i < length; i++) valArray[i] = i+1;
-            Message.message(this, "valArray length: " + valArray.length);
 
         }else{
             Message.message(this, "no bundle data recieved");
