@@ -55,6 +55,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         showStatsView = (TextView) rootView.findViewById(R.id.quick_classic_versus_textview_show_stats);
         hideStatsView = (TextView) rootView.findViewById(R.id.quick_classic_versus_hide_stats);
         showStatsView.setOnClickListener(this);
+        hideStatsView.setOnClickListener(this);
 
         statsGridView = (GridView) rootView.findViewById(R.id.classic_versus_gridview);
         statsGridView.setAdapter(new SimpleNumberAdapter(getActivity()));
@@ -170,6 +171,8 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
                         1 = Legs (TextView)
                         2 = fehlende Punkte in diesem Leg (TextView)
              */
+
+            if(id == 1) playerName = "Krieger Kraftstark";
 
             playerViewsList = new ArrayList<>();
 

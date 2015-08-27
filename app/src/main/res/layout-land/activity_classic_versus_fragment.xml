@@ -238,8 +238,9 @@
 
         <TextView
             android:id="@+id/quick_classic_versus_hide_stats"
+            android:clickable="true"
             android:text="AUSBLENDEN"
-            android:textSize="10sp"
+            android:textSize="9sp"
             android:paddingBottom="30dp"
             android:gravity="center_horizontal|bottom"
             android:layout_gravity="start|bottom"
