@@ -1,6 +1,7 @@
 package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
@@ -213,7 +214,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         }
 
         //workoutFragment.setOneThrow(scoreFieldVal, multi);
-        versusFragment.handleThrow(scoreFieldVal, multi);
+        if( versusFragment != null && versusFragment.isVisible() ) versusFragment.handleThrow(scoreFieldVal, multi);
+        else if( workoutFragment != null && workoutFragment.isVisible() ) workoutFragment.setOneThrow(scoreFieldVal, multi);
     }
 
     public void onClassicSetMultiplier(View view){
@@ -240,15 +242,16 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
     public void onClassicMiss(View view){
 
-        versusFragment.handleThrow(0,0);
-        //workoutFragment.setOneThrow(0, 0);
+        if(  versusFragment != null &&  versusFragment.isVisible() ) versusFragment.handleThrow(0,0);
+        else if(  workoutFragment != null && workoutFragment.isVisible() ) workoutFragment.setOneThrow(0,0);
     }
 
     public void onClassicUndo(View view){
 
-        versusFragment.undoLastThrow();
-        //workoutFragment.undoLastThrow();
+        if(  versusFragment != null &&  versusFragment.isVisible() ) versusFragment.undoLastThrow();
+        else if(  workoutFragment != null &&  workoutFragment.isVisible() ) workoutFragment.undoLastThrow();
     }
+
 
     public void onClassicSelectionImage(View view){
 
