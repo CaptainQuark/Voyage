@@ -128,7 +128,10 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void classicWorkoutRecordGhost(View view){
-        Message.message(this, "WA'SUP!!!\n...don't be afraid, no ghost yet implemented...");
+        if( workoutFragment != null && workoutFragment.isVisible() ) workoutFragment.recordGhostData(true);
+        Message.message(this, "Don't be afraid, but there might be a ghost somewhere...");
+
+        //Message.message(this, "WA'SUP!!!\n...don't be afraid, no ghost yet implemented...");
     }
 
     public void goToClassicVersus(View view){

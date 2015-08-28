@@ -23,6 +23,8 @@
 
             <TextView
                 android:text="RUNDE ALS GEIST AUFZEICHNEN"
+                android:onClick="classicWorkoutRecordGhost"
+                android:background="@drawable/ripple_from_darkgrey_to_black"
                 android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_weight="1"
@@ -33,6 +35,7 @@
 
             <TextView
                 android:text="RUNDE VON STATISTIK AUSSCHLIESSEN"
+                android:background="@drawable/ripple_from_darkgrey_to_black"
                 android:textColor="@android:color/white"
                 android:gravity="center"
                 android:layout_weight="1"

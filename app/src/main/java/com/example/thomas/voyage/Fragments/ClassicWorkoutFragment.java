@@ -15,11 +15,14 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
+import com.example.thomas.voyage.Databases.DBghostScoresAdapter;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.CheckoutRes;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClassicWorkoutFragment extends Fragment implements View.OnClickListener{
@@ -32,7 +35,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             goalPointsNow = -1,
             lastUsedScoreField = -1,
             lastUsedMulti = -1, FINISH_FACTOR = 2;
-    private boolean saveToStats = true;
+    private boolean saveToStats = true, saveGhost = false;
 
     // MultiValKeyHistory-Liste hat *keine* Verwendung - später vielleicht als Cache einbauen, um nicht ständig Read-/Write auf Datenbank auszuführen
     private List<MultiValKeyHistory> multiValKeyHistoryList;
@@ -127,6 +130,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         return rootView;
     }
 
+
     @Override
     public void onClick(View v) {
 
@@ -144,13 +148,17 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         }
     }
 
+    public void recordGhostData(boolean b){
+        saveGhost = b;
+    }
+
     public void setOneThrow(int initialValue, int multi){
 
         if(goalPointsNow == numGoalPoints) {
             saveToStats = mListener.getSaveStatsChoice();
         }
 
-        List<Integer> arrayList = new ArrayList<>();
+        //List<Integer> arrayList = new ArrayList<>();
         mListener.dismissRecordButtons(false);
         lastUsedScoreField = initialValue;
         goalPointsNow -= (initialValue * multi);
@@ -317,6 +325,37 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        //Message.message(getActivity(), "onDetach");
+
+        if(saveGhost){
+            //Message.message(getActivity(), "saveGhost called");
+            DBghostScoresAdapter db = new DBghostScoresAdapter(getActivity());
+            DBghostMetaDataAdapter dbGhost = new DBghostMetaDataAdapter(getActivity());
+
+            int undoSize = undoList.size();
+
+            for(int i = 0; i < undoSize; i++){
+                if( undoSize - i >= 3) db.insertData(i, undoList.get(i++), undoList.get(i++), undoList.get(i++));
+                else if( undoSize - i >= 2) db.insertData(i, undoList.get(i++), undoList.get(i++),-1);
+                else if( undoSize - i >= 1) db.insertData(i, undoList.get(i++),-1, -1);
+
+            }
+
+            // '-1' dient als Markierung für Abschluss
+            // Wenn Datenbank abgefragt wird, wird der Index solange um 1 erhöht, bis die Markierung erreicht wurde.
+            // Alle Daten bis dahin sind ein Spiel. Danach wird Index erneut um 1 erhöht und beginnt
+            // bei 'VAL = 0'.
+            db.insertData(-1,-1,-1,-1);
+
+            // Hier werden zugehörige Informationen in eigene Datenbank eingetragen (Vermeidung von Overhead durch leere Spalen in obiger Tabelle)
+            // Bis auf Name alles automatisch
+            int avg = 0;
+            for(int i = 0; i < undoSize; i++){
+                avg = ( avg + undoList.get(i)  )/ (i+1);
+            }
+            Date date = new Date();
+            dbGhost.insertData( (int) (dbGhost.getTaskCount()+1), "Bobby", undoSize, avg, date.toString());
+        }
     }
 
     /**
