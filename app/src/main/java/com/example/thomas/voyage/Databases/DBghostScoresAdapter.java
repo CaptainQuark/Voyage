@@ -9,86 +9,36 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
-import com.example.thomas.voyage.R;
 
-public class DBscorefieldAndMultiAmountAdapter {
+public class DBghostScoresAdapter {
 
-    DBscoreAndMultiAmountHelper helper;
+    DBghostScoresHelper helper;
     Context c;
 
-    public DBscorefieldAndMultiAmountAdapter(Context context) {
-        helper = new DBscoreAndMultiAmountHelper(context);
+    public DBghostScoresAdapter(Context context) {
+        helper = new DBghostScoresHelper(context);
         helper.getWritableDatabase();
         c = context;
     }
 
-    public long insertData(int value, int multiOne, int multiTwo, int multiThree) {
+    public long insertData(int rowId, int first, int second, int third) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put(DBscoreAndMultiAmountHelper.VALUE, value);
-        contentValues.put(DBscoreAndMultiAmountHelper.X1, multiOne);
-        contentValues.put(DBscoreAndMultiAmountHelper.X2, multiTwo);
-        contentValues.put(DBscoreAndMultiAmountHelper.X3, multiThree);
+        contentValues.put(DBghostScoresHelper.VALUE, rowId);
+        contentValues.put(DBghostScoresHelper.THROW_ONE, first);
+        contentValues.put(DBghostScoresHelper.THROW_TWO, second);
+        contentValues.put(DBghostScoresHelper.THROW_THREE, third);
 
-        long id = db.insert(DBscoreAndMultiAmountHelper.TABLE_NAME, null, contentValues);
+        long id = db.insert(DBghostScoresHelper.TABLE_NAME, null, contentValues);
         db.close();
 
         return id;
     }
 
     public long getTaskCount() {
-        return DatabaseUtils.queryNumEntries(helper.getReadableDatabase(), DBscoreAndMultiAmountHelper.TABLE_NAME);
-    }
-
-
-
-
-
-    public int updateX1(int value, int newVal) {
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-        cv.put(DBscoreAndMultiAmountHelper.X1, newVal);
-
-        String[] whereArgs = {value + ""};
-
-        int validation = db.update(DBscoreAndMultiAmountHelper.TABLE_NAME, cv, DBscoreAndMultiAmountHelper.VALUE + "=?", whereArgs);
-        db.close();
-
-        return validation;
-    }
-
-    public int updateX2(int value, int newVal) {
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-        cv.put(DBscoreAndMultiAmountHelper.X2, newVal);
-
-        String[] whereArgs = {value + ""};
-
-        int validation = db.update(DBscoreAndMultiAmountHelper.TABLE_NAME, cv, DBscoreAndMultiAmountHelper.VALUE + "=?", whereArgs);
-        db.close();
-
-        return validation;
-    }
-
-    public int updateX3(int value, int newVal) {
-
-        SQLiteDatabase db = helper.getWritableDatabase();
-
-        ContentValues cv = new ContentValues();
-        cv.put(DBscoreAndMultiAmountHelper.X3, newVal);
-
-        String[] whereArgs = {value + ""};
-
-        int validation = db.update(DBscoreAndMultiAmountHelper.TABLE_NAME, cv, DBscoreAndMultiAmountHelper.VALUE + "=?", whereArgs);
-        db.close();
-
-        return validation;
+        return DatabaseUtils.queryNumEntries(helper.getReadableDatabase(), DBghostScoresHelper.TABLE_NAME);
     }
 
 
@@ -98,18 +48,12 @@ public class DBscorefieldAndMultiAmountAdapter {
 
 
 
-
-
-
-
-
-
-    public int getMulitplierOne(int id) {
+    public int getFirstThrow(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String[] columns = {DBscoreAndMultiAmountHelper.X1};
+        String[] columns = {DBghostScoresHelper.THROW_ONE};
         String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.query(DBscoreAndMultiAmountHelper.TABLE_NAME, columns, DBscoreAndMultiAmountHelper.VALUE + "=?", selectionArgs, null, null, null);
+        Cursor cursor = db.query(DBghostScoresHelper.TABLE_NAME, columns, DBghostScoresHelper.VALUE + "=?", selectionArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -118,7 +62,7 @@ public class DBscorefieldAndMultiAmountAdapter {
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBscoreAndMultiAmountHelper.X1));
+            value = cursor.getInt(cursor.getColumnIndex(DBghostScoresHelper.THROW_ONE));
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getMulitplierOne with exception: " + n);
         }
@@ -129,12 +73,12 @@ public class DBscorefieldAndMultiAmountAdapter {
         return value;
     }
 
-    public int getMultiplierTwo(int id) {
+    public int getSecondThrow(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String[] columns = {DBscoreAndMultiAmountHelper.X2};
+        String[] columns = {DBghostScoresHelper.THROW_TWO};
         String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.query(DBscoreAndMultiAmountHelper.TABLE_NAME, columns, DBscoreAndMultiAmountHelper.VALUE + "=?", selectionArgs, null, null, null);
+        Cursor cursor = db.query(DBghostScoresHelper.TABLE_NAME, columns, DBghostScoresHelper.VALUE + "=?", selectionArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -143,7 +87,7 @@ public class DBscorefieldAndMultiAmountAdapter {
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBscoreAndMultiAmountHelper.X2));
+            value = cursor.getInt(cursor.getColumnIndex(DBghostScoresHelper.THROW_TWO));
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getMultiplierTwo with exception: " + n);
         }
@@ -154,12 +98,12 @@ public class DBscorefieldAndMultiAmountAdapter {
         return value;
     }
 
-    public int getMulitplierThree(int id) {
+    public int getThirdThrow(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String[] columns = {DBscoreAndMultiAmountHelper.X3};
+        String[] columns = {DBghostScoresHelper.THROW_THREE};
         String[] selectionArgs = {String.valueOf(id)};
-        Cursor cursor = db.query(DBscoreAndMultiAmountHelper.TABLE_NAME, columns, DBscoreAndMultiAmountHelper.VALUE + "=?", selectionArgs, null, null, null);
+        Cursor cursor = db.query(DBghostScoresHelper.TABLE_NAME, columns, DBghostScoresHelper.VALUE + "=?", selectionArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -168,7 +112,7 @@ public class DBscorefieldAndMultiAmountAdapter {
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBscoreAndMultiAmountHelper.X3));
+            value = cursor.getInt(cursor.getColumnIndex(DBghostScoresHelper.THROW_THREE));
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getMulitplierThree with exception: " + n);
         }
@@ -179,29 +123,29 @@ public class DBscorefieldAndMultiAmountAdapter {
         return value;
     }
 
-    static class DBscoreAndMultiAmountHelper extends SQLiteOpenHelper{
+    static class DBghostScoresHelper extends SQLiteOpenHelper{
         private static final String DATABASE_NAME = "scoreandmultiamountdatabase";
         private static final String TABLE_NAME = "SCORE_MULTI_AMOUNT_TABLE";
         private static final int DATABASE_VERSION = 1;
         private static final String UID = "_id";
-        private static final String VALUE = "Name";
-        private static final String X1 = "Hitpoints";
-        private static final String X2 = "ClasstypeOne";
-        private static final String X3 = "ClasstypeSecondary";
+        private static final String VALUE = "ThrowId";
+        private static final String THROW_ONE = "First";
+        private static final String THROW_TWO = "Second";
+        private static final String THROW_THREE = "Third";
             // hier Spalten deklarieren, die für Helden benötigt werden
             // -> diese dann in CREATE_TABLE unterhalb einfügen
 
         private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
                 + UID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + VALUE + " INT, "
-                + X1 + " INT, "
-                + X2 + " INT, "
-                + X3 + " INT);";
+                + THROW_ONE + " INT, "
+                + THROW_TWO + " INT, "
+                + THROW_THREE + " INT);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;
 
-        DBscoreAndMultiAmountHelper(Context context){
+        DBghostScoresHelper(Context context){
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;

@@ -128,7 +128,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     public void classicWorkoutRecordGhost(View view){
-        Message.message(this, "WA'SUP!!!\n...no ghost yet implemented...");
+        Message.message(this, "WA'SUP!!!\n...don't be afraid, no ghost yet implemented...");
     }
 
     public void goToClassicVersus(View view){
@@ -140,7 +140,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         b.putInt("NUM_ROUND_TOTAL", legPickerVersus.getValue());
         b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPickerVersus.getValue()]);
         versusFragment.setArguments(b);
-        fragmentTransaction.setCustomAnimations(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
+        //fragmentTransaction.setCustomAnimations(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
         fragmentTransaction.add(R.id.classic_fragment_container, versusFragment);
         fragmentTransaction.commit();
 
