@@ -83,7 +83,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         legPickerVersus.setMinValue(1);
         legPickerVersus.setValue(1);
 
-        pointPickerVersus = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_workout);
+        pointPickerVersus = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_versus);
         pointPickerVersus.setDisplayedValues(null);
         pointPickerVersus.setMaxValue(stringArray.length - 1);
         pointPickerVersus.setMinValue(0);
@@ -139,7 +139,8 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         Bundle b = new Bundle();
         b.putInt("NUM_ROUND_TOTAL", legPickerVersus.getValue());
         b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPickerVersus.getValue()]);
-        workoutFragment.setArguments(b);
+        versusFragment.setArguments(b);
+        fragmentTransaction.setCustomAnimations(R.anim.abc_popup_enter, R.anim.abc_popup_exit);
         fragmentTransaction.add(R.id.classic_fragment_container, versusFragment);
         fragmentTransaction.commit();
 
