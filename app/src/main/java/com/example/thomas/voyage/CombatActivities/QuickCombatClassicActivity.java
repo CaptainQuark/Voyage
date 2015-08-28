@@ -1,7 +1,6 @@
 package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
@@ -32,7 +31,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     private LinearLayout gameView, optionsView;
     private RelativeLayout selectImageView, selectPropertiesView;
     private FrameLayout selectView;
-    private NumberPicker roundPicker, pointPicker;
+    private NumberPicker roundPickerWorkout, pointPickerWorkout, legPickerVersus, pointPickerVersus;
     private TextView noStatsRecordingView, activateGhostRecordView;
     private List<TextView> multiList = new ArrayList<>();
     private String[] stringArray = {"101","301","501","1001"};
@@ -68,16 +67,27 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         multiList.get(multi - 1).setBackground(getDrawable(R.drawable.ripple_grey_to_black));
         multiList.get(multi - 1).setTextColor(Color.BLACK);
 
-        roundPicker = (NumberPicker) findViewById(R.id.quick_roundpicker_classic_workout);
-        roundPicker.setMaxValue(50);
-        roundPicker.setMinValue(1);
-        roundPicker.setValue(1);
+        roundPickerWorkout = (NumberPicker) findViewById(R.id.quick_roundpicker_classic_workout);
+        roundPickerWorkout.setMaxValue(50);
+        roundPickerWorkout.setMinValue(1);
+        roundPickerWorkout.setValue(1);
 
-        pointPicker = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_workout);
-        pointPicker.setDisplayedValues(null);
-        pointPicker.setMaxValue(stringArray.length - 1);
-        pointPicker.setMinValue(0);
-        pointPicker.setDisplayedValues(stringArray);
+        pointPickerWorkout = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_workout);
+        pointPickerWorkout.setDisplayedValues(null);
+        pointPickerWorkout.setMaxValue(stringArray.length - 1);
+        pointPickerWorkout.setMinValue(0);
+        pointPickerWorkout.setDisplayedValues(stringArray);
+
+        legPickerVersus = (NumberPicker) findViewById(R.id.quick_legpicker_classic_versus);
+        legPickerVersus.setMaxValue(50);
+        legPickerVersus.setMinValue(1);
+        legPickerVersus.setValue(1);
+
+        pointPickerVersus = (NumberPicker) findViewById(R.id.quick_pointpicker_classic_workout);
+        pointPickerVersus.setDisplayedValues(null);
+        pointPickerVersus.setMaxValue(stringArray.length - 1);
+        pointPickerVersus.setMinValue(0);
+        pointPickerVersus.setDisplayedValues(stringArray);
     }
 
     @Override
@@ -121,27 +131,30 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
         Message.message(this, "WA'SUP!!!\n...no ghost yet implemented...");
     }
 
-    public void goToClassicWorkout(View view){
+    public void goToClassicVersus(View view){
 
-        /*
-        switch (pointPicker.getValue()){
-            case 0:
-                points = 301; break;
-            case 1:
-                points = 501; break;
-            case 2:
-                points = 1001; break;
-            default:
-                points = -1; break;
-        }
-        */
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        versusFragment = new ClassicVersusFragment();
+        Bundle b = new Bundle();
+        b.putInt("NUM_ROUND_TOTAL", legPickerVersus.getValue());
+        b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPickerVersus.getValue()]);
+        workoutFragment.setArguments(b);
+        fragmentTransaction.add(R.id.classic_fragment_container, versusFragment);
+        fragmentTransaction.commit();
+
+        gameView.setVisibility(View.VISIBLE);
+        selectView.setVisibility(View.GONE);
+    }
+
+    public void goToClassicWorkout(View view){
 
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         workoutFragment = new ClassicWorkoutFragment();
         Bundle b = new Bundle();
-        b.putInt("NUM_ROUND_TOTAL", roundPicker.getValue());
-        b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPicker.getValue()]);
+        b.putInt("NUM_ROUND_TOTAL", roundPickerWorkout.getValue());
+        b.putInt("NUM_GOAL_POINTS", stringArrayPartner[pointPickerWorkout.getValue()]);
         workoutFragment.setArguments(b);
         fragmentTransaction.add(R.id.classic_fragment_container, workoutFragment);
         fragmentTransaction.commit();
@@ -265,15 +278,6 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 workoutImageView.setVisibility(View.VISIBLE);
                 versusImageView.setVisibility(View.INVISIBLE);
                 historicalImageView.setVisibility(View.VISIBLE);
-
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                versusFragment = new ClassicVersusFragment();
-                fragmentTransaction.add(R.id.classic_fragment_container, versusFragment);
-                fragmentTransaction.commit();
-
-                gameView.setVisibility(View.VISIBLE);
-                selectView.setVisibility(View.GONE);
                 break;
 
             case R.id.classic_image_historical:

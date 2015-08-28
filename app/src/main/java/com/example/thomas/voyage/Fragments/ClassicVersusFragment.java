@@ -32,7 +32,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
     private ImageView activeOneView, activeTwoView;
     private TextView showStatsView, hideStatsView;
     private GridView statsGridView;
-    private int activePlayer = 0, numLegsToWin = 9, throwCount = 0, pointsToFinishLeg = 501;
+    private int activePlayer = 0, numLegsToWin = -1, throwCount = 0, pointsToFinishLeg = -1;
     private boolean restrictionReached = false;
     private static final int NUM_THROWS_PER_ROUND = 3;
 
@@ -41,6 +41,15 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
         super.onCreate(savedInstanceState);
 
         scoreHelper = new DBscorefieldAndMultiAmountAdapter(getActivity());
+
+        if (getArguments() != null) {
+            Bundle args = getArguments();
+            numLegsToWin = args.getInt("NUM_ROUND_TOTAL");
+            pointsToFinishLeg = args.getInt("NUM_GOAL_POINTS");
+        }
+        else{
+            Message.message(getActivity(), "ERROR  getArguments in Fragment");
+        }
     }
 
     @Override
@@ -141,7 +150,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             playerHolderList.get(activePlayer).legCount++;
             playerHolderList.get(activePlayer).playerViewsList.get(1).setText( playerHolderList.get(activePlayer).legCount + "");
 
-            if(playerHolderList.get(activePlayer).legCount == pointsToFinishLeg){
+            if(playerHolderList.get(activePlayer).legCount == numLegsToWin){
                 Message.message(getActivity(), "Du Gewinner");
             }
         }

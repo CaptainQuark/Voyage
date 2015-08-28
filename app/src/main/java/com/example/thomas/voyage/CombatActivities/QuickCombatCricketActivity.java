@@ -29,7 +29,9 @@ public class QuickCombatCricketActivity extends Activity {
     int[] valuesArray;
     private GridView cricketView;
     private List<Integer> markedList = new ArrayList<>(), scoreList = new ArrayList<>(), numOfAchievedNeededHitsList;
+    private List<Float> undoList = new ArrayList<>();
     private List<CardData> cardDataList = new ArrayList<>();
+    private List<ThrowDataHolder> throwDataList = new ArrayList<>();
     private List<TextView> multiView = new ArrayList<>();
     private TextView playerScoreOneView, playerScoreTwoView, throwCountView;
     private ImageView indicationBarOne, indicationBarTwo;
@@ -127,7 +129,13 @@ public class QuickCombatCricketActivity extends Activity {
     }
 
     public void onCricketUndo(View view){
-        Message.message(this, "WA'SUP!!!\n...no undo yet implemented...");
+
+        if(! undoList.isEmpty() ){
+            Message.message(this, "no undo implemented yet");
+
+        }else{
+            Message.message(this, "WA'SUP!!!\n...no more action to undo...");
+        }
     }
 
     public void quickCombatMissButton(View view){
@@ -211,6 +219,9 @@ public class QuickCombatCricketActivity extends Activity {
             cardDataList.get(position).progressPlayers.set(activePlayer,
                     cardDataList.get(position).progressPlayers.get(activePlayer) + (0.33f * multi));
 
+            throwDataList.add(new ThrowDataHolder(0.33f, multi));
+            undoList.add( 0.33f * multi );
+
             // Überprüfen, ob konkrete Ziel-Zahl jetzt geschlossen werden soll
             int validateIsClosed = 0;
             for( int i = 0; i < numPlayers; i++){
@@ -277,6 +288,20 @@ public class QuickCombatCricketActivity extends Activity {
         lastMultiIndex = multi;
         if(tempActivePlayer == 0) multiView.get(0).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_1));
         else multiView.get(0).setBackgroundColor(getResources().getColor(R.color.quick_combat_player_2));
+    }
+
+    private class ThrowDataHolder{
+        private float value;
+        private int multi;
+
+        public ThrowDataHolder(float v, int m){
+            value = v;
+            multi = m;
+        }
+
+        public float getValue(){ return value; }
+
+        public int getMulti(){ return multi; }
     }
 
     private class CardData{

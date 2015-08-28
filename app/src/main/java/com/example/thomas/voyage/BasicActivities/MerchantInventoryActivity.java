@@ -116,9 +116,9 @@ public class MerchantInventoryActivity extends Activity {
             dismissView.setTextColor(getResources().getColor(R.color.standard_background));
         }
         else if(lastSelectedUID.equals("merchant") && selectedItemUIDFromMerch != -1){
-            dismissItem(lastSelectedUID, selectedItemUIDFromMerch);
+            //dismissItem(lastSelectedUID, selectedItemUIDFromMerch);
             selectedItemUIDFromMerch = -1;
-            merchantGridView.invalidateViews();
+            //merchantGridView.invalidateViews();
             dismissView.setTextColor(getResources().getColor(R.color.standard_background));
             buyView.setTextColor(getResources().getColor(R.color.standard_background));
         }

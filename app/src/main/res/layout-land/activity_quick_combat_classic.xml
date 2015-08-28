@@ -480,12 +480,76 @@
                 android:src="@mipmap/monster_dummy_2"
                 android:scaleType="centerCrop">
 
-                <TextView
-                    android:gravity="center"
-                    android:textSize="13sp"
-                    android:text="NOCH IN ARBEIT"
+                <LinearLayout
+                    android:background="@android:color/black"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Legs"
+                        android:gravity="center"/>
+
+                    <FrameLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <NumberPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:descendantFocusability="blocksDescendants"
+                            android:showDividers="none"
+                            android:divider="@android:color/transparent"
+                            android:id="@+id/quick_legpicker_classic_versus"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:background="@android:color/black"
+                    android:layout_weight="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Punkte"
+                        android:gravity="center" />
+
+                    <FrameLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent">
+
+                        <NumberPicker
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:descendantFocusability="blocksDescendants"
+                            android:showDividers="none"
+                            android:divider="@android:color/transparent"
+                            android:id="@+id/quick_pointpicker_classic_versus"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="START"
+                    android:gravity="center"
+                    android:onClick="goToClassicVersus"
+                    android:background="@drawable/ripple_go_in_combat" />
 
             </LinearLayout>
 
@@ -533,9 +597,6 @@
                     </FrameLayout>
 
                 </LinearLayout>
-
-
-
 
                 <LinearLayout
                     android:background="@android:color/black"
@@ -607,7 +668,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"
+            android:visibility="gone"
             android:id="@+id/classic_relativelayout_image_selection">
 
 
