@@ -3,9 +3,15 @@ package com.example.thomas.voyage.ContainerClasses;
 public class MonsterPool {
 
     public String getName(){
-        String val = "Magmamemnnon";
+        String[] val = {"Magmamemnnon, Knöllchen, Steinchen"};
+        int size = val.length, rarity = 0;
 
-        return val;
+        for(boolean check = true; check; ){
+            rarity = (int) (Math.random() * 100);
+            if(rarity <= size){check = false;}
+        }
+
+        return val[rarity];
     }
 
     public String getCheckout(){

@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class ItemPool {
 
-    Context c;
+    private Context c;
 
     public ItemPool(Context context){
         c = context;
