@@ -28,7 +28,9 @@ public class HeroPool {
         for (boolean run = true; run; ) {
             run = false;
 
-            String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe", "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar"};
+            String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe",
+                    "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar",
+                    "Beowulf","Hartmut von Heinstein", "Konrad Käsebart"};
 
             int count = (int) (Math.random() * 100);
             if( count >= nameArray.length) run = true;
