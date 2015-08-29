@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
+import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
 import com.example.thomas.voyage.Fragments.ClassicVersusFragment;
 import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
 import com.example.thomas.voyage.R;
@@ -288,6 +290,18 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 workoutImageView.setVisibility(View.VISIBLE);
                 versusImageView.setVisibility(View.VISIBLE);
                 historicalImageView.setVisibility(View.INVISIBLE);
+
+                DBghostScoreDataAdapter scoreDataAdapter = new DBghostScoreDataAdapter(this);
+                String data = scoreDataAdapter.getAllData();
+                Message.message(this, data);
+
+                DBghostMetaDataAdapter metaDataAdapter = new DBghostMetaDataAdapter(this);
+                String meta = "Date: " + metaDataAdapter.getDate(1) + " "
+                        + "Name: "+metaDataAdapter.getName(1) + " "
+                        + "Avg: " +metaDataAdapter.getPointsAveragePerThrow(1) + " "
+                        + "ThrowCount: " +metaDataAdapter.getThrowCount(1);
+                Message.message(this, meta);
+
                 break;
 
             default:

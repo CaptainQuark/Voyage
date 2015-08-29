@@ -21,7 +21,7 @@ public class DBghostMetaDataAdapter {
         c = context;
     }
 
-    public long insertData(int rowId, String name, int count, int avg, String date) {
+    public long insertData(int rowId, String name, int count, float avg, String date) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
@@ -74,7 +74,7 @@ public class DBghostMetaDataAdapter {
         return value;
     }
 
-    public int getPointsAveragePerThrow(int id) {
+    public float getPointsAveragePerThrow(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBghostMetaDataHelper.THROW_AVG};
@@ -85,10 +85,10 @@ public class DBghostMetaDataAdapter {
             cursor.moveToFirst();
         }
 
-        int value = -1;
+        float value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBghostMetaDataHelper.THROW_AVG));
+            value = cursor.getFloat(cursor.getColumnIndex(DBghostMetaDataHelper.THROW_AVG));
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getPointsAveragePerThrow with exception: " + n);
         }
@@ -167,7 +167,7 @@ public class DBghostMetaDataAdapter {
                 + VAL + " INT, "
                 + NAME + " VARCHAR(255), "
                 + THROW_COUNT + " INT, "
-                + THROW_AVG + " INT, "
+                + THROW_AVG + " REAL, "
                 + DATE + " VARCHAR(255));";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;

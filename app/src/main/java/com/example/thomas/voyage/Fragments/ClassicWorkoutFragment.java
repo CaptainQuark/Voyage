@@ -16,10 +16,9 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
-import com.example.thomas.voyage.Databases.DBghostScoresAdapter;
+import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
-import com.example.thomas.voyage.ResClasses.CheckoutRes;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -328,33 +327,37 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         //Message.message(getActivity(), "onDetach");
 
         if(saveGhost){
+
             //Message.message(getActivity(), "saveGhost called");
-            DBghostScoresAdapter db = new DBghostScoresAdapter(getActivity());
+            DBghostScoreDataAdapter db = new DBghostScoreDataAdapter(getActivity());
             DBghostMetaDataAdapter dbGhost = new DBghostMetaDataAdapter(getActivity());
 
             int undoSize = undoList.size();
 
             for(int i = 0; i < undoSize; i++){
-                if( undoSize - i >= 3) db.insertData(i, undoList.get(i++), undoList.get(i++), undoList.get(i++));
-                else if( undoSize - i >= 2) db.insertData(i, undoList.get(i++), undoList.get(i++),-1);
-                else if( undoSize - i >= 1) db.insertData(i, undoList.get(i++),-1, -1);
+                if( undoSize - i >= 3) db.insertData(1, i, undoList.get(i++), undoList.get(i++), undoList.get(i++));
+                else if( undoSize - i >= 2) db.insertData(1, i, undoList.get(i++), undoList.get(i++),-1);
+                else if( undoSize - i >= 1) db.insertData(1, i, undoList.get(i++),-1, -1);
 
             }
-
-            // '-1' dient als Markierung für Abschluss
-            // Wenn Datenbank abgefragt wird, wird der Index solange um 1 erhöht, bis die Markierung erreicht wurde.
-            // Alle Daten bis dahin sind ein Spiel. Danach wird Index erneut um 1 erhöht und beginnt
-            // bei 'VAL = 0'.
-            db.insertData(-1,-1,-1,-1);
 
             // Hier werden zugehörige Informationen in eigene Datenbank eingetragen (Vermeidung von Overhead durch leere Spalen in obiger Tabelle)
             // Bis auf Name alles automatisch
-            int avg = 0;
+            float avg = 0;
             for(int i = 0; i < undoSize; i++){
-                avg = ( avg + undoList.get(i)  )/ (i+1);
+                avg += undoList.get(i);
             }
+
+            Message.message(getActivity(), "Avg RAW: " + avg);
+
+            avg /= undoSize;
+            Message.message(getActivity(), "Avg real: " + avg);
+
             Date date = new Date();
-            dbGhost.insertData( (int) (dbGhost.getTaskCount()+1), "Bobby", undoSize, avg, date.toString());
+            dbGhost.insertData((int) (dbGhost.getTaskCount() + 1), "Bobby", undoSize, avg, date.toString());
+
+            long count = db.getRowsByGameCount(1);
+            Message.message(getActivity(), "rowCount : " + count);
         }
     }
 
@@ -371,9 +374,9 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void dismissRecordButtons(boolean setVisible);
-        public void putFragmentToSleep();
-        public boolean getSaveStatsChoice();
+        void dismissRecordButtons(boolean setVisible);
+        void putFragmentToSleep();
+        boolean getSaveStatsChoice();
     }
 
     public class SimpleNumberAdapter extends BaseAdapter {
