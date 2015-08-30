@@ -99,6 +99,14 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+            gameView.setVisibility(View.GONE);
+            selectView.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
     public void dismissRecordButtons(boolean setVisible) {
         if(setVisible){
             optionsView.setVisibility(View.VISIBLE);
