@@ -101,13 +101,12 @@ public class DBghostScoreDataAdapter {
         return buffer.toString();
     }
 
-    public int getFirstThrow(long gameId, long throwId) {
+    public int getFirstThrow(int gameId, int throwId) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBghostScoreHelper.FIRST_THROW};
         String[] selectionArgs = {String.valueOf(gameId), String.valueOf(throwId)};
-        Cursor cursor = db.query(DBghostScoreHelper.TABLE_NAME, columns, DBghostScoreHelper.GAME_ID
-                + "=? AND " + DBghostScoreHelper.THROW_ID_PER_GAME + "=?", selectionArgs, null, null, null);
+        Cursor cursor = db.query(DBghostScoreHelper.TABLE_NAME, columns, DBghostScoreHelper.GAME_ID + "=? AND " + DBghostScoreHelper.THROW_ID_PER_GAME + "=?", selectionArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -127,13 +126,13 @@ public class DBghostScoreDataAdapter {
         return value;
     }
 
-    public int getSecondThrow(long gameId, long throwId) {
+    public int getSecondThrow(int gameId, int throwId) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBghostScoreHelper.SECOND_THROW};
         String[] selectionArgs = {String.valueOf(gameId), String.valueOf(throwId)};
         Cursor cursor = db.query(DBghostScoreHelper.TABLE_NAME, columns, DBghostScoreHelper.GAME_ID
-                + "=? AND " + DBghostScoreHelper.THROW_ID_PER_GAME + "=?", selectionArgs, null, null, null);
+                + " =? AND " + DBghostScoreHelper.THROW_ID_PER_GAME + " =? ", selectionArgs, null, null, null);
 
         if (cursor != null) {
             cursor.moveToFirst();
@@ -153,7 +152,7 @@ public class DBghostScoreDataAdapter {
         return value;
     }
 
-    public int getThirdThrow(long gameId, long throwId) {
+    public int getThirdThrow(int gameId, int throwId) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBghostScoreHelper.THIRD_THROW};

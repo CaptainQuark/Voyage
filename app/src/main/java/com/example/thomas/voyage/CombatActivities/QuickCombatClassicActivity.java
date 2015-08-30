@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
 import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
+import com.example.thomas.voyage.Fragments.ClassicHistoricalFragment;
 import com.example.thomas.voyage.Fragments.ClassicVersusFragment;
 import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
 import com.example.thomas.voyage.R;
@@ -295,10 +296,22 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 break;
 
             case R.id.classic_image_historical:
+                /*
                 workoutImageView.setVisibility(View.VISIBLE);
                 versusImageView.setVisibility(View.VISIBLE);
                 historicalImageView.setVisibility(View.INVISIBLE);
+                */
 
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                ClassicHistoricalFragment historicalFragment = new ClassicHistoricalFragment();
+                fragmentTransaction.add(R.id.classic_fragment_container, historicalFragment);
+                fragmentTransaction.commit();
+
+                gameView.setVisibility(View.VISIBLE);
+                selectView.setVisibility(View.GONE);
+
+                /*
                 DBghostScoreDataAdapter scoreDataAdapter = new DBghostScoreDataAdapter(this);
                 String data = scoreDataAdapter.getAllData();
                 Message.message(this, data);
@@ -309,6 +322,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                         + "Avg: " +metaDataAdapter.getPointsAveragePerThrow(1) + " "
                         + "ThrowCount: " +metaDataAdapter.getThrowCount(1);
                 Message.message(this, meta);
+                */
 
                 break;
 

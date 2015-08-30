@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
@@ -334,11 +335,10 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
             int undoSize = undoList.size();
 
-            for(int i = 0; i < undoSize; i++){
-                if( undoSize - i >= 3) db.insertData(1, i, undoList.get(i++), undoList.get(i++), undoList.get(i++));
-                else if( undoSize - i >= 2) db.insertData(1, i, undoList.get(i++), undoList.get(i++),-1);
-                else if( undoSize - i >= 1) db.insertData(1, i, undoList.get(i++),-1, -1);
-
+            for(int i = 0, throwCount = 1; i < undoSize; throwCount++){
+                if( undoSize - i >= 3) db.insertData(1, throwCount, undoList.get(i++), undoList.get(i++), undoList.get(i++));
+                else if( undoSize - i >= 2) db.insertData(1, throwCount, undoList.get(i++), undoList.get(i++),-1);
+                else if( undoSize - i >= 1) db.insertData(1, throwCount, undoList.get(i++),-1, -1);
             }
 
             // Hier werden zugehörige Informationen in eigene Datenbank eingetragen (Vermeidung von Overhead durch leere Spalen in obiger Tabelle)
@@ -360,17 +360,6 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             Message.message(getActivity(), "rowCount : " + count);
         }
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
