@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.Fragments.ClassicVersusFragment"
-    android:background="@color/soft_gray_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/soft_gray_background">
 
     <LinearLayout
         android:background="@android:color/black"

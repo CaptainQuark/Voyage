@@ -37,7 +37,6 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             lastUsedMulti = -1, FINISH_FACTOR = 2;
     private boolean saveToStats = true, saveGhost = false;
 
-    // MultiValKeyHistory-Liste hat *keine* Verwendung - später vielleicht als Cache einbauen, um nicht ständig Read-/Write auf Datenbank auszuführen
     private List<MultiValKeyHistory> multiValKeyHistoryList;
     private List<Integer> undoList = new ArrayList<>();
     private List<TextView> hitViewList = new ArrayList<>();
@@ -329,35 +328,28 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
 
         if(saveGhost){
 
-            //Message.message(getActivity(), "saveGhost called");
-            DBghostScoreDataAdapter db = new DBghostScoreDataAdapter(getActivity());
-            DBghostMetaDataAdapter dbGhost = new DBghostMetaDataAdapter(getActivity());
+            DBghostScoreDataAdapter scoreAdapter = new DBghostScoreDataAdapter(getActivity());
+            DBghostMetaDataAdapter metaAdapter = new DBghostMetaDataAdapter(getActivity());
 
             int undoSize = undoList.size();
+            int numGames = (int) metaAdapter.getTaskCount();
+            numGames++;
 
+            // Score-Datenbank befüllen
             for(int i = 0, throwCount = 1; i < undoSize; throwCount++){
-                if( undoSize - i >= 3) db.insertData(1, throwCount, undoList.get(i++), undoList.get(i++), undoList.get(i++));
-                else if( undoSize - i >= 2) db.insertData(1, throwCount, undoList.get(i++), undoList.get(i++),-1);
-                else if( undoSize - i >= 1) db.insertData(1, throwCount, undoList.get(i++),-1, -1);
+                if( undoSize - i >= 3) scoreAdapter.insertData(numGames, throwCount, undoList.get(i++), undoList.get(i++), undoList.get(i++));
+                else if( undoSize - i >= 2) scoreAdapter.insertData(numGames, throwCount, undoList.get(i++), undoList.get(i++),-1);
+                else if( undoSize - i >= 1) scoreAdapter.insertData(numGames, throwCount, undoList.get(i++),-1, -1);
             }
 
-            // Hier werden zugehörige Informationen in eigene Datenbank eingetragen (Vermeidung von Overhead durch leere Spalen in obiger Tabelle)
-            // Bis auf Name alles automatisch
+            // Daten für MetaDatenbank verarbeiten
             float avg = 0;
             for(int i = 0; i < undoSize; i++){
                 avg += undoList.get(i);
             }
 
-            Message.message(getActivity(), "Avg RAW: " + avg);
-
-            avg /= undoSize;
-            Message.message(getActivity(), "Avg real: " + avg);
-
             Date date = new Date();
-            dbGhost.insertData((int) (dbGhost.getTaskCount() + 1), "Bobby", undoSize, avg, date.toString());
-
-            long count = db.getRowsByGameCount(1);
-            Message.message(getActivity(), "rowCount : " + count);
+            metaAdapter.insertData(numGames, "Bobby", undoSize, avg, date.toString());
         }
     }
 

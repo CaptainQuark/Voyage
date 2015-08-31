@@ -24,7 +24,8 @@ import com.example.thomas.voyage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuickCombatClassicActivity extends Activity implements ClassicWorkoutFragment.OnFragmentInteractionListener, ClassicVersusFragment.OnVersusInteractionListener{
+public class QuickCombatClassicActivity extends Activity implements ClassicWorkoutFragment.OnFragmentInteractionListener,
+        ClassicVersusFragment.OnVersusInteractionListener, ClassicHistoricalFragment.onHistoricalInteractionListener{
 
     private int multi = 1;
     private boolean saveToStats = true;
@@ -114,6 +115,18 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
         }else{
             optionsView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void dismissScoreButtonBar(boolean setVisible) {
+        LinearLayout scoreButtonBar = (LinearLayout) findViewById(R.id.classic_score_button_bar);
+
+        if(setVisible){
+            scoreButtonBar.setVisibility(View.VISIBLE);
+
+        }else{
+            scoreButtonBar.setVisibility(View.GONE);
         }
     }
 

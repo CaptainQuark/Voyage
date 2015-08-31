@@ -215,7 +215,7 @@ public class DBscorefieldAndMultiAmountAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            Message.message(context, "DBghostMetaDataHelper onCreate called");
+            Message.message(context, "MetaHelper onCreate called");
         }
 
         @Override
@@ -223,7 +223,7 @@ public class DBscorefieldAndMultiAmountAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "DBghostMetaDataHelper onUpgrade called");
+            Message.message(context, "MetaHelper onUpgrade called");
             Log.v("HEROES UPGRADE", "heroes db upgraded");
         }
     }
