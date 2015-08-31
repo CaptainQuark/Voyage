@@ -1,0 +1,37 @@
+WAS NOCH ZU VERSION 1.0 FEHLT:
+##############################
+
+
+ --- STORY ----
+
+ * noch kein Story-Modus implementiert
+
+
+ --- COMBAT ---
+
+ * KI des Monsters im Combat
+ * Fähigkeiten des Monsters
+ * Verknüpfung von Inventarsammlung mit Combat (Item-Einsatz funktioniert bereits)
+ * Status-Eigenschaften bei Held und Monster
+
+
+ --- INVENTAR ---
+
+ * Symbole für Gegenstände + passende Bezeichnung und Eigenschaften
+ * Zeit für Inventarhändler
+
+
+ --- VS ---
+
+ * Geist-Datenbestände spielbar machen
+ * legendäre Matches nachspielen (Geist-Datenbank kann dazu genutzt werden)
+
+
+ --- STATISTIKEN ---
+
+ * soweit voll integriert, eigene Activity zur Anzeige muss noch erstellt werden (bis jetzt immer im QuickCombat integriert)
+
+
+ --- HELDEN-ACTIVITY ---
+
+ * Optische/Funktioniale Überarbeitung der eigenen Helden-Ansichts-Activity

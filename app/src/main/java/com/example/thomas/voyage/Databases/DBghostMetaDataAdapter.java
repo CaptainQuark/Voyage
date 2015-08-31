@@ -21,13 +21,15 @@ public class DBghostMetaDataAdapter {
         c = context;
     }
 
-    public long insertData(int rowId, String name, int count, float avg, String date) {
+    public long insertData(int rowId, String name, int pointsPerLeg, int numLegs, int count, float avg, String date) {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(MetaHelper.VAL, rowId);
         contentValues.put(MetaHelper.NAME, name);
+        contentValues.put(MetaHelper.POINTS_PER_LEG, pointsPerLeg);
+        contentValues.put(MetaHelper.NUM_LEGS, numLegs);
         contentValues.put(MetaHelper.THROW_COUNT, count);
         contentValues.put(MetaHelper.THROW_AVG, avg);
         contentValues.put(MetaHelper.DATE, date);
@@ -45,7 +47,7 @@ public class DBghostMetaDataAdapter {
     public String getOneRow(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
-        String[] columns = {MetaHelper.NAME, MetaHelper.THROW_COUNT, MetaHelper.THROW_AVG, MetaHelper.DATE};
+        String[] columns = {MetaHelper.NAME, MetaHelper.POINTS_PER_LEG,MetaHelper.NUM_LEGS,MetaHelper.THROW_COUNT, MetaHelper.THROW_AVG, MetaHelper.DATE};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(MetaHelper.TABLE_NAME, columns, MetaHelper.VAL + "=?", selectionArgs, null, null, null);
 
@@ -57,16 +59,20 @@ public class DBghostMetaDataAdapter {
 
         try {
             int indexName = cursor.getColumnIndex(MetaHelper.NAME);
+            int indexPointsPerLeg = cursor.getColumnIndex(MetaHelper.POINTS_PER_LEG);
+            int indexNumLegs = cursor.getColumnIndex(MetaHelper.NUM_LEGS);
             int indexCount = cursor.getColumnIndex(MetaHelper.THROW_COUNT);
             int indexAvg = cursor.getColumnIndex(MetaHelper.THROW_AVG);
             int indexDate = cursor.getColumnIndex(MetaHelper.DATE);
 
             String name = cursor.getString(indexName);
+            int pointsPerLeg = cursor.getInt(indexPointsPerLeg);
+            int numLegs = cursor.getInt(indexNumLegs);
             int count = cursor.getInt(indexCount);
             float avg = cursor.getFloat(indexAvg);
             String date = cursor.getString(indexDate);
 
-            buffer.append(name + ", mit  " + count + " Würfen. Durchschnitt: " + avg + ", Datum: " + date);
+            buffer.append(name + ", mit  " + count + " Würfen (" + pointsPerLeg + " / " + numLegs + " Runden / Ø: " + avg + "), Datum: " + date);
 
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getThrowCount with exception: " + n);
@@ -93,6 +99,56 @@ public class DBghostMetaDataAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(MetaHelper.THROW_COUNT));
+        } catch (NullPointerException n) {
+            Message.message(c, "ERROR @ getThrowCount with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public int getPointsPerLeg(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {MetaHelper.POINTS_PER_LEG};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(MetaHelper.TABLE_NAME, columns, MetaHelper.VAL + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        int value = -1;
+
+        try {
+            value = cursor.getInt(cursor.getColumnIndex(MetaHelper.POINTS_PER_LEG));
+        } catch (NullPointerException n) {
+            Message.message(c, "ERROR @ getThrowCount with exception: " + n);
+        }
+
+        cursor.close();
+        db.close();
+
+        return value;
+    }
+
+    public int getNumLegs(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {MetaHelper.NUM_LEGS};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(MetaHelper.TABLE_NAME, columns, MetaHelper.VAL + "=?", selectionArgs, null, null, null);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
+        }
+
+        int value = -1;
+
+        try {
+            value = cursor.getInt(cursor.getColumnIndex(MetaHelper.NUM_LEGS));
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getThrowCount with exception: " + n);
         }
@@ -185,6 +241,8 @@ public class DBghostMetaDataAdapter {
         private static final String UID = "_id";
         private static final String VAL = "Val";
         private static final String NAME = "ThrowId";
+        private static final String POINTS_PER_LEG = "PointsPerLeg";
+        private static final String NUM_LEGS = "NumLegs";
         private static final String THROW_COUNT = "First";
         private static final String THROW_AVG = "Second";
         private static final String DATE = "Third";
@@ -195,6 +253,8 @@ public class DBghostMetaDataAdapter {
                 + UID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + VAL + " INT, "
                 + NAME + " VARCHAR(255), "
+                + POINTS_PER_LEG + " INT, "
+                + NUM_LEGS + " INT, "
                 + THROW_COUNT + " INT, "
                 + THROW_AVG + " REAL, "
                 + DATE + " VARCHAR(255));";

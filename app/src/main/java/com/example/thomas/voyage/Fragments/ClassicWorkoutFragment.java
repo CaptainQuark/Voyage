@@ -349,7 +349,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             }
 
             Date date = new Date();
-            metaAdapter.insertData(numGames, "Bobby", undoSize, avg, date.toString());
+            metaAdapter.insertData(numGames, "Bobby", numGoalPoints, numRoundTotal, undoSize, avg, date.toString());
         }
     }
 

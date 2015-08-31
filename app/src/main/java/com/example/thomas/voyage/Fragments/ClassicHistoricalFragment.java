@@ -2,6 +2,7 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -34,6 +35,7 @@ public class ClassicHistoricalFragment extends Fragment {
     private onHistoricalInteractionListener mListener;
     private FrameLayout selectionView;
     private LinearLayout gameView;
+    private int numGoalPoints = 301;
 
     public ClassicHistoricalFragment() {
         // Required empty public constructor
@@ -57,9 +59,7 @@ public class ClassicHistoricalFragment extends Fragment {
 
         selectionView = (FrameLayout) rootView.findViewById(R.id.historical_framelayout_selection);
         gameView = (LinearLayout) rootView.findViewById(R.id.historical_linearlayout_game);
-
         ListView listView = (ListView) rootView.findViewById(R.id.listView_historical);
-
 
         int numGames = (int) metaDataAdapter.getTaskCount();
         String[] values = new String[numGames];
@@ -111,7 +111,6 @@ public class ClassicHistoricalFragment extends Fragment {
         void putFragmentToSleep();
         boolean getSaveStatsChoice();
     }
-
 }
 
 
