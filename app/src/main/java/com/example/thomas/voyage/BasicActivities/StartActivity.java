@@ -63,7 +63,8 @@ public class StartActivity extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         setHeroesPartyWindow();
-        setHeroesPartyWindow();
+        //setHeroesPartyWindow();
+        setItemMarketWindow();
         hideSystemUI();
     }
 
