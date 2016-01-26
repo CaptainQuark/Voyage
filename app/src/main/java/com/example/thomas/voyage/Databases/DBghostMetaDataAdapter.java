@@ -1,4 +1,5 @@
 package com.example.thomas.voyage.Databases;
+import java.text.DecimalFormat;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -69,10 +70,12 @@ public class DBghostMetaDataAdapter {
             int pointsPerLeg = cursor.getInt(indexPointsPerLeg);
             int numLegs = cursor.getInt(indexNumLegs);
             int count = cursor.getInt(indexCount);
-            float avg = cursor.getFloat(indexAvg);
+            float avg = (cursor.getFloat(indexAvg) / (float) count);
             String date = cursor.getString(indexDate);
 
-            buffer.append(name + ", mit  " + count + " Würfen (" + pointsPerLeg + " / " + numLegs + " Runden / Ø: " + avg + "), Datum: " + date);
+            DecimalFormat f = new DecimalFormat("##.00");
+
+            buffer.append(name + ", mit  " + count + " Würfen (" + pointsPerLeg + " / " + numLegs + " Runden / Ø: " + f.format(avg) + "), Datum: " + date);
 
         } catch (NullPointerException n) {
             Message.message(c, "ERROR @ getThrowCount with exception: " + n);
