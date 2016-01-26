@@ -14,12 +14,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
+import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ImgRes;
-import com.example.thomas.voyage.BasicActivities.StartActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,15 +64,27 @@ public class CombatActivity extends Activity {
     private GridView gridViewNumbers, gridViewSpecials;
     private static DBplayerItemsAdapter itemHelper;
 
+    static int monsterResistance = 1;
+    static int monsterBlock = 0;
+    static int tempScore = 0;
+    static int triggerScore = 0;
+    static int triggerMulti = 0;
+    static int bonusScore = 0;
+    static int playerHealth = 0, bonusHealth = 0, monsterHealth = 300;
+    static String monsterCheckout = "";
+    static int throwCount = 0;
+    static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         setContentView(R.layout.activity_combat);
         hideSystemUI();
         initializeViews();
         initializeValues();
 
-        startRound();
+
     }
 
     @Override
@@ -80,214 +93,81 @@ public class CombatActivity extends Activity {
         hideSystemUI();
     }
 
-    private static void startRound(){
-        roundCount++;
 
-        // TODO Wenn Monster durch Fähigkeit beginnt, dann hier.
-        // TODO Danach wird der bool-Wert auf 'false' gesetzt.
-        // TODO Ansonsten passiert in 'startRound' nichts mehr und Held beginnt.
-    }
 
-    private static void setHealthBarMonster() {
-        int monsterHealth = monsterList.get(0).getInt("hp");
 
-        try {
-            if (monsterHealth > 0) {
 
-                float x = monsterHealthConst * (float) 0.01;
 
-                float weightRounded = monsterHealth / x * (float) 0.01;
 
-                monsterHealthView.setText(monsterHealth + "");
-                paramsBarMonsterDamaged.weight = 1 - weightRounded;
-                paramsBarMonsterVital.weight = weightRounded;
-                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                healthbarMonsterVital.setLayoutParams(paramsBarMonsterVital);
+    private static void combat(int scoreField, int multiField){
+        throwCount++;
 
-            } else {
-                paramsBarMonsterDamaged.weight = 1.0f;
-                paramsBarMonsterVital.weight = 0f;
-                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
-                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
-                monsterHealthView.setText("DU GEWINNER!");
-                monsterList.get(0).setInt("hp", monsterHealthConst);
-            }
-        } catch (ArithmeticException a) {
-            Log.e("ARITHMETIC EXCEPTION", a + "");
+        tempScore += scoreField * multiField * monsterResistance - monsterBlock;
+
+        if( scoreField == triggerScore && multiField == triggerMulti ){
+            tempScore += bonusScore;
+            playerHealth += bonusHealth;
         }
-    }
 
-    private static void setHealthBarHero() {
-        int heroHitpoints = heroList.get(0).getInts("hp");
-
-        try {
-            if (heroHitpoints > 0) {
-
-                float x = heroHitpointsConst * (float) 0.01;
-
-                float weightRounded = heroHitpoints / x * (float) 0.01;
-
-                heroHitpointsView.setText(heroHitpoints + "");
-                paramsBarHeroDamaged.weight = 1 - weightRounded;
-                paramsBarHeroVital.weight = weightRounded;
-                healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
-                healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
-
-            } else {
-                paramsBarHeroDamaged.weight = 1.0f;
-                paramsBarHeroVital.weight = 0f;
-                healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
-                healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
-                heroHitpointsView.setText("DU GEWINNER!");
-                heroList.get(0).setInt("hp", heroHitpointsConst);
+        if( monsterCheckout == "double" && checkOutPossible(2) ){
+            if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
+                Message.message(context, "Double Win!");
             }
-        } catch (ArithmeticException a) {
-            Log.e("ARITHMETIC EXCEPTION", a + "");
+
+        }else if( monsterCheckout == "master" && checkOutPossible(1) ){
+            if( monsterHealth == (scoreField * multiField) ){
+                Message.message(context, "Master Win!");
+            }
+
+        }else{
+            monsterHealth -= tempScore;
+            Message.message(context, "Health: " + monsterHealth + ", tempScore: " + tempScore);
+            monsterHealthView.setText(monsterHealth + "");
+
+            if( monsterHealth <= 0 && monsterCheckout == "master" || monsterCheckout == "double"){
+                Message.message(context, "Norm Win!");
+
+            }else if( throwCount == 3 ){
+                throwCount = 0;
+                // Bedingungen
+            }
         }
+
+        tempScore = 0;
     }
 
-    private static void handleAttackInputByHero(int result) {
-        scoreHeroMultiplierArray[dartCount - 1] = scoreMultiplier;
-        scoreHeroFieldArray[dartCount - 1] = result;
+    private static Boolean checkOutPossible(int checkOutType){
+        switch(checkOutType){
+            case 1:
+                int tempVal = 0;
+                for(int i = 0; i < 10; i++){
+                    switch(i){
+                        case 0: tempVal = 20; break;
+                        //TODO Werte hinzufügen
+                    }
 
-        if (dartCount == 3) {
-            int appliedDamage = 0;
-            for (int i = 0; i < 3; i++) {
-                appliedDamage += scoreHeroMultiplierArray[i] * scoreHeroFieldArray[i];
-            }
-
-            switch (heroClassActive) {
-                case 0:
-                    handlePrimaryHeroClass objPrime = new handlePrimaryHeroClass();
-                    objPrime.applyEffects();
-                    break;
-                case 1:
-                    handleSecondaryHeroClass objSec = new handleSecondaryHeroClass();
-                    //objSec.applyEffects();
-                    break;
-                case 2:
-                    handleSpecialAttackHeroClass objSpecial = new handleSpecialAttackHeroClass();
-                    //objSpecial.applyEffects();
-                    break;
-                default:
-                    Log.e("-- ERROR - ", " @ 'handleAttackInputByHero");
-                    break;
-            }
-
-
-
-            monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") - appliedDamage);
-            undoListForHero.add(scoreHeroMultiplierArray[dartCount - 1] * scoreHeroFieldArray[dartCount - 1]);
-            /*
-            int size = undoListForHero.size();
-            String chronicle = "";
-
-            for(int i = dartCount; i >= 1; i--){
-                chronicle += undoListForHero.get(size - i);
-                if(i != 1) chronicle += '|';
-                chronicleView.setText(chronicle);
-            }
-            */
-
-            eventString += "Der Held attackiert mit " + appliedDamage + " TP\n";
-
-            handleAttackInputByMonster();
-            handleSelectedItem();
-            setHealthBarHero();
-
-            heroHitpointsView.setText(Integer.toString(heroList.get(0).getInts("hp")));
-
-            chronicleString += ( (undoListForHero.get(dartCount-1)) + "");
-            chronicleView.setText(chronicleString);
-            dartCount = 1;
-            roundCount++;
-
-            eventsView.setText(eventString);
-
-            for(int i = 0; i < scoreHeroFieldArray.length; i++){
-                scoreHeroFieldArray[i] = -1;
-            }
-
-            for(int i = 0; i < scoreHeroMultiplierArray.length; i++){
-                scoreHeroMultiplierArray[i] = -1;
-            }
-
-            chronicleString = "";
-            chronicleView.setText(chronicleString);
-            undoListForHero = new ArrayList<>();
-
-        } else {
-
-            undoListForHero.add( scoreHeroMultiplierArray[dartCount-1] * scoreHeroFieldArray[dartCount-1] );
-            handleSelectedItem();
-            chronicleString += ( undoListForHero.get(dartCount-1) + "   |   ");
-            chronicleView.setText(chronicleString);
-            dartCount++;
+                    if( (tempVal-monsterHealth) == 0 ){
+                        return true;
+                    }
+                }
+                break;
+            case 2:
+                if( (monsterHealth == 50) || ((monsterHealth <= 40) && (monsterHealth % 2 == 0)) ){
+                    return true;
+                }
+                break;
         }
+
+        return false;
     }
 
-    private static void handleAttackInputByMonster(){
-
-        /*
-
-        Monster greift erst nach 3. Wurf des Spielers an (dartCount == 3).
-
-        Gewähltes Item wird nach dieser Funktion in 'handleAttackInputByHero' aufgerufen,
-        da diese Funktion dort gerufen wird.
-
-        Healthbar des Monsters wird erst am Ende der Funktion gesetzt, da zuvor durch
-        Effekte des Monsters der zugefügte Schaden verändert werden kann
-
-         */
-
-        heroList.get(0).setInt("hp", heroList.get(0).getInts("hp") - 5);
-
-        eventString += "Das Monster attackiert mit 5 TP\n";
-        eventsView.setText(eventString);
-
-        setHealthBarMonster();
-    }
-
-    public void activityCombatBackToMain(View view) {
-        Intent i = new Intent(getApplicationContext(), StartActivity.class);
-        startActivity(i);
-        finish();
-    }
-
-    public void undoButtonClicked(View view){
-        int size = undoListForHero.size();
-
-        if (size > 0) {
-
-            if(dartCount == 3){
-                monsterList.get(0).setInt("hp", monsterList.get(0).getInt("hp") + undoListForHero.get(size - 1));
-                setHealthBarMonster();
-                monsterHealthView.setText(Integer.toString(monsterList.get(0).getInt("hp")));
-            }
-
-            undoListForHero.remove(size - 1);
-            chronicleString = "";
-            dartCount--;
-
-            for(int i = 0; i < undoListForHero.size(); i++){
-                chronicleString += scoreHeroMultiplierArray[i] * scoreHeroFieldArray[i] + "   |   ";
-            }
-
-            chronicleView.setText(chronicleString);
-        }
-    }
-
-    public void missButtonClicked(View view) {
-        handleAttackInputByHero(0);
-    }
-
-    private static class NumbersAdapter extends BaseAdapter {
+    private static class ScoreDialAdapter extends BaseAdapter {
 
         int[] result;
         Context context;
         private LayoutInflater inflater = null;
 
-        public NumbersAdapter(CombatActivity combatActivity, int[] list) {
+        public ScoreDialAdapter(CombatActivity combatActivity, int[] list) {
             result = list;
             context = combatActivity;
             inflater = (LayoutInflater) context.
@@ -325,7 +205,7 @@ public class CombatActivity extends Activity {
                 @Override
                 public void onClick(View v) {
 
-                    handleAttackInputByHero(result[position]);
+                    combat(result[position], scoreMultiplier);
                 }
             });
 
@@ -337,13 +217,13 @@ public class CombatActivity extends Activity {
         }
     }
 
-    private static class RightPanelAdapter extends BaseAdapter {
+    private static class ScoreMultiAdapter extends BaseAdapter {
 
         int[] result;
         Context context;
         private LayoutInflater inflater = null;
 
-        public RightPanelAdapter(CombatActivity combatActivity, int[] list) {
+        public ScoreMultiAdapter(CombatActivity combatActivity, int[] list) {
             result = list;
             context = combatActivity;
             inflater = (LayoutInflater) context.
@@ -426,13 +306,11 @@ public class CombatActivity extends Activity {
                             break;
                         case 6:
                             scoreMultiplier = 1;
-                            handleAttackInputByHero(25);
                             break;
                         case 7:
                             break;
                         case 8:
                             scoreMultiplier = 1;
-                            handleAttackInputByHero(50);
                             break;
                         case 9:
                             break;
@@ -450,81 +328,27 @@ public class CombatActivity extends Activity {
         }
     }
 
-    private static class handlePrimaryHeroClass {
 
-        /*
-        USAGE:
 
-        1.
-            Die Mulitplier können über 'scoreHeroMultiplierArray[i]' angesprochen werden,
-            wobei 'i' von 0 - 2 geht und die Zeiteinheit des Angriffs ist (i = 0 ist erster Angriff,...)
 
-            Die Score-Felder können über 'scoreHeroFieldArray[i] angesprochen werden.
-            Funktionieren so wie die Multiplier.
 
-        2.
-            Die Effekte werden vor dem Aufruf dieses Objekts berechnet und gespeichert,
-            aber noch nicht sichtbar gemacht. Auf jeden Score und Multiplier kann also
-            noch nachträglich zugegriffen werden.
 
-        3.
-            Es gibt noch keine Runden, da kein Angriff des Monsters berechnet wird.
-            Es gibt noch nicht die Möglichkeit, zukünftige Berechnungen zu beeinflussen.
 
-         */
 
-        public void applyEffects() {
 
-            switch (heroList.get(0).getStrings("classPrimary")) {
 
-                default:
-                    // (noch) kein Effect
-                    break;
-            }
-        }
 
-    }
 
-    private static class handleSecondaryHeroClass {
 
-        public void applyEffects() {
 
-            switch (heroList.get(0).getStrings("classSecondary")) {
 
-                default:
-                    // (noch) kein Effect
-                    break;
-            }
-        }
-    }
 
-    private static class handleSpecialAttackHeroClass {
 
-    }
 
-    private void checkForSelectedItems(){
 
-        // Arbeite jedes Item in Liste der ausgewählten Items anhand der Fähigkeiten-ID ab
-        // case 1: ... etc.
 
-        // Überprüfe, ob Item aus AusgewähltenListe und/oder Datenbank gelöscht wird
-    }
 
-    private static void handleSelectedItem(){
 
-        for(int pos = 0; pos < selectedItems.size(); pos++){
-
-            switch (itemHelper.getItemSkillsId(selectedItems.get(pos))){
-
-                default:
-                    Log.e("DEFAULT", "default called @ handleSelectedItem");
-                    break;
-            }
-        }
-
-        // Sollte kein Item ausgewählt sein, wird die 'for'-Schleife einfach übsprüngen
-        // und keine Effekte angewandt
-    }
 
     private void hideSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(
@@ -582,8 +406,8 @@ public class CombatActivity extends Activity {
         healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
         paramsBarHeroDamaged.weight = 0.0f;
         healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
-        gridViewNumbers.setAdapter(new NumbersAdapter(this, numbersOfBoardList));
-        gridViewSpecials.setAdapter(new RightPanelAdapter(this, specialSymbolsList));
+        gridViewNumbers.setAdapter(new ScoreDialAdapter(this, numbersOfBoardList));
+        gridViewSpecials.setAdapter(new ScoreMultiAdapter(this, specialSymbolsList));
         heroProfileView.setImageResource(ImgRes.res(this, "hero", heroList.get(0).getStrings("imageResource")));
     }
 
@@ -607,36 +431,3 @@ public class CombatActivity extends Activity {
         paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
     }
 }
-
-
-
-
-
-
-
-// CODE 2 LEARN
-
-// MODULUS BEI GRIDVIEW, BESTIMMTE ELEMENT ZU MARKIEREN
-/*if ((((result[position] - posCorrectionModFive) % (5 * (posCorrectionModFive + 1)) == 0))) {
-
-                posCorrectionModFive++;
-                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-                holder.tv = (ToggleButton) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
-
-            } else if ((((result[position]) % 6) == 0)) {
-
-                rowView = inflater.inflate(R.layout.gridview_combat_right_panel, null);
-                holder.tv = (ToggleButton) rowView.findViewById(R.id.gridView_combat_right_panel_textView);
-
-            }else{
-
-                rowView = inflater.inflate(R.layout.gridview_combat, null);
-                holder.tv = (TextView) rowView.findViewById(R.id.gridView_combat_textView);
-                holder.tv.setText(result[position] + "");
-
-            }*/
-
-
-
-
-

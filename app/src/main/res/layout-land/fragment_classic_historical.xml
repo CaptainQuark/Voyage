@@ -230,24 +230,43 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/listView_historical"
                 android:layout_gravity="center"
-                android:layout_marginTop="300dp"
+                android:layout_marginTop="100dp"
                 android:layout_marginStart="200dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignTop="@+id/historical_textview_static_heading"
                 android:headerDividersEnabled="false" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="WÄHLE DEINEN GEIST"
-                android:id="@+id/textView16"
+                android:id="@+id/historical_textview_static_heading"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="96dp"
-                android:layout_marginTop="180dp"
+                android:layout_marginStart="130dp"
+                android:layout_marginTop="100dp"
                 android:textSize="50sp"
                 android:textColor="#ffffff"
                 android:fontFamily="sans-serif-thin" />
+
+            <FrameLayout
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="103dp"
+                android:layout_marginStart="50dp">
+
+                <ImageView
+                    android:id="@+id/classic_historical_backButton"
+                    android:layout_gravity="center"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@mipmap/ic_backbutton"
+                    android:tint="#9dffffff" />
+
+            </FrameLayout>
         </RelativeLayout>
 
 

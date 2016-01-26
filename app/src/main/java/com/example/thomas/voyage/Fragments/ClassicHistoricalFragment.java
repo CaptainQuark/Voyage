@@ -28,13 +28,15 @@ import com.example.thomas.voyage.ResClasses.ImgRes;
 import java.util.List;
 
 
-public class ClassicHistoricalFragment extends Fragment {
+public class ClassicHistoricalFragment extends Fragment implements View.OnClickListener{
 
     private DBghostScoreDataAdapter scoresAdapter;
     private DBghostMetaDataAdapter metaDataAdapter;
+    private Context context = null;
     private onHistoricalInteractionListener mListener;
     private FrameLayout selectionView;
     private LinearLayout gameView;
+    private ImageView backButton;
     private int numGoalPoints = 301;
 
     public ClassicHistoricalFragment() {
@@ -98,12 +100,33 @@ public class ClassicHistoricalFragment extends Fragment {
                     + " must implement OnVersusInteractionListener");
         }
 
+        context = getActivity();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+
+        context = null;
     }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+/*
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.classic_historical_backButton:
+                super.onBackPressed();
+
+            default:
+                Message.message(getActivity(), "DEFAULT @ onClick");
+        }
+    }
+    */
 
     public interface onHistoricalInteractionListener {
         void dismissRecordButtons(boolean setVisible);
