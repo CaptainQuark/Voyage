@@ -73,6 +73,7 @@ public class DBghostMetaDataAdapter {
             float avg = (cursor.getFloat(indexAvg) / (float) count);
             String date = cursor.getString(indexDate);
 
+            // Zur Anzeige von 2 Kommastellen, Wert der Variable wird nicht verändert
             DecimalFormat f = new DecimalFormat("##.00");
 
             buffer.append(name + ", mit  " + count + " Würfen (" + pointsPerLeg + " / " + numLegs + " Runden / Ø: " + f.format(avg) + "), Datum: " + date);
