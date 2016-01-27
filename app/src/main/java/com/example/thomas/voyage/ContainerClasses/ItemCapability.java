@@ -7,6 +7,9 @@ public class ItemCapability {
 
     NOCH NIRGENDS IN VERWENDUNG
 
+    Zweck: Über eigene Sprache vollständig zufallsgenerierte Gegenstände erzeugen,
+    mit praktisch unendlich vielen Kombinationen.
+
      */
 
 

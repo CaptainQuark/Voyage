@@ -28,7 +28,8 @@ public class ItemPool {
     public String getName(){
         String name = "NOT_USED";
 
-        String[] names = {"Itemtrank", "Glump!", "Goga-Goga", "Pupsi", "Brise Birse", "Johnny-Holzfäller-Bottle", "Soda 'Zisch'"};
+        String[] names = {"Itemtrank", "Glump!", "Goga-Goga", "Pupsi", "Brise Birse", "Johnny-Holzfäller-Bottle", "Soda 'Zisch'", "Flying Jürgen", "Mineralsteinwasser",
+                "Ein Produkt der Marke 'Schlürf'", "Romaneé-Conti Domaine de la Romaneé-Conti"};
 
         for(boolean run = true; run;){
             int val = (int) (Math.random() * 100);

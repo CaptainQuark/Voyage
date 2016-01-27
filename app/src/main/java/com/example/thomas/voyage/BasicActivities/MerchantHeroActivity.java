@@ -122,10 +122,7 @@ public class MerchantHeroActivity extends Activity {
         editor.apply();
 
         Date presentDate = new Date();
-
         long dateDiff = finishDate - presentDate.getTime();
-        long seconds = dateDiff / 1000;
-        //long minutes = seconds / 60;
 
         final TextView merchantTime = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
 
@@ -153,7 +150,8 @@ public class MerchantHeroActivity extends Activity {
     }
 
     private long setNewDate() {
-       SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        Message.message(this, "setNewDate called");
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
 
         Date finish = new Date();
@@ -164,7 +162,10 @@ public class MerchantHeroActivity extends Activity {
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
 
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 12)) );
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
+
+        Message.message(this, "SYS: " + System.currentTimeMillis());
+        Message.message(this, "FIN: " + finishDate);
         //if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
         //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
 
