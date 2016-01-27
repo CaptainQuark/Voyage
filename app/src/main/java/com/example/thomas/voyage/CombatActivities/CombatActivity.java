@@ -36,7 +36,7 @@ public class CombatActivity extends Activity {
             dartCount = 1,
             heroClassActive = 1,
             roundCount = 0;
-    private static String heroImgRes = "", chronicleString = "", eventString = "";
+    private static String monsterName = "", heroImgRes = "", chronicleString = "", eventString = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
             scoreHeroMultiplierArray = {-1, -1, -1},
@@ -91,6 +91,7 @@ public class CombatActivity extends Activity {
         monsterHealth = monster.getInt("hp");
         monsterCheckout = monster.getString("checkout");
         monsterNameView.setText(monster.getString("name"));
+        monsterName = monster.getString("name");
     }
 
     @Override
@@ -142,6 +143,8 @@ public class CombatActivity extends Activity {
         }
 
         monsterHealthView.setText(monsterHealth + "");
+        setHealthBarMonster();
+        setHealthBarHero();
         tempScore = 0;
     }
 
@@ -168,6 +171,65 @@ public class CombatActivity extends Activity {
         }
 
         return false;
+    }
+
+    private static void setHealthBarMonster() {
+        monsterHealthConst = monsterList.get(0).getInt("hp");
+
+        try {
+            if (monsterHealth > 0) {
+
+                float x = monsterHealthConst * (float) 0.01;
+
+                float weightRounded = monsterHealth / x * (float) 0.01;
+
+                monsterHealthView.setText(monsterHealth + "");
+                paramsBarMonsterDamaged.weight = 1 - weightRounded;
+                paramsBarMonsterVital.weight = weightRounded;
+                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                healthbarMonsterVital.setLayoutParams(paramsBarMonsterVital);
+
+            } else {
+                paramsBarMonsterDamaged.weight = 1.0f;
+                paramsBarMonsterVital.weight = 0f;
+                healthBarMonsterDamaged.setLayoutParams(paramsBarMonsterDamaged);
+                healthbarMonsterVital.setLayoutParams((paramsBarMonsterVital));
+                monsterHealthView.setText("DU GEWINNER!");
+                monsterNameView.setText(monsterName + " K.O.");
+                monsterList.get(0).setInt("hp", monsterHealthConst);
+            }
+        } catch (ArithmeticException a) {
+            Log.e("ARITHMETIC EXCEPTION", a + "");
+        }
+    }
+
+    private static void setHealthBarHero() {
+        int heroHitpoints = heroList.get(0).getInts("hp");
+
+        try {
+            if (heroHitpoints > 0) {
+
+                float x = heroHitpointsConst * (float) 0.01;
+
+                float weightRounded = heroHitpoints / x * (float) 0.01;
+
+                heroHitpointsView.setText(heroHitpoints + "");
+                paramsBarHeroDamaged.weight = 1 - weightRounded;
+                paramsBarHeroVital.weight = weightRounded;
+                healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+                healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
+
+            } else {
+                paramsBarHeroDamaged.weight = 1.0f;
+                paramsBarHeroVital.weight = 0f;
+                healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
+                healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
+                heroHitpointsView.setText("MONSTER GEWINNER!");
+                heroList.get(0).setInt("hp", heroHitpointsConst);
+            }
+        } catch (ArithmeticException a) {
+            Log.e("ARITHMETIC EXCEPTION", a + "");
+        }
     }
 
     private static class ScoreDialAdapter extends BaseAdapter {

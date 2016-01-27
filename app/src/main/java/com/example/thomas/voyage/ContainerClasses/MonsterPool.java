@@ -5,19 +5,19 @@ public class MonsterPool {
 
     public String getName(){
         Random rand = new Random();
-        String[] val = {"Magmamemnnon", "Knöllchen", "Steinchen"};
-        int size = val.length, rarity = 0;
+        String[] names = {"Magmamemnnon", "Knöllchen", "Steinchen"};
+        int size = names.length, index = 0;
 
         for(boolean check = true; check; ){
 
             // erzeuge Zufallswert von 0 - 2
             // wenn zwischen 5 - 10, dann: int randomValue = ran.nextInt(6) + 5;
             //  -> Randomwert zw. 0 und 5 wird mit 5 addiert
-            rarity = rand.nextInt(3);
+            index = rand.nextInt(size);
             check = false;
         }
 
-        return val[rarity];
+        return names[index];
     }
 
     public String getCheckout(){
