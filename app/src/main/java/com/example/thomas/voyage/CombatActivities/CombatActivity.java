@@ -143,7 +143,7 @@ public class CombatActivity extends Activity {
 
             }else if( throwCount == 3 ){
                 throwCount = 0;
-                // Bedingungen
+                // Bedingungen für Triggern von Spezial nach 3 Würfen, Spieler und Monster
             }
         }
 
@@ -165,15 +165,11 @@ public class CombatActivity extends Activity {
     private static Boolean checkOutPossible(int checkOutType){
         switch(checkOutType){
             case 1:
-                int tempVal = 0;
-                for(int i = 0; i < 10; i++){
-                    switch(i){
-                        case 0: tempVal = 20; break;
-                        //TODO Werte hinzufügen
-                    }
-
-                    if( (tempVal-monsterHealth) == 0 ){
-                        return true;
+                for(int i = 1; i < 21; i++) {
+                    for (int p = 1; p < 4; p++) {
+                        if ((i*p - monsterHealth) == 0 || 25 - monsterHealth == 0 || 50 - monsterHealth == 0) {
+                            return true;
+                        }
                     }
                 }
                 break;
