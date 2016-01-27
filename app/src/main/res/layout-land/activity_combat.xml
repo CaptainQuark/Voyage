@@ -146,7 +146,7 @@
                         android:layout_weight="1"
                         android:background="#010101"
                         android:textAllCaps="true"
-                        android:text="MAGMAMEMMNON" />
+                        android:text="name" />
 
                 </LinearLayout>
 
@@ -161,7 +161,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="20dp"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         android:text="..."
                         android:fontFamily="sans-serif-light"
                         android:gravity="start"/>
@@ -257,7 +257,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1.03"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/monster_dummy_0" />
+                android:src="@mipmap/monster_dummy_4" />
 
             <TextView
                 android:layout_gravity="bottom"
@@ -269,7 +269,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
-                android:text="Fähigkeiten des Monsters...\nFähigkeiten des Monsters...\nFähigkeiten des Monsters..."
                 android:layout_gravity="bottom"
                 android:layout_margin="40dp"/>
 

@@ -135,11 +135,11 @@ public class CombatActivity extends Activity {
 
         }else{
             monsterHealth -= tempScore;
-            Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
-            toast.show();
+            //Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
+            //toast.show();
 
             if( monsterHealth <= 0 && (monsterCheckout == "master" || monsterCheckout == "double")){
-                eventsList.add("NORMAL WIN!");
+                logTopEntry = "NORMAL WIN!";
 
             }else if( throwCount == 3 ){
                 throwCount = 0;
