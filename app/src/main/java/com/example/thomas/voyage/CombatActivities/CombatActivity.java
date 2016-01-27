@@ -2,7 +2,6 @@ package com.example.thomas.voyage.CombatActivities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.ContainerClasses.Monster;
@@ -54,6 +52,7 @@ public class CombatActivity extends Activity {
             healthBarHeroDamaged,
             heroProfileView;
     private static List<Integer> undoListForHero, selectedItems, invetoryItems;
+    private static List<String> eventsList;
     private static List<Hero> heroList;
     private static List<Monster> monsterList;
     private static LinearLayout.LayoutParams
@@ -108,23 +107,29 @@ public class CombatActivity extends Activity {
 
     private static void combat(int scoreField, int multiField){
         throwCount++;
-
+        String logTopEntry = "";
         tempScore += scoreField * multiField * monsterResistance - monsterBlock;
 
         if( scoreField == triggerScore && multiField == triggerMulti ){
             tempScore += bonusScore;
             playerHealth += bonusHealth;
+
+            logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + (tempScore - bonusScore)
+                    + " und " + bonusScore + " Bonusangriff!";
+
+        }else{
+            logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ".";
         }
 
         if( monsterCheckout == "double" && checkOutPossible(2) ){
             if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
-                Message.message(context, "Double Win!");
+                logTopEntry = "DOUBLE WIN!";
                 monsterHealth = 0;
             }
 
         }else if( monsterCheckout == "master" && checkOutPossible(1) ){
             if( monsterHealth == (scoreField * multiField) ){
-                Message.message(context, "Master Win!");
+                logTopEntry = "MASTER WIN!";
                 monsterHealth = 0;
             }
 
@@ -134,7 +139,7 @@ public class CombatActivity extends Activity {
             toast.show();
 
             if( monsterHealth <= 0 && (monsterCheckout == "master" || monsterCheckout == "double")){
-                Message.message(context, "Norm Win!");
+                eventsList.add("NORMAL WIN!");
 
             }else if( throwCount == 3 ){
                 throwCount = 0;
@@ -145,6 +150,15 @@ public class CombatActivity extends Activity {
         monsterHealthView.setText(monsterHealth + "");
         setHealthBarMonster();
         setHealthBarHero();
+
+        String tempEventsString = logTopEntry + '\n' + '\n';
+
+        for(int i = eventsList.size() - 1; i >= 0; i--){
+            tempEventsString += eventsList.get(i) + '\n';
+        }
+
+        eventsView.setText(tempEventsString);
+        eventsList.add(logTopEntry);
         tempScore = 0;
     }
 
@@ -437,6 +451,7 @@ public class CombatActivity extends Activity {
         heroList = new ArrayList<>();
         monsterList = new ArrayList<>();
         selectedItems = new ArrayList<>();
+        eventsList = new ArrayList<>();
 
         itemHelper = new DBplayerItemsAdapter(this);
 
