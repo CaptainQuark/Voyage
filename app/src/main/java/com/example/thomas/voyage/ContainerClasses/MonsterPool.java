@@ -1,21 +1,27 @@
 package com.example.thomas.voyage.ContainerClasses;
+import java.util.Random;
 
 public class MonsterPool {
 
     public String getName(){
-        String[] val = {"Magmamemnnon, Knöllchen, Steinchen"};
+        Random rand = new Random();
+        String[] val = {"Magmamemnnon", "Knöllchen", "Steinchen"};
         int size = val.length, rarity = 0;
 
         for(boolean check = true; check; ){
-            rarity = (int) (Math.random() * 100);
-            if(rarity <= size){check = false;}
+
+            // erzeuge Zufallswert von 0 - 2
+            // wenn zwischen 5 - 10, dann: int randomValue = ran.nextInt(6) + 5;
+            //  -> Randomwert zw. 0 und 5 wird mit 5 addiert
+            rarity = rand.nextInt(3);
+            check = false;
         }
 
         return val[rarity];
     }
 
     public String getCheckout(){
-        String val = "setCheckout";
+        String val = "double";
 
         return val;
     }

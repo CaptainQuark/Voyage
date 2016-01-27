@@ -13,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
@@ -64,16 +65,18 @@ public class CombatActivity extends Activity {
     private GridView gridViewNumbers, gridViewSpecials;
     private static DBplayerItemsAdapter itemHelper;
 
-    static int monsterResistance = 1;
-    static int monsterBlock = 0;
-    static int tempScore = 0;
-    static int triggerScore = 0;
-    static int triggerMulti = 0;
-    static int bonusScore = 0;
-    static int playerHealth = 0, bonusHealth = 0, monsterHealth = 300;
-    static String monsterCheckout = "";
-    static int throwCount = 0;
-    static Context context;
+    private static int monsterResistance = 1;
+    private static int monsterBlock = 0;
+    private static int tempScore = 0;
+    private static int triggerScore = 0;
+    private static int triggerMulti = 0;
+    private static int bonusScore = 0;
+    private static int playerHealth = 0, bonusHealth = 0, monsterHealth = 300;
+    private static String monsterCheckout = "";
+    private static int throwCount = 0;
+    private static Context context;
+
+    private Monster monster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,10 @@ public class CombatActivity extends Activity {
         initializeViews();
         initializeValues();
 
-
+        monster = new Monster();
+        monsterHealth = monster.getInt("hp");
+        monsterCheckout = monster.getString("checkout");
+        monsterNameView.setText(monster.getString("name"));
     }
 
     @Override
@@ -112,19 +118,21 @@ public class CombatActivity extends Activity {
         if( monsterCheckout == "double" && checkOutPossible(2) ){
             if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
                 Message.message(context, "Double Win!");
+                monsterHealth = 0;
             }
 
         }else if( monsterCheckout == "master" && checkOutPossible(1) ){
             if( monsterHealth == (scoreField * multiField) ){
                 Message.message(context, "Master Win!");
+                monsterHealth = 0;
             }
 
         }else{
             monsterHealth -= tempScore;
-            Message.message(context, "Health: " + monsterHealth + ", tempScore: " + tempScore);
-            monsterHealthView.setText(monsterHealth + "");
+            Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
+            toast.show();
 
-            if( monsterHealth <= 0 && monsterCheckout == "master" || monsterCheckout == "double"){
+            if( monsterHealth <= 0 && (monsterCheckout == "master" || monsterCheckout == "double")){
                 Message.message(context, "Norm Win!");
 
             }else if( throwCount == 3 ){
@@ -133,6 +141,7 @@ public class CombatActivity extends Activity {
             }
         }
 
+        monsterHealthView.setText(monsterHealth + "");
         tempScore = 0;
     }
 
@@ -306,11 +315,13 @@ public class CombatActivity extends Activity {
                             break;
                         case 6:
                             scoreMultiplier = 1;
+                            combat(25, 1);
                             break;
                         case 7:
                             break;
                         case 8:
-                            scoreMultiplier = 1;
+                            scoreMultiplier = 2;
+                            combat(25,2);
                             break;
                         case 9:
                             break;
