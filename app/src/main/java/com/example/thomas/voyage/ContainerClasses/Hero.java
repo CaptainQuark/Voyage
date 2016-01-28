@@ -50,6 +50,34 @@ public class Hero {
         //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
     }
 
+    public String getHeroName(){
+        return heroName;
+    }
+
+    public String getClassPrimary(){
+        return classPrimary;
+    }
+
+    public String getClassSecondary(){
+        return classSecondary;
+    }
+
+    public String getImageResource(){
+        return imageResource;
+    }
+
+    public int getHp(){
+        return hp;
+    }
+
+    public int getHpConst(){
+        return hpConst;
+    }
+
+    public int getCosts(){
+        return costs;
+    }
+
     public String getStrings(String identifier) {
 
         String val;

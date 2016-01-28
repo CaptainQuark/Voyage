@@ -1,6 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -19,6 +20,7 @@ import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class HeroCampActivity extends Activity {
 
     private GridView heroImagesGridView;
     private DBheroesAdapter heroesHelper;
+    private TextView slotsView;
     private List<Hero> heroesList;
 
     @Override
@@ -34,19 +37,23 @@ public class HeroCampActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heroes_camp);
         hideSystemUI();
+        ConstRes c = new ConstRes();
 
         heroesHelper = new DBheroesAdapter(this);
         heroesList = new ArrayList<>();
 
         for(int i = 1; i <= heroesHelper.getTaskCount(); i++){
-            String name = heroesHelper.getHeroName(i);
-            String prim = heroesHelper.getHeroPrimaryClass(i);
-            String sec = heroesHelper.getHeroSecondaryClass(i);
-            String imgRes = heroesHelper.getHeroImgRes(i);
-            int hp = heroesHelper.getHeroHitpoints(i);
-            int costs = heroesHelper.getHeroCosts(i);
 
-            heroesList.add( new Hero(name, prim, sec, imgRes, hp, costs));
+            if(!heroesHelper.getHeroName(i).equals(c.NOT_USED)){
+                String name = heroesHelper.getHeroName(i);
+                String prim = heroesHelper.getHeroPrimaryClass(i);
+                String sec = heroesHelper.getHeroSecondaryClass(i);
+                String imgRes = heroesHelper.getHeroImgRes(i);
+                int hp = heroesHelper.getHeroHitpoints(i);
+                int costs = heroesHelper.getHeroCosts(i);
+
+                heroesList.add( new Hero(name, prim, sec, imgRes, hp, costs));
+            }
         }
 
         heroImagesGridView = (GridView) findViewById(R.id.heroes_camp_gridview);
@@ -58,13 +65,41 @@ public class HeroCampActivity extends Activity {
                 Message.message(getApplicationContext(), "Hero tapped");
             }
         });
+
+        slotsView = (TextView) findViewById(R.id.textview_camp_slots);
+        setSlotsView();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
+        heroImagesGridView.invalidate();
+        setSlotsView();
         hideSystemUI();
     }
+
+    public void heroesCampBackButton(View v){
+        super.onBackPressed();
+        finish();
+    }
+
+    public void campBuyNewHero(View v){
+        Intent i = new Intent(this, MerchantHeroActivity.class);
+        startActivity(i);
+    }
+
+    public void commitToQuest(View v){
+        Message.message(this, "Not yet implemented");
+    }
+
+    public void dismissHero(View v){
+        Message.message(this, "Not yet implemented");
+    }
+
+    private void setSlotsView(){
+        slotsView.setText(heroesList.size() + " / " + heroesHelper.getTaskCount());
+    }
+
 
 
 
@@ -102,30 +137,17 @@ public class HeroCampActivity extends Activity {
         }
 
         class ViewHolder {
-            /*
-            TextView numView;
-            ImageView playerOneView, playerTwoView;
-            Space spaceOne, spaceTwo;
-            LinearLayout.LayoutParams paramsProgressOne, paramsProgressTwo, paramsSpaceOne, paramsSpaceTwo;
+
+            private TextView nameView,classesView, hpView, costsView, battlesView;
+            private ImageView profileView;
 
             ViewHolder(View v) {
-                numView = (TextView) v.findViewById(R.id.quick_cricket_card_textview);
-                playerOneView = (ImageView) v.findViewById(R.id.cricketcard_progress_1);
-                playerTwoView = (ImageView) v.findViewById(R.id.cricketcard_progress_2);
-                spaceOne = (Space) v.findViewById(R.id.cricketcard_space_1);
-                spaceTwo = (Space) v.findViewById(R.id.cricketcard_space_2);
-
-                paramsProgressOne = (LinearLayout.LayoutParams) playerOneView.getLayoutParams();
-                paramsProgressTwo = (LinearLayout.LayoutParams) playerTwoView.getLayoutParams();
-
-                paramsSpaceOne = (LinearLayout.LayoutParams) spaceOne.getLayoutParams();
-                paramsSpaceTwo = (LinearLayout.LayoutParams) spaceTwo.getLayoutParams();
-
-            }
-            */
-
-            ViewHolder(View v){
-
+                nameView = (TextView) v.findViewById(R.id.textView_camp_card_name);
+                classesView = (TextView) v.findViewById(R.id.textView_camp_card_prim_and_sec);
+                hpView = (TextView) v.findViewById(R.id.textView_camp_card_hp);
+                costsView = (TextView) v.findViewById(R.id.textView_camp_card_costs);
+                battlesView = (TextView) v.findViewById(R.id.textView_camp_card_battles);
+                profileView = (ImageView) v.findViewById(R.id.imageView_camp_card_profile);
             }
         }
 
@@ -143,8 +165,12 @@ public class HeroCampActivity extends Activity {
                 holder = (ViewHolder) convertView.getTag();
             }
 
-            //holder.numView.setText(valuesArray[position] + "");
-            //holder.numView.setText( (cardDataList.get(position).progressPlayers.get(activePlayer)) + "" );
+            holder.profileView.setImageResource(getApplicationContext().getResources().getIdentifier(heroesList.get(position).getStrings("imageResource"), "mipmap", getPackageName()));
+            holder.nameView.setText(heroesHelper.getHeroName(position + 1) + "");
+            holder.classesView.setText(heroesList.get(position).getClassPrimary() + " und " + heroesList.get(position).getClassSecondary());
+            holder.hpView.setText(heroesList.get(position).getHp() + " / " + heroesList.get(position).getHpConst());
+            holder.costsView.setText(heroesList.get(position).getCosts() + "");
+            holder.battlesView.setText("0");
 
             /*
             if (markedList.contains(position)) {
@@ -159,10 +185,6 @@ public class HeroCampActivity extends Activity {
             return convertView;
         }
     }
-
-
-
-
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.

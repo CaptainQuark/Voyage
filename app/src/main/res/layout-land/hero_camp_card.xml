@@ -1,52 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="180dp"
     android:orientation="horizontal"
-    android:background="#000000">
+    android:stateListAnimator="@anim/elevation_heroes_camp_card"
+    android:background="@drawable/rounded_corners_black">
 
     <ImageView
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:layout_weight="2"
-        android:background="@drawable/ripple_start_pilgerreise"
-        android:id="@+id/imageView" />
+        android:id="@+id/imageView_camp_card_profile"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/hero_dummy_3" />
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="match_parent"
         android:layout_weight="4"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView_camp_card_name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4"
             android:textAllCaps="true"
             android:text="Charaktername"
             android:gravity="bottom|center"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-bold"
             android:textColor="#ffffff"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textView_camp_card_prim_and_sec"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
             android:gravity="top|center"
             android:text="Primklasse und Secklasse"
             android:fontFamily="sans-serif-light"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:textIsSelectable="false" />
 
         <LinearLayout
             android:layout_weight="5"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
 
             <TextView
+                android:id="@+id/textView_camp_card_hp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -57,6 +64,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/textView_camp_card_costs"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -67,6 +75,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/textView_camp_card_battles"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -81,7 +90,9 @@
             android:layout_weight="5"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -121,7 +132,7 @@
             android:gravity="center"
             android:text="mehr..."
             android:fontFamily="sans-serif-light"
-            android:textSize="10sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 </LinearLayout>

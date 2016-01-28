@@ -6,28 +6,37 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.thomas.voyage.BasicActivities.HeroCampActivity"
-    android:background="@color/standard_background">
+    android:background="@color/inactive_field">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11">
 
+<!--
+        <ImageView
+            android:layout_gravity="bottom"
+            android:background="@drawable/gradient90"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+-->
         <GridView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingTop="30dp"
+            android:paddingRight="30dp"
+            android:paddingLeft="30dp"
+            android:layout_marginBottom="30dp"
             android:id="@+id/heroes_camp_gridview"
             android:numColumns="auto_fit"
-            android:columnWidth="430dp"
-            android:stretchMode="spacingWidthUniform"
+            android:columnWidth="420dp"
+            android:stretchMode="spacingWidth"
             android:gravity="center"
             android:verticalSpacing="20dp"
             android:horizontalSpacing="20dp">
         </GridView>
-    </RelativeLayout>
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,32 +46,31 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/heroes_camp_backbutton"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:background="@drawable/ripple_backbutton"
-            android:onClick="heroesPartyBackbuttonPressed"
+            android:onClick="heroesCampBackButton"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
             android:tint="#ffffffff" />
 
         <TextView
-            android:id="@+id/hero_size_display"
+            android:id="@+id/textview_camp_slots"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
             android:background="@color/inactive_field"
             android:gravity="center"
-            android:text="5 / 19"
+            android:text="X / Y"
             android:textColor="#ff000000"
-            android:textSize="18sp"
-            android:autoText="false" />
+            android:textSize="18sp"/>
 
         <TextView
-            android:onClick="heroesPartyDismissHero"
+            android:onClick="dismissHero"
             android:id="@+id/hero_dismiss"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -70,7 +78,7 @@
             android:layout_weight="1"
             android:background="@color/inactive_field"
             android:gravity="center"
-            android:text="Dismiss Hero"
+            android:text="Helden verkaufen"
             android:textColor="#ff000000"
             android:textSize="18sp" />
 
@@ -82,7 +90,7 @@
             android:layout_weight="1"
             android:background="@color/inactive_field"
             android:gravity="center"
-            android:text="Commit to Quest"
+            android:text="Auf in den Kampf!"
             android:textColor="#ff000000"
             android:textSize="18sp"
             android:onClick="commitToQuest" />
@@ -92,12 +100,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/inactive_field"
+            android:background="@color/active_field"
             android:gravity="center"
-            android:text="Buy Hero"
+            android:text="Helden kaufen"
             android:textColor="#ff000000"
             android:textSize="18sp"
-            android:onClick="buyHeroFromMerchant" />
+            android:onClick="campBuyNewHero" />
 
     </LinearLayout>
 
