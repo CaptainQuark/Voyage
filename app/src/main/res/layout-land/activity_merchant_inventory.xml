@@ -51,7 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:background="#ff000000"
+            android:background="@drawable/ripple_backbutton"
             android:onClick="merchantInventoryBackbuttonPressed"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
@@ -235,7 +235,8 @@
                 android:gravity="center"
                 android:textSize="24sp"
                 android:layout_height="match_parent"
-                android:onClick="dismissItemButton" />
+                android:onClick="dismissItemButton"
+                android:fontFamily="sans-serif-light" />
 
             <TextView
                 android:id="@+id/invetory_textView_buy"
@@ -246,7 +247,8 @@
                 android:gravity="center"
                 android:textSize="24sp"
                 android:layout_height="match_parent"
-                android:onClick="buyItemButton" />
+                android:onClick="buyItemButton"
+                android:fontFamily="sans-serif-light" />
         </LinearLayout>
     </LinearLayout>
 

@@ -165,7 +165,7 @@
                 android:textStyle="italic" />
 
             <TextView
-                android:onClick="clickToClassic"
+                android:onClick="clickToCamp"
                 android:id="@+id/start_textView_stat_upgrades"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

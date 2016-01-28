@@ -277,6 +277,11 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
+    public void clickToCamp(View view){
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+        startActivity(i);
+    }
+
     public void clickToClassic(View view){
     }
 

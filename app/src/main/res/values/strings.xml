@@ -22,4 +22,5 @@
     <string name="title_activity_message_api_test">MessageApiTestActivity</string>
     <string name="title_activity_quick_combat_shanghai">QuickCombatShanghaiActivity</string>
     <string name="title_activity_classic_versus_fragment">ClassicVersusFragment</string>
+    <string name="title_activity_hero_camp">HeroCampActivity</string>
 </resources>

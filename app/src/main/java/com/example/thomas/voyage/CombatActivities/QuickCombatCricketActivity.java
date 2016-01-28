@@ -79,7 +79,7 @@ public class QuickCombatCricketActivity extends Activity {
         }
 
         cricketView = (GridView) findViewById(R.id.cricket_gridview);
-        cricketView.setAdapter(new SimpleNumberAdapter(this));
+        cricketView.setAdapter(new CricketCardAdapter(this));
         cricketView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -251,7 +251,7 @@ public class QuickCombatCricketActivity extends Activity {
                 if(activePlayer == 1) playerScoreTwoView.setText(scoreList.get(activePlayer) + "");
             }
 
-            // GridView-Ansicht aktualisieren, ob die obigen Berechngen und Veränderungen sichtbar zu machen
+            // GridView-Ansicht aktualisieren, um die obigen Berechngen und Veränderungen sichtbar zu machen
             cricketView.invalidateViews();
 
             // Auf Siegesbedingungen überprüfen
@@ -330,11 +330,11 @@ public class QuickCombatCricketActivity extends Activity {
 
 
 
-    public class SimpleNumberAdapter extends BaseAdapter {
+    public class CricketCardAdapter extends BaseAdapter {
         private Context mContext;
         private List<Integer> selectionList = new ArrayList<>();
 
-        public SimpleNumberAdapter(Context c) {
+        public CricketCardAdapter(Context c) {
             mContext = c;
         }
 

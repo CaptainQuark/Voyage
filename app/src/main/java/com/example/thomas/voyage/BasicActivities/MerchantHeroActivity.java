@@ -29,8 +29,8 @@ public class MerchantHeroActivity extends Activity {
 
     //private final String SHAREDPREF_INSERT = "INSERT";
     //private final String TIME_PREF_FILE = "timefile";
-    DBmerchantHeroesAdapter merchantHelper;
-    ImageView merchantProfile;
+    private DBmerchantHeroesAdapter merchantHelper;
+    private ImageView merchantProfile;
     private String MERCHANT_ID = "merchantId";
     private String CURRENT_MONEY_FILE = "currentMoneyLong";
     private String origin = "";
@@ -112,7 +112,10 @@ public class MerchantHeroActivity extends Activity {
 
     private void showExpirationDate() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        long finishDate = prefs.getLong("TIME_TO_LEAVE", setNewDate());
+        long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
+
+        if(finishDate == 0)
+            finishDate = setNewCorrectedDate();
 
         currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
         merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
@@ -134,7 +137,7 @@ public class MerchantHeroActivity extends Activity {
 
             public void onFinish() {
                 SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-                editor.putLong("TIME_TO_LEAVE", setNewDate());
+                editor.putLong("TIME_TO_LEAVE", setNewCorrectedDate());
                 editor.apply();
 
                 setNewMerchantProfile();
@@ -168,6 +171,20 @@ public class MerchantHeroActivity extends Activity {
         Message.message(this, "FIN: " + finishDate);
         //if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
         //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
+
+        return newExpirationDate.getTime();
+    }
+
+    private long setNewCorrectedDate(){
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
+
+        if(finishDate == 0){
+            finishDate = System.currentTimeMillis();
+        }
+
+        Date newExpirationDate = new Date();
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) - (System.currentTimeMillis() - finishDate));
 
         return newExpirationDate.getTime();
     }

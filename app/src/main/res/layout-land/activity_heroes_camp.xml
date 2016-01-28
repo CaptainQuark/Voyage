@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.thomas.voyage.BasicActivities.HeroCampActivity"
+    android:background="@color/standard_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/heroes_camp_gridview"
+            android:numColumns="auto_fit"
+            android:columnWidth="430dp"
+            android:stretchMode="spacingWidthUniform"
+            android:gravity="center"
+            android:verticalSpacing="20dp"
+            android:horizontalSpacing="20dp">
+        </GridView>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@drawable/ripple_backbutton"
+            android:onClick="heroesPartyBackbuttonPressed"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_backbutton"
+            android:tint="#ffffffff" />
+
+        <TextView
+            android:id="@+id/hero_size_display"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@color/inactive_field"
+            android:gravity="center"
+            android:text="5 / 19"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:autoText="false" />
+
+        <TextView
+            android:onClick="heroesPartyDismissHero"
+            android:id="@+id/hero_dismiss"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@color/inactive_field"
+            android:gravity="center"
+            android:text="Dismiss Hero"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/hero_set_as_adventurer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:background="@color/inactive_field"
+            android:gravity="center"
+            android:text="Commit to Quest"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:onClick="commitToQuest" />
+
+        <TextView
+            android:id="@+id/heroes_party_buy_hero_from_merchant"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/inactive_field"
+            android:gravity="center"
+            android:text="Buy Hero"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:onClick="buyHeroFromMerchant" />
+
+    </LinearLayout>
+
+</LinearLayout>
