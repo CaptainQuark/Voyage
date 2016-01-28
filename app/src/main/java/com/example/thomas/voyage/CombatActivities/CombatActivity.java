@@ -46,6 +46,7 @@ public class CombatActivity extends Activity {
             eventsView,
             chronicleView;
     private static ImageView
+            monsterProfileView,
             healthbarMonsterVital,
             healthBarMonsterDamaged,
             healthBarHeroVital,
@@ -91,6 +92,7 @@ public class CombatActivity extends Activity {
         monsterCheckout = monster.getString("checkout");
         monsterNameView.setText(monster.getString("name"));
         monsterName = monster.getString("name");
+        monsterProfileView.setImageResource(getResources().getIdentifier(monster.getImgRes(), "mipmap", this.getPackageName()));
     }
 
     @Override
@@ -513,5 +515,6 @@ public class CombatActivity extends Activity {
         chronicleView = (TextView) findViewById(R.id.textView_hitpoints_chronik);
         paramsBarMonsterDamaged = (LinearLayout.LayoutParams) healthBarMonsterDamaged.getLayoutParams();
         paramsBarMonsterVital = (LinearLayout.LayoutParams) healthbarMonsterVital.getLayoutParams();
+        monsterProfileView = (ImageView) findViewById(R.id.imageView_combat_monster);
     }
 }

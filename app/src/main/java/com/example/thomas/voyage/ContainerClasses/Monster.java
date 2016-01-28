@@ -4,7 +4,7 @@ import android.util.Log;
 
 public class Monster {
 
-    private String name = "", checkout = "";
+    private String name = "", checkout = "", imgRes = "";
     private int evasion = -1, accuracy = -1, critChance = -1, hp = 500, dmgMin = -1, dmgMax = -1;
 
     public Monster(){
@@ -18,6 +18,7 @@ public class Monster {
         hp = monsterPool.getHp();
         dmgMin = monsterPool.getDmgMin();
         dmgMax = monsterPool.getDmgMax();
+        imgRes = monsterPool.getImgRes();
     }
 
     public Monster(String tName, String check, int eva, int acc, int crit, int tHp, int tDmgMin, int tDmgMax){
@@ -48,6 +49,10 @@ public class Monster {
         }
 
         return val;
+    }
+
+    public String getImgRes(){
+        return imgRes;
     }
 
     public int getInt(String id){
@@ -86,7 +91,7 @@ public class Monster {
             case "critChance":
                 critChance = val; break;
             case "hp":
-               hp = val; break;
+                hp = val; break;
             case "dmgMin":
                 dmgMin = val; break;
             case "dmgMax":

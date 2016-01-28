@@ -7,6 +7,7 @@ public class MonsterPool {
     private int hp;
     private int dmgMin;
     private int dmgMax;
+    private int image;
 
     private double accuracy;
     private double evasion;
@@ -41,6 +42,7 @@ public class MonsterPool {
                             dmgMax = 20;
                             accuracy = 1;
                             evasion = 0.95;
+                            image = 1;
                             break;
                         default:
                             run = true;
@@ -61,6 +63,7 @@ public class MonsterPool {
                             dmgMax = 20;
                             accuracy = 1;
                             evasion = 0.95;
+                            image = 2;
                             break;
                         default:
                             run = true;
@@ -81,6 +84,7 @@ public class MonsterPool {
                             dmgMax = 20;
                             accuracy = 1;
                             evasion = 0.95;
+                            image = 3;
                             break;
                         default:
                             run = true;
@@ -101,6 +105,7 @@ public class MonsterPool {
                             dmgMax = 20;
                             accuracy = 1;
                             evasion = 0.95;
+                            image = 4;
                             break;
                         default:
                             run = true;
@@ -151,6 +156,12 @@ public class MonsterPool {
 
     public int getDmgMax(){
         int val = -1;
+
+        return val;
+    }
+
+    public String getImgRes(){
+        String val = "monster_dummy_" + image;
 
         return val;
     }
