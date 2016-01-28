@@ -2,6 +2,8 @@ package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
 
+import java.util.Random;
+
 public class ItemPool {
 
     private Context c;
@@ -16,8 +18,8 @@ public class ItemPool {
     }
 
     public int getBuyCosts(){
-
-        return -1;
+        Random rand = new Random();
+        return rand.nextInt(200)+50;
     }
 
     public int getSpellCosts(){

@@ -1,6 +1,9 @@
 package com.example.thomas.voyage.ResClasses;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.example.thomas.voyage.ContainerClasses.Message;
 
 public class ImgRes {
 
@@ -17,6 +20,9 @@ public class ImgRes {
                 break;
             case ID_2:
                 res = c.getResources().getIdentifier(param1, "mipmap", c.getPackageName());
+                break;
+            default:
+                Log.e("ERROR @ ", "ImgRes, default @ switch called");
         }
 
 

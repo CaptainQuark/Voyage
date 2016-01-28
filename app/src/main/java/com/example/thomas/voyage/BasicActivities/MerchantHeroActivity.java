@@ -1,6 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
@@ -78,16 +79,15 @@ public class MerchantHeroActivity extends Activity {
     }
 
     private long getCurrentMoney() {
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
         currentMoneyInPocket = prefs.getLong(CURRENT_MONEY_FILE, 4500);
 
         return currentMoneyInPocket;
     }
 
     private void setCurrentMoney(long money) {
-        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putLong(CURRENT_MONEY_FILE, money);
-        editor.apply();
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
     }
 
     private long getUsedSlotsInHeroesDatabase() {

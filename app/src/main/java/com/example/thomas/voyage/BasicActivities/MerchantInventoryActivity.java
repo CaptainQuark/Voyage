@@ -2,6 +2,7 @@ package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -24,8 +25,10 @@ public class MerchantInventoryActivity extends Activity {
     private ConstRes co = new ConstRes();
     private DBmerchantItemsAdapter merchHelper;
     private DBplayerItemsAdapter playerHelper;
-    private TextView buyView, dismissView;
+    private TextView buyView, dismissView, itemNameView, itemDesMainView, itemDesAddView, itemRarityView, freeSlotsView, fortuneView, itemPriceView;
+    private ImageView itemIconView;
     private GridView playerGridView, merchantGridView;
+    private String CURRENT_MONEY_FILE = "currentMoneyLong";
 
     // = UID der Tabelle und NICHT die Position innerhalb des Grids
     private int selectedItemUIDFromMerch = -1, selectedItemUIDfromPlayer = -1;
@@ -49,8 +52,8 @@ public class MerchantInventoryActivity extends Activity {
                                     int position, long id) {
                 selectedItemUIDfromPlayer = position + 1;
                 dismissView.setTextColor(Color.WHITE);
-                Message.message(getApplicationContext(), playerHelper.getOneItemRow(position + 1) + "");
                 lastSelectedUID = "player";
+                setItemShowcase();
             }
         });
 
@@ -63,14 +66,45 @@ public class MerchantInventoryActivity extends Activity {
                 }
                 dismissView.setTextColor(Color.WHITE);
                 lastSelectedUID = "merchant";
+                setItemShowcase();
             }
         });
+
+        fortuneView.setText("$" + getCurrentMoney());
+        freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         hideSystemUI();
+    }
+
+    public void setItemShowcase(){
+        if(lastSelectedUID.equals("player")){
+            itemNameView.setText(playerHelper.getItemName(selectedItemUIDfromPlayer) + "");
+            itemDesMainView.setText(playerHelper.getItemDescriptionMain(selectedItemUIDfromPlayer) + "");
+            itemDesAddView.setText(playerHelper.getItemDescriptionAdditonal(selectedItemUIDfromPlayer) + "");
+            itemRarityView.setText(playerHelper.getItemRarity(selectedItemUIDfromPlayer) + "");
+            itemPriceView.setText("");
+
+        }else if(lastSelectedUID.equals("merchant")){
+            itemNameView.setText(merchHelper.getItemName(selectedItemUIDFromMerch) + "");
+            itemDesMainView.setText(merchHelper.getItemDescriptionMain(selectedItemUIDFromMerch) + "");
+            itemDesAddView.setText(merchHelper.getItemDescriptionAdditonal(selectedItemUIDFromMerch) + "");
+            itemRarityView.setText(merchHelper.getItemRarity(selectedItemUIDFromMerch) + "");
+            itemPriceView.setText("$ " + merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
+        }
+    }
+
+    private long getCurrentMoney() {
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        return prefs.getLong(CURRENT_MONEY_FILE, 4500);
+    }
+
+    private void setCurrentMoney(long money) {
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
     }
 
     public void merchantInventoryBackbuttonPressed(View view){
@@ -92,14 +126,29 @@ public class MerchantInventoryActivity extends Activity {
         }else if( selectedItemUIDFromMerch == -1 ){
             Message.message(this, "Kein Item ausgewählt!");
 
+        }else if( getCurrentMoney() < merchHelper.getItemBuyCosts(selectedItemUIDFromMerch)){
+            Message.message(this, "Nicht genug Vermögen vorhanden!");
+
         }else{
             addOneItemToPlayerDatabase(selectedItemUIDFromMerch);
             buyView.setTextColor(getResources().getColor(R.color.standard_background));
-            dismissItem("merchant", selectedItemUIDFromMerch);
             playerGridView.invalidateViews();
             merchantGridView.invalidateViews();
 
+            setCurrentMoney(getCurrentMoney() - merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
 
+            //Message.message(this, getCurrentMoney() + " = current money");
+            //Message.message(this, merchHelper.getItemBuyCosts(selectedItemUIDFromMerch) + " = costs");
+
+            fortuneView.setText("$" + getCurrentMoney());
+            freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
+            itemDesMainView.setText("");
+            itemDesAddView.setText("");
+            itemNameView.setText("");
+            itemRarityView.setText("");
+            itemPriceView.setText("");
+
+            dismissItem("merchant", selectedItemUIDFromMerch);
             selectedItemUIDFromMerch = -1;
             selectedItemUIDfromPlayer = -1;
             dismissView.setTextColor(getResources().getColor(R.color.standard_background));
@@ -122,6 +171,12 @@ public class MerchantInventoryActivity extends Activity {
             dismissView.setTextColor(getResources().getColor(R.color.standard_background));
             buyView.setTextColor(getResources().getColor(R.color.standard_background));
         }
+
+        itemNameView.setText("");
+        itemDesMainView.setText("");
+        itemDesAddView.setText("");
+        itemRarityView.setText("");
+        itemPriceView.setText("");
     }
 
     private void dismissItem(String id, int pos){
@@ -351,6 +406,13 @@ public class MerchantInventoryActivity extends Activity {
         playerGridView = (GridView) findViewById(R.id.inventory_gridView_my_stuff);
         merchantGridView = (GridView) findViewById(R.id.inventory_gridView_merchant);
         buyView = (TextView)findViewById(R.id.invetory_textView_buy);
+        itemNameView = (TextView)findViewById(R.id.textView_merch_inv_item_name);
+        itemDesMainView = (TextView)findViewById(R.id.textView_merch_inv_item_main_des);
+        itemDesAddView = (TextView)findViewById(R.id.textView_merch_inv_item_add_des);
+        itemPriceView = (TextView)findViewById(R.id.textView_merch_inv_item_price);
+        itemRarityView = (TextView)findViewById(R.id.textView_merch_inv_item_rarity);
+        freeSlotsView = (TextView)findViewById(R.id.textView_merch_inv_free_slots);
+        fortuneView = (TextView)findViewById(R.id.textView_merch_inv_fortune);
         dismissView = (TextView)findViewById(R.id.invetory_textView_dismiss);
 
         buyView.setTextColor(getResources().getColor(R.color.standard_background));
