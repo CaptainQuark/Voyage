@@ -2,137 +2,154 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="180dp"
+    android:layout_margin="10dp"
     android:orientation="horizontal"
     android:stateListAnimator="@anim/elevation_heroes_camp_card"
     android:background="@drawable/rounded_corners_black">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:id="@+id/imageView_camp_card_profile"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/hero_dummy_3" />
-
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/textView_camp_card_name"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:id="@+id/imageView_camp_card_profile"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/hero_dummy_3" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="4"
-            android:textAllCaps="true"
-            android:text="Charaktername"
-            android:gravity="bottom|center"
-            android:textSize="18sp"
-            android:fontFamily="sans-serif-bold"
-            android:textColor="#ffffff"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textView_camp_card_prim_and_sec"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:gravity="top|center"
-            android:text="Primklasse und Secklasse"
-            android:fontFamily="sans-serif-light"
-            android:textSize="13sp"
-            android:textIsSelectable="false" />
-
-        <LinearLayout
-            android:layout_weight="5"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView_camp_card_hp"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:id="@+id/textView_camp_card_name"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:textAllCaps="true"
+                android:text="Charaktername"
                 android:gravity="bottom|center"
-                android:text="45/50"
-                android:fontFamily="sans-serif-normal"
+                android:textSize="16sp"
+                android:fontFamily="sans-serif-bold"
                 android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:textStyle="bold"
+                android:paddingBottom="4dp" />
 
             <TextView
-                android:id="@+id/textView_camp_card_costs"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="bottom|center"
-                android:text="1200"
-                android:fontFamily="sans-serif-normal"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:id="@+id/textView_camp_card_prim_and_sec"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:gravity="top|center"
+                android:text="Primklasse und Secklasse"
+                android:fontFamily="sans-serif-light"
+                android:textSize="12sp"
+                android:textIsSelectable="false"
+                android:textColor="#c7c7c7" />
+
+            <LinearLayout
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <TextView
+                    android:id="@+id/textView_camp_card_hp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center"
+                    android:text="45/50"
+                    android:fontFamily="sans-serif-normal"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_camp_card_costs"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center"
+                    android:text="1200"
+                    android:fontFamily="sans-serif-normal"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/textView_camp_card_battles"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="bottom|center"
+                    android:text="3"
+                    android:fontFamily="sans-serif-normal"
+                    android:textColor="#ffffff"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="top|center"
+                    android:text="Hitpoints"
+                    android:paddingTop="4dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="13sp"
+                    android:textColor="#c7c7c7" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="top|center"
+                    android:text="Marktwert"
+                    android:paddingTop="4dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="13sp"
+                    android:textColor="#c7c7c7" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="top|center"
+                    android:text="Schlachten"
+                    android:paddingTop="4dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="13sp"
+                    android:textColor="#c7c7c7" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textView_camp_card_battles"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="bottom|center"
-                android:text="3"
-                android:fontFamily="sans-serif-normal"
-                android:textColor="#ffffff"
-                android:textSize="15sp" />
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="mehr..."
+                android:fontFamily="sans-serif-light"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:textColor="#959595" />
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="5"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="top|center"
-                android:text="Hitpoints"
-                android:paddingTop="4dp"
-                android:fontFamily="sans-serif-light"
-                android:textSize="13sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="top|center"
-                android:text="Marktwert"
-                android:paddingTop="4dp"
-                android:fontFamily="sans-serif-light"
-                android:textSize="13sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="top|center"
-                android:text="Schlachten"
-                android:paddingTop="4dp"
-                android:fontFamily="sans-serif-light"
-                android:textSize="13sp" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="mehr..."
-            android:fontFamily="sans-serif-light"
-            android:textSize="12sp" />
 
     </LinearLayout>
+
+
 </LinearLayout>

@@ -6,12 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.thomas.voyage.BasicActivities.HeroCampActivity"
-    android:background="@color/inactive_field">
+    android:background="@android:color/black">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11">
+        android:layout_weight="11"
+        android:background="@color/inactive_field">
 
 <!--
         <ImageView
@@ -43,7 +44,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@android:color/black"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginTop="1dp">
 
         <ImageButton
             android:id="@+id/heroes_camp_backbutton"
@@ -61,39 +63,45 @@
             android:id="@+id/textview_camp_slots"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
+            android:layout_marginRight="0dp"
             android:layout_weight="1"
             android:background="@color/inactive_field"
             android:gravity="center"
             android:text="X / Y"
             android:textColor="#ff000000"
-            android:textSize="18sp"/>
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold" />
 
         <TextView
             android:onClick="dismissHero"
             android:id="@+id/hero_dismiss"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
+            android:layout_marginRight="0dp"
             android:layout_weight="1"
             android:background="@color/inactive_field"
             android:gravity="center"
             android:text="Helden verkaufen"
             android:textColor="#ff000000"
-            android:textSize="18sp" />
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/hero_set_as_adventurer"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginRight="1dp"
+            android:layout_marginRight="0dp"
             android:layout_weight="1"
             android:background="@color/inactive_field"
             android:gravity="center"
             android:text="Auf in den Kampf!"
             android:textColor="#ff000000"
-            android:textSize="18sp"
-            android:onClick="commitToQuest" />
+            android:textSize="15sp"
+            android:onClick="commitToQuest"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/heroes_party_buy_hero_from_merchant"
@@ -104,8 +112,11 @@
             android:gravity="center"
             android:text="Helden kaufen"
             android:textColor="#ff000000"
-            android:textSize="18sp"
-            android:onClick="campBuyNewHero" />
+            android:textSize="15sp"
+            android:onClick="campBuyNewHero"
+            android:layout_marginRight="0dp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="bold" />
 
     </LinearLayout>
 

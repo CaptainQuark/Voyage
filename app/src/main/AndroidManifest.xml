@@ -77,7 +77,7 @@
             android:name=".BasicActivities.HeroCampActivity"
             android:label="@string/title_activity_hero_camp" />
         <activity
-            android:name=".BasicActivities.HospitalAcitivity"
+            android:name=".BasicActivities.HospitalActivity"
             android:label="@string/title_activity_hospital_acitivity" >
         </activity>
     </application>

@@ -200,7 +200,7 @@
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:gravity="center"
-                android:onClick="startWearTest" />
+                android:onClick="onClickHospital" />
 
             <TextView
                 android:id="@+id/textView15"

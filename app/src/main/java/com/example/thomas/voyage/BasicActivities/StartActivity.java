@@ -282,7 +282,9 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void clickToClassic(View view){
+    public void onClickHospital(View view){
+        Intent i = new Intent(getApplicationContext(), HospitalActivity.class);
+        startActivity(i);
     }
 
     private void hideSystemUI() {
