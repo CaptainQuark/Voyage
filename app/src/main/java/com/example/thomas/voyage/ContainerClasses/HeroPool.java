@@ -76,18 +76,6 @@ public class HeroPool {
                             hpMax = 50;
                             neededBiome = null;
                             break;
-                        case 2:
-                            pClass = "Soldat";
-                            hpMin = 50;
-                            hpMax = 65;
-                            neededBiome = null;
-                            break;
-                        case 3:
-                            pClass = "Magus";
-                            hpMin = 40;
-                            hpMax = 45;
-                            neededBiome = null;
-                            break;
                         default:
                             run = true;
                             break;
@@ -102,7 +90,7 @@ public class HeroPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            pClass = "Ungewöhnlich";
+                            pClass = "Kneipenschläger";
                             hpMin = 40;
                             hpMax = 50;
                             neededBiome = null;
@@ -121,7 +109,7 @@ public class HeroPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            pClass = "Selten";
+                            pClass = "Monsterjäger";
                             hpMin = 40;
                             hpMax = 50;
                             neededBiome = null;
@@ -197,12 +185,6 @@ public class HeroPool {
                         case 1:
                             sClass = "Spion";
                             break;
-                        case 2:
-                            sClass = "Schurke";
-                            break;
-                        case 3:
-                            sClass = "Glaubenskrieger";
-                            break;
                         default:
                             run = true;
                             break;
@@ -217,7 +199,7 @@ public class HeroPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            sClass = "Ungewöhnliche Unterklasse";
+                            sClass = "Spion";
                             break;
                         default:
                             run = true;
@@ -233,7 +215,7 @@ public class HeroPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            sClass = "Seltene Unterklasse";
+                            sClass = "Glaubenskrieger";
                             break;
                         default:
                             run = true;

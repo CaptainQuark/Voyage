@@ -1,0 +1,184 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.thomas.voyage.BasicActivities.HospitalAcitivity"
+    android:orientation="vertical"
+    android:background="@android:color/black">
+
+    <GridLayout
+        android:rowCount="2"
+        android:columnCount="3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:background="@drawable/gradient_hospital_grey_to_white_90">
+
+        <ImageView
+            android:layout_marginBottom="@dimen/hospital_hero_margin_bottom"
+            android:layout_gravity="center|bottom"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_width="@dimen/hospital_hero_width"
+            android:layout_height="@dimen/hospital_hero_height"
+            android:src="@mipmap/hero_dummy_3"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            android:background="@android:color/black"
+            android:stateListAnimator="@anim/elevation_heroes_camp_card"/>
+
+        <ImageView
+            android:layout_marginBottom="@dimen/hospital_hero_margin_bottom"
+            android:layout_gravity="center|bottom"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="10"
+            android:layout_column="1"
+            android:layout_width="@dimen/hospital_hero_width"
+            android:layout_height="@dimen/hospital_hero_height"
+            android:src="@mipmap/hero_dummy_3"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            android:background="@android:color/black"
+            android:stateListAnimator="@anim/elevation_heroes_camp_card"/>
+
+        <ImageView
+            android:layout_marginBottom="@dimen/hospital_hero_margin_bottom"
+            android:layout_gravity="center|bottom"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_column="2"
+            android:layout_width="@dimen/hospital_hero_width"
+            android:layout_height="@dimen/hospital_hero_height"
+            android:src="@mipmap/hero_dummy_3"
+            android:cropToPadding="false"
+            android:scaleType="centerCrop"
+            android:background="@android:color/black"
+            android:stateListAnimator="@anim/elevation_heroes_camp_card"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="1"
+            android:layout_column="0"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="Heldenname"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="1"
+            android:layout_column="1"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="Heldenname"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="1"
+            android:layout_column="2"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="Heldenname"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <Space
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="7"/>
+
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@android:color/black"
+        android:orientation="horizontal"
+        android:layout_marginTop="1dp">
+
+        <ImageButton
+            android:id="@+id/heroes_camp_backbutton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="#cecece"
+            android:onClick="heroesCampBackButton"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/ic_backbutton"
+            android:tint="#010101" />
+
+        <TextView
+            android:id="@+id/textview_camp_slots"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#cecece"
+            android:gravity="center"
+            android:text="X / Y"
+            android:textColor="#ff000000"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:onClick="dismissHero"
+            android:id="@+id/hero_dismiss"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:background="#cecece"
+            android:gravity="center"
+            android:text="Helden verkaufen"
+            android:textColor="#ff000000"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/hero_set_as_adventurer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:background="#cecece"
+            android:gravity="center"
+            android:text="Auf in den Kampf!"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:onClick="commitToQuest" />
+
+        <TextView
+            android:id="@+id/heroes_party_buy_hero_from_merchant"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#cecece"
+            android:gravity="center"
+            android:text="Helden kaufen"
+            android:textColor="#ff000000"
+            android:textSize="18sp"
+            android:onClick="campBuyNewHero"
+            android:layout_marginRight="0dp" />
+
+    </LinearLayout>
+</LinearLayout>

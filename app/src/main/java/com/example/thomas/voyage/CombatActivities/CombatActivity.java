@@ -32,9 +32,8 @@ public class CombatActivity extends Activity {
             heroHitpointsConst = -1,
             scoreMultiplier = 1,
             dartCount = 1,
-            heroClassActive = 1,
             roundCount = 0;
-    private static String monsterName = "", heroImgRes = "", chronicleString = "", eventString = "";
+    private static String monsterName = "", heroClassActive ="", heroImgRes = "", chronicleString = "", eventString = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
             scoreHeroMultiplierArray = {-1, -1, -1},
@@ -108,8 +107,24 @@ public class CombatActivity extends Activity {
 
 
     private static void combat(int scoreField, int multiField){
+
+        switch(heroClassActive){
+            case "Waldläufer":
+                break;
+            case "Kneipenschläger":
+                break;
+            case "Monsterjäger":
+                break;
+            //Secondaries:
+            case "Schurke":
+                break;
+            case "Spion":
+                break;
+            case "Glaubenskrieger":
+                break;
+        }
         throwCount++;
-        String logTopEntry = "";
+        String logTopEntry;
         tempScore += scoreField * multiField * monsterResistance - monsterBlock;
 
         if( scoreField == triggerScore && multiField == triggerMulti ){
@@ -123,13 +138,13 @@ public class CombatActivity extends Activity {
             logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ".";
         }
 
-        if( monsterCheckout == "double" && checkOutPossible(2) ){
+        if( monsterCheckout.equals("double") && checkOutPossible(2) ){
             if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
                 logTopEntry = "DOUBLE WIN!";
                 monsterHealth = 0;
             }
 
-        }else if( monsterCheckout == "master" && checkOutPossible(1) ){
+        }else if( monsterCheckout.equals("master") && checkOutPossible(1) ){
             if( monsterHealth == (scoreField * multiField) ){
                 logTopEntry = "MASTER WIN!";
                 monsterHealth = 0;
@@ -140,7 +155,7 @@ public class CombatActivity extends Activity {
             //Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
             //toast.show();
 
-            if( monsterHealth <= 0 && (monsterCheckout == "master" || monsterCheckout == "double")){
+            if( monsterHealth <= 0 && (monsterCheckout.equals("master") || monsterCheckout.equals("double"))){
                 logTopEntry = "NORMAL WIN!";
 
             }else if( throwCount == 3 ){
@@ -371,21 +386,21 @@ public class CombatActivity extends Activity {
                             break;
                         case 1:
                             // Klasse mit 1 = Primärangriff
-                            heroClassActive = 1;
+                            heroClassActive = heroList.get(1).getClassPrimary();
                             break;
                         case 2:
                             scoreMultiplier = 2;
                             break;
                         case 3:
                             // Klasse mit 2 = Sekundärangriff
-                            heroClassActive = 2;
+                            heroClassActive = heroList.get(1).getClassSecondary();
                             break;
                         case 4:
                             scoreMultiplier = 3;
                             break;
                         case 5:
                             // Klasse mit 3 = Spezialangriff
-                            heroClassActive = 3;
+                            heroClassActive = heroList.get(1).getClassPrimary();
                             break;
                         case 6:
                             scoreMultiplier = 1;
