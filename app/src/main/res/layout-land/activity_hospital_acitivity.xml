@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.BasicActivities.HospitalAcitivity"
     android:orientation="vertical"
-    android:background="@android:color/black">
+    android:background="#5f5f5f">
 
     <GridLayout
         android:rowCount="2"
@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
         android:background="@drawable/gradient_hospital_grey_to_white_90">
 
         <ImageView
@@ -40,7 +40,7 @@
             android:layout_column="1"
             android:layout_width="@dimen/hospital_hero_width"
             android:layout_height="@dimen/hospital_hero_height"
-            android:src="@mipmap/hero_dummy_3"
+            android:src="@mipmap/hero_dummy_4"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
             android:background="@android:color/black"
@@ -54,7 +54,7 @@
             android:layout_column="2"
             android:layout_width="@dimen/hospital_hero_width"
             android:layout_height="@dimen/hospital_hero_height"
-            android:src="@mipmap/hero_dummy_3"
+            android:src="@mipmap/hero_dummy_0"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
             android:background="@android:color/black"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_width="200dp"
             android:text="Heldenname"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="sans-serif-bold"
             android:textColor="#010101" />
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_width="200dp"
             android:text="Heldenname"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="sans-serif-bold"
             android:textColor="#010101" />
@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_width="200dp"
             android:text="Heldenname"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="sans-serif-bold"
             android:textColor="#010101" />
@@ -128,7 +128,7 @@
             android:onClick="heroesCampBackButton"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
-            android:tint="#010101" />
+            android:tint="#1b1b1b" />
 
         <TextView
             android:id="@+id/textview_camp_slots"
@@ -137,9 +137,10 @@
             android:layout_weight="1"
             android:background="#cecece"
             android:gravity="center"
-            android:text="X / Y"
-            android:textColor="#ff000000"
-            android:textSize="18sp"/>
+            android:text="Gilde"
+            android:textColor="#1b1b1b"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:onClick="dismissHero"
@@ -150,9 +151,10 @@
             android:layout_weight="1"
             android:background="#cecece"
             android:gravity="center"
-            android:text="Helden verkaufen"
-            android:textColor="#ff000000"
-            android:textSize="18sp" />
+            android:text="Heilung abbrechen"
+            android:textColor="#5f5f5f"
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/hero_set_as_adventurer"
@@ -162,10 +164,11 @@
             android:layout_weight="1"
             android:background="#cecece"
             android:gravity="center"
-            android:text="Auf in den Kampf!"
-            android:textColor="#ff000000"
-            android:textSize="18sp"
-            android:onClick="commitToQuest" />
+            android:text="3 / 3"
+            android:textColor="#5f5f5f"
+            android:textSize="15sp"
+            android:onClick="commitToQuest"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/heroes_party_buy_hero_from_merchant"
@@ -174,11 +177,12 @@
             android:layout_weight="1"
             android:background="#cecece"
             android:gravity="center"
-            android:text="Helden kaufen"
-            android:textColor="#ff000000"
-            android:textSize="18sp"
+            android:text="$ 1000"
+            android:textColor="#5f5f5f"
+            android:textSize="15sp"
             android:onClick="campBuyNewHero"
-            android:layout_marginRight="0dp" />
+            android:layout_marginRight="0dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </LinearLayout>
