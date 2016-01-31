@@ -1,23 +1,24 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.thomas.voyage.BasicActivities.HospitalAcitivity"
     android:orientation="vertical"
     android:background="#5f5f5f">
 
     <GridLayout
-        android:rowCount="2"
-        android:columnCount="3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
         android:paddingStart="80dp"
         android:paddingEnd="80dp"
+        android:paddingTop="60dp"
+        android:paddingBottom="80dp"
         android:background="@drawable/gradient_hospital_grey_to_white_90">
 
         <ImageView
+            android:id="@+id/imageview_hospital_hero_0"
             android:layout_marginBottom="@dimen/hospital_hero_margin_bottom"
             android:layout_gravity="center|bottom"
             android:layout_columnWeight="1"
@@ -33,6 +34,7 @@
             android:stateListAnimator="@anim/elevation_heroes_camp_card"/>
 
         <ImageView
+            android:id="@+id/imageview_hospital_hero_1"
             android:layout_marginBottom="@dimen/hospital_hero_margin_bottom"
             android:layout_gravity="center|bottom"
             android:layout_columnWeight="1"
@@ -47,6 +49,7 @@
             android:stateListAnimator="@anim/elevation_heroes_camp_card"/>
 
         <ImageView
+            android:id="@+id/imageview_hospital_hero_2"
             android:layout_marginBottom="@dimen/hospital_hero_margin_bottom"
             android:layout_gravity="center|bottom"
             android:layout_columnWeight="1"
@@ -61,6 +64,8 @@
             android:stateListAnimator="@anim/elevation_heroes_camp_card"/>
 
         <TextView
+            android:id="@+id/textview_hospital_hero_name_0"
+            android:textAllCaps="true"
             android:layout_gravity="center"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
@@ -72,9 +77,13 @@
             android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="sans-serif-bold"
-            android:textColor="#010101" />
+            android:textColor="#010101"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textview_hospital_hero_name_1"
+            android:textAllCaps="true"
             android:layout_gravity="center"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
@@ -86,9 +95,13 @@
             android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="sans-serif-bold"
-            android:textColor="#010101" />
+            android:textColor="#010101"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/textview_hospital_hero_name_2"
+            android:textAllCaps="true"
             android:layout_gravity="center"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
@@ -100,13 +113,183 @@
             android:textSize="18sp"
             android:gravity="center"
             android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textIsSelectable="false"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="2"
+            android:layout_column="0"
+            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:text="100 / 150"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:gravity="bottom|center"
+            android:fontFamily="sans-serif-bold"
             android:textColor="#010101" />
 
-        <Space
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+        <TextView
             android:layout_columnWeight="1"
-            android:layout_rowWeight="7"/>
+            android:layout_rowWeight="1"
+            android:layout_row="2"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:text="100 / 150"
+            android:textSize="16sp"
+            android:gravity="bottom|center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="2"
+            android:layout_column="2"
+            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:text="100 / 150"
+            android:textSize="16sp"
+            android:gravity="bottom|center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="HITPOINTS"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="3"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="HITPOINTS"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="3"
+            android:layout_column="2"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="HITPOINTS"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:text="150"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:gravity="bottom|center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="4"
+            android:layout_column="1"
+            android:layout_gravity="center"
+            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:text="150"
+            android:textSize="16sp"
+            android:gravity="bottom|center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="4"
+            android:layout_column="2"
+            android:layout_height="50dp"
+            android:layout_width="200dp"
+            android:text="150"
+            android:textSize="16sp"
+            android:gravity="bottom|center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="ABREISE IN MIN"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="ABREISE IN MIN"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_row="5"
+            android:layout_column="2"
+            android:layout_height="wrap_content"
+            android:layout_width="200dp"
+            android:text="ABREISE IN MIN"
+            android:textSize="10sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="#010101"
+            android:textStyle="bold" />
 
     </GridLayout>
 
@@ -119,7 +302,7 @@
         android:layout_marginTop="1dp">
 
         <ImageButton
-            android:id="@+id/heroes_camp_backbutton"
+            android:id="@+id/imagebutton_hospital_back_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
@@ -131,7 +314,7 @@
             android:tint="#1b1b1b" />
 
         <TextView
-            android:id="@+id/textview_camp_slots"
+            android:id="@+id/textview_hospital_back_to_camp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -144,7 +327,7 @@
 
         <TextView
             android:onClick="dismissHero"
-            android:id="@+id/hero_dismiss"
+            android:id="@+id/textview_hospital_abort_medication"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
@@ -157,7 +340,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/hero_set_as_adventurer"
+            android:id="@+id/textview_hospital_slots"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
@@ -171,7 +354,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/heroes_party_buy_hero_from_merchant"
+            android:id="@+id/textview_hospital_fortune"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
