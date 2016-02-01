@@ -369,7 +369,7 @@
             android:src="@mipmap/ic_backbutton"
             android:tint="#ffffff"
             android:onClick="onClick"
-            android:background="#b4b4b4" />
+            android:background="@drawable/ripple_backbutton_hospital" />
 
         <TextView
             android:id="@+id/textview_hospital_back_to_camp"
