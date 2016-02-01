@@ -37,7 +37,8 @@ public class CombatActivity extends Activity {
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
             scoreHeroMultiplierArray = {-1, -1, -1},
-            scoreHeroFieldArray = {-1, -1, -1};
+            scoreHeroFieldArray = {-1, -1, -1},
+            tempScoreHistory = {0, 0, 0};
     private static TextView monsterHealthView,
             heroHitpointsView,
             heroNameView,
@@ -87,10 +88,10 @@ public class CombatActivity extends Activity {
         initializeValues();
 
         monster = new Monster();
-        monsterHealth = monster.getInt("hp");
-        monsterCheckout = monster.getString("checkout");
-        monsterNameView.setText(monster.getString("name"));
-        monsterName = monster.getString("name");
+        monsterHealth = monster.hp;
+        monsterCheckout = monster.checkout;
+        monsterNameView.setText(monster.name);
+        monsterName = monster.name;
         monsterProfileView.setImageResource(getResources().getIdentifier(monster.getImgRes(), "mipmap", this.getPackageName()));
     }
 
@@ -114,16 +115,13 @@ public class CombatActivity extends Activity {
 
     private static void combat(int scoreField, int multiField){
 
-        throwCount++;
-
-
         switch(heroClassActive){
             case "Waldläufer":
                 if(scoreField == 1){
-                    bonusScore += 9;
+                    bonusScore += 10 - scoreField*scoreMultiplier;
                     applyEffects();
                 }
-                else if(scoreField == 5){
+                else if(scoreField == 5 && scoreMultiplier == 1){
                     bonusScore += 5;
                     applyEffects();
                 }
@@ -163,13 +161,23 @@ public class CombatActivity extends Activity {
 
         }else{
             monsterHealth -= tempScore;
+            tempScoreHistory[throwCount] = tempScore;
             //Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
             //toast.show();
 
-            if( monsterHealth <= 0 && (monsterCheckout.equals("master") || monsterCheckout.equals("double"))){
+            if( monsterHealth <= 0 && monsterCheckout.equals("default")) {
                 logTopEntry = "NORMAL WIN!";
 
-            }else if( throwCount == 3 ){
+            }else if(monsterHealth <= 0 && monsterCheckout != "default") {
+                for(int i = 0; i < 2; i++) {
+                    monsterHealth += tempScoreHistory[i];
+                }
+                //Überworfen!
+
+            }else if( throwCount == 2 ){
+                for(int i = 0;i < 2; i++){
+                    tempScoreHistory[i] = 0;
+                }
                 throwCount = 0;
                 // Bedingungen für Triggern von Spezial nach 3 Würfen, Spieler und Monster
             }
@@ -187,8 +195,8 @@ public class CombatActivity extends Activity {
 
         eventsView.setText(tempEventsString);
         eventsList.add(logTopEntry);
-        tempScore = 0;
         resetBonus();
+        throwCount++;
     }
 
     private static void applyEffects(){
@@ -218,7 +226,7 @@ public class CombatActivity extends Activity {
     }
 
     private static void setHealthBarMonster() {
-        monsterHealthConst = monsterList.get(0).getInt("hp");
+        monsterHealthConst = monsterList.get(0).hp;
 
         try {
             if (monsterHealth > 0) {
@@ -503,11 +511,11 @@ public class CombatActivity extends Activity {
         }
 
         monsterList.add(new Monster());
-        monsterHealthConst = monsterList.get(0).getInt("hp");
+        monsterHealthConst = monsterList.get(0).hp;
 
         heroNameView.setText(heroList.get(0).getStrings("heroName"));
         heroHitpointsView.setText(Integer.toString(heroList.get(0).getInts("hp")));
-        monsterHealthView.setText(Integer.toString(monsterList.get(0).getInt("hp")));
+        monsterHealthView.setText(Integer.toString(monsterList.get(0).hp));
 
         int[] numbersOfBoardList = new int[20];
         for (int i = 0; i < 20; i++) {

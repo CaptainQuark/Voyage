@@ -11,6 +11,7 @@ public class MonsterPool {
 
     private double accuracy;
     private double evasion;
+    private double critChance;
 
     private String checkout;
     private String name;
@@ -35,13 +36,14 @@ public class MonsterPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            name = "Waldläufer";
-                            checkout = "master";
-                            hp = 50;
+                            name = "Gemeines Monster";
+                            checkout = "default";
+                            hp = 200;
                             dmgMin = 10;
                             dmgMax = 20;
                             accuracy = 1;
                             evasion = 0.95;
+                            critChance = 0;
                             image = 1;
                             break;
                         default:
@@ -56,13 +58,14 @@ public class MonsterPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            name = "Waldläufer";
+                            name = "Uncommon Monster";
                             checkout = "master";
-                            hp = 50;
+                            hp = 300;
                             dmgMin = 10;
                             dmgMax = 20;
                             accuracy = 1;
-                            evasion = 0.95;
+                            evasion = 0.99;
+                            critChance = 0;
                             image = 2;
                             break;
                         default:
@@ -77,35 +80,15 @@ public class MonsterPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            name = "Waldläufer";
+                            name = "Fufzehn Prozent Monster";
                             checkout = "master";
-                            hp = 50;
+                            hp = 500;
                             dmgMin = 10;
                             dmgMax = 20;
                             accuracy = 1;
-                            evasion = 0.95;
+                            evasion = 0.99;
+                            critChance = 0;
                             image = 3;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 4:
-                for (boolean run = true; run; ) {
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            name = "Waldläufer";
-                            checkout = "master";
-                            hp = 50;
-                            dmgMin = 10;
-                            dmgMax = 20;
-                            accuracy = 1;
-                            evasion = 0.95;
-                            image = 4;
                             break;
                         default:
                             run = true;
@@ -119,67 +102,38 @@ public class MonsterPool {
     }
 
     public String getCheckout(){
-        String val = "double";
-
-        return val;
+        return checkout;
     }
 
-    public int getEvasion(){
-        int val = -1;
-
-        return val;
+    public double getEvasion(){
+        return evasion;
     }
 
-    public int getAccuracy(){
-        int val = -1;
-
-        return val;
+    public double getAccuracy(){
+        return accuracy;
     }
 
-    public int getCritChance(){
-        int val = -1;
-
-        return val;
+    public double getCritChance(){
+        return critChance;
     }
 
     public int getHp(){
-        int val = 500;
-
-        return val;
+        return hp;
     }
 
     public int getDmgMin(){
-        int val = -1;
-
-        return val;
+        return dmgMin;
     }
 
     public int getDmgMax(){
-        int val = -1;
-
-        return val;
+        return dmgMax;
     }
 
     public String getImgRes(){
-        String val = "monster_dummy_" + image;
-
-        return val;
+        return "monster_dummy_" + image;
     }
 
     public String getName(){
-        Random rand = new Random();
-        String[] names = {"Magmamemnnon", "Knöllchen", "Steinchen"};
-        int size = names.length, index = 0;
-
-        for(boolean check = true; check; ){
-
-            // erzeuge Zufallswert von 0 - 2
-            // wenn zwischen 5 - 10, dann: int randomValue = ran.nextInt(6) + 5;
-            //  -> Randomwert zw. 0 und 5 wird mit 5 addiert
-            index = rand.nextInt(size);
-            check = false;
-        }
-
-        return names[index];
+       return name;
     }
 }
