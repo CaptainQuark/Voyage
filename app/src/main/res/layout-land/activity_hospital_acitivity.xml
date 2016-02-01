@@ -24,13 +24,15 @@
             android:layout_rowWeight="1"
             android:layout_gravity="bottom|center"
             android:stateListAnimator="@anim/elevation_heroes_camp_card"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:id="@+id/framelayout_hospital_slot_0"
+            android:onClick="onClick">
 
             <ImageView
                 android:id="@+id/imageview_hospital_hero_0"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/hero_dummy_3"
+                android:src="@mipmap/journey_b3"
                 android:cropToPadding="false"
                 android:scaleType="centerCrop" />
 
@@ -107,106 +109,20 @@
             android:layout_width="@dimen/hospital_hero_width"
             android:layout_height="350dp"
             android:background="@android:color/black"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_gravity="bottom|center"
-            android:stateListAnimator="@anim/elevation_heroes_camp_card"
-            android:layout_marginBottom="20dp">
-
-            <ImageView
-                android:id="@+id/imageview_hospital_hero_2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@mipmap/hero_dummy_0"
-                android:cropToPadding="false"
-                android:scaleType="centerCrop" />
-
-            <ImageView
-                android:layout_marginTop="0dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/gradient90"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <Space
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="6"/>
-
-                <TextView
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:text="100 / 150"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:gravity="bottom|center"
-                    android:fontFamily="sans-serif-bold"
-                    android:textColor="#ffffff"
-                    android:id="@+id/textview_hospital_hero_hp_2"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:text="HITPOINTS"
-                    android:textSize="10sp"
-                    android:layout_gravity="center"
-                    android:gravity="top|center"
-                    android:fontFamily="sans-serif-bold"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:text="150"
-                    android:textSize="16sp"
-                    android:layout_gravity="center"
-                    android:gravity="bottom|center"
-                    android:fontFamily="sans-serif-bold"
-                    android:textColor="#ffffff"
-                    android:id="@+id/textview_hospital_hero_time_2"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_height="0dp"
-                    android:layout_width="match_parent"
-                    android:text="ABREISE IN MIN"
-                    android:textSize="10sp"
-                    android:layout_gravity="center"
-                    android:gravity="top|center"
-                    android:fontFamily="sans-serif-bold"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:layout_weight="1"
-                    android:layout_marginBottom="20dp" />
-
-            </LinearLayout>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="@dimen/hospital_hero_width"
-            android:layout_height="350dp"
-            android:background="@android:color/black"
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:layout_rowWeight="1"
             android:layout_gravity="bottom|center"
             android:stateListAnimator="@anim/elevation_heroes_camp_card"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="20dp"
+            android:id="@+id/framelayout_hospital_slot_1"
+            android:onClick="onClick">
 
             <ImageView
                 android:id="@+id/imageview_hospital_hero_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@mipmap/hero_dummy_4"
+                android:src="@mipmap/journey_b3"
                 android:cropToPadding="false"
                 android:scaleType="centerCrop" />
 
@@ -279,6 +195,96 @@
 
         </FrameLayout>
 
+
+        <FrameLayout
+            android:layout_width="@dimen/hospital_hero_width"
+            android:layout_height="350dp"
+            android:background="@android:color/black"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:layout_gravity="bottom|center"
+            android:stateListAnimator="@anim/elevation_heroes_camp_card"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/framelayout_hospital_slot_2"
+            android:onClick="onClick">
+
+            <ImageView
+                android:id="@+id/imageview_hospital_hero_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/journey_b3"
+                android:cropToPadding="false"
+                android:scaleType="centerCrop" />
+
+            <ImageView
+                android:layout_marginTop="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient90"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="6"/>
+
+                <TextView
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:text="100 / 150"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:gravity="bottom|center"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="#ffffff"
+                    android:id="@+id/textview_hospital_hero_hp_2"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:text="HITPOINTS"
+                    android:textSize="10sp"
+                    android:layout_gravity="center"
+                    android:gravity="top|center"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:text="150"
+                    android:textSize="16sp"
+                    android:layout_gravity="center"
+                    android:gravity="bottom|center"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="#ffffff"
+                    android:id="@+id/textview_hospital_hero_time_2"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_height="0dp"
+                    android:layout_width="match_parent"
+                    android:text="ABREISE IN MIN"
+                    android:textSize="10sp"
+                    android:layout_gravity="center"
+                    android:gravity="top|center"
+                    android:fontFamily="sans-serif-bold"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="20dp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/textview_hospital_hero_name_0"
