@@ -92,7 +92,7 @@
                 android:layout_gravity="fill"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
-                android:background="@color/start_3_abilities_upgrades" />
+                android:background="@drawable/ripple_start_hospital" />
 
             <TextView
                 android:id="@+id/textView7"
@@ -191,7 +191,7 @@
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/start_textView_abilities_upgrades"
+                android:id="@+id/start_textView_hospital"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_column="3"
@@ -200,7 +200,8 @@
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:gravity="center"
-                android:onClick="onClickHospital" />
+                android:onClick="onClickHospital"
+                android:background="@drawable/ripple_start_hospital" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -213,7 +214,7 @@
                 android:layout_rowWeight="1"
                 android:background="#d5000000"
                 android:gravity="center"
-                android:text="Fähigkeiten-Upgrades"
+                android:text="Medicus"
                 android:textStyle="italic" />
 
             <TextView

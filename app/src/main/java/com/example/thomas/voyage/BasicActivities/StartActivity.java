@@ -1,6 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ public class StartActivity extends Activity {
     private DBmerchantHeroesAdapter merchantHelper;
     private DBplayerItemsAdapter itemPlayerHelper;
     private DBmerchantItemsAdapter itemMerchantHelper;
-    private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket;
+    private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket, textViewHospital;
     private ConstRes c;
 
     @Override
@@ -53,18 +54,21 @@ public class StartActivity extends Activity {
         textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
         textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
         textViewItemMarket = (TextView) findViewById(R.id.start_textView_inventory_merchant);
+        textViewHospital = (TextView) findViewById(R.id.start_textView_hospital);
 
         setSlaveMarketWindow();
         setHeroesPartyWindow();
         setItemMarketWindow();
+        setHospitalWindows();
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
+        setSlaveMarketWindow();
         setHeroesPartyWindow();
-        //setHeroesPartyWindow();
         setItemMarketWindow();
+        setHospitalWindows();
         hideSystemUI();
     }
 
@@ -168,6 +172,19 @@ public class StartActivity extends Activity {
         else if(countUsed == 0) textViewItemMarket.setText("Nichts mehr zu kaufen...");
     }
 
+    private void setHospitalWindows(){
+        SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+        int sum = 0;
+
+        for(int i = 0; i < 3; i++){
+            if(prefs.getInt("DB_INDEX_BY_SLOT_" + i, -1) != -1) sum++;
+        }
+
+        if(sum == 0) textViewHospital.setText("Niemand in Behandlung...");
+        else if(sum == 1) textViewHospital.setText("Ein Held wird versorgt");
+        else textViewHospital.setText(sum + " Helden in Behandlung");
+    }
+
     private long prepareHeroesDatabaseForGame(int rows) {
 
         long validation = 0;
@@ -241,10 +258,6 @@ public class StartActivity extends Activity {
         }
 
         return id;
-    }
-
-    public void startWearTest(View view){
-
     }
 
     public void clickToHeroMerchant(View view) {

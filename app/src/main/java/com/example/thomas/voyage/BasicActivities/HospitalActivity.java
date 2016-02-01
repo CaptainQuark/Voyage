@@ -47,7 +47,6 @@ public class HospitalActivity extends Activity {
 
         for(int i = 0; i < 3; i++) slotsList.add( new Slot(i) );
         initializeBrokenHeroes();
-        Message.message(this, "size bHL: " + brokenHeroList.size());
     }
 
     @Override
@@ -85,21 +84,25 @@ public class HospitalActivity extends Activity {
     }
 
     private void initializeBrokenHeroes(){
-        SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+        try {
+            SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
 
-        for(int i = 0, dbIndex; i < 3; i++){
-            dbIndex = prefs.getInt("DB_INDEX_BY_SLOT_" + i, -1);
+            for(int i = 0, dbIndex; i < 3; i++){
+                dbIndex = prefs.getInt("DB_INDEX_BY_SLOT_" + i, -1);
 
-            if(dbIndex == -1)
-                slotsList.get(i).showPlaceholder();
-            else{
-                brokenHeroList.add(new BrokenHero(dbIndex, i));
-                slotsList.get(i).showHero( brokenHeroList.get(i) );
+                if(dbIndex == -1)
+                    slotsList.get(i).showPlaceholder();
+                else{
+                    brokenHeroList.add(new BrokenHero(dbIndex, i));
+                    slotsList.get(i).showHero( brokenHeroList.get( brokenHeroList.size()-1) );
+                }
             }
-        }
 
-        setFreeSlotsView();
-        setFortuneView();
+            setFreeSlotsView();
+            setFortuneView();
+        }catch (IndexOutOfBoundsException e){
+            Message.message(this, e + "");
+        }
     }
 
     private void checkForAction(int slotIndex){
@@ -116,30 +119,29 @@ public class HospitalActivity extends Activity {
         }
 
         if(!isUsed){
-            brokenHeroList.add( new BrokenHero(slotIndex+1, slotIndex));
-            slotsList.get( slotIndex ).showHero( brokenHeroList.get(brokenHeroList.size()-1));
-            saveNewBrokenHeroInSharedPrefs(slotIndex+1, slotIndex);
+            brokenHeroList.add(new BrokenHero(slotIndex + 1, slotIndex));
+            slotsList.get( slotIndex ).showHero(brokenHeroList.get(brokenHeroList.size() - 1));
         }
 
         setFreeSlotsView();
     }
 
-    private void saveNewBrokenHeroInSharedPrefs(int dbIndex, int slotIndex){
-        SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
-        prefs.edit().putInt("DB_INDEX_BY_SLOT_" + slotIndex, dbIndex);
-        prefs.edit().apply();
-    }
-
     private void removeBrokenHeroFromList(int i){
-        slotsList.get(i).showPlaceholder();
+
         for(int index = 0; index < 3; index++){
             if(brokenHeroList.get(index).getSlotIndex() == i){
+                slotsList.get(i).showPlaceholder();
+                removeSharedPreference(i);
                 brokenHeroList.remove(index);
                 index = 3;
 
             }else if(index == 2) Message.message(this, "ERROR @ removeBrokenHeroFromList : no matching index");
         }
-        saveNewBrokenHeroInSharedPrefs(-1, i);
+    }
+
+    private void removeSharedPreference(int i){
+        SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+        prefs.edit().remove("DB_INDEX_BY_SLOT_" + i).apply();
     }
 
     private void setFreeSlotsView(){
@@ -217,6 +219,9 @@ public class HospitalActivity extends Activity {
 
         public BrokenHero(int databaseIndex, int si){
             this.slotIndex = si;
+
+            SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+            prefs.edit().putInt("DB_INDEX_BY_SLOT_" + si, databaseIndex).apply();
 
             if(databaseIndex >= 1){
                 DBheroesAdapter heroesHelper = new DBheroesAdapter(getApplicationContext());
