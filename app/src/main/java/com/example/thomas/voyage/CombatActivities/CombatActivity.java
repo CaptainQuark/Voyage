@@ -100,6 +100,12 @@ public class CombatActivity extends Activity {
         hideSystemUI();
     }
 
+    private static void resetBonus(){
+        tempScore = 0;
+        bonusScore = 0;
+        playerHealth = 0;
+        bonusHealth = 0;
+    }
 
 
 
@@ -108,8 +114,19 @@ public class CombatActivity extends Activity {
 
     private static void combat(int scoreField, int multiField){
 
+        throwCount++;
+
+
         switch(heroClassActive){
             case "Waldläufer":
+                if(scoreField == 1){
+                    bonusScore += 9;
+                    applyEffects();
+                }
+                else if(scoreField == 5){
+                    bonusScore += 5;
+                    applyEffects();
+                }
                 break;
             case "Kneipenschläger":
                 break;
@@ -123,20 +140,14 @@ public class CombatActivity extends Activity {
             case "Glaubenskrieger":
                 break;
         }
-        throwCount++;
+
         String logTopEntry;
+        logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + (tempScore - bonusScore)
+                + " und " + bonusScore + " Bonusangriff!";
+
+        logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ".";
+
         tempScore += scoreField * multiField * monsterResistance - monsterBlock;
-
-        if( scoreField == triggerScore && multiField == triggerMulti ){
-            tempScore += bonusScore;
-            playerHealth += bonusHealth;
-
-            logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + (tempScore - bonusScore)
-                    + " und " + bonusScore + " Bonusangriff!";
-
-        }else{
-            logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ".";
-        }
 
         if( monsterCheckout.equals("double") && checkOutPossible(2) ){
             if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
@@ -177,6 +188,12 @@ public class CombatActivity extends Activity {
         eventsView.setText(tempEventsString);
         eventsList.add(logTopEntry);
         tempScore = 0;
+        resetBonus();
+    }
+
+    private static void applyEffects(){
+        tempScore += bonusScore;
+        playerHealth += bonusHealth;
     }
 
     private static Boolean checkOutPossible(int checkOutType){
@@ -386,21 +403,21 @@ public class CombatActivity extends Activity {
                             break;
                         case 1:
                             // Klasse mit 1 = Primärangriff
-                            heroClassActive = heroList.get(1).getClassPrimary();
+                            heroClassActive = heroList.get(0).getClassPrimary();
                             break;
                         case 2:
                             scoreMultiplier = 2;
                             break;
                         case 3:
                             // Klasse mit 2 = Sekundärangriff
-                            heroClassActive = heroList.get(1).getClassSecondary();
+                            heroClassActive = heroList.get(0).getClassSecondary();
                             break;
                         case 4:
                             scoreMultiplier = 3;
                             break;
                         case 5:
                             // Klasse mit 3 = Spezialangriff
-                            heroClassActive = heroList.get(1).getClassPrimary();
+                            heroClassActive = heroList.get(0).getClassPrimary();
                             break;
                         case 6:
                             scoreMultiplier = 1;
