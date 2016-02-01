@@ -65,6 +65,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:textAllCaps="true"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
                     android:text="HITPOINTS"
@@ -74,7 +75,8 @@
                     android:fontFamily="sans-serif-bold"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:id="@+id/static_textview_hospital_hp_0" />
 
                 <TextView
                     android:layout_height="0dp"
@@ -89,6 +91,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:textAllCaps="true"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
                     android:text="ABREISE IN MIN"
@@ -99,7 +102,8 @@
                     android:textColor="#ffffff"
                     android:textStyle="bold"
                     android:layout_weight="1"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/static_textview_hospital_time_0" />
 
             </LinearLayout>
 
@@ -155,6 +159,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:textAllCaps="true"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
                     android:text="HITPOINTS"
@@ -164,7 +169,8 @@
                     android:fontFamily="sans-serif-bold"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:id="@+id/static_textview_hospital_hp_1" />
 
                 <TextView
                     android:layout_height="0dp"
@@ -179,6 +185,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:textAllCaps="true"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
                     android:text="ABREISE IN MIN"
@@ -189,7 +196,8 @@
                     android:textColor="#ffffff"
                     android:textStyle="bold"
                     android:layout_weight="1"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/static_textview_hospital_time_1" />
 
             </LinearLayout>
 
@@ -246,6 +254,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:textAllCaps="true"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
                     android:text="HITPOINTS"
@@ -255,7 +264,8 @@
                     android:fontFamily="sans-serif-bold"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:id="@+id/static_textview_hospital_hp_2" />
 
                 <TextView
                     android:layout_height="0dp"
@@ -270,6 +280,7 @@
                     android:layout_weight="1" />
 
                 <TextView
+                    android:textAllCaps="true"
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
                     android:text="ABREISE IN MIN"
@@ -280,7 +291,8 @@
                     android:textColor="#ffffff"
                     android:textStyle="bold"
                     android:layout_weight="1"
-                    android:layout_marginBottom="20dp" />
+                    android:layout_marginBottom="20dp"
+                    android:id="@+id/static_textview_hospital_time_2" />
 
             </LinearLayout>
 
@@ -368,10 +380,11 @@
             android:text="Gilde"
             android:textColor="#ffffff"
             android:textSize="15sp"
-            android:background="#b4b4b4" />
+            android:background="#b4b4b4"
+            android:onClick="onClick"/>
 
         <TextView
-            android:onClick="dismissHero"
+            android:onClick="onClick"
             android:id="@+id/textview_hospital_abort_medication"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -393,7 +406,6 @@
             android:text="3 / 3"
             android:textColor="#707070"
             android:textSize="15sp"
-            android:onClick="commitToQuest"
             android:background="#b4b4b4" />
 
         <TextView
@@ -405,7 +417,6 @@
             android:text="$ 1000"
             android:textColor="#707070"
             android:textSize="15sp"
-            android:onClick="campBuyNewHero"
             android:layout_marginRight="0dp"
             android:background="#b4b4b4" />
 

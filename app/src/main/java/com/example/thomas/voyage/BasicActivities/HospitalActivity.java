@@ -2,6 +2,7 @@ package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,15 @@ public class HospitalActivity extends Activity {
 
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
+    private TextView freeSlotsView, fortuneView;
+    private int lastSelectedSlotIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_acitivity);
         hideSystemUI();
+        iniGeneralViews();
 
         /*
 
@@ -60,11 +64,20 @@ public class HospitalActivity extends Activity {
                 break;
             case R.id.framelayout_hospital_slot_0:
                 checkForAction(0);
-                Message.message(this, "Frame tapped");
                 break;
             case R.id.framelayout_hospital_slot_1:
+                checkForAction(1);
                 break;
             case R.id.framelayout_hospital_slot_2:
+                checkForAction(2);
+                break;
+            case R.id.textview_hospital_abort_medication:
+                sellTheMan();
+                break;
+            case R.id.textview_hospital_back_to_camp:
+                Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+                startActivity(i);
+                finish();
                 break;
             default:
                 Message.message(this, "ERROR @ HospitalActivity : onClick : switch : default called");
@@ -80,13 +93,17 @@ public class HospitalActivity extends Activity {
             if(dbIndex == -1)
                 slotsList.get(i).showPlaceholder();
             else{
-                brokenHeroList.add( new BrokenHero(dbIndex, i) );
+                brokenHeroList.add(new BrokenHero(dbIndex, i));
                 slotsList.get(i).showHero( brokenHeroList.get(i) );
             }
         }
+
+        setFreeSlotsView();
+        setFortuneView();
     }
 
     private void checkForAction(int slotIndex){
+        lastSelectedSlotIndex = slotIndex;
         boolean isUsed = false;
 
         for(int i = 0; i < brokenHeroList.size(); i++){
@@ -100,9 +117,11 @@ public class HospitalActivity extends Activity {
 
         if(!isUsed){
             brokenHeroList.add( new BrokenHero(slotIndex+1, slotIndex));
-            slotsList.get(brokenHeroList.get(slotIndex).getSlotIndex()).showHero(brokenHeroList.get(slotIndex));
+            slotsList.get( slotIndex ).showHero( brokenHeroList.get(brokenHeroList.size()-1));
             saveNewBrokenHeroInSharedPrefs(slotIndex+1, slotIndex);
         }
+
+        setFreeSlotsView();
     }
 
     private void saveNewBrokenHeroInSharedPrefs(int dbIndex, int slotIndex){
@@ -113,10 +132,36 @@ public class HospitalActivity extends Activity {
 
     private void removeBrokenHeroFromList(int i){
         slotsList.get(i).showPlaceholder();
-        brokenHeroList.remove(i);
+        for(int index = 0; index < 3; index++){
+            if(brokenHeroList.get(index).getSlotIndex() == i){
+                brokenHeroList.remove(index);
+                index = 3;
+
+            }else if(index == 2) Message.message(this, "ERROR @ removeBrokenHeroFromList : no matching index");
+        }
         saveNewBrokenHeroInSharedPrefs(-1, i);
     }
 
+    private void setFreeSlotsView(){
+        freeSlotsView.setText(brokenHeroList.size() + " / " + slotsList.size());
+    }
+
+    private void setFortuneView(){
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        long money = prefs.getLong("currentMoneyLong", -1);
+
+        fortuneView.setText("$ " + money);
+    }
+
+    private void sellTheMan(){
+        if(lastSelectedSlotIndex == -1){
+            Message.message(this, "No hero yet choosen!");
+
+        }else{
+            Message.message(this, "No selling for slot " + lastSelectedSlotIndex + " yet implemented");
+            lastSelectedSlotIndex = -1;
+        }
+    }
 
 
 
@@ -132,35 +177,42 @@ public class HospitalActivity extends Activity {
 
 
     private class Slot{
-        private TextView nameView, hpNowView, timeToLeaveView;
-        private ImageView profileRessourceView;
+        private TextView nameView, hpNowView, timeToLeaveView, staticHpView, staticTimeView;
+        private ImageView profileResourceView;
 
         public Slot(int slotIndex){
-            profileRessourceView = (ImageView) findViewById(getResources().getIdentifier("imageview_hospital_hero_" + slotIndex, "id", getPackageName()));
+            profileResourceView = (ImageView) findViewById(getResources().getIdentifier("imageview_hospital_hero_" + slotIndex, "id", getPackageName()));
             nameView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_name_" + slotIndex,"id",getPackageName()));
             hpNowView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_hp_" + slotIndex,"id",getPackageName()));
             timeToLeaveView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_time_" + slotIndex,"id",getPackageName()));
+            staticHpView = (TextView) findViewById(getResources().getIdentifier("static_textview_hospital_hp_" + slotIndex,"id",getPackageName()));
+            staticTimeView = (TextView) findViewById(getResources().getIdentifier("static_textview_hospital_time_" + slotIndex,"id",getPackageName()));
         }
 
-        private void showHero(BrokenHero hero){
-            profileRessourceView.setImageResource(getResources().getIdentifier(hero.getProfileRessource(), "mipmap", getPackageName()));
-            nameView.setText(hero.getName());
+        public void showHero(BrokenHero hero){
+            profileResourceView.setImageResource(getResources().getIdentifier(hero.getProfileResource(), "mipmap", getPackageName()));
+            nameView.setText(hero.getName() + "");
             hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
-            timeToLeaveView.setText(hero.getTimeToLeave());
+            timeToLeaveView.setText(hero.getTimeToLeave() + "");
+            staticHpView.setVisibility(View.VISIBLE);
+            staticTimeView.setText("abreise in min");
+
         }
 
-        private void showPlaceholder(){
-            profileRessourceView.setImageResource(getResources().getIdentifier("journey", "mipmap", getPackageName()));
+        public void showPlaceholder(){
+            profileResourceView.setImageResource(getResources().getIdentifier("journey_b3", "mipmap", getPackageName()));
             nameView.setText("");
             hpNowView.setText("");
             timeToLeaveView.setText("");
+            staticHpView.setVisibility(View.INVISIBLE);
+            staticTimeView.setText("hinzufügen");
         }
     }
 
 
     private class BrokenHero{
         private int slotIndex, hpNow, hpTotal = 100, timeToLeave = 24;
-        private String name, profileRessource;
+        private String name, profileResource;
 
 
         public BrokenHero(int databaseIndex, int si){
@@ -170,16 +222,16 @@ public class HospitalActivity extends Activity {
                 DBheroesAdapter heroesHelper = new DBheroesAdapter(getApplicationContext());
                 name = heroesHelper.getHeroName(databaseIndex);
                 hpNow = heroesHelper.getHeroHitpoints(databaseIndex);
-                profileRessource = heroesHelper.getHeroImgRes(databaseIndex);
+                profileResource = heroesHelper.getHeroImgRes(databaseIndex);
             }
         }
 
-        private String getName(){ return name; }
-        private String getProfileRessource(){ return profileRessource; }
-        private int getHpNow(){ return hpNow; }
-        private int getHpTotal(){ return hpTotal; }
-        private int getTimeToLeave(){ return timeToLeave; }
-        private int getSlotIndex(){ return slotIndex; }
+        public String getName(){ return name; }
+        public String getProfileResource(){ return profileResource; }
+        public int getHpNow(){ return hpNow; }
+        public int getHpTotal(){ return hpTotal; }
+        public int getTimeToLeave(){ return timeToLeave; }
+        public int getSlotIndex(){ return slotIndex; }
     }
 
 
@@ -194,7 +246,10 @@ public class HospitalActivity extends Activity {
 
 
 
-
+    private void iniGeneralViews(){
+        freeSlotsView = (TextView) findViewById(R.id.textview_hospital_slots);
+        fortuneView = (TextView) findViewById(R.id.textview_hospital_fortune);
+    }
 
     private void hideSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(
