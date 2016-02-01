@@ -392,7 +392,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Heilung abbrechen"
-            android:textColor="#ffffff"
+            android:textColor="#707070"
             android:textSize="15sp"
             android:background="#b4b4b4" />
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +21,7 @@ public class HospitalActivity extends Activity {
 
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
-    private TextView freeSlotsView, fortuneView;
+    private TextView freeSlotsView, fortuneView, abortMedicationView;
     private int lastSelectedSlotIndex = -1;
 
     @Override
@@ -71,7 +72,7 @@ public class HospitalActivity extends Activity {
                 checkForAction(2);
                 break;
             case R.id.textview_hospital_abort_medication:
-                sellTheMan();
+                abortMedication();
                 break;
             case R.id.textview_hospital_back_to_camp:
                 Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
@@ -100,27 +101,27 @@ public class HospitalActivity extends Activity {
 
             setFreeSlotsView();
             setFortuneView();
+
         }catch (IndexOutOfBoundsException e){
             Message.message(this, e + "");
         }
     }
 
     private void checkForAction(int slotIndex){
-        lastSelectedSlotIndex = slotIndex;
         boolean isUsed = false;
+        lastSelectedSlotIndex = slotIndex;
 
         for(int i = 0; i < brokenHeroList.size(); i++){
-            if( brokenHeroList.get(i).getSlotIndex() == slotIndex ){
-                i = brokenHeroList.size();
-                Message.message(this, "Heal-A-Hero!");
-                removeBrokenHeroFromList(slotIndex);
-                isUsed = true;
-            }
+            if( brokenHeroList.get(i).getSlotIndex() == slotIndex ) isUsed = true;
         }
 
         if(!isUsed){
+            lastSelectedSlotIndex = -1;
             brokenHeroList.add(new BrokenHero(slotIndex + 1, slotIndex));
             slotsList.get( slotIndex ).showHero(brokenHeroList.get(brokenHeroList.size() - 1));
+
+        }else{
+            abortMedicationView.setTextColor(Color.parseColor("#ffffff"));
         }
 
         setFreeSlotsView();
@@ -155,13 +156,24 @@ public class HospitalActivity extends Activity {
         fortuneView.setText("$ " + money);
     }
 
-    private void sellTheMan(){
+    private void abortMedication(){
         if(lastSelectedSlotIndex == -1){
             Message.message(this, "No hero yet choosen!");
 
         }else{
-            Message.message(this, "No selling for slot " + lastSelectedSlotIndex + " yet implemented");
+
+            for(int i = 0; i < brokenHeroList.size(); i++){
+                if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
+                    i = brokenHeroList.size();
+                    Message.message(this, "Heal-A-Hero!");
+                    removeBrokenHeroFromList(lastSelectedSlotIndex);
+                }
+            }
+
             lastSelectedSlotIndex = -1;
+            setFreeSlotsView();
+            setFortuneView();
+            abortMedicationView.setTextColor(Color.parseColor("#707070"));
         }
     }
 
@@ -254,6 +266,7 @@ public class HospitalActivity extends Activity {
     private void iniGeneralViews(){
         freeSlotsView = (TextView) findViewById(R.id.textview_hospital_slots);
         fortuneView = (TextView) findViewById(R.id.textview_hospital_fortune);
+        abortMedicationView = (TextView) findViewById(R.id.textview_hospital_abort_medication);
     }
 
     private void hideSystemUI() {
