@@ -246,8 +246,7 @@ public class HeroPool {
     }
 
     public int getCosts() {
-        costs = (int) (costsBase * costsMultiplier);
-        return costs;
+        return (int) (costsBase * costsMultiplier);
     }
 
     public String getImageResource(){
