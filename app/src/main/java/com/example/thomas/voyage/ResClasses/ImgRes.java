@@ -3,8 +3,6 @@ package com.example.thomas.voyage.ResClasses;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
-
 public class ImgRes {
 
     private static int res = 0;

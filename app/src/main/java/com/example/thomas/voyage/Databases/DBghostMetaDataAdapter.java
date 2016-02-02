@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 
 public class DBghostMetaDataAdapter {
 
@@ -79,7 +79,7 @@ public class DBghostMetaDataAdapter {
             buffer.append(name + ", mit  " + count + " Würfen (" + pointsPerLeg + " / " + numLegs + " Runden / Ø: " + f.format(avg) + "), Datum: " + date);
 
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getThrowCount with exception: " + n);
+            Msg.msg(c, "ERROR @ getThrowCount with exception: " + n);
         }
 
         cursor.close();
@@ -104,7 +104,7 @@ public class DBghostMetaDataAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(MetaHelper.THROW_COUNT));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getThrowCount with exception: " + n);
+            Msg.msg(c, "ERROR @ getThrowCount with exception: " + n);
         }
 
         cursor.close();
@@ -129,7 +129,7 @@ public class DBghostMetaDataAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(MetaHelper.POINTS_PER_LEG));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getThrowCount with exception: " + n);
+            Msg.msg(c, "ERROR @ getThrowCount with exception: " + n);
         }
 
         cursor.close();
@@ -154,7 +154,7 @@ public class DBghostMetaDataAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(MetaHelper.NUM_LEGS));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getThrowCount with exception: " + n);
+            Msg.msg(c, "ERROR @ getThrowCount with exception: " + n);
         }
 
         cursor.close();
@@ -179,7 +179,7 @@ public class DBghostMetaDataAdapter {
         try {
             value = cursor.getFloat(cursor.getColumnIndex(MetaHelper.THROW_AVG));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getPointsAveragePerThrow with exception: " + n);
+            Msg.msg(c, "ERROR @ getPointsAveragePerThrow with exception: " + n);
         }
 
         cursor.close();
@@ -204,7 +204,7 @@ public class DBghostMetaDataAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(MetaHelper.DATE));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getDate with exception: " + n);
+            Msg.msg(c, "ERROR @ getDate with exception: " + n);
         }
 
         cursor.close();
@@ -229,7 +229,7 @@ public class DBghostMetaDataAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(MetaHelper.NAME));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getName with exception: " + n);
+            Msg.msg(c, "ERROR @ getName with exception: " + n);
         }
 
         cursor.close();
@@ -270,8 +270,8 @@ public class DBghostMetaDataAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
 
         }
 
@@ -280,7 +280,7 @@ public class DBghostMetaDataAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            Message.message(context, "MetaHelper onCreate called");
+            Msg.msg(context, "MetaHelper onCreate called");
         }
 
         @Override
@@ -288,7 +288,7 @@ public class DBghostMetaDataAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "MetaHelper onUpgrade called");
+            Msg.msg(context, "MetaHelper onUpgrade called");
             Log.v("HEROES UPGRADE", "heroes db upgraded");
         }
     }

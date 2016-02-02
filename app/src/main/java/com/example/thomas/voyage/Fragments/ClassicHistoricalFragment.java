@@ -2,11 +2,8 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +13,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
 import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
-import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
-import com.example.thomas.voyage.ResClasses.ImgRes;
-
-import java.util.List;
 
 
 public class ClassicHistoricalFragment extends Fragment implements View.OnClickListener{
@@ -78,7 +70,7 @@ public class ClassicHistoricalFragment extends Fragment implements View.OnClickL
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Message.message(getActivity(), "Item selected!");
+                Msg.msg(getActivity(), "Item selected!");
                 mListener.dismissScoreButtonBar(true);
                 mListener.dismissRecordButtons(true);
                 selectionView.setVisibility(View.GONE);
@@ -123,7 +115,7 @@ public class ClassicHistoricalFragment extends Fragment implements View.OnClickL
                 super.onBackPressed();
 
             default:
-                Message.message(getActivity(), "DEFAULT @ onClick");
+                Msg.msg(getActivity(), "DEFAULT @ onClick");
         }
     }
     */
@@ -151,5 +143,5 @@ public class ClassicHistoricalFragment extends Fragment implements View.OnClickL
                 values[i-1] = scoresAdapter.getFirstThrow(1,i) + " " + scoresAdapter.getSecondThrow(1,i) + " " + scoresAdapter.getThirdThrow(1,i);
             }
 
-        }else Message.message(getActivity(), "ScoreDatabase empty");
+        }else Msg.msg(getActivity(), "ScoreDatabase empty");
         */

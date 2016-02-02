@@ -14,7 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
 
@@ -48,7 +48,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             pointsToFinishLeg = args.getInt("NUM_GOAL_POINTS");
         }
         else{
-            Message.message(getActivity(), "ERROR  getArguments in Fragment");
+            Msg.msg(getActivity(), "ERROR  getArguments in Fragment");
         }
     }
 
@@ -99,7 +99,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
                 break;
 
             default:
-                Message.message(getActivity(), "DEFAULT @ onClick");
+                Msg.msg(getActivity(), "DEFAULT @ onClick");
         }
     }
 
@@ -151,7 +151,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             playerHolderList.get(activePlayer).playerViewsList.get(1).setText( playerHolderList.get(activePlayer).legCount + "");
 
             if(playerHolderList.get(activePlayer).legCount == numLegsToWin){
-                Message.message(getActivity(), "Du Gewinner");
+                Msg.msg(getActivity(), "Du Gewinner");
             }
         }
 
@@ -198,7 +198,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
                     break;
 
                 default:
-                    Message.message(getActivity(), "DEFAULT @ setOneThrow : multi");
+                    Msg.msg(getActivity(), "DEFAULT @ setOneThrow : multi");
                     break;
             }*/
 
@@ -207,7 +207,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             throwCount--;
 
             if(throwCount < 0){
-                //Message.message(getActivity(), "activePlayer : " + activePlayer);
+                //Msg.msg(getActivity(), "activePlayer : " + activePlayer);
                 throwCount = 2;
                 if(activePlayer == 0) activePlayer = 1;
                 else activePlayer = 0;
@@ -225,7 +225,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             playerHolderList.get(activePlayer).pointsByLegNow = tempPoints;
 
             if(tempPoints == 501){
-                //Message.message(getActivity(), "activePlayer hast 501");
+                //Msg.msg(getActivity(), "activePlayer hast 501");
 
                 int tempPointsOtherPlayer;
 
@@ -234,9 +234,9 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
 
                 if(tempPointsOtherPlayer == 501){
                     restrictionReached = true;
-                    //Message.message(getActivity(), "restriction reached : " + restrictionReached);
+                    //Msg.msg(getActivity(), "restriction reached : " + restrictionReached);
 
-                    if(throwCount != 0) Message.message(getActivity(), "Undo restricted to one leg maximum.");
+                    if(throwCount != 0) Msg.msg(getActivity(), "Undo restricted to one leg maximum.");
 
                 }
             }
@@ -249,7 +249,7 @@ public class ClassicVersusFragment extends Fragment implements View.OnClickListe
             undoList.remove(undoList.size() - 1);
         }
         else{
-            Message.message(getActivity(), "No more actions to undo");
+            Msg.msg(getActivity(), "No more actions to undo");
             mListener.dismissRecordButtons(true);
         }
 

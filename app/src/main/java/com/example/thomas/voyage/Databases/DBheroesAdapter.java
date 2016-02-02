@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 
 public class DBheroesAdapter {
@@ -138,11 +138,8 @@ public class DBheroesAdapter {
 
         } catch (SQLiteException e) {
 
-            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+            Msg.msg(context1, "ERROR @ getOneHeroRow with exception: " + e);
 
-        } catch (NullPointerException n) {
-
-            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + n);
         }
 
         db.close();
@@ -164,11 +161,12 @@ public class DBheroesAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.NAME));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroName with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroName with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -189,11 +187,12 @@ public class DBheroesAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.HITPOINTS));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroHitpoints with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -214,11 +213,12 @@ public class DBheroesAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_ONE));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroClassOne with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroClassOne with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -239,11 +239,12 @@ public class DBheroesAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_TWO));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroClassTwo with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroClassTwo with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -264,11 +265,12 @@ public class DBheroesAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.COSTS));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroHitpoints with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -289,12 +291,13 @@ public class DBheroesAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE));
-        } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroImgRes with exception: " + n);
-        }
 
-        cursor.close();
-        db.close();
+            cursor.close();
+            db.close();
+
+        } catch (NullPointerException n) {
+            Msg.msg(context1, "ERROR @ getHeroImgRes with exception: " + n);
+        }
 
         return value;
     }
@@ -314,6 +317,21 @@ public class DBheroesAdapter {
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
         int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=? AND " + DBheroesHelper.NAME + "=?", whereArgs);
+        db.close();
+
+        return validation;
+    }
+
+    public int updateHeroHitpoints(int UID, int hitpoints) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(DBheroesHelper.HITPOINTS, hitpoints);
+
+        String[] whereArgs = {UID + ""};
+
+        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=?", whereArgs);
         db.close();
 
         return validation;
@@ -369,8 +387,8 @@ public class DBheroesAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
 
         }
 
@@ -379,7 +397,7 @@ public class DBheroesAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            Message.message(context, "HerosDatabse onCreate called");
+            Msg.msg(context, "HerosDatabse onCreate called");
         }
 
         @Override
@@ -387,7 +405,7 @@ public class DBheroesAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "HerosDatabse onUpgrade called");
+            Msg.msg(context, "HerosDatabse onUpgrade called");
             Log.v("HEROES UPGRADE", "heroes db upgraded");
         }
     }

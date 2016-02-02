@@ -3,7 +3,6 @@ package com.example.thomas.voyage.CombatActivities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -15,8 +14,7 @@ import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
-import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
@@ -113,7 +111,7 @@ public class QuickCombatActivity extends Activity {
                 break;
 
             default:
-                Message.message(this, "ERROR @ quickImageTapped : wrong view.getId()");
+                Msg.msg(this, "ERROR @ quickImageTapped : wrong view.getId()");
         }
     }
 
@@ -128,7 +126,7 @@ public class QuickCombatActivity extends Activity {
 
         if(selectionList.isEmpty()){
 
-            Message.message(this, "Keine Werte ausgewählt!");
+            Msg.msg(this, "Keine Werte ausgewählt!");
 
         }else{
 
@@ -205,7 +203,7 @@ public class QuickCombatActivity extends Activity {
                         selectionList.add(mThumbIds[position]);
                         textView.setBackgroundColor(Color.BLACK);
                         textView.setTextColor(Color.WHITE);
-                        //Message.message(getApplicationContext(), "size of list: " + selectionList.size());
+                        //Msg.msg(getApplicationContext(), "size of list: " + selectionList.size());
 
                     } else {
 
@@ -218,7 +216,7 @@ public class QuickCombatActivity extends Activity {
                             }
                         }
 
-                        //Message.message(getApplicationContext(), "size of list: " + selectionList.size());
+                        //Msg.msg(getApplicationContext(), "size of list: " + selectionList.size());
                         cricketView.invalidateViews();
                     }
                 }

@@ -3,25 +3,13 @@ package com.example.thomas.voyage.CombatActivities;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
-import com.google.android.gms.games.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,11 +65,11 @@ public class QuickCombatShanghaiActivity extends Activity {
                 scoreMulti = 1;
                 break;
             case R.id.shanghai_miss_button:
-                Message.message(this, "missButton");
+                Msg.msg(this, "missButton");
                 scoreMulti = 0;
                 break;
             default:
-                Message.message(this, "DEFAULT @ 'onShanghaiScoreField'");
+                Msg.msg(this, "DEFAULT @ 'onShanghaiScoreField'");
                 break;
         }
 
@@ -107,12 +95,12 @@ public class QuickCombatShanghaiActivity extends Activity {
 
         }else {
             if (shanghaiArray[0] && shanghaiArray[1] && shanghaiArray[2]) {
-                Message.message(this, "Du Gewinner! Shanghai Shanghai!");
+                Msg.msg(this, "Du Gewinner! Shanghai Shanghai!");
 
             } else {
 
                 if (roundCount > valArray.length) {
-                    Message.message(this, "Spiel zu Ende!");
+                    Msg.msg(this, "Spiel zu Ende!");
 
                 }else{
 
@@ -122,7 +110,7 @@ public class QuickCombatShanghaiActivity extends Activity {
                             scoreFieldViewList.get(i).setBackground(getDrawable(R.drawable.ripple_round_player_two));
                     }else{
                         roundCount++;
-                        if(roundCount > valArray.length) Message.message(this, "Spiel zu Ende!");
+                        if(roundCount > valArray.length) Msg.msg(this, "Spiel zu Ende!");
 
                         else {
                             for (int k = 0; k < 3; k++) scoreFieldViewList.get(k).setText(Integer.toString((k + 1) * valArray[roundCount-1]));
@@ -176,7 +164,7 @@ public class QuickCombatShanghaiActivity extends Activity {
             if(undoList.isEmpty()) undoButton.setTextColor(Color.GRAY);
 
         }else{
-            Message.message(this, "WA'SUP!!!\n...no more actions to undo...");
+            Msg.msg(this, "WA'SUP!!!\n...no more actions to undo...");
 
         }
     }
@@ -248,7 +236,7 @@ public class QuickCombatShanghaiActivity extends Activity {
             for(int i = 0; i < length; i++) valArray[i] = i+1;
 
         }else{
-            Message.message(this, "no bundle data recieved");
+            Msg.msg(this, "no bundle data recieved");
             valArray = new int[1];
             valArray[0] = 1;
         }

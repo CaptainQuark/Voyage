@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 
 
@@ -93,11 +93,8 @@ public class DBplayerItemsAdapter {
 
         } catch (SQLiteException e) {
 
-            Message.message(c, "ERROR @ getOneItemRow with exception: " + e);
+            Msg.msg(c, "ERROR @ getOneItemRow with exception: " + e);
 
-        } catch (NullPointerException n) {
-
-            Message.message(c, "ERROR @ getOneItemRow with exception: " + n);
         }
 
         db.close();
@@ -119,13 +116,13 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.NAME));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemName with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemName with exception: " + n);
         }
 
-        cursor.close();
         db.close();
-
         return value;
     }
 
@@ -144,12 +141,12 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.SKILLS_ID));
-        } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
-        }
 
-        cursor.close();
-        db.close();
+            cursor.close();
+            db.close();
+        } catch (NullPointerException n) {
+            Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
+        }
 
         return value;
     }
@@ -169,12 +166,13 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_MAIN));
-        } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getitemDesMain with exception: " + n);
-        }
 
-        cursor.close();
-        db.close();
+            cursor.close();
+            db.close();
+
+        } catch (NullPointerException n) {
+            Msg.msg(c, "ERROR @ getitemDesMain with exception: " + n);
+        }
 
         return value;
     }
@@ -194,12 +192,13 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_ADD));
-        } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemDesAdd with exception: " + n);
-        }
 
-        cursor.close();
-        db.close();
+            cursor.close();
+            db.close();
+
+        } catch (NullPointerException n) {
+            Msg.msg(c, "ERROR @ getItemDesAdd with exception: " + n);
+        }
 
         return value;
     }
@@ -219,12 +218,12 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_BUY));
-        } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemCosts with exception: " + n);
-        }
+            cursor.close();
+            db.close();
 
-        cursor.close();
-        db.close();
+        } catch (NullPointerException n) {
+            Msg.msg(c, "ERROR @ getItemCosts with exception: " + n);
+        }
 
         return value;
     }
@@ -244,12 +243,12 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL));
-        } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
-        }
+            cursor.close();
+            db.close();
 
-        cursor.close();
-        db.close();
+        } catch (NullPointerException n) {
+            Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
+        }
 
         return value;
     }
@@ -269,12 +268,13 @@ public class DBplayerItemsAdapter {
 
         try {
             value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.RARITY));
-        } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
-        }
 
-        cursor.close();
-        db.close();
+            cursor.close();
+            db.close();
+
+        } catch (NullPointerException n) {
+            Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
+        }
 
         return value;
     }
@@ -361,7 +361,7 @@ public class DBplayerItemsAdapter {
 
             db.execSQL(CREATE_TABLE);
             Log.v("ITEM CREATE", "ItemdDatabase onCreate called");
-            Message.message(context, "ItemsDatabase onCreate called");
+            Msg.msg(context, "ItemsDatabase onCreate called");
         }
 
         @Override
@@ -369,7 +369,7 @@ public class DBplayerItemsAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "HerosDatabse onUpgrade called");
+            Msg.msg(context, "HerosDatabse onUpgrade called");
             Log.v("ITEM UPGRADE", "heroes db upgraded");
         }
     }

@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 
 
@@ -93,11 +93,11 @@ public class DBmerchantItemsAdapter {
 
         } catch (SQLiteException e) {
 
-            Message.message(c, "ERROR @ getOneItemRow with exception: " + e);
+            Msg.msg(c, "ERROR @ getOneItemRow with exception: " + e);
 
         } catch (NullPointerException n) {
 
-            Message.message(c, "ERROR @ getOneItemRow with exception: " + n);
+            Msg.msg(c, "ERROR @ getOneItemRow with exception: " + n);
         }
 
         db.close();
@@ -120,7 +120,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantItemsHelper.NAME));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemName with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemName with exception: " + n);
         }
 
         cursor.close();
@@ -145,7 +145,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBmerchantItemsHelper.SKILLS_ID));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
 
         cursor.close();
@@ -170,7 +170,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantItemsHelper.DESCRIPTION_MAIN));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getitemDesMain with exception: " + n);
+            Msg.msg(c, "ERROR @ getitemDesMain with exception: " + n);
         }
 
         cursor.close();
@@ -195,7 +195,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantItemsHelper.DESCRIPTION_ADD));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemDesAdd with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemDesAdd with exception: " + n);
         }
 
         cursor.close();
@@ -220,7 +220,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBmerchantItemsHelper.COSTS_TO_BUY));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemCosts with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemCosts with exception: " + n);
         }
 
         cursor.close();
@@ -245,7 +245,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBmerchantItemsHelper.COSTS_TO_SPELL));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
 
         cursor.close();
@@ -270,7 +270,7 @@ public class DBmerchantItemsAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantItemsHelper.RARITY));
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getItemSkillsId with exception: " + n);
+            Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
 
         cursor.close();
@@ -361,7 +361,7 @@ public class DBmerchantItemsAdapter {
 
             db.execSQL(CREATE_TABLE);
             Log.v("ITEM CREATE", "ItemdDatabase onCreate called");
-            Message.message(context, "ItemsDatabase onCreate called");
+            Msg.msg(context, "ItemsDatabase onCreate called");
         }
 
         @Override
@@ -369,7 +369,7 @@ public class DBmerchantItemsAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "HerosDatabse onUpgrade called");
+            Msg.msg(context, "HerosDatabse onUpgrade called");
             Log.v("ITEM UPGRADE", "heroes db upgraded");
         }
     }

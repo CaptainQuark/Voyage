@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 
 public class DBmerchantHeroesAdapter {
 
@@ -126,9 +126,9 @@ public class DBmerchantHeroesAdapter {
 
             buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs);
         }catch (SQLiteException e){
-            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + e);
+            Msg.msg(context1, "ERROR @ getOneHeroRow with exception: " + e);
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getOneHeroRow with exception: " + n);
+            Msg.msg(context1, "ERROR @ getOneHeroRow with exception: " + n);
         }
 
         db.close();
@@ -150,7 +150,7 @@ public class DBmerchantHeroesAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroName with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroName with exception: " + n);
         }
         cursor.close();
         db.close();
@@ -174,7 +174,7 @@ public class DBmerchantHeroesAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroHitpoints with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroHitpoints with exception: " + n);
         }
         cursor.close();
         db.close();
@@ -197,7 +197,7 @@ public class DBmerchantHeroesAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroClassOne with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroClassOne with exception: " + n);
         }
         cursor.close();
         db.close();
@@ -220,7 +220,7 @@ public class DBmerchantHeroesAdapter {
         try {
             value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroClassTwo with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroClassTwo with exception: " + n);
         }
         cursor.close();
         db.close();
@@ -244,7 +244,7 @@ public class DBmerchantHeroesAdapter {
         try {
             costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ getHeroCosts with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroCosts with exception: " + n);
         }
         cursor.close();
         db.close();
@@ -271,7 +271,7 @@ public class DBmerchantHeroesAdapter {
 
         } catch (IndexOutOfBoundsException n) {
 
-            Message.message(context1, "ERROR @ getHeroImgRes with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroImgRes with exception: " + n);
         }
         cursor.close();
         db.close();
@@ -390,8 +390,8 @@ public class DBmerchantHeroesAdapter {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "constructor called");
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "MerchantDatabase constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "MerchantDatabase constructor called");
 
         }
 
@@ -400,7 +400,7 @@ public class DBmerchantHeroesAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            Message.message(context, "MerchantDatabase onCreate called");
+            Msg.msg(context, "MerchantDatabase onCreate called");
         }
 
         @Override
@@ -408,7 +408,7 @@ public class DBmerchantHeroesAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "MerchantDatabse onUpgrade called");
+            Msg.msg(context, "MerchantDatabse onUpgrade called");
             Log.v("MERCHANT_UPGRADE", "merchant db upgraded");
         }
     }

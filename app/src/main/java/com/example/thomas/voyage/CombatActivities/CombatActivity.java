@@ -12,10 +12,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.thomas.voyage.ContainerClasses.Hero;
-import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.R;
@@ -36,8 +34,6 @@ public class CombatActivity extends Activity {
     private static String monsterName = "", heroClassActive ="", heroImgRes = "", chronicleString = "", eventString = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
-            scoreHeroMultiplierArray = {-1, -1, -1},
-            scoreHeroFieldArray = {-1, -1, -1},
             tempScoreHistory = {0, 0, 0};
     private static TextView monsterHealthView,
             heroHitpointsView,

@@ -13,9 +13,7 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
-import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
-import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Fragments.ClassicHistoricalFragment;
 import com.example.thomas.voyage.Fragments.ClassicVersusFragment;
 import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
@@ -133,7 +131,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
     public void putFragmentToSleep(){
         if(workoutFragment != null)
             getFragmentManager().beginTransaction().remove(workoutFragment).commit();
-        Message.message(this, "Fragment removed");
+        Msg.msg(this, "Fragment removed");
         gameView.setVisibility(View.GONE);
         selectView.setVisibility(View.VISIBLE);
     }
@@ -148,14 +146,14 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
 
     public void classicWorkoutDisableStatsRecording(View view){
         saveToStats = false;
-        Message.message(this, "No recording for this round");
+        Msg.msg(this, "No recording for this round");
     }
 
     public void classicWorkoutRecordGhost(View view){
         if( workoutFragment != null && workoutFragment.isVisible() ) workoutFragment.recordGhostData(true);
-        Message.message(this, "Don't be afraid, but there might be a ghost somewhere...");
+        Msg.msg(this, "Don't be afraid, but there might be a ghost somewhere...");
 
-        //Message.message(this, "WA'SUP!!!\n...don't be afraid, no ghost yet implemented...");
+        //Msg.msg(this, "WA'SUP!!!\n...don't be afraid, no ghost yet implemented...");
     }
 
     public void goToClassicVersus(View view){
@@ -245,7 +243,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
             case R.id.classic_scorefield_50:
                 scoreFieldVal = 50; break;
             default:
-                Message.message(this, "DEFAULT @ onClassicScoreField");
+                Msg.msg(this, "DEFAULT @ onClassicScoreField");
         }
 
         if(scoreFieldVal == 25 || scoreFieldVal == 50){
@@ -264,7 +262,7 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
             case R.id.classic_multi_2: multi = 2; break;
             case R.id.classic_multi_3: multi = 3; break;
             default:
-                Message.message(this,"ERROR @ onClassicSetMultiplier : wrong view id");
+                Msg.msg(this, "ERROR @ onClassicSetMultiplier : wrong view id");
         }
 
         for(int i = 0; i < multiList.size(); i++){
@@ -327,20 +325,20 @@ public class QuickCombatClassicActivity extends Activity implements ClassicWorko
                 /*
                 DBghostScoreDataAdapter scoreDataAdapter = new DBghostScoreDataAdapter(this);
                 String data = scoreDataAdapter.getAllData();
-                Message.message(this, data);
+                Msg.msg(this, data);
 
                 DBghostMetaDataAdapter metaDataAdapter = new DBghostMetaDataAdapter(this);
                 String meta = "Date: " + metaDataAdapter.getDate(1) + " "
                         + "Name: "+metaDataAdapter.getName(1) + " "
                         + "Avg: " +metaDataAdapter.getPointsAveragePerThrow(1) + " "
                         + "ThrowCount: " +metaDataAdapter.getThrowCount(1);
-                Message.message(this, meta);
+                Msg.msg(this, meta);
                 */
 
                 break;
 
             default:
-                Message.message(this, "ERROR @ onClassicSelectionImage : wrong view id");
+                Msg.msg(this, "ERROR @ onClassicSelectionImage : wrong view id");
                 break;
         }
     }

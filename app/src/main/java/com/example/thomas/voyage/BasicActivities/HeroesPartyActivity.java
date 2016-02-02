@@ -18,9 +18,8 @@ import android.widget.TextView;
 import com.example.thomas.voyage.CombatActivities.CombatActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
-import com.example.thomas.voyage.BasicActivities.MerchantHeroActivity;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 import com.example.thomas.voyage.ResClasses.ImgRes;
@@ -70,7 +69,7 @@ public class HeroesPartyActivity extends Activity {
         }
 
         if (heroesHelper.equals(null)) {
-            Message.message(this, "No HeroesDatabase set yet created - ya betta' do!");
+            Msg.msg(this, "No HeroesDatabase set yet created - ya betta' do!");
 
         } else {
 
@@ -193,7 +192,7 @@ public class HeroesPartyActivity extends Activity {
             selectedHeroIdFromDatabase = 1;
             passHeroesParameterstoNewActivity(i);
         }else {
-            Message.message(this, "No hero selected");
+            Msg.msg(this, "No hero selected");
         }*/
     }
 

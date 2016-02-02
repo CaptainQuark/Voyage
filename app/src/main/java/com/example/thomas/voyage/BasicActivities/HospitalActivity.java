@@ -2,7 +2,6 @@ package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 
@@ -21,7 +20,7 @@ public class HospitalActivity extends Activity {
 
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
-    private TextView freeSlotsView, fortuneView, abortMedicationView;
+    private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
     private int lastSelectedSlotIndex = -1;
 
     @Override
@@ -74,13 +73,11 @@ public class HospitalActivity extends Activity {
             case R.id.textview_hospital_abort_medication:
                 abortMedication();
                 break;
-            case R.id.textview_hospital_back_to_camp:
-                Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-                startActivity(i);
-                finish();
+            case R.id.textview_hospital_boost_healing:
+                boostMedication();
                 break;
             default:
-                Message.message(this, "ERROR @ HospitalActivity : onClick : switch : default called");
+                Msg.msg(this, "ERROR @ HospitalActivity : onClick : switch : default called");
         }
     }
 
@@ -103,7 +100,7 @@ public class HospitalActivity extends Activity {
             setFortuneView();
 
         }catch (IndexOutOfBoundsException e){
-            Message.message(this, e + "");
+            Msg.msg(this, e + "");
         }
     }
 
@@ -122,6 +119,7 @@ public class HospitalActivity extends Activity {
 
         }else{
             abortMedicationView.setTextColor(Color.parseColor("#ffffff"));
+            boostMedicationView.setTextColor(Color.parseColor("#ffffff"));
         }
 
         setFreeSlotsView();
@@ -136,7 +134,7 @@ public class HospitalActivity extends Activity {
                 brokenHeroList.remove(index);
                 index = 3;
 
-            }else if(index == 2) Message.message(this, "ERROR @ removeBrokenHeroFromList : no matching index");
+            }else if(index == 2) Msg.msg(this, "ERROR @ removeBrokenHeroFromList : no matching index");
         }
     }
 
@@ -158,14 +156,14 @@ public class HospitalActivity extends Activity {
 
     private void abortMedication(){
         if(lastSelectedSlotIndex == -1){
-            Message.message(this, "No hero yet choosen!");
+            Msg.msg(this, "No hero yet choosen!");
 
         }else{
 
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
                     i = brokenHeroList.size();
-                    Message.message(this, "Heal-A-Hero!");
+                    Msg.msg(this, "No more medication");
                     removeBrokenHeroFromList(lastSelectedSlotIndex);
                 }
             }
@@ -173,6 +171,34 @@ public class HospitalActivity extends Activity {
             lastSelectedSlotIndex = -1;
             setFreeSlotsView();
             setFortuneView();
+            abortMedicationView.setTextColor(Color.parseColor("#707070"));
+        }
+    }
+
+    private void boostMedication(){
+        if(lastSelectedSlotIndex == -1){
+            Msg.msg(this, "No hero yet choosen!");
+
+        }else{
+
+            for(int i = 0; i < brokenHeroList.size(); i++){
+                if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
+                    int hpNew = brokenHeroList.get(i).getHpTotal();
+                    if(!brokenHeroList.get(i).setHeroHitpoints(hpNew)) Msg.msg(this, "ERROR @ setHeroHitpoints");
+
+                    // zum Beenden der Schleife
+                    i = brokenHeroList.size();
+                    Msg.msg(this, "Heal-A-Hero!");
+                    removeBrokenHeroFromList(lastSelectedSlotIndex);
+                }
+            }
+
+            lastSelectedSlotIndex = -1;
+            setFreeSlotsView();
+            setFortuneView();
+
+            // beide wieder als inaktiv zeigen, da Auswahl nun beendet ist
+            boostMedicationView.setTextColor(Color.parseColor("#707070"));
             abortMedicationView.setTextColor(Color.parseColor("#707070"));
         }
     }
@@ -225,22 +251,28 @@ public class HospitalActivity extends Activity {
 
 
     private class BrokenHero{
-        private int slotIndex, hpNow, hpTotal = 100, timeToLeave = 24;
+        private int slotIndex, dbIindex, hpNow, hpTotal = 111, timeToLeave = 24;
         private String name, profileResource;
 
 
-        public BrokenHero(int databaseIndex, int si){
+        public BrokenHero(int dbIndex, int si){
             this.slotIndex = si;
+            this.dbIindex = dbIndex;
 
             SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
-            prefs.edit().putInt("DB_INDEX_BY_SLOT_" + si, databaseIndex).apply();
+            prefs.edit().putInt("DB_INDEX_BY_SLOT_" + si, dbIndex).apply();
 
-            if(databaseIndex >= 1){
+            if(dbIndex >= 1){
                 DBheroesAdapter heroesHelper = new DBheroesAdapter(getApplicationContext());
-                name = heroesHelper.getHeroName(databaseIndex);
-                hpNow = heroesHelper.getHeroHitpoints(databaseIndex);
-                profileResource = heroesHelper.getHeroImgRes(databaseIndex);
+                name = heroesHelper.getHeroName(dbIndex);
+                hpNow = heroesHelper.getHeroHitpoints(dbIndex);
+                profileResource = heroesHelper.getHeroImgRes(dbIndex);
             }
+        }
+
+        public boolean setHeroHitpoints(int hpNew){
+            DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
+            return h.updateHeroHitpoints(dbIindex, hpNew) != -1;
         }
 
         public String getName(){ return name; }
@@ -267,6 +299,7 @@ public class HospitalActivity extends Activity {
         freeSlotsView = (TextView) findViewById(R.id.textview_hospital_slots);
         fortuneView = (TextView) findViewById(R.id.textview_hospital_fortune);
         abortMedicationView = (TextView) findViewById(R.id.textview_hospital_abort_medication);
+        boostMedicationView = (TextView) findViewById(R.id.textview_hospital_boost_healing);
     }
 
     private void hideSystemUI() {

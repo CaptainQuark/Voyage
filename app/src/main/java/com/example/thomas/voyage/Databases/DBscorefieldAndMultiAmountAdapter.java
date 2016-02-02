@@ -8,8 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
-import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 
 public class DBscorefieldAndMultiAmountAdapter {
 
@@ -119,11 +118,12 @@ public class DBscorefieldAndMultiAmountAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBscoreAndMultiAmountHelper.X1));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getMulitplierOne with exception: " + n);
+            Msg.msg(c, "ERROR @ getMulitplierOne with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -144,11 +144,12 @@ public class DBscorefieldAndMultiAmountAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBscoreAndMultiAmountHelper.X2));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getMultiplierTwo with exception: " + n);
+            Msg.msg(c, "ERROR @ getMultiplierTwo with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -169,11 +170,12 @@ public class DBscorefieldAndMultiAmountAdapter {
 
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBscoreAndMultiAmountHelper.X3));
+            cursor.close();
+
         } catch (NullPointerException n) {
-            Message.message(c, "ERROR @ getMulitplierThree with exception: " + n);
+            Msg.msg(c, "ERROR @ getMulitplierThree with exception: " + n);
         }
 
-        cursor.close();
         db.close();
 
         return value;
@@ -205,8 +207,8 @@ public class DBscorefieldAndMultiAmountAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
 
         }
 
@@ -215,7 +217,7 @@ public class DBscorefieldAndMultiAmountAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            Message.message(context, "MetaHelper onCreate called");
+            Msg.msg(context, "MetaHelper onCreate called");
         }
 
         @Override
@@ -223,7 +225,7 @@ public class DBscorefieldAndMultiAmountAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "MetaHelper onUpgrade called");
+            Msg.msg(context, "MetaHelper onUpgrade called");
             Log.v("HEROES UPGRADE", "heroes db upgraded");
         }
     }

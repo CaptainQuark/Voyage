@@ -14,7 +14,7 @@ import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Item;
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantItemsAdapter;
@@ -80,16 +80,16 @@ public class StartActivity extends Activity {
         Boolean isFirstRun = prefs.getBoolean(c.IS_FIRST_RUN, true);
 
         if (isFirstRun) {
-            Message.message(this, "IS_FIRST_RUN: " + isFirstRun);
+            Msg.msg(this, "IS_FIRST_RUN: " + isFirstRun);
 
             long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
-                Message.message(this, "ERROR @ insertToHeroesDatabase");
+                Msg.msg(this, "ERROR @ insertToHeroesDatabase");
             }
 
             validation = insertToMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
             if (validation < 0) {
-                Message.message(this, "ERROR @ insertToMerchantHeroesDatabase");
+                Msg.msg(this, "ERROR @ insertToMerchantHeroesDatabase");
             }
 
             preparePlayersItemDatabase(c.TOTAL_ITEMS_PLAYER_LV1);
@@ -106,7 +106,7 @@ public class StartActivity extends Activity {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 
         if(prefs.getBoolean(c.QUICK_COMBAT_FIRST_STARTED, true)){
-            Message.message(this, "SCOREFIELDS AND MULTIS DB CREATED");
+            Msg.msg(this, "SCOREFIELDS AND MULTIS DB CREATED");
             DBscorefieldAndMultiAmountAdapter scoreHelper = new DBscorefieldAndMultiAmountAdapter(this);
 
             long validation = 0;
@@ -117,7 +117,7 @@ public class StartActivity extends Activity {
             scoreHelper.insertData(25, 0, 0, 0);
             scoreHelper.insertData(50, 0, 0, 0);
 
-            if(validation < 0) Message.message(this, "ERROR @ insert for 20 values in scoreDatabase");
+            if(validation < 0) Msg.msg(this, "ERROR @ insert for 20 values in scoreDatabase");
 
             SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
             editor.putBoolean(c.QUICK_COMBAT_FIRST_STARTED, false);
@@ -197,7 +197,7 @@ public class StartActivity extends Activity {
             }
 
             if (i == 1 && validation > 0)
-                Message.message(this, "9 blank rows in heroes database inserted, 10th underway");
+                Msg.msg(this, "9 blank rows in heroes database inserted, 10th underway");
         }
 
         return validation;
@@ -211,12 +211,12 @@ public class StartActivity extends Activity {
             if(validation < 0){
                 Toast.makeText(this, "ERROR @ preparePlayersItemDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
             }else if (i == 1 && validation > 0)
-                Message.message(this, "PlayersItemDatabase prepared for game!");
+                Msg.msg(this, "PlayersItemDatabase prepared for game!");
         }
     }
 
     private void insertToItemMerchantDatabase(int rows){
-        Message.message(this, "'insertToItemMerchant' called");
+        Msg.msg(this, "'insertToItemMerchant' called");
 
         for(int i = 1; i <= rows; i++){
 
@@ -231,12 +231,12 @@ public class StartActivity extends Activity {
                     item.getStrings("RARITY")
             );
 
-            if(id < 0) Message.message(this, "ERROR@insertToItemMerchantDatabase");
+            if(id < 0) Msg.msg(this, "ERROR@insertToItemMerchantDatabase");
         }
     }
 
     private long insertToMerchantDatabase(int numberOfInserts) {
-        Message.message(this, "'insertToMerchantDatabase'");
+        Msg.msg(this, "'insertToMerchantDatabase'");
         List<Hero> herosList = new ArrayList<>();
         long id = 0;
 
@@ -253,7 +253,7 @@ public class StartActivity extends Activity {
                     herosList.get(i).getInts("costs"),
                     herosList.get(i).getStrings("imageResource"));
 
-            if (id < 0) Message.message(this, "ERROR @ insert of hero " + i + 1);
+            if (id < 0) Msg.msg(this, "ERROR @ insert of hero " + i + 1);
 
         }
 
@@ -329,11 +329,11 @@ public class StartActivity extends Activity {
 
         long id = heroesHelper.insertData("Thomas", 100, "eins", "zwei");
 
-        if (id < 0) Message.message(this, "error@insert");
-        else Message.message(this, "success@insert");
+        if (id < 0) Msg.msg(this, "error@insert");
+        else Msg.msg(this, "success@insert");
 
         String data = heroesHelper.getAllData();
-        Message.message(this, data);
+        Msg.msg(this, data);
         */
 
 

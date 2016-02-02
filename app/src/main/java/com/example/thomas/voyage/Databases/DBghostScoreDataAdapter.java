@@ -5,12 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
-import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 
 public class DBghostScoreDataAdapter {
 
@@ -117,7 +115,7 @@ public class DBghostScoreDataAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBghostScoreHelper.FIRST_THROW));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ firstThrow with exception: " + n);
+            Msg.msg(context1, "ERROR @ firstThrow with exception: " + n);
         }
 
         cursor.close();
@@ -143,7 +141,7 @@ public class DBghostScoreDataAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBghostScoreHelper.SECOND_THROW));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ firstThrow with exception: " + n);
+            Msg.msg(context1, "ERROR @ firstThrow with exception: " + n);
         }
 
         cursor.close();
@@ -169,7 +167,7 @@ public class DBghostScoreDataAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBghostScoreHelper.THIRD_THROW));
         } catch (NullPointerException n) {
-            Message.message(context1, "ERROR @ firstThrow with exception: " + n);
+            Msg.msg(context1, "ERROR @ firstThrow with exception: " + n);
         }
 
         cursor.close();
@@ -206,8 +204,8 @@ public class DBghostScoreDataAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
-            //com.example.thomas.voyage.ContainerClasses.Message.message(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
 
         }
 
@@ -216,7 +214,7 @@ public class DBghostScoreDataAdapter {
             //nur wenn DATABASE erzeugt wird
 
             db.execSQL(CREATE_TABLE);
-            Message.message(context, "DBghostScoreHelper onCreate called");
+            Msg.msg(context, "DBghostScoreHelper onCreate called");
         }
 
         @Override
@@ -224,7 +222,7 @@ public class DBghostScoreDataAdapter {
 
             db.execSQL(DROP_TABLE);
             onCreate(db);
-            Message.message(context, "DBghostScoreHelper onUpgrade called");
+            Msg.msg(context, "DBghostScoreHelper onUpgrade called");
             Log.v("HEROES UPGRADE", "DBghostScoreHelper db upgraded");
         }
     }

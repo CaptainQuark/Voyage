@@ -2,7 +2,6 @@ package com.example.thomas.voyage.BasicActivities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -12,12 +11,10 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Space;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Hero;
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
@@ -62,7 +59,7 @@ public class HeroCampActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                Message.message(getApplicationContext(), "Hero tapped");
+                Msg.msg(getApplicationContext(), "Hero tapped");
             }
         });
 
@@ -89,11 +86,11 @@ public class HeroCampActivity extends Activity {
     }
 
     public void commitToQuest(View v){
-        Message.message(this, "Not yet implemented");
+        Msg.msg(this, "Not yet implemented");
     }
 
     public void dismissHero(View v){
-        Message.message(this, "Not yet implemented");
+        Msg.msg(this, "Not yet implemented");
     }
 
     private void setSlotsView(){

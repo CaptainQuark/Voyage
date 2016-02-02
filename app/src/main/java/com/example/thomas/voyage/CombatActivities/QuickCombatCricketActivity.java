@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 
 import java.util.ArrayList;
@@ -56,7 +56,7 @@ public class QuickCombatCricketActivity extends Activity {
 
         numOfAchievedNeededHitsList.add(0);
         numOfAchievedNeededHitsList.add(0);
-        //Message.message(getApplication(), "numOfAchievedNeededHitsList: " + numOfAchievedNeededHitsList.size());
+        //Msg.msg(getApplication(), "numOfAchievedNeededHitsList: " + numOfAchievedNeededHitsList.size());
 
         multiView.add( (TextView) findViewById(R.id.classic_cricket_multi_1));
         multiView.add( (TextView) findViewById(R.id.classic_cricket_multi_2));
@@ -105,7 +105,7 @@ public class QuickCombatCricketActivity extends Activity {
             case R.id.classic_cricket_multi_3:
                 index = 2; break;
             default:
-                Message.message(this, "DEFAULT @ 'onClassicCricketMulti");
+                Msg.msg(this, "DEFAULT @ 'onClassicCricketMulti");
                 break;
         }
 
@@ -131,10 +131,10 @@ public class QuickCombatCricketActivity extends Activity {
     public void onCricketUndo(View view){
 
         if(! undoList.isEmpty() ){
-            Message.message(this, "no undo implemented yet");
+            Msg.msg(this, "no undo implemented yet");
 
         }else{
-            Message.message(this, "WA'SUP!!!\n...no more action to undo...");
+            Msg.msg(this, "WA'SUP!!!\n...no more action to undo...");
         }
     }
 
@@ -142,13 +142,13 @@ public class QuickCombatCricketActivity extends Activity {
 
         if( tempNumThrows < totalNumThrowsPerPlayer ){
             tempNumThrows++;
-            //Message.message(getApplicationContext(), tempNumThrows + "");
+            //Msg.msg(getApplicationContext(), tempNumThrows + "");
         }else {
             tempNumThrows = 1;
 
             if(activePlayer == 0) activePlayer = 1;
             else activePlayer = 0;
-            //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
+            //Msg.msg(getApplicationContext(), activePlayer + " = activePlayer");
         }
 
         throwCountView.setText(tempNumThrows + ".");
@@ -159,20 +159,20 @@ public class QuickCombatCricketActivity extends Activity {
 
         if(cardDataList.get(position).isClosed)
         {
-            Message.message(getApplicationContext(), "Diese Zahl ist bereits geschlossen");
+            Msg.msg(getApplicationContext(), "Diese Zahl ist bereits geschlossen");
         }
         else
         {
 
             if( tempNumThrows < totalNumThrowsPerPlayer ){
                 tempNumThrows++;
-                //Message.message(getApplicationContext(), tempNumThrows + "");
+                //Msg.msg(getApplicationContext(), tempNumThrows + "");
             }else {
                 tempNumThrows = 1;
 
                 if(activePlayer == 0) activePlayer = 1;
                 else activePlayer = 0;
-                //Message.message(getApplicationContext(), activePlayer + " = activePlayer");
+                //Msg.msg(getApplicationContext(), activePlayer + " = activePlayer");
             }
 
             throwCountView.setText( ((tempNumThrows%3)+1) + ".");
@@ -208,7 +208,7 @@ public class QuickCombatCricketActivity extends Activity {
 
             }catch (NullPointerException e){
 
-                Message.message(getApplicationContext(), e + "");
+                Msg.msg(getApplicationContext(), e + "");
             }
             */
 
@@ -226,7 +226,7 @@ public class QuickCombatCricketActivity extends Activity {
             int validateIsClosed = 0;
             for( int i = 0; i < numPlayers; i++){
                 if( (cardDataList.get(position).progressPlayers.get(i) >= 0.99f) ) validateIsClosed++;
-                //Message.message(getApplicationContext(), "i: " + i + ", validateIsClosed: " + validateIsClosed);
+                //Msg.msg(getApplicationContext(), "i: " + i + ", validateIsClosed: " + validateIsClosed);
             }
             if(validateIsClosed == numPlayers){
                 cardDataList.get(position).isClosed = true;
@@ -268,7 +268,7 @@ public class QuickCombatCricketActivity extends Activity {
                         }
 
                         if( numToWin == valuesArray.length ){
-                            Message.message(getApplicationContext(), "Spieler " + (playerNum+1) + " hat gewonnen!");
+                            Msg.msg(getApplicationContext(), "Spieler " + (playerNum + 1) + " hat gewonnen!");
                         }
                     }
                 }

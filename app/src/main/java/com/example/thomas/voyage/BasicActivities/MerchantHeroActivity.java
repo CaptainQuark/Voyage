@@ -13,10 +13,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.ContainerClasses.Hero;
-import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ImgRes;
 
@@ -153,7 +153,7 @@ public class MerchantHeroActivity extends Activity {
     }
 
     private long setNewDate() {
-        Message.message(this, "setNewDate called");
+        Msg.msg(this, "setNewDate called");
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
 
@@ -167,8 +167,8 @@ public class MerchantHeroActivity extends Activity {
 
         newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
 
-        Message.message(this, "SYS: " + System.currentTimeMillis());
-        Message.message(this, "FIN: " + finishDate);
+        Msg.msg(this, "SYS: " + System.currentTimeMillis());
+        Msg.msg(this, "FIN: " + finishDate);
         //if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
         //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
 
@@ -223,7 +223,7 @@ public class MerchantHeroActivity extends Activity {
 
             //merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
 
-            if (id < 0) Message.message(this, "error@insert of hero " + i + 1);
+            if (id < 0) Msg.msg(this, "error@insert of hero " + i + 1);
         }
 
         return id;
@@ -273,7 +273,7 @@ public class MerchantHeroActivity extends Activity {
                     }
                 }
                 else{
-                    Message.message(this, "Number of rows in merchant table: " + i);
+                    Msg.msg(this, "Number of rows in merchant table: " + i);
                 }
         }
 
@@ -340,7 +340,7 @@ public class MerchantHeroActivity extends Activity {
                 if (updateValidation > 0) {
 
                     // wenn updateValidation speichert Rückgabewert von '.updateRowWithHeroData' -> wenn -1, dann nicht erfolgreich
-                    //Message.message(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
+                    //Msg.msg(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
 
                     i = 11;
                     merchantHelper.updateRow(currentSelectedHeroId, "NOT_USED");
@@ -384,7 +384,7 @@ public class MerchantHeroActivity extends Activity {
                 break;
 
             default:
-                Message.message(this, "ERROR @ 'heroSelected'");
+                Msg.msg(this, "ERROR @ 'heroSelected'");
         }
     }
 
@@ -425,12 +425,12 @@ public class MerchantHeroActivity extends Activity {
                 hitpointsView.setText(hitpoints + "");
 
             } else {
-                Message.message(this, "No Hero to buy");
+                Msg.msg(this, "No Hero to buy");
             }
 
 
         } catch (SQLiteException | NullPointerException e) {
-            Message.message(this, e + "");
+            Msg.msg(this, e + "");
         }
 
     }

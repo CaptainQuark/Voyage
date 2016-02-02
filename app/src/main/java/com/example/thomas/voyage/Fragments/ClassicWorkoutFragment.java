@@ -13,9 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
 import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
@@ -74,7 +73,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             roundNow = 1;
         }
         else{
-            Message.message(getActivity(), "ERROR  getArguments in Fragment");
+            Msg.msg(getActivity(), "ERROR  getArguments in Fragment");
         }
 
         if(getActivity() != null){
@@ -82,7 +81,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             multiValKeyHistoryList = new ArrayList<>();
 
         }else{
-            Message.message(getActivity(), "ERROR @ getActivity in Fragment");
+            Msg.msg(getActivity(), "ERROR @ getActivity in Fragment");
         }
     }
 
@@ -188,11 +187,11 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
                         break;
 
                     default:
-                        Message.message(getActivity(), "DEFAULT @ setOneThrow : multi");
+                        Msg.msg(getActivity(), "DEFAULT @ setOneThrow : multi");
                         break;
                 }
 
-                //Message.message(getActivity(), "Database size: " + scoreHelper.getTaskCount());
+                //Msg.msg(getActivity(), "Database size: " + scoreHelper.getTaskCount());
             }
         }
 
@@ -200,11 +199,11 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
         if( goalPointsNow < 0 ){
 
                 goalPointsNow = numGoalPoints;
-                Message.message(getActivity(), "One more round finished...");
+                Msg.msg(getActivity(), "One more round finished...");
                 roundNow++;
 
                 if(roundNow > numRoundTotal){
-                    Message.message(getActivity(), "You have finished the session!");
+                    Msg.msg(getActivity(), "You have finished the session!");
                     if (mListener != null) {
                         mListener.putFragmentToSleep();
                     }
@@ -221,7 +220,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             hitViewList.get(throwCounter % 3).setTextColor(Color.BLACK);
         }
         else{
-            Message.message(getActivity(), "ERROR @ setOneThrow : hitViewList is empty!");
+            Msg.msg(getActivity(), "ERROR @ setOneThrow : hitViewList is empty!");
         }
 
         throwCounter++;
@@ -286,7 +285,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
                     break;
 
                 default:
-                    Message.message(getActivity(), "DEFAULT @ setOneThrow : multi");
+                    Msg.msg(getActivity(), "DEFAULT @ setOneThrow : multi");
                     break;
             }
 
@@ -302,7 +301,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
             undoList.remove(undoList.size() - 1);
         }
         else{
-            Message.message(getActivity(), "No Actions to undo");
+            Msg.msg(getActivity(), "No Actions to undo");
             mListener.dismissRecordButtons(true);
         }
 
@@ -324,7 +323,7 @@ public class ClassicWorkoutFragment extends Fragment implements View.OnClickList
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        //Message.message(getActivity(), "onDetach");
+        //Msg.msg(getActivity(), "onDetach");
 
         if(saveGhost){
 

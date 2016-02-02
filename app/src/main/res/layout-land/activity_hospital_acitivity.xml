@@ -372,13 +372,13 @@
             android:background="@drawable/ripple_backbutton_hospital" />
 
         <TextView
-            android:id="@+id/textview_hospital_back_to_camp"
+            android:id="@+id/textview_hospital_boost_healing"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Gilde"
-            android:textColor="#ffffff"
+            android:text="Kraftakt"
+            android:textColor="#707070"
             android:textSize="15sp"
             android:background="#b4b4b4"
             android:onClick="onClick"/>

@@ -13,10 +13,10 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBmerchantItemsAdapter;
 import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.ContainerClasses.Item;
-import com.example.thomas.voyage.ContainerClasses.Message;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
@@ -115,19 +115,19 @@ public class MerchantInventoryActivity extends Activity {
     public void merchantItemProfileTapped(View view){
         setNewItemMerchant();
         merchantGridView.invalidateViews();
-        Message.message(this, "New Merchant");
+        Msg.msg(this, "New Merchant");
     }
 
     public void buyItemButton(View view){
 
         if( getPosOfFreeSlotInPlayerItemDatabase() == -1){
-            Message.message(this, "Kein freier Platz verfügbar!");
+            Msg.msg(this, "Kein freier Platz verfügbar!");
 
         }else if( selectedItemUIDFromMerch == -1 ){
-            Message.message(this, "Kein Item ausgewählt!");
+            Msg.msg(this, "Kein Item ausgewählt!");
 
         }else if( getCurrentMoney() < merchHelper.getItemBuyCosts(selectedItemUIDFromMerch)){
-            Message.message(this, "Nicht genug Vermögen vorhanden!");
+            Msg.msg(this, "Nicht genug Vermögen vorhanden!");
 
         }else{
             addOneItemToPlayerDatabase(selectedItemUIDFromMerch);
@@ -137,8 +137,8 @@ public class MerchantInventoryActivity extends Activity {
 
             setCurrentMoney(getCurrentMoney() - merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
 
-            //Message.message(this, getCurrentMoney() + " = current money");
-            //Message.message(this, merchHelper.getItemBuyCosts(selectedItemUIDFromMerch) + " = costs");
+            //Msg.msg(this, getCurrentMoney() + " = current money");
+            //Msg.msg(this, merchHelper.getItemBuyCosts(selectedItemUIDFromMerch) + " = costs");
 
             fortuneView.setText("$" + getCurrentMoney());
             freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
@@ -208,7 +208,7 @@ public class MerchantInventoryActivity extends Activity {
                     item.getInts("SPELL_COSTS"),
                     item.getStrings("RARITY"));
 
-            if(validation < 0) Message.message(this, "ERROR @ insert @ setNewItemMerchant");
+            if(validation < 0) Msg.msg(this, "ERROR @ insert @ setNewItemMerchant");
         }
     }
 
@@ -231,7 +231,7 @@ public class MerchantInventoryActivity extends Activity {
                 merchHelper.getItemSpellCosts(merchPos),
                 merchHelper.getItemRarity(merchPos));
 
-        if(validation < 0) Message.message(this, "ERROR @ addOneItemToPlayerDatabase");
+        if(validation < 0) Msg.msg(this, "ERROR @ addOneItemToPlayerDatabase");
     }
 
     private int getPosOfFreeSlotInPlayerItemDatabase(){
@@ -246,7 +246,7 @@ public class MerchantInventoryActivity extends Activity {
                 i = (int) playerHelper.getTaskCount() + 1;
 
             }else if( i == playerHelper.getTaskCount() ){
-                Message.message(this, "Alle Plätze bereits belegt");
+                Msg.msg(this, "Alle Plätze bereits belegt");
             }
         }
 

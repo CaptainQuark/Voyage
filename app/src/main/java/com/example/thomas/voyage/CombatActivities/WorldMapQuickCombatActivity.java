@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.Message;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
 import com.example.thomas.voyage.BasicActivities.HeroesPartyActivity;
 import com.example.thomas.voyage.R;
@@ -176,7 +176,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
                 }
                     break;
                 default:
-                    Message.message(this, "ERROR @ radioButtonClicked");
+                    Msg.msg(this, "ERROR @ radioButtonClicked");
         }
 
         if (firstCheck && secondCheck && !heroName.equals(""))
