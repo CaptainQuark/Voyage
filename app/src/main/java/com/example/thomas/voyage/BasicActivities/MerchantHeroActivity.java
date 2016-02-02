@@ -335,7 +335,7 @@ public class MerchantHeroActivity extends Activity {
 
             for (int i = 1; i <= 10; i++) {
 
-                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource);
+                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hitpoints, -1);
 
                 if (updateValidation > 0) {
 

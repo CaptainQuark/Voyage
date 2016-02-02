@@ -83,8 +83,11 @@ public class HospitalActivity extends Activity {
 
     private void initializeBrokenHeroes(){
         try {
-            SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+            //SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+            DBheroesAdapter heroesHelper = new DBheroesAdapter(this);
+            long sizeDatabase = heroesHelper.getTaskCount();
 
+            /*
             for(int i = 0, dbIndex; i < 3; i++){
                 dbIndex = prefs.getInt("DB_INDEX_BY_SLOT_" + i, -1);
 
@@ -93,6 +96,24 @@ public class HospitalActivity extends Activity {
                 else{
                     brokenHeroList.add(new BrokenHero(dbIndex, i));
                     slotsList.get(i).showHero( brokenHeroList.get( brokenHeroList.size()-1) );
+                }
+
+            }*/
+
+            for(int i = 1; i <= sizeDatabase; i++){
+                List<Integer> placeholderList = new ArrayList<>();
+
+                if(heroesHelper.getMedSlotIndex(i) != -1){
+                    int medSlot = heroesHelper.getMedSlotIndex(i);
+                    brokenHeroList.add( new BrokenHero(i, medSlot));
+                    placeholderList.add(medSlot);
+                    slotsList.get(heroesHelper.getMedSlotIndex(i)).showHero( brokenHeroList.get( brokenHeroList.size() - 1));
+                }
+
+                if(i == sizeDatabase){
+                    for(int j = 0; j < placeholderList.size(); i++){
+                        slotsList.get(placeholderList.get(j)).showPlaceholder();
+                    }
                 }
             }
 
@@ -125,12 +146,13 @@ public class HospitalActivity extends Activity {
         setFreeSlotsView();
     }
 
-    private void removeBrokenHeroFromList(int i){
+    private void removeBrokenHeroFromList(int slotIndex){
 
         for(int index = 0; index < 3; index++){
-            if(brokenHeroList.get(index).getSlotIndex() == i){
-                slotsList.get(i).showPlaceholder();
-                removeSharedPreference(i);
+            if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
+                slotsList.get(slotIndex).showPlaceholder();
+                brokenHeroList.get(index).setHeroMedSlotIndex(-1);
+                brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
                 brokenHeroList.remove(index);
                 index = 3;
 
@@ -171,6 +193,7 @@ public class HospitalActivity extends Activity {
             lastSelectedSlotIndex = -1;
             setFreeSlotsView();
             setFortuneView();
+            boostMedicationView.setTextColor(Color.parseColor("#707070"));
             abortMedicationView.setTextColor(Color.parseColor("#707070"));
         }
     }
@@ -254,7 +277,6 @@ public class HospitalActivity extends Activity {
         private int slotIndex, dbIindex, hpNow, hpTotal = 111, timeToLeave = 24;
         private String name, profileResource;
 
-
         public BrokenHero(int dbIndex, int si){
             this.slotIndex = si;
             this.dbIindex = dbIndex;
@@ -267,12 +289,18 @@ public class HospitalActivity extends Activity {
                 name = heroesHelper.getHeroName(dbIndex);
                 hpNow = heroesHelper.getHeroHitpoints(dbIndex);
                 profileResource = heroesHelper.getHeroImgRes(dbIndex);
+                hpTotal = heroesHelper.getHeroHitpointsTotal(dbIndex);
             }
         }
 
         public boolean setHeroHitpoints(int hpNew){
             DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
             return h.updateHeroHitpoints(dbIindex, hpNew) != -1;
+        }
+
+        public boolean setHeroMedSlotIndex(int slotIndex){
+            DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
+            return h.updateMedSlotIndex(dbIindex, slotIndex);
         }
 
         public String getName(){ return name; }

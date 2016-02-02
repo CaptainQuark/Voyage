@@ -35,6 +35,8 @@ public class DBheroesAdapter {
         contentValues.put(DBheroesHelper.CLASS_TWO, classTwo);
         contentValues.put(DBheroesHelper.COSTS, costs);
         contentValues.put(DBheroesHelper.IMAGE_RESOURCE, image);
+        contentValues.put(DBheroesHelper.HP_TOTAL, hitpoints);
+        contentValues.put(DBheroesHelper.MED_SLOT_INDEX, -1);
 
         long id = db.insert(DBheroesHelper.TABLE_NAME, null, contentValues);
         db.close();
@@ -302,7 +304,55 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image) {
+    public int getHeroHitpointsTotal(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.HP_TOTAL};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        int value = -1;
+
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.HP_TOTAL));
+                cursor.close();
+            }
+        } catch (NullPointerException n) {
+            Msg.msg(context1, "ERROR @ getHeroHitpointsTotal with exception: " + n);
+        }
+
+        db.close();
+
+        return value;
+    }
+
+    public int getMedSlotIndex(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.MED_SLOT_INDEX};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        int value = -1;
+
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.MED_SLOT_INDEX));
+                cursor.close();
+            }
+        } catch (NullPointerException n) {
+            Msg.msg(context1, "ERROR @ getMedSlotIndex with exception: " + n);
+        }
+
+        db.close();
+
+        return value;
+    }
+
+    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image, int hpTotal, int medSlotIndex) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -313,10 +363,12 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.CLASS_TWO, secondaryClass);
         cv.put(DBheroesHelper.COSTS, costs);
         cv.put(DBheroesHelper.IMAGE_RESOURCE, image);
+        cv.put(DBheroesHelper.HP_TOTAL, hpTotal);
+        cv.put(DBheroesHelper.MED_SLOT_INDEX, medSlotIndex);
 
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
-        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=? AND " + DBheroesHelper.NAME + "=?", whereArgs);
+        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=?", whereArgs);
         db.close();
 
         return validation;
@@ -337,6 +389,21 @@ public class DBheroesAdapter {
         return validation;
     }
 
+    public boolean updateMedSlotIndex(int UID, int slotIndex) {
+
+        SQLiteDatabase db = helper.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+        cv.put(DBheroesHelper.MED_SLOT_INDEX, slotIndex);
+
+        String[] whereArgs = {UID + ""};
+
+        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=?", whereArgs);
+        db.close();
+
+        return validation != -1;
+    }
+
     public int markOneRowAsUnused(int id){
 
         SQLiteDatabase db = helper.getWritableDatabase();
@@ -348,6 +415,8 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.CLASS_TWO, "");
         cv.put(DBheroesHelper.COSTS, 0);
         cv.put(DBheroesHelper.IMAGE_RESOURCE, context1.getResources().getString(R.string.indicator_unused_row));
+        cv.put(DBheroesHelper.HP_TOTAL, 0);
+        cv.put(DBheroesHelper.MED_SLOT_INDEX, -1);
 
         String[] whereArgs = {Integer.toString(id)};
 
@@ -368,6 +437,8 @@ public class DBheroesAdapter {
         private static final String CLASS_TWO = "ClasstypeSecondary";
         private static final String COSTS = "Costs";
         private static final String IMAGE_RESOURCE = "ImageRessource";
+        private static final String HP_TOTAL = "HitpointsTotal";
+        private static final String MED_SLOT_INDEX = "MedicationSlotIndex";
             // hier Spalten deklarieren, die für Helden benötigt werden
             // -> diese dann in CREATE_TABLE unterhalb einfügen
 
@@ -378,7 +449,9 @@ public class DBheroesAdapter {
                 + CLASS_ONE + " VARCHAR(255), "
                 + CLASS_TWO + " VARCHAR(255), "
                 + COSTS + " INT, "
-                + IMAGE_RESOURCE + " VARCHAR(255));";
+                + IMAGE_RESOURCE + " VARCHAR(255), "
+                + HP_TOTAL + " INT, "
+                + MED_SLOT_INDEX + "INT);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;
