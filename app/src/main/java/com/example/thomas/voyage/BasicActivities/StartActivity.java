@@ -173,11 +173,11 @@ public class StartActivity extends Activity {
     }
 
     private void setHospitalWindows(){
-        SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
+        DBheroesAdapter h = new DBheroesAdapter(this);
         int sum = 0;
 
-        for(int i = 0; i < 3; i++){
-            if(prefs.getInt("DB_INDEX_BY_SLOT_" + i, -1) != -1) sum++;
+        for(int i = 1; i <= 10; i++){
+            if(h.getMedSlotIndex(i) != -1) sum++;
         }
 
         if(sum == 0) textViewHospital.setText("Niemand in Behandlung...");

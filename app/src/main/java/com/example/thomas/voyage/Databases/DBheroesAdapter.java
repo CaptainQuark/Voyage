@@ -368,7 +368,7 @@ public class DBheroesAdapter {
 
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
-        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=?", whereArgs);
+        int validation = db.update(DBheroesHelper.TABLE_NAME, cv, DBheroesHelper.UID + "=? AND " + DBheroesHelper.NAME + "=?", whereArgs);
         db.close();
 
         return validation;
@@ -451,7 +451,7 @@ public class DBheroesAdapter {
                 + COSTS + " INT, "
                 + IMAGE_RESOURCE + " VARCHAR(255), "
                 + HP_TOTAL + " INT, "
-                + MED_SLOT_INDEX + "INT);";
+                + MED_SLOT_INDEX + " INTEGER);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;
