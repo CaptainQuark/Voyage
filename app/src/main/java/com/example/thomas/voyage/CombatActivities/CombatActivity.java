@@ -135,13 +135,13 @@ public class CombatActivity extends Activity {
                 break;
         }
 
+        tempScore += scoreField * multiField * monsterResistance - monsterBlock;
+
         String logTopEntry;
         logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + (tempScore - bonusScore)
                 + " und " + bonusScore + " Bonusangriff!";
 
-        logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ".";
-
-        tempScore += scoreField * multiField * monsterResistance - monsterBlock;
+        logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ". ThrowCount:" + throwCount;
 
         if( monsterCheckout.equals("double") && checkOutPossible(2) ){
             if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
@@ -149,35 +149,38 @@ public class CombatActivity extends Activity {
                 monsterHealth = 0;
             }
 
-        }else if( monsterCheckout.equals("master") && checkOutPossible(1) ){
-            if( monsterHealth == (scoreField * multiField) ){
+        }else if( monsterCheckout.equals("master") && scoreField * multiField == monsterHealth ){
                 logTopEntry = "MASTER WIN!";
                 monsterHealth = 0;
-            }
 
-        }else{
+        }
             monsterHealth -= tempScore;
             tempScoreHistory[throwCount] = tempScore;
             //Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
             //toast.show();
 
+        throwCount++;
+
             if( monsterHealth <= 0 && monsterCheckout.equals("default")) {
                 logTopEntry = "NORMAL WIN!";
 
-            }else if(monsterHealth <= 0 && monsterCheckout != "default") {
-                for(int i = 0; i < 2; i++) {
+            }else if(monsterHealth <= 0) {
+                for(int i = 0; i <= 2; i++) {
                     monsterHealth += tempScoreHistory[i];
+                    tempScoreHistory[i] = 0;
+                    throwCount = 0;
                 }
                 //Überworfen!
 
-            }else if( throwCount == 2 ){
-                for(int i = 0;i < 2; i++){
+            }
+        if( throwCount == 3 ){
+                for(int i = 0;i <= 2; i++){
                     tempScoreHistory[i] = 0;
                 }
                 throwCount = 0;
                 // Bedingungen für Triggern von Spezial nach 3 Würfen, Spieler und Monster
             }
-        }
+
 
         monsterHealthView.setText(monsterHealth + "");
         setHealthBarMonster();
@@ -192,7 +195,6 @@ public class CombatActivity extends Activity {
         eventsView.setText(tempEventsString);
         eventsList.add(logTopEntry);
         resetBonus();
-        throwCount++;
     }
 
     private static void applyEffects(){

@@ -37,7 +37,7 @@ public class MonsterPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             name = "Gemeines Monster";
-                            checkout = "default";
+                            checkout = "double";
                             hp = 200;
                             dmgMin = 10;
                             dmgMax = 20;
@@ -59,7 +59,7 @@ public class MonsterPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             name = "Uncommon Monster";
-                            checkout = "master";
+                            checkout = "double";
                             hp = 300;
                             dmgMin = 10;
                             dmgMax = 20;
@@ -81,7 +81,7 @@ public class MonsterPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             name = "Fufzehn Prozent Monster";
-                            checkout = "master";
+                            checkout = "double";
                             hp = 500;
                             dmgMin = 10;
                             dmgMax = 20;
