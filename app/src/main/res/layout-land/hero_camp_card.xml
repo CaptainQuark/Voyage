@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:layout_margin="10dp"
+    android:layout_height="220dp"
     android:orientation="horizontal"
-    android:stateListAnimator="@anim/elevation_heroes_camp_card"
-    android:background="@drawable/rounded_corners_black">
+    android:background="@drawable/rounded_corners_black"
+    android:layout_margin="20dp"
+    android:stateListAnimator="@anim/elevation_heroes_camp_card">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -24,7 +24,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/grey_7000">
 
             <TextView
                 android:id="@+id/textView_camp_card_name"
@@ -36,7 +37,7 @@
                 android:gravity="bottom|center"
                 android:textSize="16sp"
                 android:fontFamily="sans-serif-bold"
-                android:textColor="#ffffff"
+                android:textColor="@android:color/black"
                 android:textStyle="bold"
                 android:paddingBottom="4dp" />
 
@@ -50,7 +51,8 @@
                 android:fontFamily="sans-serif-light"
                 android:textSize="12sp"
                 android:textIsSelectable="false"
-                android:textColor="#c7c7c7" />
+                android:textColor="#626262"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_weight="5"
@@ -68,8 +70,9 @@
                     android:gravity="bottom|center"
                     android:text="45/50"
                     android:fontFamily="sans-serif-normal"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView_camp_card_costs"
@@ -79,8 +82,9 @@
                     android:gravity="bottom|center"
                     android:text="1200"
                     android:fontFamily="sans-serif-normal"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView_camp_card_battles"
@@ -90,8 +94,9 @@
                     android:gravity="bottom|center"
                     android:text="3"
                     android:fontFamily="sans-serif-normal"
-                    android:textColor="#ffffff"
-                    android:textSize="15sp" />
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -111,7 +116,8 @@
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="13sp"
-                    android:textColor="#c7c7c7" />
+                    android:textColor="#626262"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -122,7 +128,8 @@
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="13sp"
-                    android:textColor="#c7c7c7" />
+                    android:textColor="#626262"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -133,7 +140,8 @@
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="13sp"
-                    android:textColor="#c7c7c7" />
+                    android:textColor="#626262"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <TextView

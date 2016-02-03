@@ -301,7 +301,7 @@ public class HospitalActivity extends Activity {
         }
 
         private void setCountDownTimer(final long time, final BrokenHero hero){
-            Msg.msg(getApplicationContext(), "Countdown time : " + time);
+            //Msg.msg(getApplicationContext(), "Countdown time : " + time);
             try{
                 slotIndexForTimerList.add(slotIndex);
                 timerList.add(new CountDownTimer(time, 1000) {
@@ -410,7 +410,7 @@ public class HospitalActivity extends Activity {
 
         public long getBufferTime(int i){
             if(i != -1) bufferTime = timeToLeave - timeLeftArray[i];
-            Msg.msg(getApplicationContext(), "bufferTime: " + bufferTime);
+            //Msg.msg(getApplicationContext(), "bufferTime: " + bufferTime);
             return bufferTime;
         }
     }
