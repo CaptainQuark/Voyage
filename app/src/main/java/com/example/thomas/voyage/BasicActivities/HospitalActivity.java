@@ -84,22 +84,8 @@ public class HospitalActivity extends Activity {
 
     private void initializeBrokenHeroes(){
         try {
-            //SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
             DBheroesAdapter heroesHelper = new DBheroesAdapter(this);
             long sizeDatabase = heroesHelper.getTaskCount();
-
-            /*
-            for(int i = 0, dbIndex; i < 3; i++){
-                dbIndex = prefs.getInt("DB_INDEX_BY_SLOT_" + i, -1);
-
-                if(dbIndex == -1)
-                    slotsList.get(i).showPlaceholder();
-                else{
-                    brokenHeroList.add(new BrokenHero(dbIndex, i));
-                    slotsList.get(i).showHero( brokenHeroList.get( brokenHeroList.size()-1) );
-                }
-
-            }*/
 
             List<Integer> placeholderList = new ArrayList<>();
             for(int i = 0; i < 3; i++) placeholderList.add(i);
