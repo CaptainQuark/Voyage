@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="11"
-        android:background="@color/inactive_field">
+        android:background="@color/standard_background">
 
 <!--
         <ImageView
@@ -24,17 +24,18 @@
         <GridView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="30dp"
+            android:smoothScrollbar="true"
+            android:paddingTop="40dp"
             android:paddingRight="30dp"
             android:paddingLeft="30dp"
             android:layout_marginBottom="30dp"
             android:id="@+id/heroes_camp_gridview"
             android:numColumns="auto_fit"
             android:columnWidth="420dp"
-            android:stretchMode="spacingWidth"
+            android:stretchMode="columnWidth"
             android:gravity="center"
-            android:verticalSpacing="20dp"
-            android:horizontalSpacing="20dp">
+            android:verticalSpacing="35dp"
+            android:horizontalSpacing="35dp">
         </GridView>
 
     </FrameLayout>
@@ -65,58 +66,54 @@
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@color/inactive_field"
+            android:background="@android:color/black"
             android:gravity="center"
             android:text="X / Y"
-            android:textColor="#ff000000"
+            android:textColor="#707070"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-light"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-light" />
 
         <TextView
             android:onClick="dismissHero"
-            android:id="@+id/hero_dismiss"
+            android:id="@+id/textview_camp_dismiss_hero"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@color/inactive_field"
+            android:background="@android:color/black"
             android:gravity="center"
             android:text="Helden verkaufen"
-            android:textColor="#ff000000"
+            android:textColor="#707070"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-light"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-light" />
 
         <TextView
-            android:id="@+id/hero_set_as_adventurer"
+            android:id="@+id/textview_camp_to_fight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@color/inactive_field"
+            android:background="@android:color/black"
             android:gravity="center"
             android:text="Auf in den Kampf!"
-            android:textColor="#ff000000"
+            android:textColor="#707070"
             android:textSize="15sp"
             android:onClick="commitToQuest"
-            android:fontFamily="sans-serif-light"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-light" />
 
         <TextView
-            android:id="@+id/heroes_party_buy_hero_from_merchant"
+            android:id="@+id/textview_camp_buy_hero"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/active_field"
+            android:background="@android:color/black"
             android:gravity="center"
             android:text="Helden kaufen"
-            android:textColor="#ff000000"
+            android:textColor="#ffffff"
             android:textSize="15sp"
             android:onClick="campBuyNewHero"
             android:layout_marginRight="0dp"
-            android:fontFamily="sans-serif-light"
-            android:textStyle="bold" />
+            android:fontFamily="sans-serif-light" />
 
     </LinearLayout>
 

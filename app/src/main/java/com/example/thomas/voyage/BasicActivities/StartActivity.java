@@ -280,7 +280,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToHeroesPartyActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
         i.putExtra("ORIGIN", "StartActivity");
         startActivity(i);
     }
