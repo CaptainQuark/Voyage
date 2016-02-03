@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +21,8 @@ public class HospitalActivity extends Activity {
 
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
+    private List<Integer> slotIndexForTimerList = new ArrayList<>();
+    private List<CountDownTimer> timerList = new ArrayList<>();
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
     private int lastSelectedSlotIndex = -1;
 
@@ -254,10 +256,12 @@ public class HospitalActivity extends Activity {
 
 
     private class Slot{
+        private int slotIndex;
         private TextView nameView, hpNowView, timeToLeaveView, staticHpView, staticTimeView;
         private ImageView profileResourceView;
 
         public Slot(int slotIndex){
+            this.slotIndex = slotIndex;
             profileResourceView = (ImageView) findViewById(getResources().getIdentifier("imageview_hospital_hero_" + slotIndex, "id", getPackageName()));
             nameView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_name_" + slotIndex,"id",getPackageName()));
             hpNowView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_hp_" + slotIndex,"id",getPackageName()));
@@ -270,10 +274,10 @@ public class HospitalActivity extends Activity {
             profileResourceView.setImageResource(getResources().getIdentifier(hero.getProfileResource(), "mipmap", getPackageName()));
             nameView.setText(hero.getName() + "");
             hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
-            timeToLeaveView.setText(hero.getTimeToLeave() + "");
             staticHpView.setVisibility(View.VISIBLE);
             staticTimeView.setText("abreise in min");
 
+            this.setCountDownTimer(hero.getTimeToLeave());
         }
 
         public void showPlaceholder(){
@@ -283,12 +287,47 @@ public class HospitalActivity extends Activity {
             timeToLeaveView.setText("");
             staticHpView.setVisibility(View.INVISIBLE);
             staticTimeView.setText("hinzufügen");
+
+            this.cancelCountDownTimer();
+        }
+
+        private void setCountDownTimer(int time){
+            try{
+                slotIndexForTimerList.add(slotIndex);
+                timerList.add(new CountDownTimer(time, 1000/60) {
+                    @Override
+                    public void onTick(long l) {
+                        timeToLeaveView.setText("" + l / 1000 / 60);
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        timeToLeaveView.setText("");
+                    }
+                }.start());
+
+            }catch (Exception e){Msg.msg(getApplicationContext(), e + "");}
+        }
+
+        private void cancelCountDownTimer(){
+            try {
+                for(int i = 0; i < slotIndexForTimerList.size(); i++){
+                    if(slotIndexForTimerList.get(i) == slotIndex){
+                        slotIndexForTimerList.remove(i);
+                        timerList.get(i).cancel();
+                        timerList.remove(i);
+
+                        // Gefahr? Größe des Arrays änderst sich zwischen for-Abfrage und if-Zutreffen
+                        i = slotIndexForTimerList.size();
+                    }
+                }
+            }catch (Exception e){Msg.msg(getApplicationContext(), String.valueOf(e));}
         }
     }
 
 
     private class BrokenHero{
-        private int slotIndex, dbIindex, hpNow, hpTotal = 111, timeToLeave = 24;
+        private int slotIndex, dbIindex, hpNow, hpTotal = 111, timeToLeave = 1000*60*60;
         private String name, profileResource;
 
         public BrokenHero(int dbIndex, int si){
