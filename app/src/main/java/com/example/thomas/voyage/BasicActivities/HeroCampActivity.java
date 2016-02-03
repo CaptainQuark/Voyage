@@ -169,7 +169,7 @@ public class HeroCampActivity extends Activity {
             i.putExtra(co.IMAGE_RESOURCE,heroList.get(lastSelectedHeroIndex).getImageResource());
         }
 
-        i.putExtra(co.ORIGIN, "HeroesPartyActivity");
+        i.putExtra(co.ORIGIN, "HeroCampActivity");
     }
 
     public void dismissHero(View v){

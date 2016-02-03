@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.BasicActivities.HeroCampActivity;
 import com.example.thomas.voyage.BasicActivities.HeroesPartyActivity;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
@@ -62,14 +63,14 @@ public class PrepareCombatActivity extends Activity {
     }
 
     public void combatWhiteSelectHeroFromParty(View view){
-        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
         i.putExtra("ORIGIN", "PrepareCombatActivity");
         startActivity(i);
     }
 
     public void startCombat(View view){
 
-        if(origin.equals("HeroesPartyActivity")){
+        if(origin.equals("HeroCampActivity")){
 
             Intent i = new Intent(getApplicationContext(), CombatActivity.class);
 
