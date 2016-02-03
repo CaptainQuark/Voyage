@@ -37,6 +37,7 @@ public class MerchantHeroActivity extends Activity {
     private ImageView textViewHero_0, textViewHero_1, textViewHero_2, marketView;
     private LinearLayout heroDataLayout, containerLayoutMiddle;
     private TextView textView_current_money, textView_available_slots, buyHeroView,tag1, tag2, tag3, nameView, hitpointsView, costsView, primView, secView;
+    private CountDownTimer timer;
     private int currentSelectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
     private boolean availableToBuy = false;
@@ -129,7 +130,7 @@ public class MerchantHeroActivity extends Activity {
 
         final TextView merchantTime = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
 
-        new CountDownTimer(dateDiff, 1000 / 60) {
+        timer = new CountDownTimer(dateDiff, 1000 / 60) {
 
             public void onTick(long millisUntilFinished) {
                 merchantTime.setText("" + millisUntilFinished / 1000 / 60);
@@ -165,7 +166,7 @@ public class MerchantHeroActivity extends Activity {
 
         //60*60*1000 = 1 Stunde, *18 = 18 Stunden
 
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000)) );
 
         Msg.msg(this, "SYS: " + System.currentTimeMillis());
         Msg.msg(this, "FIN: " + finishDate);
@@ -184,7 +185,7 @@ public class MerchantHeroActivity extends Activity {
         }
 
         Date newExpirationDate = new Date();
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) - (System.currentTimeMillis() - finishDate));
+        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000)) - (System.currentTimeMillis() - finishDate));
 
         return newExpirationDate.getTime();
     }
@@ -305,6 +306,7 @@ public class MerchantHeroActivity extends Activity {
     }
 
     public void merchantHerosBackbuttonPressed(View view) {
+        timer.cancel();
         if(origin.equals("HeroesPartyActivity")){
             Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
             startActivity(i);
@@ -317,6 +319,7 @@ public class MerchantHeroActivity extends Activity {
     }
 
     public void goFromMerchantToHeroesParty(View view) {
+        timer.cancel();
         Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
         startActivity(i);
     }
@@ -335,7 +338,7 @@ public class MerchantHeroActivity extends Activity {
 
             for (int i = 1; i <= 10; i++) {
 
-                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hitpoints, -1);
+                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hitpoints, -1, 0);
 
                 if (updateValidation > 0) {
 
