@@ -154,7 +154,8 @@
                 android:fontFamily="sans-serif-light"
                 android:textSize="15sp"
                 android:textStyle="italic"
-                android:textColor="#383838" />
+                android:textColor="#383838"
+                android:visibility="gone" />
 
         </LinearLayout>
 

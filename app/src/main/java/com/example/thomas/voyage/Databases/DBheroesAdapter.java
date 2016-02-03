@@ -494,7 +494,7 @@ public class DBheroesAdapter {
                 + IMAGE_RESOURCE + " VARCHAR(255), "
                 + HP_TOTAL + " INT, "
                 + MED_SLOT_INDEX + " INTEGER, "
-                + TIME_TO_LEAVE + " INTEGER);";
+                + TIME_TO_LEAVE + " UNSIGNED BIG INT);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;
@@ -503,8 +503,8 @@ public class DBheroesAdapter {
             super (context, DATABASE_NAME, null, DATABASE_VERSION);
                 //super( Context der mitgegeben wird, String, custom cursor, version nr.)
             this.context = context;
-            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
-            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HerosDatabse constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HeroesDatabase constructor called");
+            //com.example.thomas.voyage.ContainerClasses.Msg.msg(context, "HeroesDatabase constructor called");
 
         }
 

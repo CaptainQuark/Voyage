@@ -279,10 +279,8 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void clickToHeroesPartyActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-        i.putExtra("ORIGIN", "StartActivity");
-        startActivity(i);
+    public void clickToStats(View view) {
+        Msg.msg(this, "No function yet");
     }
 
     public void clickToMerchantInventory(View view){
@@ -292,6 +290,7 @@ public class StartActivity extends Activity {
 
     public void clickToCamp(View view){
         Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+        i.putExtra("ORIGIN", "StartActivity");
         startActivity(i);
     }
 

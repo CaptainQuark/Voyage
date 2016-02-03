@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ public class HospitalActivity extends Activity {
     private List<CountDownTimer> timerList = new ArrayList<>();
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
     private int lastSelectedSlotIndex = -1;
-    private long[] timeLeftArray = {0,0,0};
+    private long[] timeUsedArray = {0,0,0};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +69,17 @@ public class HospitalActivity extends Activity {
     public void onClick(View v){
         switch(v.getId()){
             case R.id.imagebutton_hospital_back_button:
+
                 for(int i = 0; i < brokenHeroList.size(); i++){
                     slotsList.get(brokenHeroList.get(i).getSlotIndex()).cancelCountDownTimer(
-                            brokenHeroList.get(i), brokenHeroList.get(i).getBufferTime(
-                                    brokenHeroList.get(i).getSlotIndex()
-                            )
+                            brokenHeroList.get(i), brokenHeroList.get(i).getTimeToLeave() - timeUsedArray[brokenHeroList.get(i).getSlotIndex()]
                     );
 
+                    /*
                     brokenHeroList.get(i).setTimeToLeave(
                             brokenHeroList.get(i).getBufferTime(-1)
                     );
+                    */
                 }
                 super.onBackPressed();
                 finish();
@@ -253,10 +253,8 @@ public class HospitalActivity extends Activity {
     }
 
     private long getNewDate(){
-        Date newExpirationDate = new Date();
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000)) );
-
-        return newExpirationDate.getTime();
+        return(System.currentTimeMillis() + (60 * 60 * 1000));
+        //return 60*60*1000;
     }
 
     /**
@@ -288,8 +286,9 @@ public class HospitalActivity extends Activity {
             staticTimeView.setText("abreise in min");
 
             Date present = new Date();
-            long dateDiff = hero.getTimeToLeave() - present.getTime();
-            if(dateDiff < 0) dateDiff = 0;
+            long dateDiff = hero.getTimeToLeave() - System.currentTimeMillis();
+            Msg.msg(getApplicationContext(), "getTimeToLeave: " + hero.getTimeToLeave());
+            Msg.msg(getApplicationContext(), "dateDiff: " + dateDiff);
             this.setCountDownTimer(dateDiff, hero);
             //this.setCountDownTimer(hero.getTimeToLeave(), hero);
         }
@@ -304,22 +303,22 @@ public class HospitalActivity extends Activity {
         }
 
         private void setCountDownTimer(final long time, final BrokenHero hero){
-            //Msg.msg(getApplicationContext(), "Countdown time : " + time);
             try{
                 slotIndexForTimerList.add(slotIndex);
                 timerList.add(new CountDownTimer(time, 1000) {
                     @Override
                     public void onTick(long l) {
                         timeToLeaveView.setText("" + l/1000/60);
-                        timeLeftArray[slotIndex] += 1000;
+                        timeUsedArray[slotIndex] += 1000;
                         //timeToLeaveView.setText("" + l);
                         //hero.setBufferTime(hero.getBufferTime() - 1);
-                        //Log.v("COUNT ", "bufferTime: " + hero.getBufferTime());
+                        //Log.v("COUNT ", "bufferTime: " + hero.getBufferTime(hero.getSlotIndex()));
                     }
 
                     @Override
                     public void onFinish() {
                         if(!hero.setTimeToLeave(0)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
+                        Msg.msg(getApplicationContext(), "onFinish called");
                         timeToLeaveView.setText("");
                     }
                 }.start());
@@ -332,7 +331,7 @@ public class HospitalActivity extends Activity {
                 for(int i = 0; i < slotIndexForTimerList.size(); i++){
                     if(slotIndexForTimerList.get(i) == slotIndex){
                         timerList.get(i).cancel();
-                        hero.setBufferTime(time);
+                        //hero.setBufferTime(time);
                         if(!hero.setTimeToLeave(time)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
 
                         slotIndexForTimerList.remove(i);
@@ -370,7 +369,6 @@ public class HospitalActivity extends Activity {
 
                 // 'tempTime' wird verwendet, um weniger Datenbankzugriffe zu haben (nur einen)
                 long tempTime = heroesHelper.getTimeToLeave(dbIndex);
-                // 1 Stunde wird als Countdown gesetzt
                 if(tempTime == 0) timeToLeave = getNewDate();
                 else {
                     //Msg.msg(getApplicationContext(), "tempTime : " + tempTime);
@@ -412,7 +410,7 @@ public class HospitalActivity extends Activity {
         public int getSlotIndex(){ return slotIndex; }
 
         public long getBufferTime(int i){
-            if(i != -1) bufferTime = timeToLeave - timeLeftArray[i];
+            if(i != -1) bufferTime = timeToLeave - timeUsedArray[i];
             //Msg.msg(getApplicationContext(), "bufferTime: " + bufferTime);
             return bufferTime;
         }
