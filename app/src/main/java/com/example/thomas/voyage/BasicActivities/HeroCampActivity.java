@@ -40,7 +40,7 @@ public class HeroCampActivity extends Activity {
     private List<Hero> heroList;
     private List<Integer> heroToDatabaseList;
     private String origin = "";
-    private static boolean somethingSelected = false;
+    private boolean somethingSelected = true;
 
     // Index des GridView, für Datenbankzugriff über
     // 'UID' muss immer +1 gerechnet werden (DB beginnt bei 1)
@@ -86,7 +86,9 @@ public class HeroCampActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
-                lastSelectedHeroIndex = position;
+                somethingSelected = lastSelectedHeroIndex != position;
+                lastSelectedHeroIndex = (somethingSelected =! somethingSelected) ? -1 : position;
+
                 setSellAndFightViews();
                 heroGridView.invalidateViews();
             }
@@ -285,7 +287,6 @@ public class HeroCampActivity extends Activity {
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
                 holder.rightPanelLayout.setBackgroundColor(Color.WHITE);
-                somethingSelected = true;
 
             }else{
                 holder.rightPanelLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
