@@ -21,6 +21,7 @@ import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class CombatActivity extends Activity {
 
@@ -30,7 +31,8 @@ public class CombatActivity extends Activity {
             heroHitpointsConst = -1,
             scoreMultiplier = 1,
             dartCount = 1,
-            roundCount = 0;
+            roundCount = 0,
+            monsterDmg = 0;
     private static String monsterName = "", heroClassActive ="", heroImgRes = "", chronicleString = "", eventString = "";
     private static String[] iconArray = {"X 1", "1.", "X 2", "2.", "X 3", "SP", "BULL", "IN", "EYE", "OUT"};
     private static int[]
@@ -67,7 +69,9 @@ public class CombatActivity extends Activity {
     private static int triggerScore = 0;
     private static int triggerMulti = 0;
     private static int bonusScore = 0;
+    private static int bonusBlock = 0;
     private static int playerHealth = 0, bonusHealth = 0, monsterHealth = 300;
+    private static int monsterMinDmg = 0, monsterMaxDmg = 0;
     private static String monsterCheckout = "";
     private static int throwCount = 0;
     private static Context context;
@@ -89,6 +93,8 @@ public class CombatActivity extends Activity {
         monsterNameView.setText(monster.name);
         monsterName = monster.name;
         monsterProfileView.setImageResource(getResources().getIdentifier(monster.getImgRes(), "mipmap", this.getPackageName()));
+        monsterMinDmg = monster.dmgMin;
+        monsterMaxDmg = monster.dmgMax;
     }
 
     @Override
@@ -99,9 +105,11 @@ public class CombatActivity extends Activity {
 
     private static void resetBonus(){
         tempScore = 0;
-        bonusScore = 0;
         playerHealth = 0;
+        bonusScore = 0;
         bonusHealth = 0;
+        bonusBlock = 0;
+        monsterDmg = 0;
     }
 
 
@@ -157,7 +165,7 @@ public class CombatActivity extends Activity {
             monsterHealth -= tempScore;
             tempScoreHistory[throwCount] = tempScore;
             //Toast toast = Toast.makeText(context,  "Health: " + monsterHealth + ", tempScore: " + tempScore, Toast.LENGTH_SHORT);
-            //toast.show();
+        //toast.show();
 
         throwCount++;
 
@@ -178,6 +186,10 @@ public class CombatActivity extends Activity {
                     tempScoreHistory[i] = 0;
                 }
                 throwCount = 0;
+                Random random = new Random();
+                monsterDmg = random.nextInt(monsterMaxDmg-monsterMinDmg) + monsterMinDmg;
+                playerHealth -= monsterDmg;
+                logTopEntry = monsterName + " erwidert mit " + monsterDmg + ".";
                 // Bedingungen für Triggern von Spezial nach 3 Würfen, Spieler und Monster
             }
 
@@ -200,6 +212,7 @@ public class CombatActivity extends Activity {
     private static void applyEffects(){
         tempScore += bonusScore;
         playerHealth += bonusHealth;
+        monsterDmg -= bonusBlock;
     }
 
     private static Boolean checkOutPossible(int checkOutType){
