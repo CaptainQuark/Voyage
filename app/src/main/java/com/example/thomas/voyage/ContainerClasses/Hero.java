@@ -12,7 +12,7 @@ public class Hero {
     ConstRes co;
 
     private String heroName, classSecondary, classPrimary, imageResource;
-    private int hp, costs, hpConst;
+    private int hp, hpTotal, costs, hpConst;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
     public Hero(Context con){
@@ -22,13 +22,14 @@ public class Hero {
 
 
     // 2. Konstruktor, welcher gewählt werden kann (jedoch immer nur einer)
-    public Hero(String name, String prime, String sec, String imgRes, int hp, int costs){
+    public Hero(String name, String prime, String sec, String imgRes, int hp, int hpTotal, int costs){
         co = new ConstRes();
         heroName = name;
         classPrimary = prime;
         classSecondary = sec;
         imageResource = imgRes;
         this.hp = hp;
+        this.hpTotal = hpTotal;
         this.costs = costs;
 
         hpConst = hp;

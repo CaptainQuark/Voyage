@@ -69,13 +69,13 @@
             android:background="@android:color/black"
             android:gravity="center"
             android:text="X / Y"
-            android:textColor="#ffffff"
+            android:textColor="#707070"
             android:textSize="15sp"
             android:fontFamily="sans-serif-light" />
 
         <TextView
             android:onClick="dismissHero"
-            android:id="@+id/hero_dismiss"
+            android:id="@+id/textview_camp_dismiss_hero"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
@@ -83,12 +83,12 @@
             android:background="@android:color/black"
             android:gravity="center"
             android:text="Helden verkaufen"
-            android:textColor="#ffffff"
+            android:textColor="#707070"
             android:textSize="15sp"
             android:fontFamily="sans-serif-light" />
 
         <TextView
-            android:id="@+id/hero_set_as_adventurer"
+            android:id="@+id/textview_camp_to_fight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
@@ -96,13 +96,13 @@
             android:background="@android:color/black"
             android:gravity="center"
             android:text="Auf in den Kampf!"
-            android:textColor="#ffffff"
+            android:textColor="#707070"
             android:textSize="15sp"
             android:onClick="commitToQuest"
             android:fontFamily="sans-serif-light" />
 
         <TextView
-            android:id="@+id/heroes_party_buy_hero_from_merchant"
+            android:id="@+id/textview_camp_buy_hero"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -75,10 +75,12 @@
             android:label="@string/title_activity_classic_versus_fragment" />
         <activity
             android:name=".BasicActivities.HeroCampActivity"
-            android:label="@string/title_activity_hero_camp" />
+            android:label="@string/title_activity_hero_camp"
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".BasicActivities.HospitalActivity"
-            android:label="@string/title_activity_hospital_acitivity" >
+            android:label="@string/title_activity_hospital_acitivity"
+            android:screenOrientation="sensorLandscape">
         </activity>
     </application>
 

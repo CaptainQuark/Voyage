@@ -263,7 +263,7 @@ public class HeroesPartyActivity extends Activity {
         costsView = (TextView) findViewById(R.id.textView_party_costs);
         textView_slots = (TextView) findViewById(R.id.hero_size_display);
         listview = (ListView) findViewById(R.id.activity_heroes_party_listView);
-        dismissView = (TextView) findViewById(R.id.hero_dismiss);
+        dismissView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
         questView = (TextView) findViewById(R.id.hero_set_as_adventurer);
         buyView = (TextView) findViewById(R.id.heroes_party_buy_hero_from_merchant);
         dataContainerLayout = (RelativeLayout) findViewById(R.id.heroes_party_realative_layout);

@@ -25,7 +25,8 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:orientation="vertical"
-            android:background="@color/grey_7000">
+            android:background="@color/grey_7000"
+            android:id="@+id/layout_camp_right_panel">
 
             <TextView
                 android:id="@+id/textView_camp_card_name"
@@ -151,9 +152,9 @@
                 android:gravity="center"
                 android:text="mehr..."
                 android:fontFamily="sans-serif-light"
-                android:textSize="12sp"
+                android:textSize="15sp"
                 android:textStyle="italic"
-                android:textColor="#959595" />
+                android:textColor="#383838" />
 
         </LinearLayout>
 

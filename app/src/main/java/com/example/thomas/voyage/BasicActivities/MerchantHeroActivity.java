@@ -320,7 +320,7 @@ public class MerchantHeroActivity extends Activity {
 
     public void goFromMerchantToHeroesParty(View view) {
         timer.cancel();
-        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
         startActivity(i);
     }
 

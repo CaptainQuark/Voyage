@@ -187,7 +187,7 @@
 
                     <TextView
                         android:onClick="heroesPartyDismissHero"
-                        android:id="@+id/hero_dismiss"
+                        android:id="@+id/textview_camp_dismiss_hero"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginRight="1dp"
