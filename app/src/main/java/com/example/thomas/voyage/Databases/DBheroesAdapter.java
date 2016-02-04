@@ -12,6 +12,9 @@ import android.util.Log;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 
+import java.text.ParseException;
+import java.util.Objects;
+
 public class DBheroesAdapter {
 
     DBheroesHelper helper;
@@ -37,7 +40,7 @@ public class DBheroesAdapter {
         contentValues.put(DBheroesHelper.IMAGE_RESOURCE, image);
         contentValues.put(DBheroesHelper.HP_TOTAL, hitpoints);
         contentValues.put(DBheroesHelper.MED_SLOT_INDEX, -1);
-        contentValues.put(DBheroesHelper.TIME_TO_LEAVE, 0);
+        contentValues.put(DBheroesHelper.TIME_TO_LEAVE, "0");
 
         long id = db.insert(DBheroesHelper.TABLE_NAME, null, contentValues);
         db.close();
@@ -365,7 +368,13 @@ public class DBheroesAdapter {
         try {
             if (cursor != null) {
                 cursor.moveToFirst();
-                value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.TIME_TO_LEAVE));
+                String s = cursor.getString(cursor.getColumnIndex(DBheroesHelper.TIME_TO_LEAVE));
+                try{
+                    value = Long.parseLong(s);
+                }catch (Exception p){
+                    Msg.msg(context1, String.valueOf(p));
+                }
+
                 cursor.close();
             }
         } catch (NullPointerException n) {
@@ -377,7 +386,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image, int hpTotal, int medSlotIndex, int timeToLeave) {
+    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image, int hpTotal, int medSlotIndex, long timeToLeave) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -390,7 +399,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.IMAGE_RESOURCE, image);
         cv.put(DBheroesHelper.HP_TOTAL, hpTotal);
         cv.put(DBheroesHelper.MED_SLOT_INDEX, medSlotIndex);
-        cv.put(DBheroesHelper.TIME_TO_LEAVE, timeToLeave);
+        cv.put(DBheroesHelper.TIME_TO_LEAVE, Objects.toString(timeToLeave, "0"));
 
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
@@ -435,7 +444,7 @@ public class DBheroesAdapter {
         SQLiteDatabase db = helper.getWritableDatabase();
 
         ContentValues cv = new ContentValues();
-        cv.put(DBheroesHelper.TIME_TO_LEAVE, time);
+        cv.put(DBheroesHelper.TIME_TO_LEAVE, Objects.toString(time, "0"));
 
         String[] whereArgs = {UID + ""};
 
@@ -458,6 +467,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.IMAGE_RESOURCE, context1.getResources().getString(R.string.indicator_unused_row));
         cv.put(DBheroesHelper.HP_TOTAL, 0);
         cv.put(DBheroesHelper.MED_SLOT_INDEX, -1);
+        cv.put(DBheroesHelper.TIME_TO_LEAVE, "0");
 
         String[] whereArgs = {Integer.toString(id)};
 
@@ -487,14 +497,14 @@ public class DBheroesAdapter {
         private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
                 + UID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + NAME + " VARCHAR(255), "
-                + HITPOINTS + " INT, "
+                + HITPOINTS + " INTEGER, "
                 + CLASS_ONE + " VARCHAR(255), "
                 + CLASS_TWO + " VARCHAR(255), "
-                + COSTS + " INT, "
+                + COSTS + " INTEGER, "
                 + IMAGE_RESOURCE + " VARCHAR(255), "
-                + HP_TOTAL + " INT, "
+                + HP_TOTAL + " INTEGER, "
                 + MED_SLOT_INDEX + " INTEGER, "
-                + TIME_TO_LEAVE + " UNSIGNED BIG INT);";
+                + TIME_TO_LEAVE + " TEXT);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;
