@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
@@ -280,7 +281,8 @@ public class StartActivity extends Activity {
     }
 
     public void clickToStats(View view) {
-        Msg.msg(this, "No function yet");
+        Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+        startActivity(i);
     }
 
     public void clickToMerchantInventory(View view){
