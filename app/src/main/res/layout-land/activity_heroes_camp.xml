@@ -34,8 +34,7 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:verticalSpacing="35dp"
-            android:horizontalSpacing="35dp"
-            android:background="@drawable/ripple_backbutton_camp_from_standard">
+            android:horizontalSpacing="35dp">
         </GridView>
 
     </FrameLayout>
@@ -53,7 +52,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@color/standard_background"
+            android:background="@drawable/ripple_backbutton_standard_background"
             android:onClick="heroesCampBackButton"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"

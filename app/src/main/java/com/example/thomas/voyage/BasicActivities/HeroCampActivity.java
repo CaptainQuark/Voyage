@@ -81,12 +81,13 @@ public class HeroCampActivity extends Activity {
 
         heroGridView = (GridView) findViewById(R.id.heroes_camp_gridview);
         heroGridView.setAdapter(new HeroImagesAdapter(this));
+
         heroGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
 
                 somethingSelected = lastSelectedHeroIndex != position;
-                lastSelectedHeroIndex = (somethingSelected =! somethingSelected) ? -1 : position;
+                lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
 
                 setSellAndFightViews();
                 heroGridView.invalidateViews();
@@ -107,6 +108,16 @@ public class HeroCampActivity extends Activity {
         setSlotsView();
         hideSystemUI();
     }
+
+
+
+    /*
+
+    onClick-Events
+
+     */
+
+
 
     public void heroesCampBackButton(View v){
         super.onBackPressed();
@@ -166,28 +177,6 @@ public class HeroCampActivity extends Activity {
         }
     }
 
-    public void passHeroesParameterstoNewActivity(Intent i){
-        ConstRes co = new ConstRes();
-
-        if(lastSelectedHeroIndex != -1){
-
-             /*
-
-             Um die Funktion nutzen zu können, muss ein Held ausgewählt sein -> für Kämpfe gedacht
-
-            */
-
-            i.putExtra(co.HEROES_NAME,heroList.get(lastSelectedHeroIndex).getHeroName());
-            i.putExtra(co.HEROES_PRIMARY_CLASS, heroList.get(lastSelectedHeroIndex).getClassPrimary());
-            i.putExtra(co.HEROES_SECONDARY_CLASS,heroList.get(lastSelectedHeroIndex).getClassSecondary());
-            i.putExtra(co.HEROES_HITPOINTS,heroList.get(lastSelectedHeroIndex).getHp());
-            i.putExtra(co.HEROES_COSTS, heroList.get(lastSelectedHeroIndex).getCosts());
-            i.putExtra(co.IMAGE_RESOURCE,heroList.get(lastSelectedHeroIndex).getImageResource());
-        }
-
-        i.putExtra(co.ORIGIN, "HeroCampActivity");
-    }
-
     public void dismissHero(View v){
         if((lastSelectedHeroIndex != -1)){
 
@@ -206,6 +195,38 @@ public class HeroCampActivity extends Activity {
             setSellAndFightViews();
             heroGridView.invalidateViews();
         }
+    }
+
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
+
+    public void passHeroesParameterstoNewActivity(Intent i){
+        ConstRes co = new ConstRes();
+
+        if(lastSelectedHeroIndex != -1){
+
+             /*
+
+             Um die Funktion nutzen zu können, muss ein Held ausgewählt sein -> für Kämpfe gedacht
+
+            */
+
+            i.putExtra(co.HEROES_NAME, heroList.get(lastSelectedHeroIndex).getHeroName());
+            i.putExtra(co.HEROES_PRIMARY_CLASS, heroList.get(lastSelectedHeroIndex).getClassPrimary());
+            i.putExtra(co.HEROES_SECONDARY_CLASS,heroList.get(lastSelectedHeroIndex).getClassSecondary());
+            i.putExtra(co.HEROES_HITPOINTS, heroList.get(lastSelectedHeroIndex).getHp());
+            i.putExtra(co.HEROES_COSTS, heroList.get(lastSelectedHeroIndex).getCosts());
+            i.putExtra(co.IMAGE_RESOURCE, heroList.get(lastSelectedHeroIndex).getImageResource());
+        }
+
+        i.putExtra(co.ORIGIN, "HeroCampActivity");
     }
 
     private void setSlotsView(){
@@ -229,16 +250,11 @@ public class HeroCampActivity extends Activity {
 
 
 
+    /*
 
+    Adapter
 
-
-
-
-
-
-
-
-
+     */
 
 
 
@@ -311,6 +327,16 @@ public class HeroCampActivity extends Activity {
         }
     }
 
+
+
+    /*
+
+    Funktionen zur Auslagerungen
+
+     */
+
+
+
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.
         // Set the content to appear under the system bars so that the content
@@ -323,5 +349,4 @@ public class HeroCampActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
-
 }

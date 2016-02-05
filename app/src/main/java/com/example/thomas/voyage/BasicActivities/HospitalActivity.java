@@ -46,9 +46,10 @@ public class HospitalActivity extends Activity {
         Um Helden heilen zu lassen, wird dieser über
 
          -> freie Hospital-Fläche antippen
-         -> Helden in 'HeroCampActivity' auswählen
-         -> Datenbank-Index wird an 'HospitalActivity' zurückgereicht
-         -> Held wird angelegt
+         -> 'HeroCampActivity' starten und angetippten slotIndex mitgeben
+         -> Helden in 'HeroCampActivity' auswählen - "MedSlotIndex"-Eintrag wird angepasst
+         -> zurück zu 'HospitalActivity'
+         -> Held wird angezeigt
 
         eingetragen.
 

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="220dp"
     android:orientation="horizontal"
-    android:background="@drawable/rounded_corners_black"
+    android:background="@drawable/ripple_grey_7000_to_white"
     android:layout_margin="20dp"
     android:stateListAnimator="@anim/elevation_heroes_camp_card">
 
@@ -25,7 +25,6 @@
             android:layout_height="match_parent"
             android:layout_weight="4"
             android:orientation="vertical"
-            android:background="@color/grey_7000"
             android:id="@+id/layout_camp_right_panel">
 
             <TextView
@@ -144,18 +143,6 @@
                     android:textColor="#626262"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="3"
-                android:gravity="center"
-                android:text="mehr..."
-                android:fontFamily="sans-serif-light"
-                android:textSize="15sp"
-                android:textStyle="italic"
-                android:textColor="#383838"
-                android:visibility="gone" />
 
         </LinearLayout>
 
