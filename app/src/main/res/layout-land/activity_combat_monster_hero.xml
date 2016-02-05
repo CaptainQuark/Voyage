@@ -20,15 +20,23 @@
             android:src="@mipmap/journey_b6"
             android:scaleType="centerCrop"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:background="@drawable/gradient90"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="410dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:text="Testsetset"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:layout_marginTop="50dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:padding="20dp"
+                android:background="#76ffffff" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -72,7 +80,7 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/soft_gray_background">
+        android:background="@color/grey_7000">
 
         <TextView
             android:layout_width="match_parent"
@@ -83,7 +91,8 @@
             android:textColor="#000000"
             android:gravity="center"
             android:textStyle="bold"
-            android:background="#00ffffff" />
+            android:background="@color/soft_gray_background"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -94,7 +103,8 @@
             android:gravity="center"
             android:text="SINGLE\nOUT"
             android:textStyle="bold"
-            android:background="#00ffffff" />
+            android:background="@color/soft_gray_background"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -105,7 +115,8 @@
             android:gravity="center"
             android:text="X 2"
             android:textStyle="bold"
-            android:background="#00ffffff" />
+            android:background="@color/soft_gray_background"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -116,7 +127,8 @@
             android:gravity="center"
             android:text="SINGLE\nIN"
             android:textStyle="bold"
-            android:background="#00ffffff" />
+            android:background="@color/soft_gray_background"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -127,7 +139,8 @@
             android:gravity="center"
             android:text="BULL"
             android:textStyle="bold"
-            android:background="#00ffffff" />
+            android:background="@color/soft_gray_background"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -138,7 +151,7 @@
             android:gravity="center"
             android:text="EYE"
             android:textStyle="bold"
-            android:background="#00ffffff" />
+            android:background="@color/soft_gray_background" />
 
     </LinearLayout>
 

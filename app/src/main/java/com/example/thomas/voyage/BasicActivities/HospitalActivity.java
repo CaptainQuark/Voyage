@@ -2,6 +2,7 @@ package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -171,11 +172,20 @@ public class HospitalActivity extends Activity {
         }
 
         if(!isUsed){
+
+            Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+            i.putExtra("ORIGIN", "HospitalActivity");
+            i.putExtra("SLOT_INDEX", slotIndex);
+            startActivity(i);
+            finish();
+
+            /*
             lastSelectedSlotIndex = -1;
             brokenHeroList.add(new BrokenHero(slotIndex + 1, slotIndex));
             slotsList.get( slotIndex ).showHero(
                     brokenHeroList.get(brokenHeroList.size() - 1)
             );
+            */
 
         }else{
             abortMedicationView.setTextColor(Color.parseColor("#ffffff"));

@@ -43,6 +43,7 @@ public class CombatMonsterHeroActivity extends Activity {
     }
 
 
+
     /*
 
     Funktionen
@@ -50,9 +51,11 @@ public class CombatMonsterHeroActivity extends Activity {
     */
 
 
+
     public void onClick(View v){
         Msg.msg(getApplicationContext(), "onClick called");
     }
+
 
 
     /*
@@ -60,6 +63,7 @@ public class CombatMonsterHeroActivity extends Activity {
     Klassen
 
     */
+
 
 
     private class ValuesContainer{
@@ -83,11 +87,12 @@ public class CombatMonsterHeroActivity extends Activity {
                     lastSelectedValIndex = index;
                     lastSelectedValView = (TextView) view;
 
-                    view.setBackground((isActive = !isActive) ? getResources().getDrawable(R.drawable.ripple_from_darkgrey_to_black) : getResources().getDrawable(R.drawable.ripple_grey_to_black));
+                    view.setBackgroundResource((isActive = !isActive) ? R.drawable.ripple_from_darkgrey_to_black : R.drawable.ripple_grey_to_black);
                 }
             });
         }
     }
+
 
 
     /*
@@ -95,6 +100,7 @@ public class CombatMonsterHeroActivity extends Activity {
     Auslagerung von Initialisierungen
 
      */
+
 
 
     private void hideSystemUI() {

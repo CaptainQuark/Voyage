@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +31,8 @@ import java.util.List;
 public class HeroCampActivity extends Activity {
 
     private GridView heroGridView;
-    private DBheroesAdapter heroesHelper;
-    private TextView slotsView, buyHeroView, toFightView, sellView;
+    private DBheroesAdapter h;
+    private TextView slotsView, healView, toFightView, sellView;
 
     // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
     // -> Scrollen in GridView bleibt flüssig
@@ -59,22 +57,22 @@ public class HeroCampActivity extends Activity {
             origin = b.getString(c.ORIGIN, "StartActivity");
         }
 
-        heroesHelper = new DBheroesAdapter(this);
+        h = new DBheroesAdapter(this);
         heroList = new ArrayList<>();
 
         // Element n speichert für Element n in 'heroList' den Datenbank-Index i
         // -> diese Information würde in 'Hero' alleine fehlen
         heroToDatabaseList = new ArrayList<>();
-        for(int i = 1; i <= heroesHelper.getTaskCount(); i++){
-            if(!heroesHelper.getHeroName(i).equals(c.NOT_USED)){
+        for(int i = 1; i <= h.getTaskCount(); i++){
+            if(!h.getHeroName(i).equals(c.NOT_USED)){
                 heroList.add(new Hero(
-                        heroesHelper.getHeroName(i),
-                        heroesHelper.getHeroPrimaryClass(i),
-                        heroesHelper.getHeroSecondaryClass(i),
-                        heroesHelper.getHeroImgRes(i),
-                        heroesHelper.getHeroHitpoints(i),
-                        heroesHelper.getHeroHitpointsTotal(i),
-                        heroesHelper.getHeroCosts(i)
+                        h.getHeroName(i),
+                        h.getHeroPrimaryClass(i),
+                        h.getHeroSecondaryClass(i),
+                        h.getHeroImgRes(i),
+                        h.getHeroHitpoints(i),
+                        h.getHeroHitpointsTotal(i),
+                        h.getHeroCosts(i)
                 ));
 
                 heroToDatabaseList.add(i);
@@ -96,7 +94,7 @@ public class HeroCampActivity extends Activity {
         });
 
         slotsView = (TextView) findViewById(R.id.textview_camp_slots);
-        buyHeroView = (TextView) findViewById(R.id.textview_camp_buy_hero);
+        healView = (TextView) findViewById(R.id.textview_camp_heal_hero);
         toFightView = (TextView) findViewById(R.id.textview_camp_to_fight);
         sellView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
         setSlotsView();
@@ -115,10 +113,25 @@ public class HeroCampActivity extends Activity {
         finish();
     }
 
-    public void campBuyNewHero(View v){
-        Intent i = new Intent(this, MerchantHeroActivity.class);
-        startActivity(i);
-        finish();
+    public void campHealHero(View v){
+
+        if(lastSelectedHeroIndex == -1){
+            Msg.msg(this, "No hero selected");
+
+        }else if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1)){
+            Msg.msg(this, "Your hero doesn't need any medication");
+
+        }else{
+            int slotIndex = -1;
+            Bundle b = getIntent().getExtras();
+            if(b != null){ slotIndex = b.getInt("SLOT_INDEX", -1); }
+
+            if(!h.updateMedSlotIndex(lastSelectedHeroIndex+1, slotIndex)) Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
+
+            Intent i = new Intent(this, HospitalActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 
     public void commitToQuest(View v){
@@ -176,16 +189,15 @@ public class HeroCampActivity extends Activity {
     }
 
     public void dismissHero(View v){
-        ConstRes c = new ConstRes();
         if((lastSelectedHeroIndex != -1)){
 
             SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
             long money = prefs.getLong("currentMoneyLong", -1);
 
             // Annahme: 'costs' wurde bereits nach Kauf des Helden abgewertet und entspricht jetzt dem akutellen Verkaufswert
-            prefs.edit().putLong("currentMoneyLong", money + heroesHelper.getHeroCosts(lastSelectedHeroIndex+1)).apply();
+            prefs.edit().putLong("currentMoneyLong", money + h.getHeroCosts(lastSelectedHeroIndex+1)).apply();
 
-            heroesHelper.markOneRowAsUnused(heroToDatabaseList.get(lastSelectedHeroIndex));
+            h.markOneRowAsUnused(heroToDatabaseList.get(lastSelectedHeroIndex));
             heroList.remove(lastSelectedHeroIndex);
             heroToDatabaseList.remove(lastSelectedHeroIndex);
 
@@ -197,19 +209,21 @@ public class HeroCampActivity extends Activity {
     }
 
     private void setSlotsView(){
-        slotsView.setText(heroList.size() + " / " + heroesHelper.getTaskCount());
-        if(heroList.size() == heroesHelper.getTaskCount()) buyHeroView.setTextColor(Color.parseColor("#707070"));
-        else buyHeroView.setTextColor(Color.WHITE);
+        slotsView.setText(heroList.size() + " / " + h.getTaskCount());
     }
 
     private void setSellAndFightViews(){
         if(lastSelectedHeroIndex == -1){
             sellView.setTextColor(Color.parseColor("#707070"));
             toFightView.setTextColor(Color.parseColor("#707070"));
+            healView.setTextColor(Color.parseColor("#707070"));
         }
         else {
             sellView.setTextColor(Color.WHITE);
             toFightView.setTextColor(Color.WHITE);
+            if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1))
+                healView.setTextColor(Color.parseColor("#707070"));
+            else toFightView.setTextColor(Color.WHITE);
         }
     }
 

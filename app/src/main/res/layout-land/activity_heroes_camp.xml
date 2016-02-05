@@ -6,13 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.thomas.voyage.BasicActivities.HeroCampActivity"
-    android:background="@android:color/black">
+    android:background="@color/standard_background">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="11"
-        android:background="@color/standard_background">
+        android:layout_weight="11">
 
 <!--
         <ImageView
@@ -35,7 +34,8 @@
             android:stretchMode="columnWidth"
             android:gravity="center"
             android:verticalSpacing="35dp"
-            android:horizontalSpacing="35dp">
+            android:horizontalSpacing="35dp"
+            android:background="@drawable/ripple_backbutton_camp_from_standard">
         </GridView>
 
     </FrameLayout>
@@ -44,7 +44,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/black"
         android:orientation="horizontal"
         android:layout_marginTop="1dp">
 
@@ -54,7 +53,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@drawable/ripple_backbutton"
+            android:background="@color/standard_background"
             android:onClick="heroesCampBackButton"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
@@ -66,7 +65,6 @@
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@android:color/black"
             android:gravity="center"
             android:text="X / Y"
             android:textColor="#707070"
@@ -80,7 +78,6 @@
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@android:color/black"
             android:gravity="center"
             android:text="Helden verkaufen"
             android:textColor="#707070"
@@ -93,7 +90,6 @@
             android:layout_height="match_parent"
             android:layout_marginRight="0dp"
             android:layout_weight="1"
-            android:background="@android:color/black"
             android:gravity="center"
             android:text="Auf in den Kampf!"
             android:textColor="#707070"
@@ -102,16 +98,15 @@
             android:fontFamily="sans-serif-light" />
 
         <TextView
-            android:id="@+id/textview_camp_buy_hero"
+            android:id="@+id/textview_camp_heal_hero"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@android:color/black"
             android:gravity="center"
-            android:text="Helden kaufen"
-            android:textColor="#ffffff"
+            android:text="Helden heilen"
+            android:textColor="#707070"
             android:textSize="15sp"
-            android:onClick="campBuyNewHero"
+            android:onClick="campHealHero"
             android:layout_marginRight="0dp"
             android:fontFamily="sans-serif-light" />
 
