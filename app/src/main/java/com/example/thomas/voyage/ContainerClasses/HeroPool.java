@@ -2,6 +2,7 @@ package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
 import android.util.Log;
+import java.util.Random;
 
 import java.util.ArrayList;
 
@@ -12,8 +13,11 @@ public class HeroPool {
     private static String sClass;       //Sekundärklasse
     private static String neededBiome;  //Die Umgebung, die der Held zum spawnen benötigt, überall falls 'null'
     private static int rarity;          //Unterteilung der Klassen in Seltenheitsblöcke
-    private static int hpMin;           //HP randomness Ober- und Untergrenze, werden durch
-    private static int hpMax;           //die Primärklasse vorgegeben
+    private static int pHp;
+    private static int sHp;
+    private static double pHpWeight;
+    private static double sHpWeight;
+    //HpWeight: Gewichtung des Wertes d. jeweiligen Klasse, vergrößert dessen Bereich im rand.Gen!
     private static int costs;           //Heldenkosten
     private static int costsBase;       //Kosten des Primärklassenbausteins
     private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
@@ -72,8 +76,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Waldläufer";
-                            hpMin = 40;
-                            hpMax = 50;
+                            pHp = 300;
                             neededBiome = null;
                             break;
                         default:
@@ -91,8 +94,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Kneipenschläger";
-                            hpMin = 40;
-                            hpMax = 50;
+                            pHp = 350;
                             neededBiome = null;
                             break;
                         default:
@@ -110,8 +112,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Monsterjäger";
-                            hpMin = 40;
-                            hpMax = 50;
+                            pHp = 380;
                             neededBiome = null;
                             break;
                         default:
@@ -129,8 +130,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             pClass = "Sehr Selten";
-                            hpMin = 40;
-                            hpMax = 50;
+                            pHp = 400;
                             neededBiome = null;
                             break;
                         default:
@@ -143,19 +143,6 @@ public class HeroPool {
                     break;
             }
         return pClass;
-    }
-
-    public static int setHitPoints() {
-        //Liefert die zufälligen HP, deren Rahmen oben durch die Primär-Klasse gegeben wurde
-        //Ob-8: Nur wenn hpMin/hpMax zwischen 1 und 100 liegen!!
-
-        int hitPoints;
-
-        do {
-            hitPoints = (int) (Math.random() * 100);
-        }
-        while (hitPoints < hpMin || hitPoints > hpMax);
-        return hitPoints;
     }
 
     public static String setClassSecondary() {
@@ -184,6 +171,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             sClass = "Spion";
+                            sHp = 200;
                             break;
                         default:
                             run = true;
@@ -199,7 +187,8 @@ public class HeroPool {
 
                     switch ((int) (Math.random() * 100)) {
                         case 1:
-                            sClass = "Spion";
+                            sClass = "Schurke";
+                            sHp = 300;
                             break;
                         default:
                             run = true;
@@ -216,6 +205,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             sClass = "Glaubenskrieger";
+                            sHp = 400;
                             break;
                         default:
                             run = true;
@@ -232,6 +222,7 @@ public class HeroPool {
                     switch ((int) (Math.random() * 100)) {
                         case 1:
                             sClass = "Sehr Seltene Unterklasse";
+                            sHp = 400;
                             break;
                         default:
                             run = true;
@@ -243,6 +234,35 @@ public class HeroPool {
                 break;
         }
         return sClass;
+    }
+
+    public static int setHitPoints() {
+
+        Random random = new Random();
+        int hitPoints;
+        int hpMax = sHp;
+        int hpMin = pHp;
+        double hpMaxWeight = sHpWeight;
+        double hpMinWeight = pHpWeight;
+
+        if(pHp > sHp){
+            hpMax = pHp;
+            hpMin = sHp;
+            hpMaxWeight = pHpWeight;
+            hpMinWeight = sHpWeight;
+        }
+
+        int hpMean = (hpMax + hpMin) / 2;
+        int hpMaxArea = (int) ((hpMean - hpMin) / hpMaxWeight);
+        int hpMinArea = (int) ((hpMax - hpMean) / hpMinWeight);
+        int hpMaxQuartile = hpMean + hpMaxArea;
+        int hpMinQuartile = hpMean - hpMinArea;
+        //Man stelle sich einen Boxplot vor; um den Mittelwert herum wird ein Bereich geschaffen,
+        //in dem dann die HP zufällig ermittelt werden
+
+        hitPoints = random.nextInt(hpMaxQuartile - hpMinQuartile) + hpMinQuartile;
+
+        return hitPoints;
     }
 
     public int getCosts() {
