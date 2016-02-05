@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.BasicActivities.HeroCampActivity;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
 import com.example.thomas.voyage.BasicActivities.HeroesPartyActivity;
@@ -84,7 +85,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     }
 
     public void chooseHeroForCombat(View view){
-        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
         i.putExtra("ORIGIN", "WorldMapQuickCombatActivity");
         startActivity(i);
         finish();

@@ -19,7 +19,9 @@ import java.util.List;
 public class CombatMonsterHeroActivity extends Activity {
 
     private final int numValues = 20;
+    private int lastSelectedValIndex = -1;
     private List<ValuesContainer> valListContainer;
+    private TextView lastSelectedValView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +51,7 @@ public class CombatMonsterHeroActivity extends Activity {
 
 
     public void onClick(View v){
-
-        for(int i = 0; i < numValues; i++){
-            if(v.getId() == valListContainer.get(i).res){
-                Msg.msg(getApplicationContext(), "Cell " + i + " tapped! Hurray!");
-                valListContainer.get(i).setNewBackground();
-            }
-        }
+        Msg.msg(getApplicationContext(), "onClick called");
     }
 
 
@@ -68,16 +64,28 @@ public class CombatMonsterHeroActivity extends Activity {
 
     private class ValuesContainer{
         private TextView valView;
-        private int res;
+        private int res, index;
+        private boolean isActive = false;
 
-        public ValuesContainer(int index){
+        public ValuesContainer(final int index){
+            this.index = index;
             res = getResources().getIdentifier("cell_com_val_" + index, "id", getPackageName());
             valView = (TextView) findViewById(getResources().getIdentifier("cell_com_val_" + index, "id", getPackageName()));
             valView.setText(String.valueOf(index + 1));
-        }
 
-        public void setNewBackground(){
-            valView.setBackgroundColor(Color.BLUE);
+            valView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(!(lastSelectedValView == null) && lastSelectedValIndex != index)
+                        lastSelectedValView.setBackground(getResources().getDrawable(R.drawable.ripple_grey_to_black));
+
+                    lastSelectedValIndex = index;
+                    lastSelectedValView = (TextView) view;
+
+                    view.setBackground((isActive = !isActive) ? getResources().getDrawable(R.drawable.ripple_from_darkgrey_to_black) : getResources().getDrawable(R.drawable.ripple_grey_to_black));
+                }
+            });
         }
     }
 
