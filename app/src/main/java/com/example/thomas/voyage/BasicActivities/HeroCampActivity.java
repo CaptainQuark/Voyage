@@ -323,6 +323,13 @@ public class HeroCampActivity extends Activity {
                 holder.rightPanelLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
             }
 
+            holder.profileView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Msg.msg(getApplication(), "Profile tapped!");
+                }
+            });
+
             return convertView;
         }
     }
