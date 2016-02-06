@@ -312,7 +312,7 @@ public class HeroCampActivity extends Activity {
             holder.profileView.setImageResource(getApplicationContext().getResources().getIdentifier(heroList.get(position).getImageResource(), "mipmap", getPackageName()));
             holder.nameView.setText(heroList.get(position).getHeroName() + "");
             holder.classesView.setText(heroList.get(position).getClassPrimary() + " und " + heroList.get(position).getClassSecondary());
-            holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpConst());
+            holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpTotal());
             holder.costsView.setText(heroList.get(position).getCosts() + "");
             holder.battlesView.setText("0");
 

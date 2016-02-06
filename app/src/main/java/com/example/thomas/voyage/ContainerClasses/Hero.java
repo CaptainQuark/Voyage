@@ -12,7 +12,7 @@ public class Hero {
     ConstRes co;
 
     private String heroName, classSecondary, classPrimary, imageResource;
-    private int hp, hpTotal, costs, hpConst;
+    private int hp, costs, hpTotal, evasion;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
     public Hero(Context con){
@@ -32,21 +32,22 @@ public class Hero {
         this.hpTotal = hpTotal;
         this.costs = costs;
 
-        hpConst = hp;
+        this.hpTotal = hp;
     }
 
     public void Initialize(String merchantBiome) {
 
         HeroPool heropool = new HeroPool(context);
 
-        heroName = HeroPool.setName();
-        classPrimary = HeroPool.setClassPrimary(merchantBiome);
-        hp = HeroPool.setHitPoints();
-        classSecondary = HeroPool.setClassSecondary();
-        costs = heropool.getCosts();
+        heroName = heropool.setName();
+        classPrimary = heropool.setClassPrimary(merchantBiome);
+        hp = heropool.setHitPoints();
+        classSecondary = heropool.setClassSecondary();
+        costs = heropool.setCosts();
+        evasion = heropool.setEvasion();
         imageResource = heropool.getImageResource();
 
-        hpConst = hp;
+        hpTotal = hp;
 
         //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
     }
@@ -71,8 +72,8 @@ public class Hero {
         return hp;
     }
 
-    public int getHpConst(){
-        return hpConst;
+    public int getHpTotal(){
+        return hpTotal;
     }
 
     public int getCosts(){
@@ -107,9 +108,11 @@ public class Hero {
             case "hp":
                 val = hp; break;
             case "hpConst":
-                val = hpConst; break;
+                val = hpTotal; break;
             case "costs":
                 val = costs; break;
+            case "evasion":
+                val = evasion; break;
             default:
                 val = 666; break;
         }
@@ -126,5 +129,4 @@ public class Hero {
                 costs = val; break;
         }
     }
-
 }

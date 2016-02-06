@@ -8,27 +8,32 @@ import java.util.ArrayList;
 
 public class HeroPool {
 
-    private static String name;
-    private static String pClass;       //Primärklasse
-    private static String sClass;       //Sekundärklasse
-    private static String neededBiome;  //Die Umgebung, die der Held zum spawnen benötigt, überall falls 'null'
-    private static int rarity;          //Unterteilung der Klassen in Seltenheitsblöcke
-    private static int pHp;
-    private static int sHp;
-    private static double pHpWeight;
-    private static double sHpWeight;
+    private String name;
+    private String pClass;       //Primärklasse
+    private String sClass;       //Sekundärklasse
+    private String neededBiome;  //Die Umgebung, die der Held zum spawnen benötigt, überall falls 'null'
+    private int rarity;          //Unterteilung der Klassen in Seltenheitsblöcke
+    private int pHp;
+    private int sHp;
+    private double pHpWeight = 3;
+    private double sHpWeight = 3;
     //HpWeight: Gewichtung des Wertes d. jeweiligen Klasse, vergrößert dessen Bereich im rand.Gen!
-    private static int costs;           //Heldenkosten
-    private static int costsBase;       //Kosten des Primärklassenbausteins
-    private static double costsMultiplier; //Kosten-Multiplikator des Sekundärklassenbausteins
+    private int pCosts;       //Kosten des Primärklassenbausteins
+    private int sCosts;
+    private double pCostsWeight = 2;
+    private double sCostsWeight = 2;
+    private int pEvasion = 95;
+    private int sEvasion = 95;
+    private double pEvasionWeight = 4;
+    private double sEvasionWeight = 4;
     Context context;
-    ArrayList<String> biomes = new ArrayList<>();
+    ArrayList<String> biomesRestrictedList = new ArrayList<>();
 
     public HeroPool(Context con){
         context = con;
     }
 
-    public static String setName(){
+    public String setName(){
         String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe",
                 "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar",
                 "Beowulf","Hartmut von Heinstein", "Konrad Käsebart"};
@@ -48,9 +53,7 @@ public class HeroPool {
         return name;
     }
 
-
-    public static String setClassPrimary(String currentBiome) {
-
+    public String setClassPrimary(String currentBiome) {
         rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
         if (rarity <= 60) {                               //Wsl 60%
             rarity = 1;
@@ -61,15 +64,16 @@ public class HeroPool {
         } else if (rarity >= 90) {                          //Wsl 10% - 1/20
             rarity = 4;
         }
+        return setClassP(currentBiome);
+    }
 
+    public String setClassP(String currentBiome) {
         switch (rarity) {
             //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
             //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
             case 1:
-                costsBase = 1000;
-                for (boolean run = true; (run && currentBiome.equals("Everywhere"))
-                        || (run && neededBiome.equals("Everywhere"))
-                        || (run && currentBiome.equals(neededBiome)); ) {
+                pCosts = 1000;
+                for (boolean run = true; run; ) {
 
                     run = false;
 
@@ -77,16 +81,16 @@ public class HeroPool {
                         case 1:
                             pClass = "Waldläufer";
                             pHp = 300;
-                            neededBiome = null;
+                            biomesRestrictedList.add("Dungeon");
                             break;
                         default:
                             run = true;
                             break;
                     }
-                    }
-                    break;
+                }
+                break;
             case 2:
-                costsBase = 1500;
+                pCosts = 1500;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -95,16 +99,19 @@ public class HeroPool {
                         case 1:
                             pClass = "Kneipenschläger";
                             pHp = 350;
+                            pCosts = 900;
+                            pEvasion = 100;
+                            pEvasionWeight = 3;
                             neededBiome = null;
                             break;
                         default:
                             run = true;
                             break;
                     }
-                    }
-                    break;
+                }
+                break;
             case 3:
-                costsBase = 2000;
+                pCosts = 2000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -113,16 +120,17 @@ public class HeroPool {
                         case 1:
                             pClass = "Monsterjäger";
                             pHp = 380;
+                            pHpWeight = 2;
                             neededBiome = null;
                             break;
                         default:
                             run = true;
                             break;
                     }
-                    }
-                    break;
+                }
+                break;
             case 4:
-                costsBase = 3000;
+                pCosts = 3000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -131,21 +139,27 @@ public class HeroPool {
                         case 1:
                             pClass = "Sehr Selten";
                             pHp = 400;
+                            pCostsWeight = 1;
                             neededBiome = null;
                             break;
                         default:
                             run = true;
                             break;
                     }
-                    }
-                    break;
-                default:
-                    break;
+                }
+                break;
+            default:
+                break;
+        }
+        for (int i = 0; i < biomesRestrictedList.size(); i++) {
+            if(biomesRestrictedList.get(i).equals(currentBiome)){
+            setClassP(currentBiome);
             }
+        }
         return pClass;
     }
 
-    public static String setClassSecondary() {
+    public String setClassSecondary() {
         //Wählt eine der Seltenheits-Klassen aus
 
         rarity = (int) (Math.random() * 100);
@@ -163,7 +177,7 @@ public class HeroPool {
             //Je nach Seltenheit wird nun aus einer Sekundär-Klasse zufällig gezogen
 
             case 1:
-                costsMultiplier = 1;
+                sCosts = 1000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -172,6 +186,10 @@ public class HeroPool {
                         case 1:
                             sClass = "Spion";
                             sHp = 200;
+                            sHpWeight = 2;
+                            sCostsWeight = 3;
+                            sEvasion = 90;
+                            sEvasionWeight = 2;
                             break;
                         default:
                             run = true;
@@ -180,7 +198,7 @@ public class HeroPool {
                 }
                 break;
             case 2:
-                costsMultiplier = 1.2;
+                sCosts = 1200;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -197,7 +215,7 @@ public class HeroPool {
                 }
                 break;
             case 3:
-                costsMultiplier = 1.5;
+                sCosts = 1500;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -214,7 +232,7 @@ public class HeroPool {
                 }
                 break;
             case 4:
-                costsMultiplier = 2;
+                sCosts = 2000;
                 for (boolean run = true; run; ) {
 
                     run = false;
@@ -236,53 +254,24 @@ public class HeroPool {
         return sClass;
     }
 
-    public static int setHitPoints() {
-
-        Random random = new Random();
-        int hitPoints;
-        int hpMax = sHp;
-        int hpMin = pHp;
-        double hpMaxWeight = sHpWeight;
-        double hpMinWeight = pHpWeight;
-
-        if(pHp > sHp){
-            hpMax = pHp;
-            hpMin = sHp;
-            hpMaxWeight = pHpWeight;
-            hpMinWeight = sHpWeight;
-        }
-
-        int hpMean = (hpMax + hpMin) / 2;
-        int hpMaxArea = (int) ((hpMean - hpMin) / hpMaxWeight);
-        int hpMinArea = (int) ((hpMax - hpMean) / hpMinWeight);
-        int hpMaxQuartile = hpMean + hpMaxArea;
-        int hpMinQuartile = hpMean - hpMinArea;
-        //Man stelle sich einen Boxplot vor; um den Mittelwert herum wird ein Bereich geschaffen,
-        //in dem dann die HP zufällig ermittelt werden
-
-        hitPoints = random.nextInt(hpMaxQuartile - hpMinQuartile) + hpMinQuartile;
-
-        return hitPoints;
-    }
-
-    public static int setRandomVal(int pVal, int sVal) {
+    public int setRandomVal(int pVal, int sVal, double pValWeight, double sValWeight) {
 
         Random random = new Random();
         int finalVal;
         int valMax = sVal;
         int valMin = pVal;
-        double valMaxWeight = sHpWeight;
-        double valMinWeight = pHpWeight;
+        double valMaxWeight = sValWeight;
+        double valMinWeight = pValWeight;
 
-        if(pHp > sHp){
-            valMax = pHp;
-            valMin = sHp;
-            valMinWeight = pHpWeight;
-            valMinWeight = sHpWeight;
+        if(pVal > sVal){
+            valMax = pVal;
+            valMin = sVal;
+            valMaxWeight = pValWeight;
+            valMinWeight = sValWeight;
         }
 
         int valMean = (valMax + valMin) / 2;
-        int valMaxArea = (int) ((valMean - valMin) / valMinWeight);
+        int valMaxArea = (int) ((valMean - valMin) / valMaxWeight);
         int valMinArea = (int) ((valMax - valMean) / valMinWeight);
         int valMaxQuartile = valMean + valMaxArea;
         int valMinQuartile = valMean - valMinArea;
@@ -294,8 +283,16 @@ public class HeroPool {
         return finalVal;
     }
 
-    public int getCosts() {
-        return (int) (costsBase * costsMultiplier);
+    public int setHitPoints() {
+        return setRandomVal(pHp, sHp, pHpWeight, sHpWeight);
+    }
+
+    public int setCosts() {
+        return setRandomVal(pCosts, sCosts, pCostsWeight, sCostsWeight);
+    }
+
+    public int setEvasion() {
+        return setRandomVal(pEvasion, sEvasion, pEvasionWeight, sEvasionWeight);
     }
 
     public String getImageResource(){
