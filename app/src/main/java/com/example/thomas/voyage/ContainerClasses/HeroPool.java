@@ -265,6 +265,35 @@ public class HeroPool {
         return hitPoints;
     }
 
+    public static int setRandomVal(int pVal, int sVal) {
+
+        Random random = new Random();
+        int finalVal;
+        int valMax = sVal;
+        int valMin = pVal;
+        double valMaxWeight = sHpWeight;
+        double valMinWeight = pHpWeight;
+
+        if(pHp > sHp){
+            valMax = pHp;
+            valMin = sHp;
+            valMinWeight = pHpWeight;
+            valMinWeight = sHpWeight;
+        }
+
+        int valMean = (valMax + valMin) / 2;
+        int valMaxArea = (int) ((valMean - valMin) / valMinWeight);
+        int valMinArea = (int) ((valMax - valMean) / valMinWeight);
+        int valMaxQuartile = valMean + valMaxArea;
+        int valMinQuartile = valMean - valMinArea;
+        //Man stelle sich einen Boxplot vor; um den Mittelwert herum wird ein Bereich geschaffen,
+        //in dem dann die HP zufällig ermittelt werden
+
+        finalVal = random.nextInt(valMaxQuartile - valMinQuartile) + valMinQuartile;
+
+        return finalVal;
+    }
+
     public int getCosts() {
         return (int) (costsBase * costsMultiplier);
     }
