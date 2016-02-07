@@ -138,6 +138,34 @@ public class HeroCampActivity extends Activity {
             Bundle b = getIntent().getExtras();
             if(b != null){ slotIndex = b.getInt("SLOT_INDEX", -1); }
 
+
+            if(slotIndex == -1){
+                int[] slotsArray = {1,1,1};
+
+                for(int i = 1; i <= h.getTaskCount(); i++){
+                    switch (h.getMedSlotIndex(i)){
+                        case 0:
+                            slotsArray[0] = -1;
+                            break;
+                        case 1:
+                            slotsArray[1] = -1;
+                            break;
+                        case 2:
+                            slotsArray[2] = -1;
+                            break;
+                    }
+                }
+
+                for(int i = 0; i < slotsArray.length; i++){
+                    if(slotsArray[i] == 1){
+                        slotIndex = i;
+                        i = slotsArray.length;
+                    }
+                }
+
+                if(slotIndex == -1) Msg.msg(this, "No free medic available");
+            }
+
             if(!h.updateMedSlotIndex(lastSelectedHeroIndex+1, slotIndex)) Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
 
             if(slotIndex >= 0 && slotIndex <= 2){
@@ -146,19 +174,17 @@ public class HeroCampActivity extends Activity {
                 float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
                 long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
 
-                if(money >= 0)
+                if(money >= 0){
                     prefs.edit().putLong("currentMoneyLong", money);
-                else
+                    Intent i = new Intent(this, HospitalActivity.class);
+                    startActivity(i);
+                    finish();
+                } else
                     Msg.msg(this, "Not enough money, boy!");
 
             }else{
                 Msg.msg(this, "ERROR @ campHealHero : invalid slotIndex");
             }
-
-
-            Intent i = new Intent(this, HospitalActivity.class);
-            startActivity(i);
-            finish();
         }
     }
 
@@ -336,11 +362,11 @@ public class HeroCampActivity extends Activity {
             }
 
             holder.profileView.setImageResource(getApplicationContext().getResources().getIdentifier(heroList.get(position).getImageResource(), "mipmap", getPackageName()));
-            holder.nameView.setText(heroList.get(position).getHeroName() + "");
+            holder.nameView.setText(String.valueOf(heroList.get(position).getHeroName()));
             holder.classesView.setText(heroList.get(position).getClassPrimary() + " und " + heroList.get(position).getClassSecondary());
             holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpTotal());
-            holder.costsView.setText(heroList.get(position).getCosts() + "");
-            holder.evasionView.setText("0");
+            holder.costsView.setText(String.valueOf(heroList.get(position).getCosts()));
+            holder.evasionView.setText(String.valueOf(heroList.get(position).getEvasion()));
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
                 holder.rightPanelLayout.setBackgroundColor(Color.WHITE);
@@ -353,6 +379,17 @@ public class HeroCampActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     Msg.msg(getApplication(), "Profile tapped!");
+                }
+            });
+
+            holder.profileView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    heroList.get(position).setHp(heroList.get(position).getHp() - 20);
+                    h.updateHeroHitpoints(position+1, heroList.get(position).getHp());
+                    heroGridView.invalidateViews();
+                    setToolbarViews();
+                    return false;
                 }
             });
 
