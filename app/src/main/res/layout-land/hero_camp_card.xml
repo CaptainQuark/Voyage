@@ -136,13 +136,24 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="top|center"
-                    android:text="Schlachten"
+                    android:text="Ausflucht"
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="13sp"
                     android:textColor="#626262"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:text="Held in Behandlung"
+                android:gravity="center"
+                android:textColor="@android:color/holo_red_dark"
+                android:fontFamily="sans-serif-light"
+                android:id="@+id/textView_camp_card_hero_in_medication"
+                android:visibility="gone" />
 
         </LinearLayout>
 

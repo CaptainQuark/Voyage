@@ -32,7 +32,6 @@ public class Hero {
         this.hpTotal = hpTotal;
         this.costs = costs;
         this.evasion = evasion;
-        this.hpTotal = hp;
     }
 
     public void Initialize(String merchantBiome) {

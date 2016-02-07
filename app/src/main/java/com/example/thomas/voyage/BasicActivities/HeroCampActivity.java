@@ -37,7 +37,7 @@ public class HeroCampActivity extends Activity {
     // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
     // -> Scrollen in GridView bleibt flüssig
     private List<Hero> heroList;
-    private List<Integer> heroToDatabaseList;
+    //private List<Integer> heroToDatabaseList;
     private String origin = "";
     private boolean somethingSelected = true;
 
@@ -60,9 +60,6 @@ public class HeroCampActivity extends Activity {
         h = new DBheroesAdapter(this);
         heroList = new ArrayList<>();
 
-        // Element n speichert für Element n in 'heroList' den Datenbank-Index i
-        // -> diese Information würde in 'Hero' alleine fehlen
-        heroToDatabaseList = new ArrayList<>();
         for(int i = 1; i <= h.getTaskCount(); i++){
             if(!h.getHeroName(i).equals(c.NOT_USED)){
                 heroList.add(new Hero(
@@ -75,8 +72,6 @@ public class HeroCampActivity extends Activity {
                         h.getHeroCosts(i),
                         h.getEvasion(i)
                 ));
-
-                heroToDatabaseList.add(i);
             }
         }
 
@@ -191,7 +186,7 @@ public class HeroCampActivity extends Activity {
     public void commitToQuest(View v){
         Intent i;
 
-        if(lastSelectedHeroIndex != -1){
+        if(lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1){
             switch (origin){
                 case "PrepareCombatActivity":
                     i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
@@ -216,12 +211,12 @@ public class HeroCampActivity extends Activity {
             }
 
         }else{
-            Msg.msg(this, "Commit To Quest?");
+            Msg.msg(this, "Commit To Quest? Not possible now...");
         }
     }
 
     public void dismissHero(View v){
-        if((lastSelectedHeroIndex != -1)){
+        if((lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1)){
 
             SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
             long money = prefs.getLong("currentMoneyLong", -1);
@@ -229,14 +224,15 @@ public class HeroCampActivity extends Activity {
             // Annahme: 'costs' wurde bereits nach Kauf des Helden abgewertet und entspricht jetzt dem akutellen Verkaufswert
             prefs.edit().putLong("currentMoneyLong", money + h.getHeroCosts(lastSelectedHeroIndex+1)).apply();
 
-            h.markOneRowAsUnused(heroToDatabaseList.get(lastSelectedHeroIndex));
+            h.markOneRowAsUnused(lastSelectedHeroIndex + 1);
             heroList.remove(lastSelectedHeroIndex);
-            heroToDatabaseList.remove(lastSelectedHeroIndex);
 
             lastSelectedHeroIndex = -1;
             setSlotsView();
             setToolbarViews();
             heroGridView.invalidateViews();
+        }else{
+            Msg.msgShort(this, "No fight now.");
         }
     }
 
@@ -332,7 +328,7 @@ public class HeroCampActivity extends Activity {
         // und müssen nicht jedes Mal neu zugewiesen werden
         class ViewHolder {
 
-            private TextView nameView,classesView, hpView, costsView, evasionView;
+            private TextView nameView,classesView, hpView, costsView, evasionView, inMedicationView;
             private ImageView profileView;
             private LinearLayout rightPanelLayout;
 
@@ -344,6 +340,7 @@ public class HeroCampActivity extends Activity {
                 evasionView = (TextView) v.findViewById(R.id.textView_camp_card_evasion);
                 profileView = (ImageView) v.findViewById(R.id.imageView_camp_card_profile);
                 rightPanelLayout = (LinearLayout) v.findViewById(R.id.layout_camp_right_panel);
+                inMedicationView = (TextView) v.findViewById(R.id.textView_camp_card_hero_in_medication);
             }
         }
 
@@ -375,6 +372,9 @@ public class HeroCampActivity extends Activity {
                 holder.rightPanelLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
             }
 
+            if(h.getMedSlotIndex(position+1) != -1) holder.inMedicationView.setVisibility(View.VISIBLE);
+            else holder.inMedicationView.setVisibility(View.GONE);
+
             holder.profileView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -386,10 +386,20 @@ public class HeroCampActivity extends Activity {
                 @Override
                 public boolean onLongClick(View view) {
                     heroList.get(position).setHp(heroList.get(position).getHp() - 20);
-                    h.updateHeroHitpoints(position+1, heroList.get(position).getHp());
+                    h.updateHeroHitpoints(position + 1, heroList.get(position).getHp());
                     heroGridView.invalidateViews();
                     setToolbarViews();
                     return false;
+                }
+            });
+
+            holder.nameView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Msg.msg(getApplicationContext(), "hp now by list: " + heroList.get(position).getHp());
+                    Msg.msg(getApplicationContext(), "hp now by db: " + h.getHeroHitpoints(position+1));
+                    Msg.msg(getApplicationContext(), "hpTotal now by list: " + heroList.get(position).getHpTotal());
+                    Msg.msg(getApplicationContext(), "hpTotal now by db: " + h.getHeroHitpointsTotal(position + 1));
                 }
             });
 
@@ -401,7 +411,7 @@ public class HeroCampActivity extends Activity {
 
     /*
 
-    Funktionen zur Auslagerungen
+    Funktionen zur Auslagerung
 
      */
 
