@@ -2,6 +2,7 @@ package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
 import android.util.Log;
+
 import java.util.Random;
 
 import java.util.ArrayList;
@@ -29,21 +30,21 @@ public class HeroPool {
     Context context;
     ArrayList<String> biomesRestrictedList = new ArrayList<>();
 
-    public HeroPool(Context con){
+    public HeroPool(Context con) {
         context = con;
     }
 
-    public String setName(){
+    public String setName() {
         String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe",
                 "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar",
-                "Beowulf","Hartmut von Heinstein", "Konrad Käsebart"};
+                "Beowulf", "Hartmut von Heinstein", "Konrad Käsebart"};
 
         //Zufälliger Namens-Generator
         for (boolean run = true; run; ) {
             run = false;
 
             int count = (int) (Math.random() * 100);
-            if( count >= nameArray.length) run = true;
+            if (count >= nameArray.length) run = true;
             else name = nameArray[count];
 
             Log.i("HERONAME", "count : " + count);
@@ -152,8 +153,8 @@ public class HeroPool {
                 break;
         }
         for (int i = 0; i < biomesRestrictedList.size(); i++) {
-            if(biomesRestrictedList.get(i).equals(currentBiome)){
-            setClassP(currentBiome);
+            if (biomesRestrictedList.get(i).equals(currentBiome)) {
+                setClassP(currentBiome);
             }
         }
         return pClass;
@@ -263,7 +264,7 @@ public class HeroPool {
         double valMaxWeight = sValWeight;
         double valMinWeight = pValWeight;
 
-        if(pVal > sVal){
+        if (pVal > sVal) {
             valMax = pVal;
             valMin = sVal;
             valMaxWeight = pValWeight;
@@ -295,7 +296,7 @@ public class HeroPool {
         return setRandomVal(pEvasion, sEvasion, pEvasionWeight, sEvasionWeight);
     }
 
-    public String getImageResource(){
+    public String getImageResource() {
         int j = -1;
 
         for (; !(j >= 0 && j < 8); ) {

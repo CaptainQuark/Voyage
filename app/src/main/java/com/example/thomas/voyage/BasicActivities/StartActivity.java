@@ -238,21 +238,22 @@ public class StartActivity extends Activity {
 
     private long insertToMerchantDatabase(int numberOfInserts) {
         Msg.msg(this, "'insertToMerchantDatabase'");
-        List<Hero> herosList = new ArrayList<>();
+        List<Hero> heroList = new ArrayList<>();
         long id = 0;
 
         for (int i = 0; i < numberOfInserts; i++) {
-            herosList.add(new Hero(this));
-            herosList.get(i).Initialize("Everywhere");
+            heroList.add(new Hero(this));
+            heroList.get(i).Initialize("Everywhere");
 
             // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
             id = merchantHelper.insertData(
-                    herosList.get(i).getStrings("heroName"),
-                    herosList.get(i).getInts("hp"),
-                    herosList.get(i).getStrings("classPrimary"),
-                    herosList.get(i).getStrings("classSecondary"),
-                    herosList.get(i).getInts("costs"),
-                    herosList.get(i).getStrings("imageResource"));
+                    heroList.get(i).getHeroName(),
+                    heroList.get(i).getHp(),
+                    heroList.get(i).getClassPrimary(),
+                    heroList.get(i).getClassSecondary(),
+                    heroList.get(i).getCosts(),
+                    heroList.get(i).getImageResource(),
+                    heroList.get(i).getEvasion());
 
             if (id < 0) Msg.msg(this, "ERROR @ insert of hero " + i + 1);
 

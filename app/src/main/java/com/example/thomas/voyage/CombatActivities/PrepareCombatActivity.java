@@ -16,7 +16,7 @@ import com.example.thomas.voyage.ResClasses.ConstRes;
 public class PrepareCombatActivity extends Activity {
 
     private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "", image = "", origin = "";
-    private int heroHitpoints = -1, heroCosts  =-1;
+    private int heroHitpoints = -1, heroCosts  =-1, heroEvasion = -1;
     private ConstRes co = new ConstRes();
 
 
@@ -29,8 +29,6 @@ public class PrepareCombatActivity extends Activity {
 
         ImageView heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);
         TextView toCombatView = (TextView) findViewById(R.id.pre_combat_to_battle_view);
-
-
 
         if (origin.equals("HeroesPartyActivity")) {
             heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
@@ -59,6 +57,7 @@ public class PrepareCombatActivity extends Activity {
             heroHitpoints = b.getInt(co.HEROES_HITPOINTS, -2);
             heroCosts = b.getInt(co.HEROES_COSTS, -1);
             origin = b.getString(co.ORIGIN, "");
+            heroEvasion = b.getInt("EVASION", -1);
         }
     }
 
@@ -81,6 +80,7 @@ public class PrepareCombatActivity extends Activity {
             i.putExtra(co.HEROES_COSTS, heroCosts);
             i.putExtra(co.IMAGE_RESOURCE, image);
             i.putExtra(co.ORIGIN, "PrepareCombatActivity");
+            i.putExtra("EVASION", heroEvasion);
 
             startActivity(i);
             finish();

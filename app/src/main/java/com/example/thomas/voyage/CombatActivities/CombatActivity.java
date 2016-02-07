@@ -146,10 +146,10 @@ public class CombatActivity extends Activity {
         tempScore += scoreField * multiField * monsterResistance - monsterBlock;
 
         String logTopEntry;
-        logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + (tempScore - bonusScore)
+        logTopEntry = heroList.get(0).getHeroName() + " attackiert mit " + (tempScore - bonusScore)
                 + " und " + bonusScore + " Bonusangriff!";
 
-        logTopEntry = heroList.get(0).getStrings("heroName") + " attackiert mit " + tempScore + ". ThrowCount:" + throwCount;
+        logTopEntry = heroList.get(0).getHeroName() + " attackiert mit " + tempScore + ". ThrowCount:" + throwCount;
 
         if( monsterCheckout.equals("double") && checkOutPossible(2) ){
             if( monsterHealth == (scoreField * multiField) && multiField == 2 ){
@@ -267,7 +267,7 @@ public class CombatActivity extends Activity {
     }
 
     private static void setHealthBarHero() {
-        int heroHitpoints = heroList.get(0).getInts("hp");
+        int heroHitpoints = heroList.get(0).getHp();
 
         try {
             if (heroHitpoints > 0) {
@@ -288,7 +288,7 @@ public class CombatActivity extends Activity {
                 healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
                 healthBarHeroVital.setLayoutParams((paramsBarHeroVital));
                 heroHitpointsView.setText("MONSTER GEWINNER!");
-                heroList.get(0).setInt("hp", heroHitpointsConst);
+                heroList.get(0).setHp(heroHitpointsConst);
             }
         } catch (ArithmeticException a) {
             Log.e("ARITHMETIC EXCEPTION", a + "");
@@ -513,19 +513,20 @@ public class CombatActivity extends Activity {
             int heroCosts = b.getInt("HEROES_COSTS", -1);
             String heroImgRes = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
             origin = b.getString("ORIGIN", "StartActivity");
+            int heroEvasion = b.getInt("EVASION", -1);
 
             heroHitpointsConst = heroHitpoints;
 
 
             // .add für Anzahl der Helden sowie Anzahl der Monster
-            heroList.add(new Hero(heroName, heroPrimaryClass, heroSecondaryClass, heroImgRes, heroHitpoints, heroHitpoints, heroCosts));
+            heroList.add(new Hero(heroName, heroPrimaryClass, heroSecondaryClass, heroImgRes, heroHitpoints, heroHitpoints, heroCosts, heroEvasion));
         }
 
         monsterList.add(new Monster());
         monsterHealthConst = monsterList.get(0).hp;
 
-        heroNameView.setText(heroList.get(0).getStrings("heroName"));
-        heroHitpointsView.setText(Integer.toString(heroList.get(0).getInts("hp")));
+        heroNameView.setText(heroList.get(0).getHeroName());
+        heroHitpointsView.setText(Integer.toString(heroList.get(0).getHp()));
         monsterHealthView.setText(Integer.toString(monsterList.get(0).hp));
 
         int[] numbersOfBoardList = new int[20];
@@ -545,7 +546,7 @@ public class CombatActivity extends Activity {
         healthBarHeroDamaged.setLayoutParams(paramsBarHeroDamaged);
         gridViewNumbers.setAdapter(new ScoreDialAdapter(this, numbersOfBoardList));
         gridViewSpecials.setAdapter(new ScoreMultiAdapter(this, specialSymbolsList));
-        heroProfileView.setImageResource(ImgRes.res(this, "hero", heroList.get(0).getStrings("imageResource")));
+        heroProfileView.setImageResource(ImgRes.res(this, "hero", heroList.get(0).getImageResource()));
     }
 
     private void initializeViews() {

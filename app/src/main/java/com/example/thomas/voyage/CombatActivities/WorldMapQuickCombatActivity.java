@@ -34,7 +34,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     private ImageView heroProfile;
     private TextView goInCombat;
     private String image = "R.id.hero_dummy_0", heroName = "", primClass = "", secClass = "";
-    private int hitpoints = -1, costs = -1;
+    private int hitpoints = -1, costs = -1, evasion = -1;
     private int[] difficulty;
     private boolean firstCheck = false, secondCheck = false;
 
@@ -57,6 +57,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
             secClass = b.getString("HEROES_SECONDARY_CLASS", "");
             hitpoints = b.getInt("HEROES_HITPOINTS", -1);
             costs = b.getInt("HEROES_COSTS", -1);
+            evasion = b.getInt("EVASION", -1);
 
             heroProfile = (ImageView)findViewById(R.id.worldmap_imageView_hero_profile);
             heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
@@ -100,6 +101,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         i.putExtra("HEROES_HITPOINTS",hitpoints);
         i.putExtra("HEROES_COSTS", costs);
         i.putExtra("IMAGE_RESOURCE",image);
+        i.putExtra("EVASION", evasion);
         startActivity(i);
         finish();
     }

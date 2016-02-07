@@ -15,14 +15,14 @@ public class Hero {
     private int hp, costs, hpTotal, evasion;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
-    public Hero(Context con){
+    public Hero(Context con) {
         context = con;
         co = new ConstRes();
     }
 
 
     // 2. Konstruktor, welcher gewählt werden kann (jedoch immer nur einer)
-    public Hero(String name, String prime, String sec, String imgRes, int hp, int hpTotal, int costs){
+    public Hero(String name, String prime, String sec, String imgRes, int hp, int hpTotal, int costs, int evasion) {
         co = new ConstRes();
         heroName = name;
         classPrimary = prime;
@@ -31,7 +31,7 @@ public class Hero {
         this.hp = hp;
         this.hpTotal = hpTotal;
         this.costs = costs;
-
+        this.evasion = evasion;
         this.hpTotal = hp;
     }
 
@@ -52,81 +52,35 @@ public class Hero {
         //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
     }
 
-    public String getHeroName(){
-        return heroName;
-    }
+    public String getHeroName() {return heroName;}
 
-    public String getClassPrimary(){
+    public String getClassPrimary() {
         return classPrimary;
     }
 
-    public String getClassSecondary(){
+    public String getClassSecondary() {
         return classSecondary;
     }
 
-    public String getImageResource(){
+    public String getImageResource() {
         return imageResource;
     }
 
-    public int getHp(){
+    public int getHp() {
         return hp;
     }
 
-    public int getHpTotal(){
+    public int getHpTotal() {
         return hpTotal;
     }
 
-    public int getCosts(){
-        return costs;
-    }
+    public int getCosts() { return costs; }
 
-    public String getStrings(String identifier) {
+    public int getEvasion() { return evasion; }
 
-        String val;
+    public void setHp(int hp){ this.hp = hp; }
 
-        switch (identifier){
-            case "heroName":
-                val = heroName; break;
-            case "classPrimary":
-                val = classPrimary; break;
-            case "classSecondary":
-                val = classSecondary; break;
-            case "imageResource":
-                val = imageResource; break;
-            default:
-                val = "EVIL"; break;
-        }
+    public void setHpTotal(int hpTotal){ this.hpTotal = hpTotal; }
 
-        return val;
-    }
-
-    public int getInts(String identifier){
-
-        int val;
-
-        switch(identifier){
-            case "hp":
-                val = hp; break;
-            case "hpConst":
-                val = hpTotal; break;
-            case "costs":
-                val = costs; break;
-            case "evasion":
-                val = evasion; break;
-            default:
-                val = 666; break;
-        }
-
-        return val;
-    }
-
-    public void setInt(String id, int val){
-
-        switch (id){
-            case "hp":
-                hp = val; break;
-            case "costs":
-                costs = val; break;
-        }
-    }
+    public void setCosts(int costs){ this.costs = costs; }
 }

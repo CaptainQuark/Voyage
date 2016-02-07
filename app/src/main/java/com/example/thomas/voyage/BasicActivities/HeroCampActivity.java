@@ -72,7 +72,8 @@ public class HeroCampActivity extends Activity {
                         h.getHeroImgRes(i),
                         h.getHeroHitpoints(i),
                         h.getHeroHitpointsTotal(i),
-                        h.getHeroCosts(i)
+                        h.getHeroCosts(i),
+                        h.getEvasion(i)
                 ));
 
                 heroToDatabaseList.add(i);
@@ -224,6 +225,7 @@ public class HeroCampActivity extends Activity {
             i.putExtra(co.HEROES_HITPOINTS, heroList.get(lastSelectedHeroIndex).getHp());
             i.putExtra(co.HEROES_COSTS, heroList.get(lastSelectedHeroIndex).getCosts());
             i.putExtra(co.IMAGE_RESOURCE, heroList.get(lastSelectedHeroIndex).getImageResource());
+            i.putExtra("EVASION", heroList.get(lastSelectedHeroIndex).getEvasion());
         }
 
         i.putExtra(co.ORIGIN, "HeroCampActivity");
@@ -280,7 +282,7 @@ public class HeroCampActivity extends Activity {
         // und müssen nicht jedes Mal neu zugewiesen werden
         class ViewHolder {
 
-            private TextView nameView,classesView, hpView, costsView, battlesView;
+            private TextView nameView,classesView, hpView, costsView, evasionView;
             private ImageView profileView;
             private LinearLayout rightPanelLayout;
 
@@ -289,7 +291,7 @@ public class HeroCampActivity extends Activity {
                 classesView = (TextView) v.findViewById(R.id.textView_camp_card_prim_and_sec);
                 hpView = (TextView) v.findViewById(R.id.textView_camp_card_hp);
                 costsView = (TextView) v.findViewById(R.id.textView_camp_card_costs);
-                battlesView = (TextView) v.findViewById(R.id.textView_camp_card_battles);
+                evasionView = (TextView) v.findViewById(R.id.textView_camp_card_evasion);
                 profileView = (ImageView) v.findViewById(R.id.imageView_camp_card_profile);
                 rightPanelLayout = (LinearLayout) v.findViewById(R.id.layout_camp_right_panel);
             }
@@ -314,7 +316,7 @@ public class HeroCampActivity extends Activity {
             holder.classesView.setText(heroList.get(position).getClassPrimary() + " und " + heroList.get(position).getClassSecondary());
             holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpTotal());
             holder.costsView.setText(heroList.get(position).getCosts() + "");
-            holder.battlesView.setText("0");
+            holder.evasionView.setText("0");
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
                 holder.rightPanelLayout.setBackgroundColor(Color.WHITE);
