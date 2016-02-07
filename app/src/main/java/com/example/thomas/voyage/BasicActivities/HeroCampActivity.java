@@ -90,7 +90,7 @@ public class HeroCampActivity extends Activity {
                 somethingSelected = lastSelectedHeroIndex != position;
                 lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
 
-                setSellAndFightViews();
+                setToolbarViews();
                 heroGridView.invalidateViews();
             }
         });
@@ -139,6 +139,22 @@ public class HeroCampActivity extends Activity {
             if(b != null){ slotIndex = b.getInt("SLOT_INDEX", -1); }
 
             if(!h.updateMedSlotIndex(lastSelectedHeroIndex+1, slotIndex)) Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
+
+            if(slotIndex >= 0 && slotIndex <= 2){
+                SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+
+                float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
+                long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
+
+                if(money >= 0)
+                    prefs.edit().putLong("currentMoneyLong", money);
+                else
+                    Msg.msg(this, "Not enough money, boy!");
+
+            }else{
+                Msg.msg(this, "ERROR @ campHealHero : invalid slotIndex");
+            }
+
 
             Intent i = new Intent(this, HospitalActivity.class);
             startActivity(i);
@@ -193,7 +209,7 @@ public class HeroCampActivity extends Activity {
 
             lastSelectedHeroIndex = -1;
             setSlotsView();
-            setSellAndFightViews();
+            setToolbarViews();
             heroGridView.invalidateViews();
         }
     }
@@ -235,7 +251,7 @@ public class HeroCampActivity extends Activity {
         slotsView.setText(heroList.size() + " / " + h.getTaskCount());
     }
 
-    private void setSellAndFightViews(){
+    private void setToolbarViews(){
         if(lastSelectedHeroIndex == -1){
             sellView.setTextColor(Color.parseColor("#707070"));
             toFightView.setTextColor(Color.parseColor("#707070"));
@@ -244,9 +260,17 @@ public class HeroCampActivity extends Activity {
         else {
             sellView.setTextColor(Color.WHITE);
             toFightView.setTextColor(Color.WHITE);
+
+            SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+            float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
+            long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
+
             if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1))
                 healView.setTextColor(Color.parseColor("#707070"));
-            else toFightView.setTextColor(Color.WHITE);
+            else if(money < 0){
+                healView.setTextColor(Color.parseColor("#707070"));
+            }
+            else healView.setTextColor(Color.WHITE);
         }
     }
 
