@@ -221,7 +221,8 @@ public class MerchantHeroActivity extends Activity {
                     heroList.get(i).getClassSecondary(),
                     heroList.get(i).getCosts(),
                     heroList.get(i).getImageResource(),
-                    heroList.get(i).getEvasion());
+                    heroList.get(i).getEvasion(),
+                    heroList.get(i).getHpTotal());
 
             //merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
 
@@ -402,6 +403,7 @@ public class MerchantHeroActivity extends Activity {
             String classOne = merchantHelper.getHeroClassOne(currentSelectedHeroId);
             String classTwo = merchantHelper.getHeroClassTwo(currentSelectedHeroId);
             int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
+            int hpTotal = merchantHelper.getHpTotal(currentSelectedHeroId);
 
             if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
                 if (getUsedSlotsInHeroesDatabase() < slotsInHeroesDatabase) {
@@ -427,7 +429,7 @@ public class MerchantHeroActivity extends Activity {
                 costsView.setText(costs + "");
                 primView.setText(classOne);
                 secView.setText(classTwo);
-                hitpointsView.setText(hitpoints + "");
+                hitpointsView.setText(hitpoints + " / " + hpTotal);
 
             } else {
                 Msg.msg(this, "No Hero to buy");

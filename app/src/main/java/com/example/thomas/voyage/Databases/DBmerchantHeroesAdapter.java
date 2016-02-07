@@ -22,7 +22,7 @@ public class DBmerchantHeroesAdapter {
         context1 = context;
     }
 
-    public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs, String imageResource, int evasion) {
+    public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs, String imageResource, int evasion, int hpTotal) {
 
         Log.i("INSERT", "insert Data called");
 
@@ -37,6 +37,7 @@ public class DBmerchantHeroesAdapter {
         contentValues.put(DBmerchantHeroesHelper.COSTS, costs);
         contentValues.put(DBmerchantHeroesHelper.IMAGE_RESOURCE, imageResource);
         contentValues.put(DBmerchantHeroesHelper.EVASION, evasion);
+        contentValues.put(DBmerchantHeroesHelper.HP_TOTAL, hpTotal);
 
         long id = db.insert(DBmerchantHeroesHelper.TABLE_NAME, null, contentValues);
 
@@ -107,32 +108,34 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = { String.valueOf(id) };
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if(cursor != null){
-            cursor.moveToFirst();
-        }
+
 
         StringBuilder buffer = new StringBuilder();
 
         try {
-            int indexUID = cursor.getColumnIndex(DBmerchantHeroesHelper.UID);
-            int indexName = cursor.getColumnIndex(DBmerchantHeroesHelper.NAME);
-            int indexHitpoints = cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS);
-            int indexClassOne = cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE);
-            int indexClassTwo = cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO);
-            int indexCosts = cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS);
-            int indexImage = cursor.getColumnIndex(DBmerchantHeroesHelper.IMAGE_RESOURCE);
-            int indexEvasion = cursor.getColumnIndex(DBmerchantHeroesHelper.EVASION);
+            if(cursor != null){
+                cursor.moveToFirst();
+                int indexUID = cursor.getColumnIndex(DBmerchantHeroesHelper.UID);
+                int indexName = cursor.getColumnIndex(DBmerchantHeroesHelper.NAME);
+                int indexHitpoints = cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS);
+                int indexClassOne = cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE);
+                int indexClassTwo = cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO);
+                int indexCosts = cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS);
+                int indexImage = cursor.getColumnIndex(DBmerchantHeroesHelper.IMAGE_RESOURCE);
+                int indexEvasion = cursor.getColumnIndex(DBmerchantHeroesHelper.EVASION);
 
-            int cid = cursor.getInt(indexUID);
-            String name = cursor.getString(indexName);
-            int hitpoints = cursor.getInt(indexHitpoints);
-            String classOne = cursor.getString(indexClassOne);
-            String classTwo = cursor.getString(indexClassTwo);
-            int costs = cursor.getInt(indexCosts);
-            String image = cursor.getString(indexImage);
-            int evasion = cursor.getInt(indexEvasion);
+                int cid = cursor.getInt(indexUID);
+                String name = cursor.getString(indexName);
+                int hitpoints = cursor.getInt(indexHitpoints);
+                String classOne = cursor.getString(indexClassOne);
+                String classTwo = cursor.getString(indexClassTwo);
+                int costs = cursor.getInt(indexCosts);
+                String image = cursor.getString(indexImage);
+                int evasion = cursor.getInt(indexEvasion);
 
-            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs + "\n" + image + "\n" + evasion);
+                buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs + "\n" + image + "\n" + evasion);
+                cursor.close();
+            }
 
         }catch (SQLiteException e){
             Msg.msg(context1, "ERROR @ getOneHeroRow with exception: " + e);
@@ -149,17 +152,19 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
+
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.NAME));
+                cursor.close();
+            }
+
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroName with exception: " + n);
         }
-        cursor.close();
+
         db.close();
 
         return value;
@@ -172,20 +177,20 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HITPOINTS));
+                cursor.close();
+            }
+
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroHitpoints with exception: " + n);
         }
-        cursor.close();
-        db.close();
 
+        db.close();
         return value;
     }
 
@@ -196,19 +201,19 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_ONE));
+                cursor.close();
+            }
+
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroClassOne with exception: " + n);
         }
-        cursor.close();
-        db.close();
 
+        db.close();
         return value;
     }
 
@@ -219,17 +224,18 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
 
         String value = "";
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBmerchantHeroesHelper.CLASS_TWO));
+                cursor.close();
+            }
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroClassTwo with exception: " + n);
         }
-        cursor.close();
+
         db.close();
 
         return value;
@@ -242,18 +248,18 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int costs = 0;
 
         try {
-            costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
+            if (cursor != null) {
+                cursor.moveToFirst();
+                costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.COSTS));
+                cursor.close();
+            }
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroCosts with exception: " + n);
         }
-        cursor.close();
+
         db.close();
 
         return costs;
@@ -266,21 +272,23 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
+
 
         String value = "";
 
         try {
-            int indexImage = cursor.getColumnIndex(DBmerchantHeroesHelper.IMAGE_RESOURCE);
-            value = cursor.getString(indexImage);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int indexImage = cursor.getColumnIndex(DBmerchantHeroesHelper.IMAGE_RESOURCE);
+                value = cursor.getString(indexImage);
+                cursor.close();
+            }
 
         } catch (IndexOutOfBoundsException n) {
 
             Msg.msg(context1, "ERROR @ getHeroImgRes with exception: " + n);
         }
-        cursor.close();
+
         db.close();
 
         return value;
@@ -299,6 +307,31 @@ public class DBmerchantHeroesAdapter {
             if (cursor != null) {
                 cursor.moveToFirst();
                 costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.EVASION));
+                cursor.close();
+            }
+
+        } catch (NullPointerException n) {
+            Msg.msg(context1, "ERROR @ getHeroEvasion with exception: " + n);
+        }
+
+        db.close();
+
+        return costs;
+    }
+
+    public int getHpTotal(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBmerchantHeroesHelper.HP_TOTAL};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        int costs = 0;
+
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+                costs = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.HP_TOTAL));
                 cursor.close();
             }
 
@@ -365,7 +398,7 @@ public class DBmerchantHeroesAdapter {
         return validation;
     }
 
-    public int updateRowComplete(int id,String newName,int hitpoints,String primaryClass,String secondaryClass, int costs, String image, int evasion) {
+    public int updateRowComplete(int id,String newName,int hitpoints,String primaryClass,String secondaryClass, int costs, String image, int evasion, int hpTotal) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -377,6 +410,7 @@ public class DBmerchantHeroesAdapter {
         cv.put(DBmerchantHeroesHelper.COSTS, costs);
         cv.put(DBmerchantHeroesHelper.IMAGE_RESOURCE, image);
         cv.put(DBmerchantHeroesHelper.EVASION, evasion);
+        cv.put(DBmerchantHeroesHelper.HP_TOTAL, hpTotal);
 
         String[] whereArgs = {id + ""};
 
@@ -398,6 +432,7 @@ public class DBmerchantHeroesAdapter {
         private static final String COSTS = "Costs";
         private static final String IMAGE_RESOURCE = "ImageResource";
         private static final String EVASION = "Evasion";
+        private static final String HP_TOTAL = "HpTotal";
         // hier Spalten deklarieren, die für Helden benötigt werden
         // -> diese dann in CREATE_TABLE unterhalb einfügen
 
@@ -409,7 +444,8 @@ public class DBmerchantHeroesAdapter {
                 + CLASS_TWO + " VARCHAR(255), "
                 + COSTS + " INT, "
                 + IMAGE_RESOURCE + " VARCHAR(255), "
-                + EVASION + " INTEGER);";
+                + EVASION + " INTEGER, "
+                + HP_TOTAL + ");";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;

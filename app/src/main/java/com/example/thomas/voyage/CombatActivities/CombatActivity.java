@@ -514,6 +514,7 @@ public class CombatActivity extends Activity {
             String heroImgRes = b.getString("IMAGE_RESOURCE", "R.mipmap.hero_dummy_0");
             origin = b.getString("ORIGIN", "StartActivity");
             int heroEvasion = b.getInt("EVASION", -1);
+            int hpTotal = b.getInt("HP_TOTAL", -1);
 
             heroHitpointsConst = heroHitpoints;
 
