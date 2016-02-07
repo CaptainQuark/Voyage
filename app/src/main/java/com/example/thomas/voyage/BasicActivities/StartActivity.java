@@ -198,7 +198,7 @@ public class StartActivity extends Activity {
             }
 
             if (i == 1 && validation > 0)
-                Msg.msg(this, "9 blank rows in heroes database inserted, 10th underway");
+                Msg.msg(this, "9 blank rows in heroes database inserted, 10th under way");
         }
 
         return validation;
@@ -253,7 +253,8 @@ public class StartActivity extends Activity {
                     heroList.get(i).getClassSecondary(),
                     heroList.get(i).getCosts(),
                     heroList.get(i).getImageResource(),
-                    heroList.get(i).getEvasion());
+                    heroList.get(i).getEvasion(),
+                    heroList.get(i).getHpTotal());
 
             if (id < 0) Msg.msg(this, "ERROR @ insert of hero " + i + 1);
 

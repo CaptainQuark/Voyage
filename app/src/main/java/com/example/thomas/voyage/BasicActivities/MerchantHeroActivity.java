@@ -336,12 +336,13 @@ public class MerchantHeroActivity extends Activity {
             int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
             String imageResource = merchantHelper.getHeroImgRes(currentSelectedHeroId);
             int evasion = merchantHelper.getHeroEvasion(currentSelectedHeroId);
+            int hpTotal = merchantHelper.getHpTotal(currentSelectedHeroId);
 
             DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
 
             for (int i = 1; i <= 10; i++) {
 
-                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hitpoints, -1, 0, evasion);
+                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hpTotal, -1, 0, evasion);
 
                 if (updateValidation > 0) {
 

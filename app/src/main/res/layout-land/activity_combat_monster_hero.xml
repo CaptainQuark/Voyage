@@ -2,7 +2,7 @@
 <LinearLayout
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:background="@color/standard_background"
+    android:background="#000000"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,7 +12,9 @@
     <FrameLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="9">
+        android:layout_weight="9"
+        android:visibility="visible"
+        android:id="@+id/layout_combat_monster_hero_battle_scene">
 
         <ImageView
             android:layout_width="match_parent"
@@ -55,10 +57,65 @@
                     android:src="@mipmap/monster_dummy_3"
                     android:scaleType="centerCrop"/>
 
-                <TextView
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="magmamemnon"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:id="@+id/textView16"
+                        android:layout_margin="10dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentStart="true" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="150"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_above="@+id/textView16"
+                        android:layout_alignStart="@+id/textView16" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_margin="10dp"
+                        android:text="mike hammer"
+                        android:textAllCaps="true"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:id="@+id/textView18" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="150"
+                        android:textColor="@android:color/black"
+                        android:textSize="30sp"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_above="@+id/textView18"
+                        android:layout_alignEnd="@+id/textView18" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+
+
+                    </LinearLayout>
+
+                </RelativeLayout>
 
                 <ImageView
                     android:layout_width="0dp"
@@ -91,8 +148,8 @@
             android:textColor="#000000"
             android:gravity="center"
             android:textStyle="bold"
-            android:background="@color/soft_gray_background"
-            android:layout_marginBottom="1dp" />
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/ripple_soft_grey_to_white" />
 
         <TextView
             android:layout_width="match_parent"
@@ -103,7 +160,7 @@
             android:gravity="center"
             android:text="SINGLE\nOUT"
             android:textStyle="bold"
-            android:background="@color/soft_gray_background"
+            android:background="@drawable/ripple_soft_grey_to_white"
             android:layout_marginBottom="1dp" />
 
         <TextView
@@ -115,7 +172,7 @@
             android:gravity="center"
             android:text="X 2"
             android:textStyle="bold"
-            android:background="@color/soft_gray_background"
+            android:background="@drawable/ripple_soft_grey_to_white"
             android:layout_marginBottom="1dp" />
 
         <TextView
@@ -127,7 +184,7 @@
             android:gravity="center"
             android:text="SINGLE\nIN"
             android:textStyle="bold"
-            android:background="@color/soft_gray_background"
+            android:background="@drawable/ripple_soft_grey_to_white"
             android:layout_marginBottom="1dp" />
 
         <TextView
@@ -139,7 +196,7 @@
             android:gravity="center"
             android:text="BULL"
             android:textStyle="bold"
-            android:background="@color/soft_gray_background"
+            android:background="@drawable/ripple_soft_grey_to_green"
             android:layout_marginBottom="1dp" />
 
         <TextView
@@ -151,7 +208,7 @@
             android:gravity="center"
             android:text="EYE"
             android:textStyle="bold"
-            android:background="@color/soft_gray_background" />
+            android:background="@drawable/ripple_soft_grey_to_red" />
 
     </LinearLayout>
 

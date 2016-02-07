@@ -116,31 +116,30 @@ public class DBheroesAdapter {
 
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         StringBuilder buffer = new StringBuilder();
 
         try {
-            int indexUID = cursor.getColumnIndex(DBheroesHelper.UID);
-            int indexName = cursor.getColumnIndex(DBheroesHelper.NAME);
-            int indexHitpoints = cursor.getColumnIndex(DBheroesHelper.HITPOINTS);
-            int indexClassOne = cursor.getColumnIndex(DBheroesHelper.CLASS_ONE);
-            int indexClassTwo = cursor.getColumnIndex(DBheroesHelper.CLASS_TWO);
-            int indexCosts = cursor.getColumnIndex(DBheroesHelper.COSTS);
-            int indexImage = cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE);
+            if (cursor != null) {
+                cursor.moveToFirst();
 
-            int cid = cursor.getInt(indexUID);
-            String name = cursor.getString(indexName);
-            int hitpoints = cursor.getInt(indexHitpoints);
-            String classOne = cursor.getString(indexClassOne);
-            String classTwo = cursor.getString(indexClassTwo);
-            int costs = cursor.getInt(indexCosts);
-            String image = cursor.getString(indexImage);
+                int indexUID = cursor.getColumnIndex(DBheroesHelper.UID);
+                int indexName = cursor.getColumnIndex(DBheroesHelper.NAME);
+                int indexHitpoints = cursor.getColumnIndex(DBheroesHelper.HITPOINTS);
+                int indexClassOne = cursor.getColumnIndex(DBheroesHelper.CLASS_ONE);
+                int indexClassTwo = cursor.getColumnIndex(DBheroesHelper.CLASS_TWO);
+                int indexCosts = cursor.getColumnIndex(DBheroesHelper.COSTS);
+                int indexImage = cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE);
 
-            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs + "\n" + image);
+                int cid = cursor.getInt(indexUID);
+                String name = cursor.getString(indexName);
+                int hitpoints = cursor.getInt(indexHitpoints);
+                String classOne = cursor.getString(indexClassOne);
+                String classTwo = cursor.getString(indexClassTwo);
+                int costs = cursor.getInt(indexCosts);
+                String image = cursor.getString(indexImage);
+
+                buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costs + "\n" + image);
+            }
 
         } catch (SQLiteException e) {
 
@@ -159,15 +158,14 @@ public class DBheroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.NAME));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.NAME));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroName with exception: " + n);
@@ -185,15 +183,14 @@ public class DBheroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.HITPOINTS));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.HITPOINTS));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroHitpoints with exception: " + n);
@@ -211,22 +208,20 @@ public class DBheroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_ONE));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_ONE));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroClassOne with exception: " + n);
         }
 
         db.close();
-
         return value;
     }
 
@@ -237,22 +232,20 @@ public class DBheroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_TWO));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.CLASS_TWO));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroClassTwo with exception: " + n);
         }
 
         db.close();
-
         return value;
     }
 
@@ -263,15 +256,14 @@ public class DBheroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.COSTS));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.COSTS));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroHitpoints with exception: " + n);
@@ -289,22 +281,20 @@ public class DBheroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE));
-
-            cursor.close();
-            db.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBheroesHelper.IMAGE_RESOURCE));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(context1, "ERROR @ getHeroImgRes with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 
@@ -500,6 +490,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.MED_SLOT_INDEX, -1);
         cv.put(DBheroesHelper.TIME_TO_LEAVE, "0");
         cv.put(DBheroesHelper.EVASION, -1);
+        cv.put(DBheroesHelper.HP_TOTAL, -1);
 
         String[] whereArgs = {Integer.toString(id)};
 
@@ -538,7 +529,7 @@ public class DBheroesAdapter {
                 + HP_TOTAL + " INTEGER, "
                 + MED_SLOT_INDEX + " INTEGER, "
                 + TIME_TO_LEAVE + " TEXT, "
-                + EVASION + "INTEGER);";
+                + EVASION + " INTEGER);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;

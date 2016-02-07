@@ -272,8 +272,6 @@ public class DBmerchantHeroesAdapter {
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
 
-
-
         String value = "";
 
         try {
@@ -290,7 +288,6 @@ public class DBmerchantHeroesAdapter {
         }
 
         db.close();
-
         return value;
     }
 

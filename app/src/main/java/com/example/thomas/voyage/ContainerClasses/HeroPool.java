@@ -279,6 +279,10 @@ public class HeroPool {
         //Man stelle sich einen Boxplot vor; um den Mittelwert herum wird ein Bereich geschaffen,
         //in dem dann die HP zufällig ermittelt werden
 
+        if(valMaxQuartile == valMinQuartile){
+            return valMaxQuartile;
+            //Wenn die Werte gleich, returne sie (randNext sonst fehlerhaft)
+        }
         finalVal = random.nextInt(valMaxQuartile - valMinQuartile) + valMinQuartile;
 
         return finalVal;
