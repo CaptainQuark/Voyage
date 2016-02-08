@@ -26,6 +26,7 @@ import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 public class StartActivity extends Activity {
@@ -91,6 +92,7 @@ public class StartActivity extends Activity {
                 Msg.msg(this, "ERROR @ insertToHeroesDatabase");
             }
 
+            // Datenbankplätze für HeroMerchant reservieren
             validation = insertToMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
             if (validation < 0) {
                 Msg.msg(this, "ERROR @ insertToMerchantHeroesDatabase");

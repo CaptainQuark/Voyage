@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,27 +26,30 @@ import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 import com.example.thomas.voyage.ResClasses.ImgRes;
+import com.google.android.gms.vision.Frame;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class NewMerchantHeroActivity extends Activity {
 
     private TextView hpView, evasionView, battlesView, costsView, nameView, classesView, timeView, slotsView, buyView, fortuneView, des, desMinutes;
     private ImageView heroProfileView, merchProfileView, market;
     private LinearLayout main;
+    private FrameLayout emptyMarketBackButton;
     private GridView gridViewHeroesSelectable;
     private SharedPreferences prefs;
     private ConstRes c = new ConstRes();
     private CountDownTimer timer;
-    private String origin;
-    private int slotsInHeroesDatabase, currentMerchantId, selectedHeroId;
-    private boolean tradeIsPossible;
     private List<Hero> heroList;
     private List<Integer> databaseIndexForHeroList;
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
+    private String origin;
+    private int slotsInHeroesDatabase, currentMerchantId, selectedHeroId;
+    private boolean tradeIsPossible;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +144,11 @@ public class NewMerchantHeroActivity extends Activity {
 
                 setNewMerchantProfile();
 
-                long validation = updateMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
-                if (validation < 0) {
+                if (updateMerchantDatabase(c.TOTAL_HEROES_MERCHANT) < 0) {
                     Log.e("ERROR @ ", "updateMerchantsDatabase");
                 }
 
+                setMarketVisibility();
                 showExpirationDate();
             }
         }.start();
@@ -221,6 +225,13 @@ public class NewMerchantHeroActivity extends Activity {
             des.setVisibility(View.VISIBLE);
             desMinutes.setVisibility(View.VISIBLE);
             main.setVisibility(View.GONE);
+            emptyMarketBackButton.setVisibility(View.VISIBLE);
+        }else{
+            market.setVisibility(View.GONE);
+            des.setVisibility(View.GONE);
+            desMinutes.setVisibility(View.GONE);
+            main.setVisibility(View.VISIBLE);
+            emptyMarketBackButton.setVisibility(View.GONE);
         }
     }
 
@@ -253,7 +264,15 @@ public class NewMerchantHeroActivity extends Activity {
     }
 
     public void resetMerchant(View view){
-        updateMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
+
+        Random rand = new Random();
+        int numTotalHeroes = rand.nextInt(8)+3;
+
+
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+        editor.putLong(c.SP_TOTAL_HEROES_MERCHANT, numTotalHeroes).apply();
+
+        updateMerchantDatabase(8);
         setNewMerchantProfile();
         setSlotsViewAppearence();
     }
@@ -432,6 +451,7 @@ public class NewMerchantHeroActivity extends Activity {
         des = (TextView) findViewById(R.id.textview_merch_has_left);
         desMinutes = (TextView) findViewById(R.id.textview_merch_has_left_minute_display);
         main = (LinearLayout) findViewById(R.id.layout_merch_hero_main);
+        emptyMarketBackButton = (FrameLayout) findViewById(R.id.layout_merch_hero_away_backbutton);
     }
 
     public void hideSystemUI() {
