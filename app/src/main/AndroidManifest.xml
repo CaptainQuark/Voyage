@@ -80,11 +80,15 @@
         <activity
             android:name=".BasicActivities.HospitalActivity"
             android:label="@string/title_activity_hospital_acitivity"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".CombatActivities.CombatMonsterHeroActivity"
             android:label="@string/title_activity_combat_monster_hero"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".BasicActivities.NewMerchantHeroActivity"
+            android:label="@string/title_activity_new_merchant_hero"
+            android:screenOrientation="sensorLandscape"></activity>
     </application>
 
 </manifest>

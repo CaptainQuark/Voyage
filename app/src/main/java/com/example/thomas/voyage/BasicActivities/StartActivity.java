@@ -83,6 +83,9 @@ public class StartActivity extends Activity {
         if (isFirstRun) {
             Msg.msg(this, "IS_FIRST_RUN: " + isFirstRun);
 
+            SharedPreferences money_pref = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+            money_pref.edit().putLong("currentMoneyLong", 4500);
+
             long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
                 Msg.msg(this, "ERROR @ insertToHeroesDatabase");

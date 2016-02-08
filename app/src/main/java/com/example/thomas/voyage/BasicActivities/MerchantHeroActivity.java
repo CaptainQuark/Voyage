@@ -68,6 +68,21 @@ public class MerchantHeroActivity extends Activity {
         hideSystemUI();
     }
 
+    private long getUsedSlotsInHeroesDatabase() {
+        DBheroesAdapter helper = new DBheroesAdapter(this);
+
+        long countUsed = 0;
+        slotsInHeroesDatabase = (int) helper.getTaskCount();
+
+        for (long i = 0; i < slotsInHeroesDatabase; i++) {
+            if (!(helper.getHeroName(i + 1).equals(getResources().getString(R.string.indicator_unused_row)))) {
+                countUsed++;
+            }
+        }
+
+        return countUsed;
+    }
+
     private void setSlotsViewAppearence(){
         textView_available_slots.setText(Long.toString(getUsedSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
 
@@ -91,20 +106,7 @@ public class MerchantHeroActivity extends Activity {
         prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
     }
 
-    private long getUsedSlotsInHeroesDatabase() {
-        DBheroesAdapter helper = new DBheroesAdapter(this);
 
-        long countUsed = 0;
-        slotsInHeroesDatabase = helper.getTaskCount();
-
-        for (long i = 0; i < slotsInHeroesDatabase; i++) {
-            if (!(helper.getHeroName(i + 1).equals(getResources().getString(R.string.indicator_unused_row)))) {
-                countUsed++;
-            }
-        }
-
-        return countUsed;
-    }
 
     public void clickToHeroesPartyActivity(View view) {
         Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);

@@ -368,6 +368,7 @@ public class HospitalActivity extends Activity {
 
         private void cancelCountDownTimer(final BrokenHero hero, long time){
             DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
+
             try {
                 for(int i = 0; i < slotIndexForTimerList.size(); i++){
                     if(slotIndexForTimerList.get(i) == slotIndex){
