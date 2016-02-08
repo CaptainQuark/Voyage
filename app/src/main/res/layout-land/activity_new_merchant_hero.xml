@@ -267,6 +267,7 @@
                     android:layout_weight="5"
                     android:numColumns="2"
                     android:choiceMode="singleChoice"
+                    android:stretchMode="columnWidth"
                     android:id="@+id/gridview_merch_hero_other_heroes" />
 
             </LinearLayout>

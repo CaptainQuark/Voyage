@@ -23,6 +23,7 @@ import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class NewMerchantHeroActivity extends Activity {
     private ImageView heroProfileView, merchProfileView;
     private GridView gridViewHeroesSelectable;
     private SharedPreferences prefs;
+    private ConstRes c = new ConstRes();
     private CountDownTimer timer;
     private String origin;
     private int slotsInHeroesDatabase, currentMerchantId, selectedHeroId;
@@ -52,8 +54,15 @@ public class NewMerchantHeroActivity extends Activity {
         iniValues();
         setSlotsViewAppearence();
         showExpirationDate();
+
+        // automatisch 1. Helden wählen, wenn noch mind. ein Held verfügbar ist
+        if(heroList.size() > 0){
+            selectedHeroId = 0;
+            setHeroShowcase();
+        }
+
         gridViewHeroesSelectable.invalidateViews();
-        fortuneView.setText("$ " + prefs.getLong("currentMoneyLong", -1));
+        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
     }
 
     @Override
@@ -75,7 +84,7 @@ public class NewMerchantHeroActivity extends Activity {
 
 
     private void setSlotsViewAppearence(){
-        slotsView.setText(Long.toString(getUsedSlotsInHeroesDatabase()) + " / " + slotsInHeroesDatabase);
+        slotsView.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
     }
 
     private long getUsedSlotsInHeroesDatabase() {
@@ -103,8 +112,7 @@ public class NewMerchantHeroActivity extends Activity {
         merchProfileView.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
 
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putLong("TIME_TO_LEAVE", finishDate);
-        editor.apply();
+        editor.putLong("TIME_TO_LEAVE", finishDate).apply();
 
         Date presentDate = new Date();
         long dateDiff = finishDate - presentDate.getTime();
@@ -122,7 +130,7 @@ public class NewMerchantHeroActivity extends Activity {
 
                 setNewMerchantProfile();
 
-                long validation = updateMerchantDatabase(3);
+                long validation = updateMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
                 if (validation < 0) {
                     Log.e("ERROR @ ", "updateMerchantsDatabase");
                 }
@@ -194,6 +202,7 @@ public class NewMerchantHeroActivity extends Activity {
         evasionView.setText(String.valueOf(heroList.get(selectedHeroId).getEvasion()));
         costsView.setText("$ " + heroList.get(selectedHeroId).getCosts());
         battlesView.setText(String.valueOf(0));
+        heroProfileView.setImageResource(getResources().getIdentifier(heroList.get(selectedHeroId).getImageResource(), "mipmap", getPackageName()));
     }
 
     public void setMarketVisibility(){
@@ -208,6 +217,8 @@ public class NewMerchantHeroActivity extends Activity {
         }
     }
 
+
+
     /*
 
     OnClick-Methoden
@@ -217,8 +228,8 @@ public class NewMerchantHeroActivity extends Activity {
 
 
     public void addMoneyToCurrentPocket(View v){
-        prefs.edit().putLong("currentMoneyLong", prefs.getLong("currentMoneyLong", -1) + 1000).apply();
-        fortuneView.setText("$ " + prefs.getLong("currentMoneyLong", -1));
+        prefs.edit().putLong(c.MY_POCKET, prefs.getLong(c.MY_POCKET, -1) + 1000).apply();
+        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
     }
 
     public void onMerchHeroBack(View view) {
@@ -235,18 +246,19 @@ public class NewMerchantHeroActivity extends Activity {
     }
 
     public void resetMerchant(View view){
-        updateMerchantDatabase(3);
+        updateMerchantDatabase(c.TOTAL_HEROES_MERCHANT);
         setNewMerchantProfile();
+        setSlotsViewAppearence();
     }
 
     public void onMerchHeroBuy(View v){
         if(tradeIsPossible){
-            prefs.edit().putLong("currentMoneyLong", prefs.getLong("currentMoneyLong", -1) - heroList.get(selectedHeroId).getCosts()).apply();
+            prefs.edit().putLong(c.MY_POCKET, prefs.getLong(c.MY_POCKET, -1) - heroList.get(selectedHeroId).getCosts()).apply();
 
             int index = -1;
 
             for(int i = 1; i <= h.getTaskCount(); i++){
-                if(h.getHeroName(i).equals("NOT_USED")){
+                if(h.getHeroName(i).equals(c.NOT_USED)){
                     index = i;
                     i = (int) h.getTaskCount();
                 }
@@ -262,11 +274,12 @@ public class NewMerchantHeroActivity extends Activity {
             }
 
             heroList.remove(selectedHeroId);
-            m.updateRow(selectedHeroId + 1, "NOT_USED");
+            m.updateRow(selectedHeroId + 1, c.NOT_USED);
             buyView.setTextColor(getResources().getColor(R.color.tint_inactive));
 
             setMarketVisibility();
-            fortuneView.setText("$ " + prefs.getLong("currentMoneyLong", -1));
+            setSlotsViewAppearence();
+            fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
             selectedHeroId = -1;
 
         }else{
@@ -309,18 +322,19 @@ public class NewMerchantHeroActivity extends Activity {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                imageView.setLayoutParams(new GridView.LayoutParams(160, 160));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
                 imageView = (ImageView) convertView;
             }
 
+            imageView.setImageResource(getResources().getIdentifier(heroList.get(position).getImageResource(), "mipmap", getPackageName()));
 
             if(selectedHeroId != position){
-                imageView.setImageResource(getResources().getIdentifier(heroList.get(position).getImageResource(), "mipmap", getPackageName()));
+                imageView.setColorFilter(getResources().getColor(R.color.tint_inactive), android.graphics.PorterDuff.Mode.MULTIPLY);
 
             }else{
-                imageView.setImageResource(R.drawable.ripple_backbutton);
+                imageView.setColorFilter(getResources().getColor(R.color.tint_transparent), android.graphics.PorterDuff.Mode.ADD);
             }
 
             return imageView;
@@ -340,7 +354,7 @@ public class NewMerchantHeroActivity extends Activity {
     public void iniValues(){
         h = new DBheroesAdapter(this);
         m = new DBmerchantHeroesAdapter(this);
-        prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
         slotsInHeroesDatabase = (int) h.getTaskCount();
         currentMerchantId = 0;
         selectedHeroId = -1;
@@ -356,7 +370,7 @@ public class NewMerchantHeroActivity extends Activity {
 
         Bundle b = getIntent().getExtras();
         if(b != null){
-            origin = b.getString("ORIGIN", "StartActivity");
+            origin = b.getString(c.ORIGIN, "StartActivity");
         }else origin = "";
 
         gridViewHeroesSelectable.setAdapter(new HeroImagesAdapter(this));
@@ -364,11 +378,10 @@ public class NewMerchantHeroActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 selectedHeroId = position;
-                heroProfileView.setImageResource(getResources().getIdentifier(heroList.get(position).getImageResource(), "mipmap", getPackageName()));
                 setHeroShowcase();
                 gridViewHeroesSelectable.invalidateViews();
 
-                if(prefs.getLong("currentMoneyLong", -1) - heroList.get(position).getCosts() > 0 && h.getTaskCount() > getUsedSlotsInHeroesDatabase()){
+                if(prefs.getLong(c.MY_POCKET, -1) - heroList.get(position).getCosts() > 0 && h.getTaskCount() > getUsedSlotsInHeroesDatabase()){
                     tradeIsPossible = true;
                     buyView.setTextColor(Color.WHITE);
                 }else{

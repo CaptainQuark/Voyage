@@ -84,7 +84,7 @@ public class StartActivity extends Activity {
             Msg.msg(this, "IS_FIRST_RUN: " + isFirstRun);
 
             SharedPreferences money_pref = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-            money_pref.edit().putLong("currentMoneyLong", 4500);
+            money_pref.edit().putLong("currentMoneyLong", 5000).apply();
 
             long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
@@ -267,7 +267,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToHeroMerchant(View view) {
-        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), NewMerchantHeroActivity.class);
         startActivity(i);
     }
 
