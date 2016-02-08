@@ -13,26 +13,63 @@
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:visibility="gone"
-        android:src="@mipmap/market_dummy_0" />
+        android:src="@mipmap/market_dummy_0"
+        android:tint="#77000000" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Der Händler hat den Markt verlassen..."
+        android:text="Der Händler hat den Markt verlassen."
         android:layout_gravity="center"
         android:textColor="#ffffff"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:fontFamily="sans-serif-light"
         android:textStyle="italic"
         android:visibility="gone"
         android:id="@+id/textview_merch_has_left" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Ein neuer erscheint in X Minuten."
+        android:layout_gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="25sp"
+        android:fontFamily="sans-serif-light"
+        android:textStyle="italic"
+        android:visibility="gone"
+        android:id="@+id/textview_merch_has_left_minute_display" />
+
+    <FrameLayout
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="15dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:onClick="onMerchHeroBack"
+            android:background="@drawable/ripple_round_soft_grey_to_white"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:clickable="false"
+            android:layout_gravity="center"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@mipmap/ic_backbutton"/>
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/layout_merch_hero_main"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/standard_background">
+        android:background="@color/standard_background"
+        android:visibility="visible">
 
         <LinearLayout
             android:orientation="horizontal"

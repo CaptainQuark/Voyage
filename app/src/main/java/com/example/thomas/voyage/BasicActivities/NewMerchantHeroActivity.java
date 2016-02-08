@@ -32,8 +32,9 @@ import java.util.List;
 
 public class NewMerchantHeroActivity extends Activity {
 
-    private TextView hpView, evasionView, battlesView, costsView, nameView, classesView, timeView, slotsView, buyView, fortuneView;
-    private ImageView heroProfileView, merchProfileView;
+    private TextView hpView, evasionView, battlesView, costsView, nameView, classesView, timeView, slotsView, buyView, fortuneView, des, desMinutes;
+    private ImageView heroProfileView, merchProfileView, market;
+    private LinearLayout main;
     private GridView gridViewHeroesSelectable;
     private SharedPreferences prefs;
     private ConstRes c = new ConstRes();
@@ -42,6 +43,7 @@ public class NewMerchantHeroActivity extends Activity {
     private int slotsInHeroesDatabase, currentMerchantId, selectedHeroId;
     private boolean tradeIsPossible;
     private List<Hero> heroList;
+    private List<Integer> databaseIndexForHeroList;
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
 
@@ -59,6 +61,9 @@ public class NewMerchantHeroActivity extends Activity {
         if(heroList.size() > 0){
             selectedHeroId = 0;
             setHeroShowcase();
+
+        }else{
+            setMarketVisibility();
         }
 
         gridViewHeroesSelectable.invalidateViews();
@@ -66,11 +71,13 @@ public class NewMerchantHeroActivity extends Activity {
     }
 
     @Override
-    protected void onRestart(){
-        super.onRestart();
+    protected void onRestart() {
+        super.onRestart();  // Always call the superclass method first
         hideSystemUI();
         setSlotsViewAppearence();
         gridViewHeroesSelectable.invalidateViews();
+        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
+        setMarketVisibility();
     }
 
 
@@ -103,6 +110,7 @@ public class NewMerchantHeroActivity extends Activity {
     }
 
     private void showExpirationDate() {
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
 
         if(finishDate == 0)
@@ -112,7 +120,8 @@ public class NewMerchantHeroActivity extends Activity {
         merchProfileView.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
 
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        editor.putLong("TIME_TO_LEAVE", finishDate).apply();
+        editor.putLong("TIME_TO_LEAVE", finishDate);
+        editor.apply();
 
         Date presentDate = new Date();
         long dateDiff = finishDate - presentDate.getTime();
@@ -121,6 +130,7 @@ public class NewMerchantHeroActivity extends Activity {
 
             public void onTick(long millisUntilFinished) {
                 timeView.setText("" + millisUntilFinished / 1000 / 60);
+                desMinutes.setText("Ein neuer erscheint in " + millisUntilFinished / 1000 / 60 + " Minuten.");
             }
 
             public void onFinish() {
@@ -207,12 +217,9 @@ public class NewMerchantHeroActivity extends Activity {
 
     public void setMarketVisibility(){
         if(heroList.size() == 0){
-            ImageView market = (ImageView) findViewById(R.id.imageview_merch_has_left);
-            TextView des = (TextView) findViewById(R.id.textview_merch_has_left);
-            LinearLayout main = (LinearLayout) findViewById(R.id.layout_merch_hero_main);
-
             market.setVisibility(View.VISIBLE);
             des.setVisibility(View.VISIBLE);
+            desMinutes.setVisibility(View.VISIBLE);
             main.setVisibility(View.GONE);
         }
     }
@@ -265,7 +272,7 @@ public class NewMerchantHeroActivity extends Activity {
             }
 
             if(h.updateRowWithHeroData(index, heroList.get(selectedHeroId).getHeroName(), heroList.get(selectedHeroId).getHp(),
-                    heroList.get(selectedHeroId).getClassPrimary(),heroList.get(selectedHeroId).getClassSecondary(),
+                    heroList.get(selectedHeroId).getClassPrimary(), heroList.get(selectedHeroId).getClassSecondary(),
                     heroList.get(selectedHeroId).getCosts(), heroList.get(selectedHeroId).getImageResource(),
                     heroList.get(selectedHeroId).getHpTotal(), -1, 0, heroList.get(selectedHeroId).getEvasion())
                     < 0) {
@@ -273,14 +280,21 @@ public class NewMerchantHeroActivity extends Activity {
                 Msg.msg(this, "ERROR @ onMerchHeroBuy : updateRowWithHeroData");
             }
 
+            m.updateRow(databaseIndexForHeroList.get(selectedHeroId), c.NOT_USED);
             heroList.remove(selectedHeroId);
-            m.updateRow(selectedHeroId + 1, c.NOT_USED);
+            databaseIndexForHeroList.remove(selectedHeroId);
             buyView.setTextColor(getResources().getColor(R.color.tint_inactive));
 
+            if(heroList.size() > 0){
+                selectedHeroId = 0;
+                setHeroShowcase();
+                setSlotsViewAppearence();
+                fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
+                gridViewHeroesSelectable.invalidateViews();
+
+            }
+
             setMarketVisibility();
-            setSlotsViewAppearence();
-            fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
-            selectedHeroId = -1;
 
         }else{
             Msg.msg(this, "Kauf nicht möglich...");
@@ -322,7 +336,7 @@ public class NewMerchantHeroActivity extends Activity {
             if (convertView == null) {
                 // if it's not recycled, initialize some attributes
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(160, 160));
+                imageView.setLayoutParams(new GridView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 300));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } else {
                 imageView = (ImageView) convertView;
@@ -360,12 +374,20 @@ public class NewMerchantHeroActivity extends Activity {
         selectedHeroId = -1;
         tradeIsPossible = false;
 
+        databaseIndexForHeroList = new ArrayList<>();
         heroList = new ArrayList<>();
         for(int i = 1; i <= m.getTaskCount(); i++){
-            heroList.add(new Hero(
-                    m.getHeroName(i), m.getHeroClassOne(i), m.getHeroClassTwo(i), m.getHeroImgRes(i),
-                    m.getHeroHitpoints(i), m.getHpTotal(i), m.getHeroCosts(i), m.getHeroEvasion(i)
-            ));
+            if(!m.getHeroName(i).equals(c.NOT_USED)){
+                heroList.add(new Hero(
+                        m.getHeroName(i), m.getHeroClassOne(i), m.getHeroClassTwo(i), m.getHeroImgRes(i),
+                        m.getHeroHitpoints(i), m.getHpTotal(i), m.getHeroCosts(i), m.getHeroEvasion(i)
+                ));
+
+                // 'databaseIndexForHeroList' immer synchron mit 'heroList',
+                // daher kann gespeichert werden, welche Datenbank-UID der Held
+                // an Stelle x in der Liste hat
+                databaseIndexForHeroList.add(i);
+            }
         }
 
         Bundle b = getIntent().getExtras();
@@ -406,6 +428,10 @@ public class NewMerchantHeroActivity extends Activity {
         buyView = (TextView) findViewById(R.id.textview_merch_hero_buy);
         fortuneView = (TextView) findViewById(R.id.textview_merch_hero_fortune);
         merchProfileView = (ImageView) findViewById(R.id.imageview_merch_hero_merchant_profile);
+        market = (ImageView) findViewById(R.id.imageview_merch_has_left);
+        des = (TextView) findViewById(R.id.textview_merch_has_left);
+        desMinutes = (TextView) findViewById(R.id.textview_merch_has_left_minute_display);
+        main = (LinearLayout) findViewById(R.id.layout_merch_hero_main);
     }
 
     public void hideSystemUI() {
