@@ -24,6 +24,7 @@ import java.util.Objects;
 
 public class HospitalActivity extends Activity {
 
+    private DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
     private List<Integer> slotIndexForTimerList = new ArrayList<>();
@@ -278,8 +279,14 @@ public class HospitalActivity extends Activity {
         }
     }
 
-    private long getNewDate(){
-        return(System.currentTimeMillis() + (60 * 60 * 1000));
+    private long getNewDate(int hpNow, int hpTotal){
+
+        // Wie viel % der HpTotal sind noch nicht geheilt
+        // +1, um Rundungsfehler zu korrigieren
+        long percentToCompleteHealth = ((hpTotal-hpNow) / hpTotal) * 100 + 1;
+
+        // Jedes Prozent benötigt eine Stunde zur Heilung
+        return(System.currentTimeMillis() + (60 * 60 * 1000 * percentToCompleteHealth));
     }
 
 
@@ -336,10 +343,16 @@ public class HospitalActivity extends Activity {
                     @Override
                     public void onTick(long l) {
                         timeToLeaveView.setText("" + l / 1000 / 60);
+
+                        // Die verstrichenen Sekunden werden zwischengespeichert
+                        // und bei Verlassen der Activity in DB geschrieben
                         timeUsedArray[slotIndex] += 1000;
-                        //timeToLeaveView.setText("" + l);
-                        //hero.setBufferTime(hero.getBufferTime() - 1);
-                        //Log.v("COUNT ", "bufferTime: " + hero.getBufferTime(hero.getSlotIndex()));
+
+                        // Es wird mit Modulo-Rechnung geprüft, ob eine ganze Stunde vergangen ist
+                        // Wenn ja, dann wird Held um einen Punkt geheilt
+                        if(brokenHeroList.get(slotIndex).getHpNow() % (60*60*1000) == 0){
+                            brokenHeroList.get(slotIndex).incrementHitpointsByOne();
+                        }
                     }
 
                     @Override
@@ -354,9 +367,10 @@ public class HospitalActivity extends Activity {
                             if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
                                 slotsList.get(slotIndex).showPlaceholder();
                                 brokenHeroList.get(index).setHeroMedSlotIndex(-1);
-                                brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
                                 brokenHeroList.remove(index);
                                 index = 3;
+
+                                Msg.msg(getApplicationContext(), "Held vollständig genesen");
 
                             }else if(index == 2) Msg.msg(getApplicationContext(), "ERROR @ onFinish : removeBrokenHeroFromList : no matching index");
                         }
@@ -403,18 +417,17 @@ public class HospitalActivity extends Activity {
             */
 
             if(dbIndex > 0){
-                DBheroesAdapter heroesHelper = new DBheroesAdapter(getApplicationContext());
-                name = heroesHelper.getHeroName(dbIndex);
-                hpNow = heroesHelper.getHeroHitpoints(dbIndex);
-                profileResource = heroesHelper.getHeroImgRes(dbIndex);
-                hpTotal = heroesHelper.getHeroHitpointsTotal(dbIndex);
+                name = h.getHeroName(dbIndex);
+                hpNow = h.getHeroHitpoints(dbIndex);
+                profileResource = h.getHeroImgRes(dbIndex);
+                hpTotal = h.getHeroHitpointsTotal(dbIndex);
 
                 // 'tempTime' wird verwendet, um weniger Datenbankzugriffe zu haben (nur einen)
                 //long tempTime = heroesHelper.getTimeToLeave(dbIndex);
 
-                long tempTime = heroesHelper.getTimeToLeave(dbIndex);
+                long tempTime = h.getTimeToLeave(dbIndex);
 
-                if(tempTime == 0) timeToLeave = getNewDate();
+                if(tempTime == 0) timeToLeave = getNewDate(hpNow, hpTotal);
                 else { timeToLeave = tempTime; }
 
                 this.setHeroMedSlotIndex(si);
@@ -422,19 +435,20 @@ public class HospitalActivity extends Activity {
         }
 
         public boolean setHeroHitpoints(int hpNew){
-            DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
             return h.updateHeroHitpoints(dbIndex, hpNew) != -1;
         }
 
+        public boolean incrementHitpointsByOne(){
+            return h.updateHeroHitpoints(dbIndex, ++hpNow) != -1;
+        }
+
         public boolean setHeroMedSlotIndex(int slotIndex){
-            DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
             this.slotIndex = slotIndex;
             return h.updateMedSlotIndex(dbIndex, slotIndex);
         }
 
         public boolean setTimeToLeave(long time) {
             Log.v("setTimeToLeave",  "setTimeToLeave called with time: " + time);
-            DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
             return h.updateTimeToLeave(dbIndex, time);
         }
 

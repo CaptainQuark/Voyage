@@ -6,7 +6,7 @@ public class ConstRes {
     public final int
             TOTAL_ITEMS_PLAYER_LV1 = 50,
             TOTAL_ITEMS_MERCHANT_LV1 = 20,
-            TOTAL_HEROES_MERCHANT = 10,
+            TOTAL_HEROES_MERCHANT = 3,
             TOTAL_HEROES_PLAYER = 10,
             HEROES_IN_LISTVIEW = 10;
 
