@@ -32,7 +32,7 @@ public class HeroCampActivity extends Activity {
 
     private GridView heroGridView;
     private DBheroesAdapter h;
-    private TextView slotsView, healView, toFightView, sellView;
+    private TextView slotsView, healView, toFightView, sellView, fortuneView;
 
     // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
     // -> Scrollen in GridView bleibt flüssig
@@ -94,6 +94,7 @@ public class HeroCampActivity extends Activity {
         healView = (TextView) findViewById(R.id.textview_camp_heal_hero);
         toFightView = (TextView) findViewById(R.id.textview_camp_to_fight);
         sellView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
+        fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
         setSlotsView();
     }
 
@@ -133,7 +134,7 @@ public class HeroCampActivity extends Activity {
             Bundle b = getIntent().getExtras();
             if(b != null){ slotIndex = b.getInt("SLOT_INDEX", -1); }
 
-
+            // nächsten freien Slot in HospitalActivity finden
             if(slotIndex == -1){
                 int[] slotsArray = {1,1,1};
 
@@ -165,9 +166,16 @@ public class HeroCampActivity extends Activity {
 
             if(slotIndex >= 0 && slotIndex <= 2){
                 SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+                int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
+                long money = prefs.getLong("currentMoneyLong", -1) - costs;
 
+                prefs.edit().putLong("currentMoneyLong", money).apply();
+                fortuneView.setText("$ " + money);
+
+                /*
                 float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
                 long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
+                */
 
                 if(money >= 0){
                     prefs.edit().putLong("currentMoneyLong", money);
@@ -219,10 +227,11 @@ public class HeroCampActivity extends Activity {
         if((lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1)){
 
             SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-            long money = prefs.getLong("currentMoneyLong", -1);
+            long money = prefs.getLong("currentMoneyLong", -1) + h.getHeroCosts(lastSelectedHeroIndex+1);
+            fortuneView.setText("$ " + money);
 
             // Annahme: 'costs' wurde bereits nach Kauf des Helden abgewertet und entspricht jetzt dem akutellen Verkaufswert
-            prefs.edit().putLong("currentMoneyLong", money + h.getHeroCosts(lastSelectedHeroIndex+1)).apply();
+            prefs.edit().putLong("currentMoneyLong", money).apply();
 
             h.markOneRowAsUnused(lastSelectedHeroIndex + 1);
             heroList.remove(lastSelectedHeroIndex);
@@ -328,7 +337,7 @@ public class HeroCampActivity extends Activity {
         // und müssen nicht jedes Mal neu zugewiesen werden
         class ViewHolder {
 
-            private TextView nameView,classesView, hpView, costsView, evasionView, inMedicationView;
+            private TextView nameView,classesView, hpView, costsView, evasionView, inMedicationView, hospitalCostsView;
             private ImageView profileView;
             private LinearLayout rightPanelLayout;
 
@@ -337,6 +346,7 @@ public class HeroCampActivity extends Activity {
                 classesView = (TextView) v.findViewById(R.id.textView_camp_card_prim_and_sec);
                 hpView = (TextView) v.findViewById(R.id.textView_camp_card_hp);
                 costsView = (TextView) v.findViewById(R.id.textView_camp_card_costs);
+                hospitalCostsView = (TextView) findViewById(R.id.textView_camp_card_hospital_costs);
                 evasionView = (TextView) v.findViewById(R.id.textView_camp_card_evasion);
                 profileView = (ImageView) v.findViewById(R.id.imageView_camp_card_profile);
                 rightPanelLayout = (LinearLayout) v.findViewById(R.id.layout_camp_right_panel);
@@ -372,8 +382,18 @@ public class HeroCampActivity extends Activity {
                 holder.rightPanelLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
             }
 
-            if(h.getMedSlotIndex(position+1) != -1) holder.inMedicationView.setVisibility(View.VISIBLE);
-            else holder.inMedicationView.setVisibility(View.GONE);
+            if(h.getMedSlotIndex(position+1) != -1) {
+                holder.hospitalCostsView.setText("IN HEILUNG");
+                holder.hospitalCostsView.setTextColor(Color.RED);
+            }
+            else {
+                if(heroList.get(position).getHpTotal() == heroList.get(position).getHpTotal())
+                    holder.hospitalCostsView.setText("-");
+                else
+                    holder.hospitalCostsView.setText("$ " + ((heroList.get(position).getHpTotal() - (heroList.get(position).getHp())) / (heroList.get(position).getHpTotal()) * 100 + 1) * 100);
+
+                holder.hospitalCostsView.setTextColor(Color.BLACK);
+            }
 
             holder.profileView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -397,7 +417,7 @@ public class HeroCampActivity extends Activity {
                 @Override
                 public void onClick(View view) {
                     Msg.msg(getApplicationContext(), "hp now by list: " + heroList.get(position).getHp());
-                    Msg.msg(getApplicationContext(), "hp now by db: " + h.getHeroHitpoints(position+1));
+                    Msg.msg(getApplicationContext(), "hp now by db: " + h.getHeroHitpoints(position + 1));
                     Msg.msg(getApplicationContext(), "hpTotal now by list: " + heroList.get(position).getHpTotal());
                     Msg.msg(getApplicationContext(), "hpTotal now by db: " + h.getHeroHitpointsTotal(position + 1));
                 }

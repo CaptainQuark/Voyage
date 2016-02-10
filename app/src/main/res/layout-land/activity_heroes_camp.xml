@@ -71,19 +71,6 @@
             android:fontFamily="sans-serif-light" />
 
         <TextView
-            android:onClick="dismissHero"
-            android:id="@+id/textview_camp_dismiss_hero"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Helden verkaufen"
-            android:textColor="#707070"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-light" />
-
-        <TextView
             android:id="@+id/textview_camp_to_fight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -97,6 +84,19 @@
             android:fontFamily="sans-serif-light" />
 
         <TextView
+            android:onClick="dismissHero"
+            android:id="@+id/textview_camp_dismiss_hero"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Helden verkaufen"
+            android:textColor="#707070"
+            android:textSize="15sp"
+            android:fontFamily="sans-serif-light" />
+
+        <TextView
             android:id="@+id/textview_camp_heal_hero"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -107,6 +107,20 @@
             android:textSize="15sp"
             android:onClick="campHealHero"
             android:layout_marginRight="0dp"
+            android:fontFamily="sans-serif-light" />
+
+
+        <TextView
+            android:id="@+id/textview_camp_fortune"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="$ ..."
+            android:textColor="#707070"
+            android:textSize="15sp"
+            android:onClick="commitToQuest"
             android:fontFamily="sans-serif-light" />
 
     </LinearLayout>
