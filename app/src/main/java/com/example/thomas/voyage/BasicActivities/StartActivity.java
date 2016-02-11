@@ -13,6 +13,7 @@ import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
+import com.example.thomas.voyage.ContainerClasses.HelperCSV;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Msg;
@@ -76,19 +77,10 @@ public class StartActivity extends Activity {
          */
 
 
-        try{
-            CSVReader reader = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.test)));
-            String [] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                // nextLine[] is an array of values from the line
-                Msg.msgShort(this, nextLine[0] + nextLine[1] + "etc...");
-            }
+        HelperCSV helperCSV = new HelperCSV(this);
+        List<String[]> list = helperCSV.getDataList("test");
 
-        }catch(java.io.FileNotFoundException f){
-            Msg.msg(this, "Error : " + String.valueOf(f));
-        }catch(java.io.IOException i){
-            Msg.msg(this, "Error : " + String.valueOf(i));
-        }
+        for(int i = 0; i < list.size(); i++) Msg.msgShort(this, list.get(i)[0] + " " + list.get(i)[1]);
     }
 
     @Override
