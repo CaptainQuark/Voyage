@@ -23,7 +23,12 @@ import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
+import com.opencsv.CSVReader;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -62,6 +67,28 @@ public class StartActivity extends Activity {
         setHeroesPartyWindow();
         setItemMarketWindow();
         setHospitalWindows();
+
+
+        /*
+
+        CSV-Testgebiet
+
+         */
+
+
+        try{
+            CSVReader reader = new CSVReader(new InputStreamReader(getResources().openRawResource(R.raw.test)));
+            String [] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                // nextLine[] is an array of values from the line
+                Msg.msgShort(this, nextLine[0] + nextLine[1] + "etc...");
+            }
+
+        }catch(java.io.FileNotFoundException f){
+            Msg.msg(this, "Error : " + String.valueOf(f));
+        }catch(java.io.IOException i){
+            Msg.msg(this, "Error : " + String.valueOf(i));
+        }
     }
 
     @Override
