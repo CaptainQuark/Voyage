@@ -203,6 +203,13 @@ public class HospitalActivity extends Activity {
                 brokenHeroList.get(index).setHeroMedSlotIndex(-1);
                 brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
                 brokenHeroList.remove(index);
+
+                for(int j = 0; j < slotIndexForTimerList.size(); j++){
+                    if(slotIndexForTimerList.get(j) == slotIndex){
+                        slotIndexForTimerList.remove(j);
+                        timerList.remove(j);
+                    }
+                }
                 index = 3;
 
             }else if(index == 2) Msg.msg(this, "ERROR @ removeBrokenHeroFromList : no matching index");
@@ -234,14 +241,6 @@ public class HospitalActivity extends Activity {
 
                     removeBrokenHeroFromList(i);
                 }
-                for(int j = 0; j < slotIndexForTimerList.size(); j++){
-                    if(slotIndexForTimerList.get(j) == lastSelectedSlotIndex){
-                        timerList.get(j).cancel();
-                        timerList.remove(j);
-                        slotIndexForTimerList.remove(j);
-                        j = slotIndexForTimerList.size();
-                    }
-                }
             }
 
             lastSelectedSlotIndex = -1;
@@ -268,14 +267,6 @@ public class HospitalActivity extends Activity {
                     // zum Beenden der Schleife
                     i = brokenHeroList.size();
                     Msg.msg(this, "Heal-A-Hero!");
-                    for(int j = 0; j < slotIndexForTimerList.size(); j++){
-                        if(slotIndexForTimerList.get(j) == lastSelectedSlotIndex){
-                            timerList.get(j).cancel();
-                            timerList.remove(j);
-                            slotIndexForTimerList.remove(j);
-                            j = slotIndexForTimerList.size();
-                        }
-                    }
                     removeBrokenHeroFromList(i);
                 }
             }
