@@ -162,6 +162,8 @@ public class MerchantHeroActivity extends Activity {
                 prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
 
                 setNewMerchantProfile();
+                currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+                merchantProfile.setImageResource(ImgRes.res(getApplicationContext(), "merch", currentMerchantId + ""));
 
                 if (updateMerchantsDatabase(3) < 0)
                     Log.e("ERROR @ ", "updateMerchantsDatabase");
