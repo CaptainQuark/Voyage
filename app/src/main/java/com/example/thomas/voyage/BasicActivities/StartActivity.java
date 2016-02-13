@@ -50,6 +50,7 @@ public class StartActivity extends Activity {
         setContentView(R.layout.activity_start);
         hideSystemUI();
 
+        // Datenbankobjekte initialisieren
         heroesHelper = new DBheroesAdapter(this);
         merchantHelper = new DBmerchantHeroesAdapter(this);
         itemPlayerHelper = new DBplayerItemsAdapter(this);
@@ -104,8 +105,8 @@ public class StartActivity extends Activity {
         if (isFirstRun) {
             Msg.msg(this, "IS_FIRST_RUN: " + isFirstRun);
 
-            SharedPreferences money_pref = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-            money_pref.edit().putLong("currentMoneyLong", 5000).apply();
+            SharedPreferences money_pref = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+            money_pref.edit().putLong(c.MY_POCKET, 5000).apply();
 
             long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
@@ -216,7 +217,7 @@ public class StartActivity extends Activity {
         long validation = 0;
 
         for (int i = rows; i > 0; i--) {
-            validation = heroesHelper.insertData("NOT_USED", 0, "", "", 0, "");
+            validation = heroesHelper.insertData(c.NOT_USED, 0, "", "", 0, "");
 
             if(validation < 0){
                 Toast.makeText(this, "ERROR @ prepareHeroesDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
@@ -232,7 +233,7 @@ public class StartActivity extends Activity {
     private void preparePlayersItemDatabase(int rows){
 
         for (int i = rows; i > 0; i--) {
-            long validation = itemPlayerHelper.insertData("NOT_USED", 0, "", "", 0, 0, "");
+            long validation = itemPlayerHelper.insertData(c.NOT_USED, 0, "", "", 0, 0, "");
 
             if(validation < 0){
                 Toast.makeText(this, "ERROR @ preparePlayersItemDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
@@ -270,7 +271,6 @@ public class StartActivity extends Activity {
             heroList.add(new Hero(this));
             heroList.get(i).Initialize("Everywhere");
 
-            // noch Vorgänger-unabhängig -> neue Zeilen werden einfach an Ende angehängt
             id = merchantHelper.insertData(
                     heroList.get(i).getHeroName(),
                     heroList.get(i).getHp(),
@@ -308,18 +308,18 @@ public class StartActivity extends Activity {
     }
 
     public void clickToStats(View view) {
-        Intent i = new Intent(getApplicationContext(), NewMerchantHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
         startActivity(i);
     }
 
     public void clickToMerchantInventory(View view){
-        Intent i = new Intent(getApplicationContext(), MerchantInventoryActivity.class);
+        Intent i = new Intent(getApplicationContext(), NewMerchantHeroActivity.class);
         startActivity(i);
     }
 
     public void clickToCamp(View view){
         Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-        i.putExtra("ORIGIN", "StartActivity");
+        i.putExtra(c.ORIGIN, "StartActivity");
         startActivity(i);
     }
 

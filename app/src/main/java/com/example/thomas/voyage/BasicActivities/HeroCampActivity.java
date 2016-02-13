@@ -340,7 +340,7 @@ public class HeroCampActivity extends Activity {
         // und müssen nicht jedes Mal neu zugewiesen werden
         class ViewHolder {
 
-            private TextView nameView,classesView, hpView, costsView, evasionView, inMedicationView, hospitalCostsView;
+            private TextView nameView,classesView, hpView, costsView, evasionView, hospitalCostsView;
             private ImageView profileView;
             private LinearLayout rightPanelLayout;
 
@@ -349,11 +349,10 @@ public class HeroCampActivity extends Activity {
                 classesView = (TextView) v.findViewById(R.id.textView_camp_card_prim_and_sec);
                 hpView = (TextView) v.findViewById(R.id.textView_camp_card_hp);
                 costsView = (TextView) v.findViewById(R.id.textView_camp_card_costs);
-                hospitalCostsView = (TextView) findViewById(R.id.textView_camp_card_hospital_costs);
+                hospitalCostsView = (TextView) v.findViewById(R.id.textView_camp_card_hospital_costs);
                 evasionView = (TextView) v.findViewById(R.id.textView_camp_card_evasion);
                 profileView = (ImageView) v.findViewById(R.id.imageView_camp_card_profile);
                 rightPanelLayout = (LinearLayout) v.findViewById(R.id.layout_camp_right_panel);
-                inMedicationView = (TextView) v.findViewById(R.id.textView_camp_card_hero_in_medication);
             }
         }
 
@@ -413,16 +412,6 @@ public class HeroCampActivity extends Activity {
                     heroGridView.invalidateViews();
                     setToolbarViews();
                     return false;
-                }
-            });
-
-            holder.nameView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Msg.msg(getApplicationContext(), "hp now by list: " + heroList.get(position).getHp());
-                    Msg.msg(getApplicationContext(), "hp now by db: " + h.getHeroHitpoints(position + 1));
-                    Msg.msg(getApplicationContext(), "hpTotal now by list: " + heroList.get(position).getHpTotal());
-                    Msg.msg(getApplicationContext(), "hpTotal now by db: " + h.getHeroHitpointsTotal(position + 1));
                 }
             });
 

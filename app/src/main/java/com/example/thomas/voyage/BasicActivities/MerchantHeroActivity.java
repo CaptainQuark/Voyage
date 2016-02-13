@@ -18,6 +18,7 @@ import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
@@ -141,6 +142,8 @@ public class MerchantHeroActivity extends Activity {
             timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
             prefs.edit().putLong("merchToLeaveDaytime", merchToLeaveDaytime);
             setNewMerchantProfile();
+            ConstRes c = new ConstRes();
+            updateMerchantsDatabase(c.TOTAL_HEROES_MERCHANT);
 
         }else{
             timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;

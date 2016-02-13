@@ -31,7 +31,7 @@
                 android:id="@+id/textView_camp_card_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:textAllCaps="true"
                 android:text="Charaktername"
                 android:gravity="bottom|center"
@@ -45,7 +45,7 @@
                 android:id="@+id/textView_camp_card_prim_and_sec"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="4"
                 android:gravity="top|center"
                 android:text="Primklasse und Secklasse"
                 android:fontFamily="sans-serif-light"
@@ -190,17 +190,6 @@
                     android:textColor="#626262"
                     android:textStyle="bold" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:text="Held in Behandlung"
-                android:gravity="center"
-                android:textColor="@android:color/holo_red_dark"
-                android:fontFamily="sans-serif-light"
-                android:id="@+id/textView_camp_card_hero_in_medication"
-                android:visibility="gone" />
 
         </LinearLayout>
 
