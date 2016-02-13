@@ -19,6 +19,7 @@ import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 public class HospitalActivity extends Activity {
 
@@ -26,8 +27,6 @@ public class HospitalActivity extends Activity {
     private ConstRes c;
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
-    private List<Integer> slotIndexForTimerList = new ArrayList<>();
-    private List<CountDownTimer> timerList = new ArrayList<>();
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
     private int lastSelectedSlotIndex = -1;
     private long[] timeUsedArray = {0,0,0};
@@ -198,18 +197,12 @@ public class HospitalActivity extends Activity {
         for(int index = 0; index < brokenHeroList.size(); index++){
 
             if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
-                slotsList.get(slotIndex).cancelCountDownTimer(brokenHeroList.get(index),0);
+                slotsList.get(slotIndex).cancelCountDownTimer(brokenHeroList.get(index), 0);
                 slotsList.get(slotIndex).showPlaceholder();
                 brokenHeroList.get(index).setHeroMedSlotIndex(-1);
                 brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
                 brokenHeroList.remove(index);
 
-                for(int j = 0; j < slotIndexForTimerList.size(); j++){
-                    if(slotIndexForTimerList.get(j) == slotIndex){
-                        slotIndexForTimerList.remove(j);
-                        timerList.remove(j);
-                    }
-                }
                 index = 3;
 
             }else if(index == 2) Msg.msg(this, "ERROR @ removeBrokenHeroFromList : no matching index");
@@ -239,7 +232,7 @@ public class HospitalActivity extends Activity {
                     i = brokenHeroList.size();
                     Msg.msg(this, "No more medication");
 
-                    removeBrokenHeroFromList(i);
+                    removeBrokenHeroFromList(lastSelectedSlotIndex);
                 }
             }
 
@@ -267,7 +260,7 @@ public class HospitalActivity extends Activity {
                     // zum Beenden der Schleife
                     i = brokenHeroList.size();
                     Msg.msg(this, "Heal-A-Hero!");
-                    removeBrokenHeroFromList(i);
+                    removeBrokenHeroFromList(lastSelectedSlotIndex);
                 }
             }
 
@@ -283,8 +276,6 @@ public class HospitalActivity extends Activity {
 
     private long getNewDate(int hpNow, int hpTotal){
 
-        Msg.msgShort(getApplicationContext(), "getNewDate called");
-
         // Wie viel % der HpTotal sind noch nicht geheilt
         // +1, um Rundungsfehler zu korrigieren
         long percentToCompleteHealth = (long) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * (float) 100 + 1);
@@ -294,6 +285,7 @@ public class HospitalActivity extends Activity {
         return(System.currentTimeMillis() + (60 * 60 * 1000 * percentToCompleteHealth));
     }
 
+    
 
     /**
 
@@ -304,6 +296,7 @@ public class HospitalActivity extends Activity {
 
     private class Slot{
         private int slotIndex;
+        private CountDownTimer timer;
         private TextView nameView, hpNowView, timeToLeaveView, staticHpView, staticTimeView;
         private ImageView profileResourceView;
 
@@ -341,12 +334,13 @@ public class HospitalActivity extends Activity {
         }
 
         private void setCountDownTimer(final long time, final BrokenHero hero){
+
             try{
-                slotIndexForTimerList.add(slotIndex);
-                timerList.add(new CountDownTimer(time, 1000) {
+                timer = new CountDownTimer(time, 1000) {
                     @Override
                     public void onTick(long l) {
                         timeToLeaveView.setText("" + l / 1000 / 60);
+                        Log.v("timeToLeaveView", "onTick called with " + l);
 
                         // Die verstrichenen Sekunden werden zwischengespeichert
                         // und bei Verlassen der Activity in DB geschrieben
@@ -354,7 +348,7 @@ public class HospitalActivity extends Activity {
 
                         // Es wird mit Modulo-Rechnung geprüft, ob eine ganze Stunde vergangen ist
                         // Wenn ja, dann wird Held um einen Punkt geheilt
-                        if(brokenHeroList.get(slotIndex).getHpNow() % (60*60*1000) == 0){
+                        if(hero.getHpNow() % (60*60*1000) == 0){
                             brokenHeroList.get(slotIndex).incrementHitpointsByOne();
                             slotsList.get(slotIndex).hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
                         }
@@ -364,8 +358,6 @@ public class HospitalActivity extends Activity {
                     public void onFinish() {
                         if(!hero.setTimeToLeave(0)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
                         timeToLeaveView.setText("");
-
-                        //Msg.msg(getApplicationContext(), "onFinish called");
 
                         for(int index = 0; index < brokenHeroList.size(); index++){
 
@@ -380,29 +372,21 @@ public class HospitalActivity extends Activity {
                             }else if(index == 2) Msg.msg(getApplicationContext(), "ERROR @ onFinish : removeBrokenHeroFromList : no matching index");
                         }
                     }
-                }.start());
+                }.start();
 
             }catch (Exception e){Msg.msg(getApplicationContext(), e + "");}
         }
 
         private void cancelCountDownTimer(final BrokenHero hero, long time){
-            DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
+            Msg.msg(getApplicationContext(), "cancelCountDown called");
 
-            try {
-                for(int i = 0; i < slotIndexForTimerList.size(); i++){
-                    if(slotIndexForTimerList.get(i) == slotIndex){
-                        timerList.get(i).cancel();
-                        //hero.setBufferTime(time);
-                        if(!hero.setTimeToLeave(time)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
-                        Log.v("cancelCountDownTimer","time to leave from db, read: " + h.getTimeToLeave(hero.dbIndex) );
-                        slotIndexForTimerList.remove(i);
-                        timerList.remove(i);
+            try{
+                timer.cancel();
+                timer = null;
+                if(!hero.setTimeToLeave(time)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
+                Log.v("cancelCountDownTimer","time to leave from db, read: " + h.getTimeToLeave(hero.dbIndex) );
 
-                        // Gefahr? Größe des Arrays änderst sich zwischen for-Abfrage und if-Zutreffen
-                        i = slotIndexForTimerList.size();
-                    }
-                }
-            }catch (Exception e){Msg.msg(getApplicationContext(), String.valueOf(e));}
+            }catch (Exception e){ Msg.msg(getApplicationContext(), String.valueOf(e));}
         }
     }
 
