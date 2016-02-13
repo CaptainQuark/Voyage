@@ -109,13 +109,13 @@ public class MerchantHeroActivity extends Activity {
     }
 
     private long getNowInSeconds(){
-        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 60 *60
+        return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
                 + Calendar.getInstance().get(Calendar.MINUTE) * 60
                 + Calendar.getInstance().get(Calendar.SECOND);
     }
 
     private long getNewMerchLeaveDaytime(){
-        return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 12) ? 12*60*60 : 24*60*60;
+        return ((Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) < 12) ? 12*60*60 : 24*60*60;
     }
 
     private long getNewMerchChangeDate(){
@@ -123,7 +123,7 @@ public class MerchantHeroActivity extends Activity {
         // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
         long newFinishDate = getNewMerchLeaveDaytime();
 
-        long todayInSeconds = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 60 *60
+        long todayInSeconds = (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
                 + Calendar.getInstance().get(Calendar.MINUTE) * 60
                 + Calendar.getInstance().get(Calendar.SECOND);
 
