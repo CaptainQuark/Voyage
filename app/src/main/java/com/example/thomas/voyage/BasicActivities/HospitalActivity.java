@@ -16,15 +16,12 @@ import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class HospitalActivity extends Activity {
 
-    private DBheroesAdapter h = new DBheroesAdapter(getApplicationContext());
+    private DBheroesAdapter h;
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
     private List<Integer> slotIndexForTimerList = new ArrayList<>();
@@ -38,7 +35,7 @@ public class HospitalActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital);
         hideSystemUI();
-        iniGeneralViews();
+        prepareActivity();
 
         /*
 
@@ -55,9 +52,6 @@ public class HospitalActivity extends Activity {
         eingetragen.
 
         */
-
-        for(int i = 0; i < 3; i++) slotsList.add( new Slot(i) );
-        initializeBrokenHeroes();
     }
 
     @Override
@@ -468,11 +462,16 @@ public class HospitalActivity extends Activity {
      */
 
 
-    private void iniGeneralViews(){
+    private void prepareActivity(){
         freeSlotsView = (TextView) findViewById(R.id.textview_hospital_slots);
         fortuneView = (TextView) findViewById(R.id.textview_hospital_fortune);
         abortMedicationView = (TextView) findViewById(R.id.textview_hospital_abort_medication);
         boostMedicationView = (TextView) findViewById(R.id.textview_hospital_boost_healing);
+
+        h = new DBheroesAdapter(getApplicationContext());
+
+        for(int i = 0; i < 3; i++) slotsList.add( new Slot(i) );
+        initializeBrokenHeroes();
     }
 
     private void hideSystemUI() {

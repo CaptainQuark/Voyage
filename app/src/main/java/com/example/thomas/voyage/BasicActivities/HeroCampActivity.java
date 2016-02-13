@@ -96,6 +96,9 @@ public class HeroCampActivity extends Activity {
         sellView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
         fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
         setSlotsView();
+
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        fortuneView.setText("$ " + prefs.getLong("currentMoneyLong", -1));
     }
 
     @Override

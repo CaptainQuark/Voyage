@@ -21,6 +21,7 @@ import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -106,14 +107,73 @@ public class MerchantHeroActivity extends Activity {
         prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
     }
 
+    private long getNowInSeconds(){
+        return Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+    }
 
+    private long getNewMerchLeaveDaytime(){
+        return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) < 12) ? 12*60*60 : 24*60*60;
+    }
 
-    public void clickToHeroesPartyActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
-        startActivity(i);
+    private long getNewMerchChangeDate(){
+
+        // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
+        long newFinishDate = getNewMerchLeaveDaytime();
+
+        long todayInSeconds = Calendar.getInstance().get(Calendar.HOUR_OF_DAY) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+
+        // neuer Abreise-Zeitpunkt des Händlers
+        return System.currentTimeMillis() + (newFinishDate - todayInSeconds)*1000;
     }
 
     private void showExpirationDate() {
+        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
+        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
+
+        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
+        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+
+        if(System.currentTimeMillis() >= merchChangeDate){
+            timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
+            prefs.edit().putLong("merchToLeaveDaytime", merchToLeaveDaytime);
+            setNewMerchantProfile();
+
+        }else{
+            timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+        }
+
+        currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+        merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
+
+        final TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
+
+        timer = new CountDownTimer(timeToShow, 1000 / 60) {
+
+            public void onTick(long millisUntilFinished) {
+                merchantTimeView.setText("" + millisUntilFinished / 1000 / 60);
+            }
+
+            public void onFinish() {
+                prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
+                prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+                setNewMerchantProfile();
+
+                if (updateMerchantsDatabase(3) < 0)
+                    Log.e("ERROR @ ", "updateMerchantsDatabase");
+
+                showExpirationDate();
+            }
+        }.start();
+    }
+
+    /*
+
+     private void showExpirationDate() {
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
 
@@ -155,28 +215,7 @@ public class MerchantHeroActivity extends Activity {
         }.start();
     }
 
-    private long setNewDate() {
-        Msg.msg(this, "setNewDate called");
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        long finishDate = prefs.getLong("TIME_TO_LEAVE", 0);
-
-        Date finish = new Date();
-        Date now = new Date();
-        finish.setTime(finishDate);
-
-        Date newExpirationDate = new Date();
-
-        //60*60*1000 = 1 Stunde, *18 = 18 Stunden
-
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000)) );
-
-        Msg.msg(this, "SYS: " + System.currentTimeMillis());
-        Msg.msg(this, "FIN: " + finishDate);
-        //if(finish.before(now)) newExpirationDate.setTime( (System.currentTimeMillis() + (60*60*1000*10)) - (now.getTime() - finishDate) );
-        //else newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000 * 1)) );
-
-        return newExpirationDate.getTime();
-    }
+     */
 
     private long setNewCorrectedDate(){
         SharedPreferences prefs = getPreferences(MODE_PRIVATE);
@@ -187,7 +226,7 @@ public class MerchantHeroActivity extends Activity {
         }
 
         Date newExpirationDate = new Date();
-        newExpirationDate.setTime( (System.currentTimeMillis() + (60 * 60 * 1000)) - (System.currentTimeMillis() - finishDate));
+        newExpirationDate.setTime((System.currentTimeMillis() + (60 * 60 * 1000)) - (System.currentTimeMillis() - finishDate));
 
         return newExpirationDate.getTime();
     }

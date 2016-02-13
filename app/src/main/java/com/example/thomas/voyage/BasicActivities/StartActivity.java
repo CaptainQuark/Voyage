@@ -31,8 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-import java.util.Random;
 
 
 public class StartActivity extends Activity {
@@ -69,7 +69,6 @@ public class StartActivity extends Activity {
         setItemMarketWindow();
         setHospitalWindows();
 
-
         /*
 
         CSV-Testgebiet
@@ -77,10 +76,12 @@ public class StartActivity extends Activity {
          */
 
 
+        /*
         HelperCSV helperCSV = new HelperCSV(this);
         List<String[]> list = helperCSV.getDataList("test");
 
         for(int i = 0; i < list.size(); i++) Msg.msgShort(this, list.get(i)[0] + " " + list.get(i)[1]);
+        */
     }
 
     @Override
@@ -307,7 +308,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToStats(View view) {
-        Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), NewMerchantHeroActivity.class);
         startActivity(i);
     }
 
