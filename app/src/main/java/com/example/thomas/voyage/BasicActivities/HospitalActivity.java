@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
 public class HospitalActivity extends Activity {
 
     private DBheroesAdapter h;
+    private ConstRes c;
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
     private List<Integer> slotIndexForTimerList = new ArrayList<>();
@@ -170,8 +172,8 @@ public class HospitalActivity extends Activity {
         if(!isUsed){
 
             Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-            i.putExtra("ORIGIN", "HospitalActivity");
-            i.putExtra("SLOT_INDEX", slotIndex);
+            i.putExtra(c.ORIGIN, "HospitalActivity");
+            i.putExtra(c.SLOT_INDEX, slotIndex);
             startActivity(i);
             finish();
 
@@ -212,8 +214,8 @@ public class HospitalActivity extends Activity {
     }
 
     private void setFortuneView(){
-        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-        long money = prefs.getLong("currentMoneyLong", -1);
+        SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+        long money = prefs.getLong(c.MY_POCKET, -1);
 
         fortuneView.setText("$ " + money);
     }
@@ -230,7 +232,15 @@ public class HospitalActivity extends Activity {
                     i = brokenHeroList.size();
                     Msg.msg(this, "No more medication");
 
-                    removeBrokenHeroFromList(lastSelectedSlotIndex);
+                    removeBrokenHeroFromList(i);
+                }
+                for(int j = 0; j < slotIndexForTimerList.size(); j++){
+                    if(slotIndexForTimerList.get(j) == lastSelectedSlotIndex){
+                        timerList.get(j).cancel();
+                        timerList.remove(j);
+                        slotIndexForTimerList.remove(j);
+                        j = slotIndexForTimerList.size();
+                    }
                 }
             }
 
@@ -247,7 +257,6 @@ public class HospitalActivity extends Activity {
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
-
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
                     int hpNew = brokenHeroList.get(i).getHpTotal();
@@ -259,7 +268,15 @@ public class HospitalActivity extends Activity {
                     // zum Beenden der Schleife
                     i = brokenHeroList.size();
                     Msg.msg(this, "Heal-A-Hero!");
-                    removeBrokenHeroFromList(lastSelectedSlotIndex);
+                    for(int j = 0; j < slotIndexForTimerList.size(); j++){
+                        if(slotIndexForTimerList.get(j) == lastSelectedSlotIndex){
+                            timerList.get(j).cancel();
+                            timerList.remove(j);
+                            slotIndexForTimerList.remove(j);
+                            j = slotIndexForTimerList.size();
+                        }
+                    }
+                    removeBrokenHeroFromList(i);
                 }
             }
 
@@ -275,9 +292,12 @@ public class HospitalActivity extends Activity {
 
     private long getNewDate(int hpNow, int hpTotal){
 
+        Msg.msgShort(getApplicationContext(), "getNewDate called");
+
         // Wie viel % der HpTotal sind noch nicht geheilt
         // +1, um Rundungsfehler zu korrigieren
-        long percentToCompleteHealth = ((hpTotal-hpNow) / hpTotal) * 100 + 1;
+        long percentToCompleteHealth = (long) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * (float) 100 + 1);
+        Msg.msg(getApplicationContext(), "percentToCompleteHealth : " + percentToCompleteHealth);
 
         // Jedes Prozent benötigt eine Stunde zur Heilung
         return(System.currentTimeMillis() + (60 * 60 * 1000 * percentToCompleteHealth));
@@ -307,7 +327,6 @@ public class HospitalActivity extends Activity {
         }
 
         public void showHero(BrokenHero hero){
-            //Msg.msg(getApplicationContext(), "showHero called");
             profileResourceView.setImageResource(getResources().getIdentifier(hero.getProfileResource(), "mipmap", getPackageName()));
             nameView.setText(hero.getName() + "");
             hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
@@ -346,6 +365,7 @@ public class HospitalActivity extends Activity {
                         // Wenn ja, dann wird Held um einen Punkt geheilt
                         if(brokenHeroList.get(slotIndex).getHpNow() % (60*60*1000) == 0){
                             brokenHeroList.get(slotIndex).incrementHitpointsByOne();
+                            slotsList.get(slotIndex).hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
                         }
                     }
 
@@ -469,6 +489,7 @@ public class HospitalActivity extends Activity {
         boostMedicationView = (TextView) findViewById(R.id.textview_hospital_boost_healing);
 
         h = new DBheroesAdapter(getApplicationContext());
+        c = new ConstRes();
 
         for(int i = 0; i < 3; i++) slotsList.add( new Slot(i) );
         initializeBrokenHeroes();

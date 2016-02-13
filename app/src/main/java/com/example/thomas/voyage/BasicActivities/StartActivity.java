@@ -313,7 +313,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToMerchantInventory(View view){
-        Intent i = new Intent(getApplicationContext(), NewMerchantHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), MerchantInventoryActivity.class);
         startActivity(i);
     }
 

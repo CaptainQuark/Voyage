@@ -386,7 +386,7 @@ public class HeroCampActivity extends Activity {
 
             if(h.getMedSlotIndex(position+1) != -1) {
                 holder.hospitalCostsView.setText("IN HEILUNG");
-                holder.hospitalCostsView.setTextColor(Color.RED);
+                holder.hospitalCostsView.setTextColor(Color.WHITE);
             }
             else {
                 if(heroList.get(position).getHpTotal() == heroList.get(position).getHpTotal())

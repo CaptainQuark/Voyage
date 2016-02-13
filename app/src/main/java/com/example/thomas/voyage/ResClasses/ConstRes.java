@@ -23,6 +23,7 @@ public class ConstRes {
             IMAGE_RESOURCE = "IMAGE_RESOURCE",
             POINTS_TO_TRANSFER = "POINTS_TO_TRANSFER",
             MY_POCKET = "currentMoneyLong",
+            SLOT_INDEX = "SLOT_INDEX",
             SP_CURRENT_MONEY_PREF = "CURRENT_MONEY_PREF",
             SP_TOTAL_HEROES_MERCHANT = "TOTAL_HEROES_MERCHANT_PREF";
 }
