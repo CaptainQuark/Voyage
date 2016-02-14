@@ -65,9 +65,8 @@
                     android:layout_rowWeight="1"
                     android:text="Wert"
                     android:gravity="bottom|center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/frag_textview_hp"
                     android:textIsSelectable="false" />
 
@@ -80,9 +79,8 @@
                     android:layout_rowWeight="1"
                     android:text="Wert"
                     android:gravity="bottom|center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/frag_textview_sell_value"
                     android:textIsSelectable="false" />
 
@@ -95,9 +93,8 @@
                     android:layout_rowWeight="1"
                     android:text="Wert"
                     android:gravity="bottom|center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/frag_textview_evasion"
                     android:textIsSelectable="false" />
 
@@ -110,9 +107,8 @@
                     android:layout_rowWeight="1"
                     android:text="Wert"
                     android:gravity="bottom|center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/frag_textview_battles"
                     android:textIsSelectable="false" />
 
@@ -125,9 +121,8 @@
                     android:layout_rowWeight="1"
                     android:text="Wert"
                     android:gravity="bottom|center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/frag_textview_avg_attacks_per_battle"
                     android:textIsSelectable="false" />
 
@@ -140,9 +135,8 @@
                     android:layout_rowWeight="1"
                     android:text="Wert"
                     android:gravity="bottom|center"
-                    android:textColor="#ffffff"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:fontFamily="sans-serif-light"
                     android:id="@+id/frag_textview_level"
                     android:textIsSelectable="false" />
 

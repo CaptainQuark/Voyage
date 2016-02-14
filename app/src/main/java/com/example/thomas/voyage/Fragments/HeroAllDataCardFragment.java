@@ -24,7 +24,6 @@ import com.example.thomas.voyage.R;
 
 public class HeroAllDataCardFragment extends Fragment implements View.OnClickListener{
 
-    private Context c;
     private onHeroAllDataCardListener mListener;
     private int dbIndex;
 
@@ -86,14 +85,11 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
             throw new ClassCastException(activity.toString()
                     + " must implement onHeroAllDataInteractionListener");
         }
-
-        c = getActivity();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        c = null;
     }
 
     @Override

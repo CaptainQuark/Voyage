@@ -31,28 +31,28 @@
                 android:id="@+id/textView_camp_card_name"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="5"
+                android:layout_weight="6"
                 android:textAllCaps="true"
                 android:text="Charaktername"
                 android:gravity="bottom|center"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:fontFamily="sans-serif-bold"
                 android:textColor="@android:color/black"
                 android:textStyle="bold"
-                android:paddingBottom="4dp" />
+                android:paddingBottom="4dp"
+                android:textIsSelectable="false" />
 
             <TextView
                 android:id="@+id/textView_camp_card_prim_and_sec"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="4"
+                android:layout_weight="5"
                 android:gravity="top|center"
                 android:text="Primklasse und Secklasse"
                 android:fontFamily="sans-serif-light"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textIsSelectable="false"
-                android:textColor="#626262"
-                android:textStyle="bold" />
+                android:textColor="#2e2e2e" />
 
             <LinearLayout
                 android:layout_weight="5"
@@ -154,7 +154,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_weight="5"
+                android:layout_weight="7"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
