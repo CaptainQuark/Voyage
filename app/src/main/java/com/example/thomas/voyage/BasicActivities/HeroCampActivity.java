@@ -1,5 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,17 +24,21 @@ import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
+import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
+import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HeroCampActivity extends Activity {
+public class HeroCampActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
     private GridView heroGridView;
     private DBheroesAdapter h;
     private TextView slotsView, healView, toFightView, sellView, fortuneView;
+    private List<Integer> dbIndexForHeroList;
+    private HeroAllDataCardFragment heroAllDataCardFragment;
 
     // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
     // -> Scrollen in GridView bleibt flüssig
@@ -58,10 +64,12 @@ public class HeroCampActivity extends Activity {
         }
 
         h = new DBheroesAdapter(this);
+        dbIndexForHeroList = new ArrayList<>();
         heroList = new ArrayList<>();
 
         for(int i = 1; i <= h.getTaskCount(); i++){
             if(!h.getHeroName(i).equals(c.NOT_USED)){
+                dbIndexForHeroList.add(i);
                 heroList.add(new Hero(
                         h.getHeroName(i),
                         h.getHeroPrimaryClass(i),
@@ -168,6 +176,7 @@ public class HeroCampActivity extends Activity {
             if(!h.updateMedSlotIndex(lastSelectedHeroIndex+1, slotIndex)) Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
 
             if(slotIndex >= 0 && slotIndex <= 2){
+                putFragmentToSleep();
                 SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
                 int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
                 long money = prefs.getLong("currentMoneyLong", -1) - costs;
@@ -200,6 +209,7 @@ public class HeroCampActivity extends Activity {
         if(lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1){
             switch (origin){
                 case "PrepareCombatActivity":
+                    putFragmentToSleep();
                     i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
@@ -207,6 +217,7 @@ public class HeroCampActivity extends Activity {
                     break;
 
                 case "WorldMapQuickCombatActivity":
+                    putFragmentToSleep();
                     i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
@@ -214,6 +225,7 @@ public class HeroCampActivity extends Activity {
                     break;
 
                 default:
+                    putFragmentToSleep();
                     i = new Intent(getApplicationContext(), CombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
@@ -237,11 +249,13 @@ public class HeroCampActivity extends Activity {
             prefs.edit().putLong("currentMoneyLong", money).apply();
 
             h.markOneRowAsUnused(lastSelectedHeroIndex + 1);
+            dbIndexForHeroList.remove(lastSelectedHeroIndex);
             heroList.remove(lastSelectedHeroIndex);
 
             lastSelectedHeroIndex = -1;
             setSlotsView();
             setToolbarViews();
+            putFragmentToSleep();
             heroGridView.invalidateViews();
         }else{
             Msg.msgShort(this, "No fight now.");
@@ -305,6 +319,23 @@ public class HeroCampActivity extends Activity {
                 healView.setTextColor(Color.parseColor("#707070"));
             }
             else healView.setTextColor(Color.WHITE);
+        }
+    }
+
+
+
+    /*
+
+    Fragment-Listener
+
+     */
+
+
+
+    @Override
+    public void putFragmentToSleep() {
+        if(heroAllDataCardFragment != null){
+            getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
         }
     }
 
@@ -400,7 +431,19 @@ public class HeroCampActivity extends Activity {
             holder.profileView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Msg.msg(getApplication(), "Profile tapped!");
+                    lastSelectedHeroIndex = position;
+                    setToolbarViews();
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    heroAllDataCardFragment = new HeroAllDataCardFragment();
+                    Bundle b = new Bundle();
+                    b.putInt("DB_INDEX", dbIndexForHeroList.get(lastSelectedHeroIndex));
+
+                    heroAllDataCardFragment.setArguments(b);
+                    fragmentTransaction.add(R.id.layout_camp_fragment_container, heroAllDataCardFragment);
+                    fragmentTransaction.commit();
                 }
             });
 

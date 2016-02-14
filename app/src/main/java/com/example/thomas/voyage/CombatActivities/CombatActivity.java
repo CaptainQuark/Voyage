@@ -112,11 +112,6 @@ public class CombatActivity extends Activity {
         monsterDmg = 0;
     }
 
-
-
-
-
-
     private static void combat(int scoreField, int multiField){
 
         switch(heroClassActive){

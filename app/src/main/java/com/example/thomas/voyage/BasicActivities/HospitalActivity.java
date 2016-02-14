@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,7 +22,6 @@ import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
 public class HospitalActivity extends Activity {
 
@@ -30,6 +32,7 @@ public class HospitalActivity extends Activity {
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
     private int lastSelectedSlotIndex = -1;
     private long[] timeUsedArray = {0,0,0};
+    private boolean toCancel = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +81,8 @@ public class HospitalActivity extends Activity {
                     slotsList.get(brokenHeroList.get(i).getSlotIndex()).cancelCountDownTimer(
                             brokenHeroList.get(i), brokenHeroList.get(i).getTimeToLeave() - timeUsedArray[brokenHeroList.get(i).getSlotIndex()]
                     );
-
-                    /*
-                    brokenHeroList.get(i).setTimeToLeave(
-                            brokenHeroList.get(i).getBufferTime(-1)
-                    );
-                    */
                 }
+
                 super.onBackPressed();
                 finish();
                 break;
@@ -197,10 +195,11 @@ public class HospitalActivity extends Activity {
         for(int index = 0; index < brokenHeroList.size(); index++){
 
             if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
+
                 slotsList.get(slotIndex).cancelCountDownTimer(brokenHeroList.get(index), 0);
                 slotsList.get(slotIndex).showPlaceholder();
-                brokenHeroList.get(index).setHeroMedSlotIndex(-1);
                 brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
+                if(!brokenHeroList.get(index).setHeroMedSlotIndex(-1)){ Log.e("removeBrokenHero", "setHeroMedSlotIndex(-1)"); }
                 brokenHeroList.remove(index);
 
                 index = 3;
@@ -225,7 +224,8 @@ public class HospitalActivity extends Activity {
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
-
+            Log.v("removeBrokenHero", "brokenHeroList.size : " + brokenHeroList.size());
+            Log.v("removeBrokenHero", "slotList.size : " + slotsList.size());
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
 
@@ -249,11 +249,13 @@ public class HospitalActivity extends Activity {
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
+            Log.v("removeBrokenHero", "brokenHeroList.size : " + brokenHeroList.size());
+            Log.v("removeBrokenHero", "slotList.size : " + slotsList.size());
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
                     int hpNew = brokenHeroList.get(i).getHpTotal();
 
-                    // reutrn-Wert aus Datenbank wird davor in boolean umgewandelt
+                    // return-Wert aus Datenbank wird davor in boolean umgewandelt
                     //  und hier betrachtet - wenn 'false', dann Fehler bei update
                     if(!brokenHeroList.get(i).setHeroHitpoints(hpNew)) Msg.msg(this, "ERROR @ setHeroHitpoints");
 
@@ -285,13 +287,141 @@ public class HospitalActivity extends Activity {
         return(System.currentTimeMillis() + (60 * 60 * 1000 * percentToCompleteHealth));
     }
 
-    
+
 
     /**
 
      Klassen
 
      */
+
+
+    public abstract class CountDownTimer {
+
+        /**
+         * Millis since epoch when alarm should stop.
+         */
+        private final long mMillisInFuture;
+
+        /**
+         * The interval in millis that the user receives callbacks
+         */
+        private final long mCountdownInterval;
+
+        private long mStopTimeInFuture;
+
+        private long mPauseTime;
+
+        private boolean mCancelled = false;
+
+        private boolean mPaused = false;
+
+        /**
+         * @param millisInFuture The number of millis in the future from the call
+         *   to {@link #start()} until the countdown is done and {@link #onFinish()}
+         *   is called.
+         * @param countDownInterval The interval along the way to receive
+         *   {@link #onTick(long)} callbacks.
+         */
+        public CountDownTimer(long millisInFuture, long countDownInterval) {
+            mMillisInFuture = millisInFuture;
+            mCountdownInterval = countDownInterval;
+        }
+
+        /**
+         * Cancel the countdown.
+         *
+         * Do not call it from inside CountDownTimer threads
+         */
+        public final void cancel() {
+            mHandler.removeMessages(MSG);
+            mCancelled = true;
+        }
+
+        /**
+         * Start the countdown.
+         */
+        public synchronized final CountDownTimer start() {
+            if (mMillisInFuture <= 0) {
+                onFinish();
+                return this;
+            }
+            mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
+            mHandler.sendMessage(mHandler.obtainMessage(MSG));
+            mCancelled = false;
+            mPaused = false;
+            return this;
+        }
+
+        /**
+         * Pause the countdown.
+         */
+        public long pause() {
+            mPauseTime = mStopTimeInFuture - SystemClock.elapsedRealtime();
+            mPaused = true;
+            return mPauseTime;
+        }
+
+        /**
+         * Resume the countdown.
+         */
+        public long resume() {
+            mStopTimeInFuture = mPauseTime + SystemClock.elapsedRealtime();
+            mPaused = false;
+            mHandler.sendMessage(mHandler.obtainMessage(MSG));
+            return mPauseTime;
+        }
+
+        /**
+         * Callback fired on regular interval.
+         * @param millisUntilFinished The amount of time until finished.
+         */
+        public abstract void onTick(long millisUntilFinished);
+
+        /**
+         * Callback fired when the time is up.
+         */
+        public abstract void onFinish();
+
+
+        private static final int MSG = 1;
+
+
+        // handles counting down
+        private Handler mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+
+                synchronized (CountDownTimer.this) {
+                    if (!mPaused) {
+                        final long millisLeft = mStopTimeInFuture - SystemClock.elapsedRealtime();
+
+                        if (millisLeft <= 0) {
+                            onFinish();
+                        } else if (millisLeft < mCountdownInterval) {
+                            // no tick, just delay until done
+                            sendMessageDelayed(obtainMessage(MSG), millisLeft);
+                        } else {
+                            long lastTickStart = SystemClock.elapsedRealtime();
+                            onTick(millisLeft);
+
+                            // take into account user's onTick taking time to execute
+                            long delay = lastTickStart + mCountdownInterval - SystemClock.elapsedRealtime();
+
+                            // special case: user's onTick took more than interval to
+                            // complete, skip to next interval
+                            while (delay < 0) delay += mCountdownInterval;
+
+                            if (!mCancelled) {
+                                sendMessageDelayed(obtainMessage(MSG), delay);
+                            }
+                        }
+                    }
+                }
+            }
+        };
+    }
 
 
     private class Slot{
@@ -335,30 +465,35 @@ public class HospitalActivity extends Activity {
 
         private void setCountDownTimer(final long time, final BrokenHero hero){
 
-            try{
-                timer = new CountDownTimer(time, 1000) {
-                    @Override
-                    public void onTick(long l) {
-                        timeToLeaveView.setText("" + l / 1000 / 60);
-                        Log.v("timeToLeaveView", "onTick called with " + l);
+            timer = new CountDownTimer(time, 1000) {
+                @Override
+                public void onTick(long l) {
+                    timeToLeaveView.setText("" + l / 1000 / 60);
+                    Log.v("timeToLeaveView", "onTick called with " + l);
 
-                        // Die verstrichenen Sekunden werden zwischengespeichert
-                        // und bei Verlassen der Activity in DB geschrieben
-                        timeUsedArray[slotIndex] += 1000;
+                    // Die verstrichenen Sekunden werden zwischengespeichert
+                    // und bei Verlassen der Activity in DB geschrieben
+                    timeUsedArray[slotIndex] += 1000;
 
-                        // Es wird mit Modulo-Rechnung geprüft, ob eine ganze Stunde vergangen ist
-                        // Wenn ja, dann wird Held um einen Punkt geheilt
-                        if(hero.getHpNow() % (60*60*1000) == 0){
-                            brokenHeroList.get(slotIndex).incrementHitpointsByOne();
-                            slotsList.get(slotIndex).hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
-                        }
+                    // Es wird mit Modulo-Rechnung geprüft, ob eine ganze Stunde vergangen ist
+                    // Wenn ja, dann wird Held um einen Punkt geheilt
+                    if(hero.getHpNow() % (60*60*1000) == 0){
+                        brokenHeroList.get(slotIndex).incrementHitpointsByOne();
+                        slotsList.get(slotIndex).hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
                     }
+                }
 
-                    @Override
-                    public void onFinish() {
-                        if(!hero.setTimeToLeave(0)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
-                        timeToLeaveView.setText("");
+                @Override
+                public void onFinish() {
+                    if(!hero.setTimeToLeave(0)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
+                    timeToLeaveView.setText("");
 
+                    if(toCancel){
+                        this.cancel();
+                        toCancel = false;
+                        Msg.msg(getApplicationContext(), "onFinish called");
+
+                    }else{
                         for(int index = 0; index < brokenHeroList.size(); index++){
 
                             if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
@@ -372,14 +507,18 @@ public class HospitalActivity extends Activity {
                             }else if(index == 2) Msg.msg(getApplicationContext(), "ERROR @ onFinish : removeBrokenHeroFromList : no matching index");
                         }
                     }
-                }.start();
+                }
+            };
 
-            }catch (Exception e){Msg.msg(getApplicationContext(), e + "");}
+            timer.start();
         }
 
         private void cancelCountDownTimer(final BrokenHero hero, long time){
-            Msg.msg(getApplicationContext(), "cancelCountDown called");
-
+            Log.v("cancelCountDown", "called");
+            toCancel = true;
+            timer.onFinish();
+            if(!hero.setTimeToLeave(time)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
+            /*
             try{
                 timer.cancel();
                 timer = null;
@@ -387,6 +526,7 @@ public class HospitalActivity extends Activity {
                 Log.v("cancelCountDownTimer","time to leave from db, read: " + h.getTimeToLeave(hero.dbIndex) );
 
             }catch (Exception e){ Msg.msg(getApplicationContext(), String.valueOf(e));}
+            */
         }
     }
 

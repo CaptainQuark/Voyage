@@ -106,19 +106,6 @@ public class ClassicHistoricalFragment extends Fragment implements View.OnClickL
     public void onClick(View view) {
 
     }
-/*
-    @Override
-    public void onClick(View v) {
-
-        switch (v.getId()) {
-            case R.id.classic_historical_backButton:
-                super.onBackPressed();
-
-            default:
-                Msg.msg(getActivity(), "DEFAULT @ onClick");
-        }
-    }
-    */
 
     public interface onHistoricalInteractionListener {
         void dismissRecordButtons(boolean setVisible);

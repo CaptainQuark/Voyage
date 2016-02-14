@@ -13,13 +13,7 @@
         android:layout_height="0dp"
         android:layout_weight="11">
 
-<!--
-        <ImageView
-            android:layout_gravity="bottom"
-            android:background="@drawable/gradient90"
-            android:layout_width="match_parent"
-            android:layout_height="100dp" />
--->
+
         <GridView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -36,6 +30,11 @@
             android:verticalSpacing="35dp"
             android:horizontalSpacing="35dp">
         </GridView>
+
+        <RelativeLayout
+            android:id="@+id/layout_camp_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </FrameLayout>
 
