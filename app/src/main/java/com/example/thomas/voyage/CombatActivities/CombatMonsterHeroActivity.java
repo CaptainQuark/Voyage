@@ -28,6 +28,7 @@ public class CombatMonsterHeroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat_monster_hero);
         hideSystemUI();
+        iniViews();
 
         valListContainer = new ArrayList<>();
 
@@ -46,15 +47,51 @@ public class CombatMonsterHeroActivity extends Activity {
 
     /*
 
+    OnClick - Methoden
+
+     */
+
+
+
+    public void onClick(View v){
+        switch (v.getId()){
+            case R.id.cell_com_miss:
+                Msg.msg(this, "You missed dat one!");
+                break;
+        }
+    }
+
+    public void onMultiClick(View v){
+        switch (v.getId()){
+            case R.id.cell_com_multi_single_in:
+                break;
+            case R.id.cell_com_multi_single_out:
+                break;
+            case R.id.cell_com_multi_x_2:
+                break;
+            case R.id.cell_com_multi_x_3:
+                break;
+            case R.id.cell_com_multi_bull:
+                break;
+            case R.id.cell_com_multi_eye:
+                break;
+            default:
+                Msg.msg(this, "ERROR @ onMultiClick : default called");
+        }
+
+    }
+
+
+
+    /*
+
     Funktionen
 
     */
 
 
 
-    public void onClick(View v){
-        Msg.msg(getApplicationContext(), "onClick called");
-    }
+    // Code
 
 
 
@@ -82,7 +119,7 @@ public class CombatMonsterHeroActivity extends Activity {
                 public void onClick(View view) {
 
                     if(!(lastSelectedValView == null) && lastSelectedValIndex != index)
-                        lastSelectedValView.setBackground(getResources().getDrawable(R.drawable.ripple_grey_to_black));
+                        lastSelectedValView.setBackground(getResources().getDrawable(R.drawable.ripple_grey_to_black, null));
 
                     lastSelectedValIndex = index;
                     lastSelectedValView = (TextView) view;
@@ -102,6 +139,10 @@ public class CombatMonsterHeroActivity extends Activity {
      */
 
 
+
+    private void iniViews(){
+
+    }
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.

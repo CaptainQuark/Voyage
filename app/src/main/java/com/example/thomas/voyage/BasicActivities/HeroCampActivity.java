@@ -336,6 +336,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void putFragmentToSleep() {
         if(heroAllDataCardFragment != null){
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
+            lastSelectedHeroIndex = -1;
+            setToolbarViews();
         }
     }
 
@@ -432,7 +434,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 @Override
                 public void onClick(View view) {
                     lastSelectedHeroIndex = position;
-                    setToolbarViews();
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -444,6 +445,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     heroAllDataCardFragment.setArguments(b);
                     fragmentTransaction.add(R.id.layout_camp_fragment_container, heroAllDataCardFragment);
                     fragmentTransaction.commit();
+
+                    setToolbarViews();
                 }
             });
 
