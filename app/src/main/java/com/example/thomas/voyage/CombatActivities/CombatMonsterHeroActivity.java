@@ -1,5 +1,7 @@
 package com.example.thomas.voyage.CombatActivities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
+import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
@@ -18,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CombatMonsterHeroActivity extends Activity {
+public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
     private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, lastSelectedValIndex = -1, bonusScore, scoreMultiplier;
     private long heroDbIndex;
@@ -26,9 +29,10 @@ public class CombatMonsterHeroActivity extends Activity {
     private Monster monster;
     private DBheroesAdapter h;
     private CountAndShowThrowsHelper scoreHelper;
+    private HeroAllDataCardFragment heroAllDataCardFragment;
     private List<ThrowInputHelper> scoreHelperList;
     private List<String> eventsList;
-    private TextView lastSelectedValView, monsterHpView, heroHpView, battleLogView, lastMultiView;
+    private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,44 +61,105 @@ public class CombatMonsterHeroActivity extends Activity {
 
     public void onClick(View v){
         switch (v.getId()){
+
             case R.id.cell_com_miss:
-                Msg.msg(this, "You missed dat one!");
+                int tempMulti = scoreMultiplier;
+                scoreMultiplier = 0;
+                combat(0);
+                scoreMultiplier = tempMulti;
+                break;
+
+            case R.id.imageview_com_hero_profile:
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                heroAllDataCardFragment = new HeroAllDataCardFragment();
+                Bundle b = new Bundle();
+                b.putInt("DB_INDEX", (int) heroDbIndex);
+
+                heroAllDataCardFragment.setArguments(b);
+                fragmentTransaction.add(R.id.layout_com_main, heroAllDataCardFragment);
+                fragmentTransaction.commit();
+                break;
+
+            case R.id.textview_com_undo:
+                Msg.msgShort(this, "No undo yet implemented...");
+                break;
+
+            case R.id.textview_com_prim_class:
+                heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+                TextView primTempView = (TextView) v;
+                primTempView.setTextColor(getColor(R.color.material_blue_grey_800));
+                if(lastClassView != null) lastClassView.setTextColor(Color.BLACK);
+                lastClassView = primTempView;
+                break;
+
+            case R.id.textview_com_sec_class:
+                heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+                TextView secTempView = (TextView) v;
+                secTempView.setTextColor(getColor(R.color.material_blue_grey_800));
+                if(lastClassView != null) lastClassView.setTextColor(Color.BLACK);
+                lastClassView = secTempView;
                 break;
         }
     }
 
-    public void onMultiClick(View v){
+    public void onScoreMulti(View v){
 
         switch (v.getId()){
             case R.id.cell_com_multi_single_in:
                 scoreMultiplier = 1;
+                v.setBackgroundColor(Color.WHITE);
                 break;
             case R.id.cell_com_multi_single_out:
                 scoreMultiplier = 1;
+                v.setBackgroundColor(Color.WHITE);
                 break;
             case R.id.cell_com_multi_x_2:
                 scoreMultiplier = 2;
+                v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark, null));
                 break;
             case R.id.cell_com_multi_x_3:
                 scoreMultiplier = 3;
+                v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark, null));
                 break;
             case R.id.cell_com_multi_bull:
                 scoreMultiplier = 1;
                 combat(25);
+                scoreMultiplier = 1;
                 break;
             case R.id.cell_com_multi_eye:
                 scoreMultiplier = 2;
                 combat(25);
+                scoreMultiplier = 1;
                 break;
             default:
-                Msg.msg(this, "ERROR @ onMultiClick : default called");
+                Msg.msg(this, "ERROR @ onScoreMulti : default called");
         }
 
+        // Elemente ohne break lassen switch einfach zu
+        // nächstem Element weiterlaufe -> solange, bis
+        // ein break erreicht wird -> man spart sich if( x || y || z)
+        switch(lastMultiView.getId()){
+            case R.id.cell_com_multi_eye:
+                lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_red);
+                break;
+            case R.id.cell_com_multi_bull:
+            case R.id.cell_com_multi_x_3:
+            case R.id.cell_com_multi_x_2:
+                lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_green);
+                break;
+            default:
+                lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_white);
+        }
 
-        v.setBackgroundColor(Color.DKGRAY);
-        if(lastMultiView != null)
-            lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_white);
-        lastMultiView = (TextView) v;
+        // Wenn Bulls oder Bullseye getroffen werden, dann wird
+        // wieder SingleOut (default) gewählt
+        if(v.getId() == R.id.cell_com_multi_eye || v.getId() == R.id.cell_com_multi_bull){
+            lastMultiView = defaultMultiView;
+            defaultMultiView.setBackgroundColor(Color.WHITE);
+        } else
+            lastMultiView = (TextView) v;
     }
 
 
@@ -217,6 +282,21 @@ public class CombatMonsterHeroActivity extends Activity {
     private void updateCharacterInfoViews(){
         heroHpView.setText(String.valueOf(h.getHeroHitpoints(heroDbIndex)));
         monsterHpView.setText(String.valueOf(monster.hp));
+    }
+
+
+
+    /*
+
+    Interaction-Listener für Fragmente
+
+     */
+
+    @Override
+    public void putFragmentToSleep() {
+        if(heroAllDataCardFragment != null){
+            getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
+        }
     }
 
 
@@ -347,7 +427,7 @@ public class CombatMonsterHeroActivity extends Activity {
 
         scoreHelper = new CountAndShowThrowsHelper();
         bonusScore = 0;
-        scoreMultiplier = 0;
+        scoreMultiplier = 1;
 
         eventsList = new ArrayList<>();
     }
@@ -370,6 +450,8 @@ public class CombatMonsterHeroActivity extends Activity {
         heroHpView.setText(String.valueOf(h.getHeroHitpoints(heroDbIndex)));
 
         battleLogView = (TextView) findViewById(R.id.textview_com_battle_log);
+        defaultMultiView = (TextView) findViewById(R.id.cell_com_multi_single_out);
+        lastMultiView = defaultMultiView;
     }
 
     private void hideSystemUI() {

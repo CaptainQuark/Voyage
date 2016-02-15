@@ -7,7 +7,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity">
+    tools:context="com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity"
+    android:id="@+id/layout_com_main">
 
     <FrameLayout
         android:layout_width="0dp"
@@ -41,7 +42,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:background="#6fffffff">
 
                     <TextView
                         android:id="@+id/textview_com_show_battle_log"
@@ -65,8 +67,50 @@
 
                 </LinearLayout>
 
-                <FrameLayout
+                <LinearLayout
+                    android:id="@+id/layout_com_tap_undo_and_classes"
                     android:layout_below="@+id/layout_com_switch_battle_views"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textview_com_undo"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Rückgängig"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-light"
+                        android:onClick="onClick" />
+
+                    <TextView
+                        android:id="@+id/textview_com_prim_class"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Primärklasse"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-light"
+                        android:onClick="onClick" />
+
+                    <TextView
+                        android:id="@+id/textview_com_sec_class"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Sekundärklasse"
+                        android:textColor="@android:color/black"
+                        android:textSize="12sp"
+                        android:fontFamily="sans-serif-light"
+                        android:onClick="onClick" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_below="@+id/layout_com_tap_undo_and_classes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -158,7 +202,8 @@
                         android:textColor="@android:color/black"
                         android:textSize="12sp"
                         android:id="@+id/textview_com_monster_name"
-                        android:layout_margin="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentStart="true" />
 
@@ -178,7 +223,8 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:layout_margin="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
                         android:text="name"
                         android:textAllCaps="true"
                         android:textColor="@android:color/black"
@@ -205,7 +251,8 @@
                     android:src="@mipmap/hero_dummy_0"
                     android:scaleType="centerCrop"
                     android:id="@+id/imageview_com_hero_profile"
-                    android:contentDescription="Image of the hero." />
+                    android:contentDescription="Image of the hero."
+                    android:onClick="onClick" />
 
             </LinearLayout>
 
@@ -234,7 +281,7 @@
             android:textStyle="bold"
             android:layout_marginBottom="1dp"
             android:background="@drawable/ripple_soft_grey_to_white"
-            android:onClick="onMultiClick" />
+            android:onClick="onScoreMulti" />
 
         <TextView
             android:id="@+id/cell_com_multi_single_out"
@@ -246,9 +293,9 @@
             android:gravity="center"
             android:text="SINGLE\nOUT"
             android:textStyle="bold"
-            android:background="@drawable/ripple_soft_grey_to_white"
+            android:background="@android:color/white"
             android:layout_marginBottom="1dp"
-            android:onClick="onMultiClick" />
+            android:onClick="onScoreMulti" />
 
         <TextView
             android:id="@+id/cell_com_multi_x_3"
@@ -262,7 +309,7 @@
             android:textStyle="bold"
             android:background="@drawable/ripple_soft_grey_to_white"
             android:layout_marginBottom="1dp"
-            android:onClick="onMultiClick" />
+            android:onClick="onScoreMulti" />
 
         <TextView
             android:id="@+id/cell_com_multi_single_in"
@@ -276,7 +323,7 @@
             android:textStyle="bold"
             android:background="@drawable/ripple_soft_grey_to_white"
             android:layout_marginBottom="1dp"
-            android:onClick="onMultiClick" />
+            android:onClick="onScoreMulti" />
 
         <TextView
             android:id="@+id/cell_com_multi_bull"
@@ -290,7 +337,7 @@
             android:textStyle="bold"
             android:background="@drawable/ripple_soft_grey_to_green"
             android:layout_marginBottom="1dp"
-            android:onClick="onMultiClick" />
+            android:onClick="onScoreMulti" />
 
         <TextView
             android:id="@+id/cell_com_multi_eye"
@@ -303,7 +350,7 @@
             android:text="EYE"
             android:textStyle="bold"
             android:background="@drawable/ripple_soft_grey_to_red"
-            android:onClick="onMultiClick" />
+            android:onClick="onScoreMulti" />
 
     </LinearLayout>
 
@@ -641,9 +688,10 @@
             android:layout_rowWeight=".5"
             android:layout_columnSpan="4"
             android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
+            android:background="@drawable/ripple_grey_to_red"
             android:id="@+id/cell_com_miss"
             android:text="FEHLWURF"
+            android:letterSpacing="0.1"
             android:textColor="#000000"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
