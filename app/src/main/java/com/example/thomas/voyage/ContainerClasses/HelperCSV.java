@@ -23,8 +23,10 @@ public class HelperCSV {
 
         try{
             CSVReader reader = new CSVReader(new InputStreamReader(c.getResources().openRawResource(
-                    c.getResources().getIdentifier(fileName, "raw", c.getPackageName()))));
+                    c.getResources().getIdentifier(fileName, "raw", c.getPackageName()))), ';');
             String [] nextLine;
+
+            reader.readNext();
 
             while ((nextLine = reader.readNext()) != null) {
                 // nextLine[] is an array of values from the line

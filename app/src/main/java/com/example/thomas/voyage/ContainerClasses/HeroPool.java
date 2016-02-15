@@ -3,6 +3,7 @@ package com.example.thomas.voyage.ContainerClasses;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.List;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -51,6 +52,31 @@ public class HeroPool {
 
         Log.i("HERONAME", "Name des Helden: " + name);
         return name;
+    }
+
+    public String setClass(String currentBiome, String type, Context context){
+
+        rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
+        if (rarity <= 60) {                               //Wsl 60%
+            rarity = 1;
+        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
+            rarity = 2;
+        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
+            rarity = 3;
+        } else if (rarity >= 90) {                          //Wsl 10% - 1/20
+            rarity = 4;
+        }
+
+        HelperCSV helperCSV = new HelperCSV(context);
+        List<String[]> list = helperCSV.getDataList("heroresourcetable");
+
+        Random random = new Random();
+        String heroClass = list.get(random.nextInt(list.size() + 1))[2];
+
+       // for(int i = 0; i < list.size(); i++)
+         //   Msg.msgShort(context, list.get(i)[0] + " " + list.get(i)[1]);
+
+        return heroClass;
     }
 
     public String setClassPrimary(String currentBiome) {
