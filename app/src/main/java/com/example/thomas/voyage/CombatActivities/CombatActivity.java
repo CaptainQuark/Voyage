@@ -190,8 +190,8 @@ public class CombatActivity extends Activity {
 
 
         monsterHealthView.setText(monsterHealth + "");
-        setHealthBarMonster();
-        setHealthBarHero();
+        //setHealthBarMonster();
+        //setHealthBarHero();
 
         String tempEventsString = logTopEntry + '\n' + '\n';
 
@@ -230,7 +230,7 @@ public class CombatActivity extends Activity {
 
         return false;
     }
-
+/*
     private static void setHealthBarMonster() {
         monsterHealthConst = monsterList.get(0).hp;
 
@@ -289,7 +289,7 @@ public class CombatActivity extends Activity {
             Log.e("ARITHMETIC EXCEPTION", a + "");
         }
     }
-
+*/
     private static class ScoreDialAdapter extends BaseAdapter {
 
         int[] result;

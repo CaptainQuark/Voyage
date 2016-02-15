@@ -70,13 +70,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <TextView
-                        android:id="@+id/textview_com_battle_log"
+                    <ScrollView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="30dp"
-                        android:text="Log der Kampf-Geschehnisse"
-                        android:textColor="@android:color/black"/>
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:paddingTop="30dp">
+
+                        <TextView
+                            android:id="@+id/textview_com_battle_log"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Log der Kampf-Geschehnisse"
+                            android:textColor="@android:color/black"/>
+                    </ScrollView>
 
                 </FrameLayout>
 
@@ -109,6 +116,39 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/textview_com_throw_1"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="1. Wurf"
+                        android:textSize="15sp"
+                        android:layout_toStartOf="@+id/textview_com_throw_2"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@android:color/black"/>
+
+                    <TextView
+                        android:id="@+id/textview_com_throw_2"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="2. Wurf"
+                        android:textSize="15sp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@android:color/black"/>
+
+                    <TextView
+                        android:id="@+id/textview_com_throw_3"
+                        android:layout_width="60dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:text="3. Wurf"
+                        android:textSize="15sp"
+                        android:layout_toEndOf="@+id/textview_com_throw_2"
+                        android:layout_marginTop="20dp"
+                        android:textColor="@android:color/black"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -183,11 +223,11 @@
         android:background="@color/grey_7000">
 
         <TextView
-            android:id="@+id/cell_com_multi_x_3"
+            android:id="@+id/cell_com_multi_x_2"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="X 3"
+            android:text="X 2"
             android:textSize="12sp"
             android:textColor="#000000"
             android:gravity="center"
@@ -211,14 +251,14 @@
             android:onClick="onMultiClick" />
 
         <TextView
-            android:id="@+id/cell_com_multi_x_2"
+            android:id="@+id/cell_com_multi_x_3"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:textSize="12sp"
             android:textColor="#000000"
             android:gravity="center"
-            android:text="X 2"
+            android:text="X 3"
             android:textStyle="bold"
             android:background="@drawable/ripple_soft_grey_to_white"
             android:layout_marginBottom="1dp"
@@ -604,7 +644,6 @@
             android:background="@drawable/ripple_grey_to_black"
             android:id="@+id/cell_com_miss"
             android:text="FEHLWURF"
-            android:letterSpacing="0.1"
             android:textColor="#000000"
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"

@@ -76,12 +76,14 @@ public class StartActivity extends Activity {
 
          */
 
-
         /*
+
         HelperCSV helperCSV = new HelperCSV(this);
         List<String[]> list = helperCSV.getDataList("test");
 
-        for(int i = 0; i < list.size(); i++) Msg.msgShort(this, list.get(i)[0] + " " + list.get(i)[1]);
+        for(int i = 0; i < list.size(); i++)
+            Msg.msgShort(this, list.get(i)[0] + " " + list.get(i)[1]);
+
         */
     }
 

@@ -163,13 +163,13 @@ public class HeroPool {
         //Wählt eine der Seltenheits-Klassen aus
 
         rarity = (int) (Math.random() * 100);
-        if (rarity <= 60) {                               //Wsl 60%
+        if (rarity >= 60) {                               //Wsl 60%
             rarity = 1;
-        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
+        } else if (rarity >= 80) {                          //Wsl 20% - 1/5
             rarity = 2;
-        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
+        } else if (rarity >= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
-        } else if (rarity <= 95) {                          //Wsl 5% - 1/20
+        } else if (rarity >= 95) {                          //Wsl 5% - 1/20
             rarity = 4;
         }
 
@@ -249,6 +249,7 @@ public class HeroPool {
                 }
                 break;
             default:
+                sClass = "undefiniert";
                 break;
         }
         return sClass;

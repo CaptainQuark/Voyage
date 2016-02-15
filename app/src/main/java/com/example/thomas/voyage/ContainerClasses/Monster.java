@@ -6,7 +6,7 @@ public class Monster {
 
     public String name = "", checkout = "", imgRes = "";
     public double evasion = -1, accuracy = -1, critChance = -1;
-    public int hp = 500, dmgMin = -1, dmgMax = -1;
+    public int hp, hpTotal, dmgMin = -1, dmgMax = -1, resistance = 1, block = 0;
 
     public Monster(){
         MonsterPool monsterPool = new MonsterPool();
@@ -17,6 +17,7 @@ public class Monster {
         accuracy = monsterPool.getAccuracy();
         critChance = monsterPool.getCritChance();
         hp = monsterPool.getHp();
+        hpTotal = hp;
         dmgMin = monsterPool.getDmgMin();
         dmgMax = monsterPool.getDmgMax();
         imgRes = monsterPool.getImgRes();
@@ -29,6 +30,7 @@ public class Monster {
         accuracy = acc;
         critChance = crit;
         hp = tHp;
+        hpTotal = tHp;
         dmgMin = tDmgMin;
         dmgMax = tDmgMax;
     }
@@ -48,6 +50,8 @@ public class Monster {
             case "critChance":
                 critChance = val; break;
             case "hp":
+                hp = val; break;
+            case "hpTotal":
                 hp = val; break;
             case "dmgMin":
                 dmgMin = val; break;
