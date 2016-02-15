@@ -7,11 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +22,9 @@ import java.util.List;
 public class CombatMonsterHeroActivity extends Activity {
 
     private final int numValues = 20;
-    private int lastSelectedValIndex = -1;
+    private int lastSelectedValIndex = -1, monsterHpNow, monsterHpTotal;
     private List<ValuesContainer> valListContainer;
-    private TextView lastSelectedValView;
+    private TextView lastSelectedValView, monsterHpView, heroHpView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +144,24 @@ public class CombatMonsterHeroActivity extends Activity {
 
 
     private void iniViews(){
+        ImageView monsterProfileView = (ImageView) findViewById(R.id.imageview_com_monster_profile);
+        ImageView heroProfileView = (ImageView) findViewById(R.id.imageview_com_hero_profile);
+        TextView monsterNameView = (TextView) findViewById(R.id.textview_com_monster_name);
+        TextView heroNameView = (TextView) findViewById(R.id.textview_com_hero_name);
+        monsterHpView = (TextView) findViewById(R.id.textview_com_monster_hp_now);
+        heroHpView = (TextView) findViewById(R.id.textview_com_hero_hp_now);
 
+        Monster monster = new Monster();
+        monsterProfileView.setImageResource(getResources().getIdentifier(monster.getImgRes(), "mipmap", getPackageName()));
+        monsterNameView.setText(monster.name);
+
+        ConstRes c = new ConstRes();
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            heroProfileView.setImageResource(getResources().getIdentifier(b.getString(c.IMAGE_RESOURCE), "mipmap", getPackageName()));
+            heroNameView.setText(b.getString(c.HEROES_NAME, "Name"));
+            heroHpView.setText(String.valueOf(b.getInt(c.HEROES_HITPOINTS, -1)));
+        }
     }
 
     private void hideSystemUI() {

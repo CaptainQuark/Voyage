@@ -101,7 +101,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
                     android:src="@mipmap/monster_dummy_0"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imageview_com_monster_profile"
+                    android:contentDescription="Image of the monster." />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -111,11 +113,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="magmamemnon"
+                        android:text="Name"
                         android:textAllCaps="true"
                         android:textColor="@android:color/black"
                         android:textSize="12sp"
-                        android:id="@+id/textView16"
+                        android:id="@+id/textview_com_monster_name"
                         android:layout_margin="10dp"
                         android:layout_alignParentBottom="true"
                         android:layout_alignParentStart="true" />
@@ -123,12 +125,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="150"
+                        android:text="HP"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         android:fontFamily="sans-serif-light"
-                        android:layout_above="@+id/textView16"
-                        android:layout_alignStart="@+id/textView16" />
+                        android:layout_above="@+id/textview_com_monster_name"
+                        android:layout_alignStart="@+id/textview_com_monster_name"
+                        android:id="@+id/textview_com_monster_hp_now" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -136,21 +139,22 @@
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="10dp"
-                        android:text="mike hammer"
+                        android:text="name"
                         android:textAllCaps="true"
                         android:textColor="@android:color/black"
                         android:textSize="12sp"
-                        android:id="@+id/textView18" />
+                        android:id="@+id/textview_com_hero_name" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="150"
+                        android:text="HP"
                         android:textColor="@android:color/black"
                         android:textSize="30sp"
                         android:fontFamily="sans-serif-light"
-                        android:layout_above="@+id/textView18"
-                        android:layout_alignEnd="@+id/textView18" />
+                        android:layout_above="@+id/textview_com_hero_name"
+                        android:layout_alignEnd="@+id/textview_com_hero_name"
+                        android:id="@+id/textview_com_hero_hp_now" />
 
                 </RelativeLayout>
 
@@ -159,7 +163,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
                     android:src="@mipmap/hero_dummy_0"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:id="@+id/imageview_com_hero_profile"
+                    android:contentDescription="Image of the hero." />
 
             </LinearLayout>
 
