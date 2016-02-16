@@ -39,9 +39,9 @@ public class Hero {
         HeroPool heropool = new HeroPool(context);
 
         heroName = heropool.setName();
-        classPrimary = heropool.setClassPrimary(merchantBiome);
+        classPrimary = heropool.setClass(merchantBiome, "Primary", context);
         hp = heropool.setHitPoints();
-        classSecondary = heropool.setClassSecondary();
+        classSecondary = heropool.setClass(merchantBiome, "Secondary", context);
         costs = heropool.setCosts();
         evasion = heropool.setEvasion();
         imageResource = heropool.getImageResource();

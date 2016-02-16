@@ -15,6 +15,7 @@ import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.HelperCSV;
 import com.example.thomas.voyage.ContainerClasses.Hero;
+import com.example.thomas.voyage.ContainerClasses.HeroPool;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;

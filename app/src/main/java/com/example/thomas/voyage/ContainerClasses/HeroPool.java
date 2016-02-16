@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 public class HeroPool {
 
+    private String heroType;
     private String name;
+    private String heroClass;
     private String pClass;       //Primärklasse
     private String sClass;       //Sekundärklasse
     private String neededBiome;  //Die Umgebung, die der Held zum spawnen benötigt, überall falls 'null'
@@ -63,222 +65,51 @@ public class HeroPool {
             rarity = 2;
         } else if (rarity <= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
-        } else if (rarity >= 90) {                          //Wsl 10% - 1/20
+        } else if (rarity >= 90) {                          //Wsl 10% - 1/10
             rarity = 4;
         }
 
         HelperCSV helperCSV = new HelperCSV(context);
         List<String[]> list = helperCSV.getDataList("heroresourcetable");
-
         Random random = new Random();
-        String heroClass = list.get(random.nextInt(list.size() + 1))[2];
+        int rand;
 
-       // for(int i = 0; i < list.size(); i++)
-         //   Msg.msgShort(context, list.get(i)[0] + " " + list.get(i)[1]);
+        do {
+            rand = random.nextInt(list.size());
+            heroType = list.get(rand)[1];
+            Log.i("INFO: ", rand + " / " +  heroType + " / " + rarity + " / " + list.get(rand)[3]);
+            if(type.equals("Primary")){
+                pClass = list.get(rand)[2];
+                pHp = Integer.parseInt(list.get(rand)[4]);
+                pCosts = Integer.parseInt(list.get(rand)[5]);
+                pEvasion = Integer.parseInt(list.get(rand)[6]);
+                pHpWeight = Double.parseDouble(list.get(rand)[7]);
+                pCostsWeight = Double.parseDouble(list.get(rand)[8]);
+                pEvasionWeight = Double.parseDouble(list.get(rand)[9]);
+                heroClass = pClass;
+                Log.i("INFO: ", heroClass);
+            }else{
+                sClass = list.get(rand)[2];
+                sHp = Integer.parseInt(list.get(rand)[4]);
+                sCosts = Integer.parseInt(list.get(rand)[5]);
+                sEvasion = Integer.parseInt(list.get(rand)[6]);
+                sHpWeight = Double.parseDouble(list.get(rand)[7]);
+                sCostsWeight = Double.parseDouble(list.get(rand)[8]);
+                sEvasionWeight = Double.parseDouble(list.get(rand)[9]);
+                heroClass = sClass;
+                Log.i("INFO: ", heroClass);
+            }
+        }while(!type.equals(heroType) ||
+                rarity != Integer.parseInt(list.get(rand)[3]) ||
+                currentBiome.equals(list.get(rand)[10]) ||
+                currentBiome.equals(list.get(rand)[11]) ||
+                currentBiome.equals(list.get(rand)[12]));
+
+        //Msg.msgShort(context, heroClass);
+        //for(int i = 0; i < list.size(); i++)
+          // Msg.msgShort(context, list.get(i)[0] + " " + list.get(i)[1]);
 
         return heroClass;
-    }
-
-    public String setClassPrimary(String currentBiome) {
-        rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
-        if (rarity <= 60) {                               //Wsl 60%
-            rarity = 1;
-        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
-            rarity = 2;
-        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
-            rarity = 3;
-        } else if (rarity >= 90) {                          //Wsl 10% - 1/20
-            rarity = 4;
-        }
-        return setClassP(currentBiome);
-    }
-
-    public String setClassP(String currentBiome) {
-        switch (rarity) {
-            //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
-            //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
-            case 1:
-                pCosts = 1000;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            pClass = "Waldläufer";
-                            pHp = 300;
-                            biomesRestrictedList.add("Dungeon");
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 2:
-                pCosts = 1500;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            pClass = "Kneipenschläger";
-                            pHp = 350;
-                            pCosts = 900;
-                            pEvasion = 100;
-                            pEvasionWeight = 3;
-                            neededBiome = null;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 3:
-                pCosts = 2000;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            pClass = "Monsterjäger";
-                            pHp = 380;
-                            pHpWeight = 2;
-                            neededBiome = null;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 4:
-                pCosts = 3000;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            pClass = "Sehr Selten";
-                            pHp = 400;
-                            pCostsWeight = 1;
-                            neededBiome = null;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-        for (int i = 0; i < biomesRestrictedList.size(); i++) {
-            if (biomesRestrictedList.get(i).equals(currentBiome)) {
-                setClassP(currentBiome);
-            }
-        }
-        return pClass;
-    }
-
-    public String setClassSecondary() {
-        //Wählt eine der Seltenheits-Klassen aus
-
-        rarity = (int) (Math.random() * 100);
-        if (rarity >= 60) {                               //Wsl 60%
-            rarity = 1;
-        } else if (rarity >= 80) {                          //Wsl 20% - 1/5
-            rarity = 2;
-        } else if (rarity >= 90) {                          //Wsl 10% - 1/10
-            rarity = 3;
-        } else if (rarity >= 95) {                          //Wsl 5% - 1/20
-            rarity = 4;
-        }
-
-        switch (rarity) {
-            //Je nach Seltenheit wird nun aus einer Sekundär-Klasse zufällig gezogen
-
-            case 1:
-                sCosts = 1000;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            sClass = "Spion";
-                            sHp = 200;
-                            sHpWeight = 2;
-                            sCostsWeight = 3;
-                            sEvasion = 90;
-                            sEvasionWeight = 2;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 2:
-                sCosts = 1200;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            sClass = "Schurke";
-                            sHp = 300;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 3:
-                sCosts = 1500;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            sClass = "Glaubenskrieger";
-                            sHp = 400;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 4:
-                sCosts = 2000;
-                for (boolean run = true; run; ) {
-
-                    run = false;
-
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            sClass = "Sehr Seltene Unterklasse";
-                            sHp = 400;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            default:
-                sClass = "undefiniert";
-                break;
-        }
-        return sClass;
     }
 
     public int setRandomVal(int pVal, int sVal, double pValWeight, double sValWeight) {
