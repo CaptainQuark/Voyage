@@ -219,7 +219,7 @@
                 android:background="#c1be78"
                 android:onClick="activityCombatBackToMain"
                 android:scaleType="centerCrop"
-                android:src="@mipmap/hero_dummy_0"
+                android:src="@mipmap/hero_dummy_1"
                 android:cropToPadding="false"
                 android:layout_marginRight="1px" />
 

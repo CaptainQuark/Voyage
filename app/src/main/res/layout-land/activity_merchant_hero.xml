@@ -97,7 +97,7 @@
                     android:onClick="heroSelected"
                     android:scaleType="centerCrop"
                     android:stateListAnimator="@anim/elevation"
-                    android:src="@mipmap/hero_dummy_0" />
+                    android:src="@mipmap/hero_dummy_1" />
 
                 <ImageView
                     android:id="@+id/merch_hero_1"
@@ -106,7 +106,7 @@
                     android:layout_weight="1"
                     android:onClick="heroSelected"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/hero_dummy_1" />
+                    android:src="@mipmap/hero_dummy_2" />
 
                 <ImageView
                     android:id="@+id/merch_hero_2"
@@ -115,7 +115,7 @@
                     android:layout_weight="1"
                     android:onClick="heroSelected"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/hero_dummy_2" />
+                    android:src="@mipmap/hero_dummy_3" />
             </LinearLayout>
 
             <LinearLayout

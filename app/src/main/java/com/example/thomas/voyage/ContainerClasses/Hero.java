@@ -38,14 +38,14 @@ public class Hero {
 
         HeroPool heropool = new HeroPool(context);
 
+        //Ob-8: Reihenfolge sehr wichtig!
         heroName = heropool.setName();
+        classSecondary = heropool.setClass(merchantBiome, "Secondary", context);
         classPrimary = heropool.setClass(merchantBiome, "Primary", context);
         hp = heropool.setHitPoints();
-        classSecondary = heropool.setClass(merchantBiome, "Secondary", context);
         costs = heropool.setCosts();
         evasion = heropool.setEvasion();
         imageResource = heropool.getImageResource();
-
         hpTotal = hp;
 
         //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
