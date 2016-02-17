@@ -354,8 +354,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private class ThrowInputHelper {
         private TextView valView;
         private int scoreValue;
-        private boolean isActive = false;
-
 
         public ThrowInputHelper(final int index){
             scoreValue = index + 1;

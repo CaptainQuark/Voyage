@@ -2,13 +2,13 @@
 <LinearLayout
     android:baselineAligned="false"
     android:orientation="horizontal"
-    android:background="#000000"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity"
-    android:id="@+id/layout_com_main">
+    android:id="@+id/layout_com_main"
+    android:background="@mipmap/journey_b6">
 
     <FrameLayout
         android:layout_width="0dp"
@@ -20,7 +20,6 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/journey_b6"
             android:scaleType="centerCrop"/>
 
         <RelativeLayout
@@ -53,7 +52,8 @@
                         android:text="KAMPF"
                         android:textColor="@android:color/black"
                         android:textSize="13sp"
-                        android:fontFamily="sans-serif-light" />
+                        android:fontFamily="sans-serif-light"
+                        android:onClick="onActionSceneToolbar" />
 
                     <TextView
                         android:id="@+id/textview_com_show_inventory"
@@ -63,7 +63,8 @@
                         android:text="INVENTAR"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="13sp"
-                        android:fontFamily="sans-serif-light" />
+                        android:fontFamily="sans-serif-light"
+                        android:onClick="onActionSceneToolbar" />
 
                 </LinearLayout>
 
@@ -281,7 +282,8 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/grey_7000">
+        android:background="@color/grey_7000"
+        android:alpha=".7">
 
         <TextView
             android:id="@+id/cell_com_multi_x_2"
@@ -373,7 +375,8 @@
         android:layout_weight="4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/grey_7000">
+        android:background="@color/grey_7000"
+        android:alpha=".7">
 
         <TextView
             android:layout_height="0dp"
