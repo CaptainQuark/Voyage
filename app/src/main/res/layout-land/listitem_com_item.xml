@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageview_com_listitem_item_profile"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="4dp"
+        android:src="@mipmap/placeholder_dummy_0"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/textiew_com_listitem_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/imageview_com_listitem_item_profile"
+        android:text="Name"
+        android:textSize="12sp"
+        android:padding="4dp"
+        android:textAllCaps="true"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/textiew_com_listitem_item_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/imageview_com_listitem_item_profile"
+        android:layout_below="@+id/textiew_com_listitem_item_name"
+        android:text="Beschreibung"
+        android:textSize="14sp"
+        android:paddingStart="4dp"
+        android:paddingBottom="4dp"
+        android:textColor="#464646" />
+
+</RelativeLayout>

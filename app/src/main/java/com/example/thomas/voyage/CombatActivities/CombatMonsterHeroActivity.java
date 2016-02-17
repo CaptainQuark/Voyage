@@ -2,17 +2,28 @@ package com.example.thomas.voyage.CombatActivities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Scroller;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
+import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
@@ -28,11 +39,16 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private String heroClassActive = "", logTopEntry = "";
     private Monster monster;
     private DBheroesAdapter h;
+    private DBplayerItemsAdapter itemHelper;
     private CountAndShowThrowsHelper scoreHelper;
     private HeroAllDataCardFragment heroAllDataCardFragment;
     private List<ThrowInputHelper> scoreHelperList;
+    private List<Item> playerItemList;
     private List<String> eventsList;
-    private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView;
+    private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView, lastSelectedShowBattleView;
+    private LinearLayout battleCommandsView;
+    private GridView playerItemGridView;
+    private ScrollView battleLogScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +105,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case R.id.textview_com_prim_class:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
                 TextView primTempView = (TextView) v;
-                primTempView.setTextColor(getColor(R.color.material_blue_grey_800));
+                primTempView.setTextColor(getColor(R.color.wallet_holo_blue_light));
                 if(lastClassView != null) lastClassView.setTextColor(Color.BLACK);
                 lastClassView = primTempView;
                 break;
@@ -97,7 +113,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case R.id.textview_com_sec_class:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
                 TextView secTempView = (TextView) v;
-                secTempView.setTextColor(getColor(R.color.material_blue_grey_800));
+                secTempView.setTextColor(getColor(R.color.wallet_holo_blue_light));
                 if(lastClassView != null) lastClassView.setTextColor(Color.BLACK);
                 lastClassView = secTempView;
                 break;
@@ -160,6 +176,32 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             defaultMultiView.setBackgroundColor(Color.WHITE);
         } else
             lastMultiView = (TextView) v;
+    }
+
+    public void onActionSceneToolbar(View v){
+        TextView tv = (TextView) v;
+
+        lastSelectedShowBattleView.setTextColor(getResources().getColor(R.color.grey_7000));
+        lastSelectedShowBattleView = tv;
+
+        switch(v.getId()){
+            case R.id.textview_com_show_battle_log:
+                tv.setTextColor(Color.BLACK);
+                playerItemGridView.setVisibility(View.GONE);
+                battleCommandsView.setVisibility(View.VISIBLE);
+                battleLogScrollView.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.textview_com_show_inventory:
+                tv.setTextColor(Color.BLACK);
+                playerItemGridView.setVisibility(View.VISIBLE);
+                battleCommandsView.setVisibility(View.GONE);
+                battleLogScrollView.setVisibility(View.GONE);
+                break;
+
+            default:
+                Msg.msg(this, "ERROR @ onActionSceneToolbar : switch : default called");
+        }
     }
 
 
@@ -355,8 +397,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             for(int i = 1; i <= 3; i++){
                 scoreTextViewList.add( (TextView) findViewById(getResources().getIdentifier("textview_com_throw_" + i, "id", getPackageName())));
-                scoreTextViewList.get(i-1).setText("-");
-                scoreTextViewList.get(i-1).setTextColor(Color.LTGRAY);
                 scoreByThrow[i-1] = 0;
             }
         }
@@ -398,6 +438,65 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     /*
 
+    Adapter
+
+     */
+
+
+    public class InventoryAdapter extends BaseAdapter {
+        private Context mContext;
+
+        public InventoryAdapter(Context c) {
+            mContext = c;
+        }
+
+        public int getCount() { return playerItemList.size(); }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        class ViewHolder {
+
+            private TextView nameView, desView;
+            private ImageView itemProfileView;
+
+            ViewHolder(View v) {
+                nameView = (TextView) v.findViewById(R.id.textiew_com_listitem_item_name);
+                desView = (TextView) v.findViewById(R.id.textiew_com_listitem_item_description);
+                itemProfileView = (ImageView) v.findViewById(R.id.imageview_com_listitem_item_profile);
+            }
+        }
+
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            ViewHolder holder;
+
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                convertView = inflater.inflate(R.layout.listitem_com_item, parent, false);
+                holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
+
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+
+            holder.itemProfileView.setImageResource(R.mipmap.placeholder_dummy_0);
+            holder.nameView.setText(playerItemList.get(position).getStrings("ITEM_NAME"));
+            holder.desView.setText(playerItemList.get(position).getStrings("DES_MAIN"));
+
+            return convertView;
+        }
+    }
+
+
+    /*
+
     Auslagerung von Initialisierungen
 
      */
@@ -430,6 +529,21 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         scoreMultiplier = 1;
 
         eventsList = new ArrayList<>();
+        playerItemList = new ArrayList<>();
+
+        itemHelper = new DBplayerItemsAdapter(this);
+
+        for(int i = 1; i < itemHelper.getTaskCount(); i++){
+            playerItemList.add(new Item(
+                    itemHelper.getItemName(i),
+                    itemHelper.getItemDescriptionMain(i),
+                    itemHelper.getItemDescriptionAdditonal(i),
+                    itemHelper.getItemRarity(i),
+                    itemHelper.getItemSkillsId(i),
+                    itemHelper.getItemBuyCosts(i),
+                    itemHelper.getItemSpellCosts(i)
+            ));
+        }
     }
 
     private void iniViews(){
@@ -449,8 +563,15 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         heroNameView.setText(h.getHeroName(heroDbIndex));
         heroHpView.setText(String.valueOf(h.getHeroHitpoints(heroDbIndex)));
 
+        lastSelectedShowBattleView = (TextView) findViewById(R.id.textview_com_show_battle_log);
+
         battleLogView = (TextView) findViewById(R.id.textview_com_battle_log);
+        battleCommandsView = (LinearLayout) findViewById(R.id.layout_com_tap_undo_and_classes);
+        battleLogScrollView = (ScrollView) findViewById(R.id.scrollview_com_battle_log);
         defaultMultiView = (TextView) findViewById(R.id.cell_com_multi_single_out);
+
+        playerItemGridView = (GridView) findViewById(R.id.gridview_com_inventory);
+        playerItemGridView.setAdapter(new InventoryAdapter(this));
         lastMultiView = defaultMultiView;
     }
 

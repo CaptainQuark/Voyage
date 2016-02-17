@@ -219,16 +219,16 @@ public class DBplayerItemsAdapter {
         try {
             value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_BUY));
             cursor.close();
-            db.close();
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemCosts with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 
-    public String getItemSpellCosts(long id) {
+    public int getItemSpellCosts(long id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBplayerItemsHelper.COSTS_TO_SPELL};
@@ -239,17 +239,17 @@ public class DBplayerItemsAdapter {
             cursor.moveToFirst();
         }
 
-        String value = "";
+        int value = -1;
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL));
+            value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL));
             cursor.close();
-            db.close();
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 
@@ -270,12 +270,12 @@ public class DBplayerItemsAdapter {
             value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.RARITY));
 
             cursor.close();
-            db.close();
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 

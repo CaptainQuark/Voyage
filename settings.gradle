@@ -1,2 +1,2 @@
-include ':voyagewear', ':app'
+include ':voyagewear', ':app', ':libs'
 include ':libs:opencsv-3.7'

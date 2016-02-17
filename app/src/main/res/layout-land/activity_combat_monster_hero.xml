@@ -115,6 +115,7 @@
                     android:layout_height="match_parent">
 
                     <ScrollView
+                        android:id="@+id/scrollview_com_battle_log"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:paddingLeft="30dp"
@@ -122,12 +123,25 @@
                         android:paddingTop="30dp">
 
                         <TextView
+                            android:isScrollContainer="true"
                             android:id="@+id/textview_com_battle_log"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Log der Kampf-Geschehnisse"
                             android:textColor="@android:color/black"/>
+
                     </ScrollView>
+
+
+                    <GridView
+                        android:id="@+id/gridview_com_inventory"
+                        android:scrollbars="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:numColumns="1"
+                        android:verticalSpacing="10dp"
+                        android:stretchMode="columnWidth"
+                        android:visibility="gone"/>
 
                 </FrameLayout>
 
@@ -248,7 +262,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1.5"
-                    android:src="@mipmap/hero_dummy_1"
+                    android:src="@mipmap/hero_dummy_3"
                     android:scaleType="centerCrop"
                     android:id="@+id/imageview_com_hero_profile"
                     android:contentDescription="Image of the hero."
