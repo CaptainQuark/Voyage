@@ -1,0 +1,9 @@
+ID,Type,Class,Rarity,Hp,Costs,Evasion,HpWeight,CostsWeight,EvasionWeight,CritChance,CritMultiplier
+1,Primary,Waldläufer,1,450,1000,950,3,2,4,980,1.5
+2,Primary,Kneipenschläger,2,600,900,1000,2.5,2,1,980,1.5
+3,Primary,Monsterjäger,3,500,1500,950,3,2,4,950,2
+4,Primary,Sehr Selten,4,500,2000,950,3,2,4,980,1.5
+5,Secondary,Spion,1,390,1000,900,2.5,2,3,980,1.5
+6,Secondary,Schurke,2,540,1200,950,3,2,4,980,1.5
+7,Secondary,Glaubenskrieger,3,500,1500,950,3,2,4,980,1.5
+8,Secondary,Sehr Seltene Unterklasse,4,500,2000,950,3,2,4,980,1.5

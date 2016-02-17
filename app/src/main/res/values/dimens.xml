@@ -16,6 +16,6 @@
     <dimen name="hospital_hero_width">180dp</dimen>
     <dimen name="hospital_hero_margin_bottom">25dp</dimen>
 
-    <dimen name="com_event_layout_margins">40dp</dimen>
+    <dimen name="com_event_layout_margins">0dp</dimen>
 
 </resources>

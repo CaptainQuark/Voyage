@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Scroller;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Item;
@@ -46,7 +44,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private List<Item> playerItemList;
     private List<String> eventsList;
     private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView, lastSelectedShowBattleView;
-    private LinearLayout battleCommandsView;
+    //private LinearLayout battleCommandsView;
     private GridView playerItemGridView;
     private ScrollView battleLogScrollView;
 
@@ -98,11 +96,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 fragmentTransaction.commit();
                 break;
 
-            case R.id.textview_com_undo:
+            case R.id.cell_com_undo:
                 Msg.msgShort(this, "No undo yet implemented...");
                 break;
 
-            case R.id.textview_com_prim_class:
+            case R.id.cell_com_primary_attack:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
                 TextView primTempView = (TextView) v;
                 primTempView.setTextColor(getColor(R.color.wallet_holo_blue_light));
@@ -110,7 +108,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 lastClassView = primTempView;
                 break;
 
-            case R.id.textview_com_sec_class:
+            case R.id.cell_com_secondary_attack:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
                 TextView secTempView = (TextView) v;
                 secTempView.setTextColor(getColor(R.color.wallet_holo_blue_light));
@@ -188,14 +186,14 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case R.id.textview_com_show_battle_log:
                 tv.setTextColor(Color.BLACK);
                 playerItemGridView.setVisibility(View.GONE);
-                battleCommandsView.setVisibility(View.VISIBLE);
+                //battleCommandsView.setVisibility(View.VISIBLE);
                 battleLogScrollView.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.textview_com_show_inventory:
                 tv.setTextColor(Color.BLACK);
                 playerItemGridView.setVisibility(View.VISIBLE);
-                battleCommandsView.setVisibility(View.GONE);
+                //battleCommandsView.setVisibility(View.GONE);
                 battleLogScrollView.setVisibility(View.GONE);
                 break;
 
@@ -564,7 +562,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         lastSelectedShowBattleView = (TextView) findViewById(R.id.textview_com_show_battle_log);
 
         battleLogView = (TextView) findViewById(R.id.textview_com_battle_log);
-        battleCommandsView = (LinearLayout) findViewById(R.id.layout_com_tap_undo_and_classes);
+        //battleCommandsView = (LinearLayout) findViewById(R.id.layout_com_tap_undo_and_classes);
         battleLogScrollView = (ScrollView) findViewById(R.id.scrollview_com_battle_log);
         defaultMultiView = (TextView) findViewById(R.id.cell_com_multi_single_out);
 

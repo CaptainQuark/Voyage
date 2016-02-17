@@ -17,11 +17,6 @@
         android:visibility="visible"
         android:id="@+id/layout_combat_monster_hero_battle_scene">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"/>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -40,109 +35,82 @@
                     android:id="@+id/layout_com_switch_battle_views"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="75dp"
                     android:gravity="center"
                     android:background="#6fffffff">
 
                     <TextView
                         android:id="@+id/textview_com_show_battle_log"
-                        android:layout_width="100dp"
+                        android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="KAMPF"
                         android:textColor="@android:color/black"
-                        android:textSize="13sp"
+                        android:textSize="18sp"
                         android:fontFamily="sans-serif-light"
                         android:onClick="onActionSceneToolbar" />
 
                     <TextView
                         android:id="@+id/textview_com_show_inventory"
-                        android:layout_width="100dp"
+                        android:layout_width="200dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="INVENTAR"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="13sp"
+                        android:textSize="18sp"
                         android:fontFamily="sans-serif-light"
                         android:onClick="onActionSceneToolbar" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/layout_com_tap_undo_and_classes"
-                    android:layout_below="@+id/layout_com_switch_battle_views"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center">
-
-                    <TextView
-                        android:id="@+id/textview_com_undo"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Rückgängig"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-light"
-                        android:onClick="onClick" />
-
-                    <TextView
-                        android:id="@+id/textview_com_prim_class"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Primärklasse"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-light"
-                        android:onClick="onClick" />
-
-                    <TextView
-                        android:id="@+id/textview_com_sec_class"
-                        android:layout_width="100dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="Sekundärklasse"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:fontFamily="sans-serif-light"
-                        android:onClick="onClick" />
-
-                </LinearLayout>
-
                 <FrameLayout
-                    android:layout_below="@+id/layout_com_tap_undo_and_classes"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/layout_com_switch_battle_views">
 
-                    <ScrollView
-                        android:id="@+id/scrollview_com_battle_log"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:paddingLeft="30dp"
-                        android:paddingRight="30dp"
-                        android:paddingTop="30dp">
+                        android:layout_height="match_parent">
 
-                        <TextView
-                            android:isScrollContainer="true"
-                            android:id="@+id/textview_com_battle_log"
+                        <ScrollView
+                            android:id="@+id/scrollview_com_battle_log"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Log der Kampf-Geschehnisse"
-                            android:textColor="@android:color/black"/>
+                            android:layout_height="match_parent"
+                            android:layout_toEndOf="@+id/imageview_com_monster_profile"
+                            android:paddingLeft="20dp"
+                            android:paddingRight="20dp"
+                            android:paddingTop="20dp">
 
-                    </ScrollView>
+                            <TextView
+                                android:isScrollContainer="true"
+                                android:id="@+id/textview_com_battle_log"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Log der Kampf-Geschehnisse"
+                                android:textColor="@android:color/black"
+                                android:textSize="13sp" />
 
+                        </ScrollView>
+
+                        <ImageView
+                            android:id="@+id/imageview_com_monster_profile"
+                            android:layout_width="310dp"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/monster_dummy_0"
+                            android:scaleType="centerCrop" />
+
+                    </RelativeLayout>
 
                     <GridView
                         android:id="@+id/gridview_com_inventory"
                         android:scrollbars="vertical"
-                        android:layout_width="match_parent"
+                        android:layout_width="310dp"
                         android:layout_height="match_parent"
                         android:numColumns="1"
                         android:verticalSpacing="10dp"
                         android:stretchMode="columnWidth"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        android:layout_gravity="right" />
 
                 </FrameLayout>
 
@@ -162,107 +130,122 @@
                 android:layout_marginBottom="@dimen/com_event_layout_margins"
                 android:layout_alignParentEnd="false">
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.5"
-                    android:src="@mipmap/monster_dummy_0"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/imageview_com_monster_profile"
-                    android:contentDescription="Image of the monster." />
-
-                <RelativeLayout
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="5">
 
-                    <TextView
-                        android:id="@+id/textview_com_throw_1"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:gravity="center"
-                        android:text="1. Wurf"
-                        android:textSize="15sp"
-                        android:layout_toStartOf="@+id/textview_com_throw_2"
-                        android:layout_marginTop="20dp"
-                        android:textColor="@android:color/black"/>
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/textview_com_throw_2"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:gravity="center"
-                        android:text="2. Wurf"
-                        android:textSize="15sp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="20dp"
-                        android:textColor="@android:color/black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:id="@+id/textview_com_monster_name"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentStart="true" />
 
-                    <TextView
-                        android:id="@+id/textview_com_throw_3"
-                        android:layout_width="60dp"
-                        android:layout_height="30dp"
-                        android:gravity="center"
-                        android:text="3. Wurf"
-                        android:textSize="15sp"
-                        android:layout_toEndOf="@+id/textview_com_throw_2"
-                        android:layout_marginTop="20dp"
-                        android:textColor="@android:color/black"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HP"
+                            android:textColor="@android:color/black"
+                            android:textSize="30sp"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_above="@+id/textview_com_monster_name"
+                            android:layout_alignStart="@+id/textview_com_monster_name"
+                            android:id="@+id/textview_com_monster_hp_now" />
+                    </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Name"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:id="@+id/textview_com_monster_name"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentStart="true" />
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HP"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
-                        android:fontFamily="sans-serif-light"
-                        android:layout_above="@+id/textview_com_monster_name"
-                        android:layout_alignStart="@+id/textview_com_monster_name"
-                        android:id="@+id/textview_com_monster_hp_now" />
+                        <TextView
+                            android:id="@+id/textview_com_throw_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_margin="20dp"
+                            android:text="1. Wurf"
+                            android:textSize="20sp"
+                            android:textColor="@android:color/black"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:text="name"
-                        android:textAllCaps="true"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:id="@+id/textview_com_hero_name" />
+                        <TextView
+                            android:id="@+id/textview_com_throw_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
+                            android:text="2. Wurf"
+                            android:textSize="20sp"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="20dp"
+                            android:textColor="@android:color/black"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="HP"
-                        android:textColor="@android:color/black"
-                        android:textSize="30sp"
-                        android:fontFamily="sans-serif-light"
-                        android:layout_above="@+id/textview_com_hero_name"
-                        android:layout_alignEnd="@+id/textview_com_hero_name"
-                        android:id="@+id/textview_com_hero_hp_now" />
+                        <TextView
+                            android:id="@+id/textview_com_throw_3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:layout_centerHorizontal="true"
+                            android:layout_alignParentBottom="true"
+                            android:text="3. Wurf"
+                            android:textSize="20sp"
+                            android:layout_marginBottom="20dp"
+                            android:textColor="@android:color/black"/>
 
-                </RelativeLayout>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:text="name"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/black"
+                            android:textSize="12sp"
+                            android:id="@+id/textview_com_hero_name" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="HP"
+                            android:textColor="@android:color/black"
+                            android:textSize="30sp"
+                            android:fontFamily="sans-serif-light"
+                            android:layout_above="@+id/textview_com_hero_name"
+                            android:layout_alignEnd="@+id/textview_com_hero_name"
+                            android:id="@+id/textview_com_hero_hp_now" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:src="@mipmap/hero_dummy_3"
                     android:scaleType="centerCrop"
                     android:id="@+id/imageview_com_hero_profile"
@@ -282,8 +265,7 @@
         android:layout_weight="1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/grey_7000"
-        android:alpha=".7">
+        android:background="@color/grey_7000">
 
         <TextView
             android:id="@+id/cell_com_multi_x_2"
@@ -375,8 +357,7 @@
         android:layout_weight="4"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@color/grey_7000"
-        android:alpha=".7">
+        android:background="@color/grey_7000">
 
         <TextView
             android:layout_height="0dp"
@@ -703,11 +684,63 @@
             android:layout_column="0"
             android:layout_columnWeight="1"
             android:layout_rowWeight=".5"
-            android:layout_columnSpan="4"
+            android:nestedScrollingEnabled="false"
+            android:background="@drawable/ripple_grey_to_red"
+            android:id="@+id/cell_com_undo"
+            android:text="U"
+            android:letterSpacing="0.1"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:onClick="onClick"/>
+
+        <TextView
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_row="5"
+            android:layout_column="1"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight=".5"
             android:nestedScrollingEnabled="false"
             android:background="@drawable/ripple_grey_to_red"
             android:id="@+id/cell_com_miss"
-            android:text="FEHLWURF"
+            android:text="X"
+            android:letterSpacing="0.1"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:onClick="onClick"/>
+
+        <TextView
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_row="5"
+            android:layout_column="2"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight=".5"
+            android:nestedScrollingEnabled="false"
+            android:background="@drawable/ripple_grey_to_red"
+            android:id="@+id/cell_com_primary_attack"
+            android:text="P"
+            android:letterSpacing="0.1"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:onClick="onClick"/>
+        <TextView
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:layout_row="5"
+            android:layout_column="3"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight=".5"
+            android:nestedScrollingEnabled="false"
+            android:background="@drawable/ripple_grey_to_red"
+            android:id="@+id/cell_com_secondary_attack"
+            android:text="S"
             android:letterSpacing="0.1"
             android:textColor="#000000"
             android:textSize="20sp"

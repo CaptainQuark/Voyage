@@ -105,7 +105,14 @@ public class HeroPool {
                 rarity != Integer.parseInt(list.get(rand)[3]) ||
                 currentBiome.equals(list.get(rand)[10]) ||
                 currentBiome.equals(list.get(rand)[11]) ||
-                currentBiome.equals(list.get(rand)[12]));
+                currentBiome.equals(list.get(rand)[11]));
+
+        /*
+
+        !!! -> letztes 'currentBiome.equals(list.get(rand)[12]));
+            -> Spalte gibt es in CSV-Datei noch nicht, darum jetzt durch 11 ersetzt
+
+         */
 
         //Msg.msgShort(context, heroClass);
         //for(int i = 0; i < list.size(); i++)
