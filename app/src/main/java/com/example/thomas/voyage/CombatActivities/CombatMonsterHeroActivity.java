@@ -44,7 +44,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private List<Item> playerItemList;
     private List<String> eventsList;
     private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView, lastSelectedShowBattleView;
-    //private LinearLayout battleCommandsView;
     private GridView playerItemGridView;
     private ScrollView battleLogScrollView;
 
