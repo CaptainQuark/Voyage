@@ -87,7 +87,7 @@ public class CombatActivity extends Activity {
         initializeViews();
         initializeValues();
 
-        monster = new Monster();
+        monster = new Monster("Forest", "Easy", this);
         monsterHealth = monster.hp;
         monsterCheckout = monster.checkout;
         monsterNameView.setText(monster.name);
@@ -518,7 +518,7 @@ public class CombatActivity extends Activity {
             heroList.add(new Hero(heroName, heroPrimaryClass, heroSecondaryClass, heroImgRes, heroHitpoints, heroHitpoints, heroCosts, heroEvasion));
         }
 
-        monsterList.add(new Monster());
+        monsterList.add(new Monster("Forest", "Easy", this));
         monsterHealthConst = monsterList.get(0).hp;
 
         heroNameView.setText(heroList.get(0).getHeroName());

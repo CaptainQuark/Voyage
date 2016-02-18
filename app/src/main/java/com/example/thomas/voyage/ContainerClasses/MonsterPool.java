@@ -55,9 +55,11 @@ public class MonsterPool {
             block = Integer.parseInt(list.get(rand)[13]);
 
         }while(rarity != Integer.parseInt(list.get(rand)[3]) ||
-                !currentBiome.equals(list.get(rand)[14]) ||
-                !currentBiome.equals(list.get(rand)[15]) ||
-                !currentBiome.equals(list.get(rand)[16]));
+                !currentBiome.equals(list.get(rand)[14])
+                        //&&
+                //!currentBiome.equals(list.get(rand)[15]) &&
+                //!currentBiome.equals(list.get(rand)[16])
+        );
 
         //Msg.msgShort(context, heroClass);
         //for(int i = 0; i < list.size(); i++)

@@ -500,7 +500,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private void iniValues(){
 
-        monster = new Monster(this);
+        monster = new Monster("Forest", "Easy", this);
 
         ConstRes c = new ConstRes();
         h = new DBheroesAdapter(this);
