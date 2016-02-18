@@ -1,4 +1,8 @@
 package com.example.thomas.voyage.ContainerClasses;
+import android.content.Context;
+import android.util.Log;
+
+import java.util.List;
 import java.util.Random;
 
 public class MonsterPool {
@@ -8,112 +12,68 @@ public class MonsterPool {
     private int dmgMin;
     private int dmgMax;
     private int image;
+    private int block;
+    private int accuracy;
+    private int evasion;
+    private int critChance;
 
-    private double accuracy;
-    private double evasion;
-    private double critChance;
+    private double resistance;
+    private double critMultiplier;
 
     private String checkout;
     private String name;
 
-    public MonsterPool() {
+    public MonsterPool(String currentBiome, String difficulty, Context context ){
 
         rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
-        if (rarity <= 60) {                               //Wsl 60%
+        if (rarity <= 70) {                               //Wsl 70%
             rarity = 1;
-        } else if (rarity <= 85) {                          //Wsl 25% - 1/4
+        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
             rarity = 2;
-        } else if (rarity >= 85) {                          //Wsl 15% - 3/20
+        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
         }
 
-        switch (rarity) {
-            //Je nach Seltenheit wird nun aus einer Primär-Klasse zufällig gezogen
-            //Ob-8: Nicht über 100 cases gehen, ohne den random-multiplier zu erhöhen!!
-            case 1:
-                for (boolean run = true; run; ) {
-                    run = false;
+        HelperCSV helperCSV = new HelperCSV(context);
+        List<String[]> list = helperCSV.getDataList("monsterresourcetable");
+        Random random = new Random();
+        int rand;
 
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            name = "Gemeines Monster";
-                            checkout = "double";
-                            hp = 200;
-                            dmgMin = 10;
-                            dmgMax = 20;
-                            accuracy = 1;
-                            evasion = 0.95;
-                            critChance = 0;
-                            image = 1;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 2:
-                for (boolean run = true; run; ) {
-                    run = false;
+        do {
+            rand = random.nextInt(list.size());
+            image = rand + 1;
+            name = list.get(rand)[2];
+            hp = Integer.parseInt(list.get(rand)[4]);
+            dmgMin = Integer.parseInt(list.get(rand)[5]);
+            dmgMax = Integer.parseInt(list.get(rand)[6]);
+            accuracy = Integer.parseInt(list.get(rand)[7]);
+            evasion = Integer.parseInt(list.get(rand)[8]);
+            critChance = Integer.parseInt(list.get(rand)[9]);
+            critMultiplier = Double.parseDouble(list.get(rand)[10]);
+            checkout = list.get(rand)[11];
+            resistance = Double.parseDouble(list.get(rand)[12]);
+            block = Integer.parseInt(list.get(rand)[13]);
 
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            name = "Uncommon Monster";
-                            checkout = "double";
-                            hp = 300;
-                            dmgMin = 10;
-                            dmgMax = 20;
-                            accuracy = 1;
-                            evasion = 0.99;
-                            critChance = 0;
-                            image = 2;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            case 3:
-                for (boolean run = true; run; ) {
-                    run = false;
+        }while(rarity != Integer.parseInt(list.get(rand)[3]) ||
+                !currentBiome.equals(list.get(rand)[14]) ||
+                !currentBiome.equals(list.get(rand)[15]) ||
+                !currentBiome.equals(list.get(rand)[16]));
 
-                    switch ((int) (Math.random() * 100)) {
-                        case 1:
-                            name = "Fufzehn Prozent Monster";
-                            checkout = "double";
-                            hp = 500;
-                            dmgMin = 10;
-                            dmgMax = 20;
-                            accuracy = 1;
-                            evasion = 0.99;
-                            critChance = 0;
-                            image = 3;
-                            break;
-                        default:
-                            run = true;
-                            break;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
+        //Msg.msgShort(context, heroClass);
+        //for(int i = 0; i < list.size(); i++)
+        // Msg.msgShort(context, list.get(i)[0] + " " + list.get(i)[1]);
     }
 
-    public String getCheckout(){
-        return checkout;
-    }
 
-    public double getEvasion(){
+    public int getEvasion(){
         return evasion;
     }
 
-    public double getAccuracy(){
+    public int getAccuracy(){
         return accuracy;
     }
 
-    public double getCritChance(){
+    public int getCritChance(){
         return critChance;
     }
 
@@ -129,11 +89,27 @@ public class MonsterPool {
         return dmgMax;
     }
 
+    public int getBlock(){
+        return block;
+    }
+
+    public double getResistance(){
+        return resistance;
+    }
+
+    public double getCritMultiplier(){
+        return critMultiplier;
+    }
+
     public String getImgRes(){
         return "monster_dummy_" + image;
     }
 
     public String getName(){
-       return name;
+        return name;
+    }
+
+    public String getCheckout(){
+        return checkout;
     }
 }

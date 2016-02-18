@@ -1,26 +1,30 @@
 package com.example.thomas.voyage.ContainerClasses;
 
+import android.content.Context;
 import android.util.Log;
 
 public class Monster {
 
     public String name = "", checkout = "", imgRes = "";
-    public double evasion = -1, accuracy = -1, critChance = -1;
-    public int hp, hpTotal, dmgMin = -1, dmgMax = -1, resistance = 1, block = 0;
+    public double  resistance = -1, critMultiplier = -1;
+    public int hp, hpTotal, dmgMin = -1, dmgMax = -1, block = 0, evasion = -1, accuracy = -1, critChance = -1;
 
-    public Monster(){
-        MonsterPool monsterPool = new MonsterPool();
+    public Monster(String currentBiome, String difficulty, Context c){
+        MonsterPool monsterPool = new MonsterPool(currentBiome, difficulty, c);
 
         name = monsterPool.getName();
         checkout = monsterPool.getCheckout();
         evasion = monsterPool.getEvasion();
         accuracy = monsterPool.getAccuracy();
         critChance = monsterPool.getCritChance();
+        critMultiplier = monsterPool.getCritMultiplier();
         hp = monsterPool.getHp();
         hpTotal = hp;
         dmgMin = monsterPool.getDmgMin();
         dmgMax = monsterPool.getDmgMax();
         imgRes = monsterPool.getImgRes();
+        resistance = monsterPool.getResistance();
+        block = monsterPool.getBlock();
     }
 
     public Monster(String tName, String check, int eva, int acc, int crit, int tHp, int tDmgMin, int tDmgMax){
