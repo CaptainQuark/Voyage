@@ -31,7 +31,7 @@ import java.util.Random;
 
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, lastSelectedValIndex = -1, bonusScore, scoreMultiplier, levelOfMonsters = -1, battleLength = -1;
+    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, bonusScore, scoreMultiplier, levelOfMonsters = -1, battleLength = -1;
     private long heroDbIndex;
     private String heroClassActive = "", logTopEntry = "";
     private Monster monster;
@@ -76,7 +76,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             case R.id.cell_com_miss:
                 int tempMulti = scoreMultiplier;
-                scoreMultiplier = 0;
+                scoreMultiplier = 1;
                 combat(0);
                 scoreMultiplier = tempMulti;
                 break;
@@ -177,21 +177,19 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     public void onActionSceneToolbar(View v){
         TextView tv = (TextView) v;
 
-        lastSelectedShowBattleView.setTextColor(getResources().getColor(R.color.grey_7000));
+        lastSelectedShowBattleView.setTextColor(getResources().getColor(R.color.grey_7000, null));
         lastSelectedShowBattleView = tv;
 
         switch(v.getId()){
             case R.id.textview_com_show_battle_log:
                 tv.setTextColor(Color.BLACK);
                 playerItemGridView.setVisibility(View.GONE);
-                //battleCommandsView.setVisibility(View.VISIBLE);
                 battleLogScrollView.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.textview_com_show_inventory:
                 tv.setTextColor(Color.BLACK);
                 playerItemGridView.setVisibility(View.VISIBLE);
-                //battleCommandsView.setVisibility(View.GONE);
                 battleLogScrollView.setVisibility(View.GONE);
                 break;
 
@@ -560,7 +558,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         lastSelectedShowBattleView = (TextView) findViewById(R.id.textview_com_show_battle_log);
 
         battleLogView = (TextView) findViewById(R.id.textview_com_battle_log);
-        //battleCommandsView = (LinearLayout) findViewById(R.id.layout_com_tap_undo_and_classes);
         battleLogScrollView = (ScrollView) findViewById(R.id.scrollview_com_battle_log);
         defaultMultiView = (TextView) findViewById(R.id.cell_com_multi_single_out);
 
