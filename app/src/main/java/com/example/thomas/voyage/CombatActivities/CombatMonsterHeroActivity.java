@@ -102,16 +102,16 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case R.id.cell_com_primary_attack:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
                 TextView primTempView = (TextView) v;
-                primTempView.setTextColor(getColor(R.color.wallet_holo_blue_light));
-                if(lastClassView != null) lastClassView.setTextColor(Color.BLACK);
+                primTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
+                if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
                 lastClassView = primTempView;
                 break;
 
             case R.id.cell_com_secondary_attack:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
                 TextView secTempView = (TextView) v;
-                secTempView.setTextColor(getColor(R.color.wallet_holo_blue_light));
-                if(lastClassView != null) lastClassView.setTextColor(Color.BLACK);
+                secTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
+                if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
                 lastClassView = secTempView;
                 break;
         }
