@@ -27,42 +27,18 @@ public class Monster {
         block = monsterPool.getBlock();
     }
 
-    public Monster(String tName, String check, int eva, int acc, int crit, int tHp, int tDmgMin, int tDmgMax){
+    public Monster(String tName, String check, int eva, int acc, int crit, int tHp, int tHpTotal, int tDmgMin, int tDmgMax, int block, double resistance, double critMultiplier){
         name = tName;
         checkout = check;
         evasion = eva;
         accuracy = acc;
         critChance = crit;
         hp = tHp;
-        hpTotal = tHp;
+        hpTotal = tHpTotal;
         dmgMin = tDmgMin;
         dmgMax = tDmgMax;
-    }
-
-    public String getImgRes(){
-        return imgRes;
-    }
-
-    public void setInt(String id, int val){
-
-        switch (id){
-
-            case "evasion":
-                evasion = val; break;
-            case "accuracy":
-                accuracy = val; break;
-            case "critChance":
-                critChance = val; break;
-            case "hp":
-                hp = val; break;
-            case "hpTotal":
-                hp = val; break;
-            case "dmgMin":
-                dmgMin = val; break;
-            case "dmgMax":
-                dmgMax = val; break;
-            default:
-                Log.e("MONSTER_GET_INT", "Error@ getInt, default called");
-        }
+        this.block = block;
+        this.resistance = resistance;
+        this.critMultiplier = critMultiplier;
     }
 }

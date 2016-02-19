@@ -11,7 +11,7 @@
         android:value="@integer/google_play_services_version" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -85,7 +85,11 @@
         <activity
             android:name=".BasicActivities.NewMerchantHeroActivity"
             android:label="@string/title_activity_new_merchant_hero"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".CombatActivities.CombatSplashActivity"
+            android:label="@string/title_activity_combat_splash"
+            android:screenOrientation="sensorLandscape" />
     </application>
 
 </manifest>

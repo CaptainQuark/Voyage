@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
+import com.example.thomas.voyage.CombatActivities.CombatSplashActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
@@ -224,7 +225,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
                 default:
                     putFragmentToSleep();
-                    i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+                    i = new Intent(getApplicationContext(), CombatSplashActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
                     finish();

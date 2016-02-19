@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.thomas.voyage.CombatActivities.CombatSplashActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/monster_dummy_3"
+            android:id="@+id/imageview_com_splash_background" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="50dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="150dp"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="10dp"
+                app:cardBackgroundColor="@android:color/darker_gray">
+
+                <TextView
+                    android:id="@+id/textview_com_splash_monster_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:text="Monstername"
+                    android:textColor="@android:color/black"
+                    android:textSize="30sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="80dp"
+                    android:layout_marginEnd="80dp"
+                    android:fontFamily="sans-serif-light" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|top"
+                    android:layout_marginBottom="20dp"
+                    android:text="Kurzbeschreibung"
+                    android:textColor="@android:color/black"
+                    android:textSize="17sp"
+                    android:layout_marginTop="60dp"
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/textview_com_splash_monster_des" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom|center"
+                    android:background="@drawable/ripple_grey_to_red"
+                    android:text="KÄMPFEN"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:onClick="onClick"
+                    android:id="@+id/textview_com_splah_start_combat" />
+
+            </android.support.v7.widget.CardView>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+</RelativeLayout>

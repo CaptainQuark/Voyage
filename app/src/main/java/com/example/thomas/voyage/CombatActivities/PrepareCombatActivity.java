@@ -66,7 +66,7 @@ public class PrepareCombatActivity extends Activity {
     public void startCombat(View view){
 
         if(origin.equals("HeroCampActivity")){
-            Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+            Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
 
             i.putExtra(co.HERO_DATABASE_INDEX, index);
             i.putExtra(co.ORIGIN, origin);

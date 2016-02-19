@@ -328,6 +328,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
      */
 
+
+
     @Override
     public void putFragmentToSleep() {
         if(heroAllDataCardFragment != null){
@@ -393,10 +395,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
         }
 
-        public int getLatestThrow(){
-            return scoreByThrow[(indexNow) % 3];
-        }
-
         public void addOneThrow(int val){
             scoreByThrow[indexNow] = val;
 
@@ -433,6 +431,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     Adapter
 
      */
+
 
 
     public class InventoryAdapter extends BaseAdapter {
@@ -487,6 +486,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     }
 
 
+
     /*
 
     Auslagerung von Initialisierungen
@@ -496,8 +496,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
 
     private void iniValues(){
-
-        monster = new Monster("Forest", "Easy", this);
 
         ConstRes c = new ConstRes();
         h = new DBheroesAdapter(this);
@@ -509,6 +507,24 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             levelOfMonsters = b.getInt(c.COMBAT_LEVEL_OF_MONSTERS);
             battleLength = b.getInt(c.COMBAT_LENGTH);
+
+            monster = new Monster(
+                    b.getString(c.MONSTER_NAME),
+                    b.getString(c.MONSTER_CHECKOUT),
+                    b.getInt(c.MONSTER_EVASION),
+                    b.getInt(c.MONSTER_ACCURACY),
+                    b.getInt(c.MONSTER_CRIT_CHANCE),
+                    b.getInt(c.MONSTER_HITPOINTS_NOW),
+                    b.getInt(c.MONSTER_HITPOINTS_TOTAL),
+                    b.getInt(c.MONSTER_DAMAGE_MIN),
+                    b.getInt(c.MONSTER_DAMAGE_MAX),
+                    b.getInt(c.MONSTER_BLOCK),
+                    b.getDouble(c.MONSTER_RESISTANCE),
+                    b.getDouble(c.MONSTER_CRIT_MULTIPLIER)
+            );
+
+        }else{
+            Msg.msg(this, "ERROR @ iniValues : Bundle is null");
         }
 
         scoreHelperList = new ArrayList<>();
@@ -547,7 +563,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         monsterHpView = (TextView) findViewById(R.id.textview_com_monster_hp_now);
         heroHpView = (TextView) findViewById(R.id.textview_com_hero_hp_now);
 
-        monsterProfileView.setImageResource(getResources().getIdentifier(monster.getImgRes(), "mipmap", getPackageName()));
+        monsterProfileView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
         monsterNameView.setText(monster.name);
         monsterHpView.setText(String.valueOf(monster.hp));
 

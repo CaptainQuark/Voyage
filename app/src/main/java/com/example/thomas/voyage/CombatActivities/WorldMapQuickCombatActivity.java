@@ -96,8 +96,9 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     // Erst sichtbar, wenn Level + Dauer gewählt sind
     public void goInCombat(View view){
-        Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, index);
+        i.putExtra(c.CURRENT_BIOME, getCurrentBiome());
         i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, selectonArray[0]);
         i.putExtra(c.COMBAT_LENGTH, selectonArray[1]);
         startActivity(i);
@@ -182,6 +183,36 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
         if (firstCheck && secondCheck && !heroName.equals(""))
             goInCombat.setVisibility(View.VISIBLE);
+    }
+
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
+
+    private String getCurrentBiome(){
+        String biome;
+
+        switch(mPager.getCurrentItem()){
+            case 0:
+                biome = "landscape";
+                break;
+            case 1:
+                biome = "icelands";
+                break;
+            case 2:
+                biome = "waterfall";
+                break;
+            default:
+                biome = "nowhere";
+        }
+
+        return biome;
     }
 
     private void hideSystemUI() {
