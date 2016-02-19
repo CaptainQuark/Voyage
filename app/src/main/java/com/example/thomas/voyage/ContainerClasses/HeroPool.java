@@ -40,7 +40,7 @@ public class HeroPool {
     public String setName() {
         String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe",
                 "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar",
-                "Beowulf", "Hartmut von Heinstein", "Konrad Käsebart"};
+                "Beowulf", "Hartmut von Heinstein", "Konrad Käsebart", "Clayton Wiesel", "Jimmy 'Die Bohne'"};
 
         //Zufälliger Namens-Generator
         for (boolean run = true; run; ) {
@@ -164,6 +164,13 @@ public class HeroPool {
 
     public int setEvasion() {
         return setRandomVal(pEvasion, sEvasion, pEvasionWeight, sEvasionWeight);
+    }
+
+    public int setBonusNumber(){
+        Random r = new Random();
+
+        // inkl. 0 = wird als 'Fehlwurf' interpretiert
+        return r.nextInt(21);
     }
 
     public String getImageResource() {

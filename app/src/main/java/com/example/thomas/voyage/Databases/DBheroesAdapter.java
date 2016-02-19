@@ -41,6 +41,7 @@ public class DBheroesAdapter {
         contentValues.put(DBheroesHelper.HP_TOTAL, hitpoints);
         contentValues.put(DBheroesHelper.MED_SLOT_INDEX, -1);
         contentValues.put(DBheroesHelper.TIME_TO_LEAVE, "0");
+        contentValues.put(DBheroesHelper.BONUS_NUMBER, -1);
 
         long id = db.insert(DBheroesHelper.TABLE_NAME, null, contentValues);
         db.close();
@@ -398,7 +399,7 @@ public class DBheroesAdapter {
                 cursor.close();
             }
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getTimeToLeave with exception: " + n);
+            Msg.msg(context1, "ERROR @ getEvasion with exception: " + n);
         }
 
         db.close();
@@ -406,7 +407,37 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs, String image, int hpTotal, int medSlotIndex, long timeToLeave, int evasion) {
+    public int getBonusNumber(long id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBheroesHelper.BONUS_NUMBER};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBheroesHelper.TABLE_NAME, columns, DBheroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        int value = -1;
+
+        try {
+            if (cursor != null) {
+                try{
+                    cursor.moveToFirst();
+                    value = cursor.getInt(cursor.getColumnIndex(DBheroesHelper.BONUS_NUMBER));
+
+                }catch (Exception p){
+                    Msg.msg(context1, String.valueOf(p));
+                }
+
+                cursor.close();
+            }
+        } catch (NullPointerException n) {
+            Msg.msg(context1, "ERROR @ getBonusNumber with exception: " + n);
+        }
+
+        db.close();
+        return value;
+    }
+
+    public int updateRowWithHeroData(int UID, String name, int hitpoints, String primaryClass, String secondaryClass, int costs,
+                                     String image, int hpTotal, int medSlotIndex, long timeToLeave, int evasion, int bonusNumber) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -421,6 +452,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.MED_SLOT_INDEX, medSlotIndex);
         cv.put(DBheroesHelper.TIME_TO_LEAVE, Objects.toString(timeToLeave, "0"));
         cv.put(DBheroesHelper.EVASION, evasion);
+        cv.put(DBheroesHelper.BONUS_NUMBER, bonusNumber);
 
         String[] whereArgs = {UID + "", context1.getString(R.string.indicator_unused_row)};
 
@@ -491,6 +523,7 @@ public class DBheroesAdapter {
         cv.put(DBheroesHelper.TIME_TO_LEAVE, "0");
         cv.put(DBheroesHelper.EVASION, -1);
         cv.put(DBheroesHelper.HP_TOTAL, -1);
+        cv.put(DBheroesHelper.BONUS_NUMBER, -1);
 
         String[] whereArgs = {Integer.toString(id)};
 
@@ -515,6 +548,7 @@ public class DBheroesAdapter {
         private static final String MED_SLOT_INDEX = "MedicationSlotIndex";
         private static final String TIME_TO_LEAVE = "TimeToLeave";
         private static final String EVASION = "Evasion";
+        private static final String BONUS_NUMBER = "BonusNumber";
             // hier Spalten deklarieren, die für Helden benötigt werden
             // -> diese dann in CREATE_TABLE unterhalb einfügen
 
@@ -529,7 +563,8 @@ public class DBheroesAdapter {
                 + HP_TOTAL + " INTEGER, "
                 + MED_SLOT_INDEX + " INTEGER, "
                 + TIME_TO_LEAVE + " TEXT, "
-                + EVASION + " INTEGER);";
+                + EVASION + " INTEGER, "
+                + BONUS_NUMBER + " INTEGER);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;

@@ -77,7 +77,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                         h.getHeroHitpoints(i),
                         h.getHeroHitpointsTotal(i),
                         h.getHeroCosts(i),
-                        h.getEvasion(i)
+                        h.getEvasion(i),
+                        h.getBonusNumber(i)
                 ));
             }
         }
@@ -208,7 +209,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         if(lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1){
             switch (origin){
                 case "PrepareCombatActivity":
-                    putFragmentToSleep();
                     i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
@@ -216,7 +216,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     break;
 
                 case "WorldMapQuickCombatActivity":
-                    putFragmentToSleep();
                     i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
@@ -224,7 +223,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     break;
 
                 default:
-                    putFragmentToSleep();
                     i = new Intent(getApplicationContext(), CombatSplashActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);

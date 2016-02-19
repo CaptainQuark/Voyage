@@ -2,22 +2,14 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Msg;
-import com.example.thomas.voyage.Databases.DBghostMetaDataAdapter;
-import com.example.thomas.voyage.Databases.DBghostScoreDataAdapter;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 
@@ -56,7 +48,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         TextView classesView = (TextView) rootView.findViewById(R.id.frag_textview_classes);
         TextView hpView = (TextView) rootView.findViewById(R.id.frag_textview_hp);
         TextView marketValueView = (TextView) rootView.findViewById(R.id.frag_textview_sell_value);
-        TextView battlesView = (TextView) rootView.findViewById(R.id.frag_textview_battles);
+        TextView battlesView = (TextView) rootView.findViewById(R.id.frag_textview_bonus_number);
         TextView evasionView = (TextView) rootView.findViewById(R.id.frag_textview_evasion);
         TextView avgAttacksView = (TextView) rootView.findViewById(R.id.frag_textview_avg_attacks_per_battle);
         TextView levelView = (TextView) rootView.findViewById(R.id.frag_textview_level);
@@ -66,7 +58,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         classesView.setText(h.getHeroPrimaryClass(dbIndex) + " & " + h.getHeroSecondaryClass(dbIndex));
         hpView.setText(h.getHeroHitpoints(dbIndex) + " / " + h.getHeroHitpointsTotal(dbIndex));
         marketValueView.setText(String.valueOf(h.getHeroCosts(dbIndex)));
-        battlesView.setText("?");
+        battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
         evasionView.setText(String.valueOf(h.getEvasion(dbIndex)));
         avgAttacksView.setText("?");
         levelView.setText("?");

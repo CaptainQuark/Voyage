@@ -109,7 +109,7 @@
                     android:gravity="bottom|center"
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:id="@+id/frag_textview_battles"
+                    android:id="@+id/frag_textview_bonus_number"
                     android:textIsSelectable="false" />
 
                 <TextView
@@ -189,7 +189,7 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
-                    android:text="Schlachten"
+                    android:text="Spezialwert"
                     android:gravity="top|center"
                     android:paddingTop="10dp"
                     android:textStyle="italic"

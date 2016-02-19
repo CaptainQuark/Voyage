@@ -12,7 +12,7 @@ public class Hero {
     ConstRes co;
 
     private String heroName, classSecondary, classPrimary, imageResource;
-    private int hp, costs, hpTotal, evasion;
+    private int hp, costs, hpTotal, evasion, bonusNumber;
 
     //Konstruktor, Initialize seperat für spätere Zwecke
     public Hero(Context con) {
@@ -22,7 +22,7 @@ public class Hero {
 
 
     // 2. Konstruktor, welcher gewählt werden kann (jedoch immer nur einer)
-    public Hero(String name, String prime, String sec, String imgRes, int hp, int hpTotal, int costs, int evasion) {
+    public Hero(String name, String prime, String sec, String imgRes, int hp, int hpTotal, int costs, int evasion, int bonusNumber) {
         co = new ConstRes();
         heroName = name;
         classPrimary = prime;
@@ -32,6 +32,7 @@ public class Hero {
         this.hpTotal = hpTotal;
         this.costs = costs;
         this.evasion = evasion;
+        this.bonusNumber = bonusNumber;
     }
 
     public void Initialize(String merchantBiome) {
@@ -42,11 +43,12 @@ public class Hero {
         heroName = heropool.setName();
         classSecondary = heropool.setClass(merchantBiome, "Secondary", context);
         classPrimary = heropool.setClass(merchantBiome, "Primary", context);
-        hp = heropool.setHitPoints();
+        hpTotal = heropool.setHitPoints();
         costs = heropool.setCosts();
         evasion = heropool.setEvasion();
         imageResource = heropool.getImageResource();
-        hpTotal = hp;
+        bonusNumber = heropool.setBonusNumber();
+        hp = hpTotal;
 
         //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
     }
@@ -75,11 +77,9 @@ public class Hero {
 
     public int getCosts() { return costs; }
 
+    public int getBonusNumber() { return bonusNumber; }
+
     public int getEvasion() { return evasion; }
 
     public void setHp(int hp){ this.hp = hp; }
-
-    public void setHpTotal(int hpTotal){ this.hpTotal = hpTotal; }
-
-    public void setCosts(int costs){ this.costs = costs; }
 }

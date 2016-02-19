@@ -3,6 +3,7 @@ package com.example.thomas.voyage.CombatActivities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
@@ -277,6 +279,18 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         battleLogView.setText(tempEventsString);
         eventsList.add(logTopEntry);
+
+        if(h.getHeroHitpoints(heroDbIndex) < 0){
+            h.markOneRowAsUnused( (int) heroDbIndex);
+            Intent i = new Intent(getApplicationContext(), StartActivity.class);
+            startActivity(i);
+            finish();
+
+        }else if(monster.hp < 0){
+            Intent i = new Intent(getApplicationContext(), StartActivity.class);
+            startActivity(i);
+            finish();
+        }
 
         resetBonus();
     }

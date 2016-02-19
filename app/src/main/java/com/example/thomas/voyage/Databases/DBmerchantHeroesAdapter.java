@@ -22,7 +22,7 @@ public class DBmerchantHeroesAdapter {
         context1 = context;
     }
 
-    public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs, String imageResource, int evasion, int hpTotal) {
+    public long insertData(String name, int hitpoints, String classOne, String classTwo, int costs, String imageResource, int evasion, int hpTotal, int bonusNumber) {
 
         Log.i("INSERT", "insert Data called");
 
@@ -38,6 +38,7 @@ public class DBmerchantHeroesAdapter {
         contentValues.put(DBmerchantHeroesHelper.IMAGE_RESOURCE, imageResource);
         contentValues.put(DBmerchantHeroesHelper.EVASION, evasion);
         contentValues.put(DBmerchantHeroesHelper.HP_TOTAL, hpTotal);
+        contentValues.put(DBmerchantHeroesHelper.BONUS_NUMBER, bonusNumber);
 
         long id = db.insert(DBmerchantHeroesHelper.TABLE_NAME, null, contentValues);
 
@@ -341,6 +342,30 @@ public class DBmerchantHeroesAdapter {
         return costs;
     }
 
+    public int getBonusNumber(int id) {
+        SQLiteDatabase db = helper.getReadableDatabase();
+
+        String[] columns = {DBmerchantHeroesHelper.BONUS_NUMBER};
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(DBmerchantHeroesHelper.TABLE_NAME, columns, DBmerchantHeroesHelper.UID + "=?", selectionArgs, null, null, null);
+
+        int number = 0;
+
+        try {
+            if (cursor != null) {
+                cursor.moveToFirst();
+                number = cursor.getInt(cursor.getColumnIndex(DBmerchantHeroesHelper.BONUS_NUMBER));
+                cursor.close();
+            }
+
+        } catch (NullPointerException n) {
+            Msg.msg(context1, "ERROR @ getBonusNumber with exception: " + n);
+        }
+
+        db.close();
+        return number;
+    }
+
     public long getTaskCount() {
         return DatabaseUtils.queryNumEntries(helper.getReadableDatabase(), DBmerchantHeroesHelper.TABLE_NAME);
     }
@@ -395,7 +420,7 @@ public class DBmerchantHeroesAdapter {
         return validation;
     }
 
-    public int updateRowComplete(int id,String newName,int hitpoints,String primaryClass,String secondaryClass, int costs, String image, int evasion, int hpTotal) {
+    public int updateRowComplete(int id,String newName,int hitpoints,String primaryClass,String secondaryClass, int costs, String image, int evasion, int hpTotal, int bonusNumber) {
 
         SQLiteDatabase db = helper.getWritableDatabase();
 
@@ -408,6 +433,7 @@ public class DBmerchantHeroesAdapter {
         cv.put(DBmerchantHeroesHelper.IMAGE_RESOURCE, image);
         cv.put(DBmerchantHeroesHelper.EVASION, evasion);
         cv.put(DBmerchantHeroesHelper.HP_TOTAL, hpTotal);
+        cv.put(DBmerchantHeroesHelper.BONUS_NUMBER, bonusNumber);
 
         String[] whereArgs = {id + ""};
 
@@ -430,6 +456,7 @@ public class DBmerchantHeroesAdapter {
         private static final String IMAGE_RESOURCE = "ImageResource";
         private static final String EVASION = "Evasion";
         private static final String HP_TOTAL = "HpTotal";
+        private static final String BONUS_NUMBER = "BonusNumber";
         // hier Spalten deklarieren, die für Helden benötigt werden
         // -> diese dann in CREATE_TABLE unterhalb einfügen
 
@@ -442,7 +469,8 @@ public class DBmerchantHeroesAdapter {
                 + COSTS + " INT, "
                 + IMAGE_RESOURCE + " VARCHAR(255), "
                 + EVASION + " INTEGER, "
-                + HP_TOTAL + ");";
+                + HP_TOTAL + " INTEGER, "
+                + BONUS_NUMBER + " INTEGER);";
 
         private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
         private Context context;

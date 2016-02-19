@@ -266,7 +266,8 @@ public class StartActivity extends Activity {
                     heroList.get(i).getCosts(),
                     heroList.get(i).getImageResource(),
                     heroList.get(i).getEvasion(),
-                    heroList.get(i).getHpTotal());
+                    heroList.get(i).getHpTotal(),
+                    heroList.get(i).getBonusNumber());
 
             if (id < 0) Msg.msg(this, "ERROR @ insert of hero " + i + 1);
 

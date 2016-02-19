@@ -37,6 +37,7 @@
                     android:layout_width="400dp"
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
+                    android:scaleX="1"
                     android:layout_marginBottom="150dp"
                     android:layout_gravity="top|center_horizontal"
                     android:src="@mipmap/placeholder_dummy_0"/>

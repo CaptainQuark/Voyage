@@ -40,7 +40,7 @@ public class MerchantHeroActivity extends Activity {
     private LinearLayout heroDataLayout, containerLayoutMiddle;
     private TextView textView_current_money, textView_available_slots, buyHeroView,tag1, tag2, tag3, nameView, hitpointsView, costsView, primView, secView;
     private CountDownTimer timer;
-    private int currentSelectedHeroId = 0, currentMerchantId = 0;
+    private int selectedHeroId = 0, currentMerchantId = 0;
     private long currentMoneyInPocket = 0, slotsInHeroesDatabase = 0;
     private boolean availableToBuy = false;
 
@@ -268,7 +268,8 @@ public class MerchantHeroActivity extends Activity {
                     heroList.get(i).getCosts(),
                     heroList.get(i).getImageResource(),
                     heroList.get(i).getEvasion(),
-                    heroList.get(i).getHpTotal());
+                    heroList.get(i).getHpTotal(),
+                    heroList.get(i).getBonusNumber());
 
             //merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
 
@@ -375,20 +376,21 @@ public class MerchantHeroActivity extends Activity {
     public void buyHero(View view) {
 
         if (availableToBuy) {
-            String name = merchantHelper.getHeroName(currentSelectedHeroId);
-            int hitpoints = merchantHelper.getHeroHitpoints(currentSelectedHeroId);
-            String classOne = merchantHelper.getHeroClassOne(currentSelectedHeroId);
-            String classTwo = merchantHelper.getHeroClassTwo(currentSelectedHeroId);
-            int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
-            String imageResource = merchantHelper.getHeroImgRes(currentSelectedHeroId);
-            int evasion = merchantHelper.getHeroEvasion(currentSelectedHeroId);
-            int hpTotal = merchantHelper.getHpTotal(currentSelectedHeroId);
+            String name = merchantHelper.getHeroName(selectedHeroId);
+            int hitpoints = merchantHelper.getHeroHitpoints(selectedHeroId);
+            String classOne = merchantHelper.getHeroClassOne(selectedHeroId);
+            String classTwo = merchantHelper.getHeroClassTwo(selectedHeroId);
+            int costs = merchantHelper.getHeroCosts(selectedHeroId);
+            String imageResource = merchantHelper.getHeroImgRes(selectedHeroId);
+            int evasion = merchantHelper.getHeroEvasion(selectedHeroId);
+            int hpTotal = merchantHelper.getHpTotal(selectedHeroId);
+            int bonusNumber = merchantHelper.getBonusNumber(selectedHeroId);
 
             DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
 
             for (int i = 1; i <= 10; i++) {
 
-                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hpTotal, -1, 0, evasion);
+                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hpTotal, -1, 0, evasion, bonusNumber);
 
                 if (updateValidation > 0) {
 
@@ -396,7 +398,7 @@ public class MerchantHeroActivity extends Activity {
                     //Msg.msg(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
 
                     i = 11;
-                    merchantHelper.updateRow(currentSelectedHeroId, "NOT_USED");
+                    merchantHelper.updateRow(selectedHeroId, "NOT_USED");
                 }
             }
 
@@ -442,15 +444,15 @@ public class MerchantHeroActivity extends Activity {
     }
 
     private void processSelectedHero(int index) {
-        currentSelectedHeroId = index;
+        selectedHeroId = index;
 
         try {
-            String name = merchantHelper.getHeroName(currentSelectedHeroId);
-            int hitpoints = merchantHelper.getHeroHitpoints(currentSelectedHeroId);
-            String classOne = merchantHelper.getHeroClassOne(currentSelectedHeroId);
-            String classTwo = merchantHelper.getHeroClassTwo(currentSelectedHeroId);
-            int costs = merchantHelper.getHeroCosts(currentSelectedHeroId);
-            int hpTotal = merchantHelper.getHpTotal(currentSelectedHeroId);
+            String name = merchantHelper.getHeroName(selectedHeroId);
+            int hitpoints = merchantHelper.getHeroHitpoints(selectedHeroId);
+            String classOne = merchantHelper.getHeroClassOne(selectedHeroId);
+            String classTwo = merchantHelper.getHeroClassTwo(selectedHeroId);
+            int costs = merchantHelper.getHeroCosts(selectedHeroId);
+            int hpTotal = merchantHelper.getHpTotal(selectedHeroId);
 
             if (!name.equals(getResources().getString(R.string.indicator_unused_row))) {
                 if (getUsedSlotsInHeroesDatabase() < slotsInHeroesDatabase) {

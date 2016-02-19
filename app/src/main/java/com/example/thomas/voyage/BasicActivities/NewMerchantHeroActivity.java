@@ -199,7 +199,8 @@ public class NewMerchantHeroActivity extends Activity {
                     heroList.get(i).getCosts(),
                     heroList.get(i).getImageResource(),
                     heroList.get(i).getEvasion(),
-                    heroList.get(i).getHpTotal());
+                    heroList.get(i).getHpTotal(),
+                    heroList.get(i).getBonusNumber());
 
             //merchantHelper.updateImageResource(i + 1, "hero_dummy_" + (i));
 
@@ -293,7 +294,7 @@ public class NewMerchantHeroActivity extends Activity {
             if(h.updateRowWithHeroData(index, heroList.get(selectedHeroId).getHeroName(), heroList.get(selectedHeroId).getHp(),
                     heroList.get(selectedHeroId).getClassPrimary(), heroList.get(selectedHeroId).getClassSecondary(),
                     heroList.get(selectedHeroId).getCosts(), heroList.get(selectedHeroId).getImageResource(),
-                    heroList.get(selectedHeroId).getHpTotal(), -1, 0, heroList.get(selectedHeroId).getEvasion())
+                    heroList.get(selectedHeroId).getHpTotal(), -1, 0, heroList.get(selectedHeroId).getEvasion(), heroList.get(selectedHeroId).getBonusNumber())
                     < 0) {
 
                 Msg.msg(this, "ERROR @ onMerchHeroBuy : updateRowWithHeroData");
@@ -399,7 +400,7 @@ public class NewMerchantHeroActivity extends Activity {
             if(!m.getHeroName(i).equals(c.NOT_USED)){
                 heroList.add(new Hero(
                         m.getHeroName(i), m.getHeroClassOne(i), m.getHeroClassTwo(i), m.getHeroImgRes(i),
-                        m.getHeroHitpoints(i), m.getHpTotal(i), m.getHeroCosts(i), m.getHeroEvasion(i)
+                        m.getHeroHitpoints(i), m.getHpTotal(i), m.getHeroCosts(i), m.getHeroEvasion(i), m.getBonusNumber(i)
                 ));
 
                 // 'databaseIndexForHeroList' immer synchron mit 'heroList',
