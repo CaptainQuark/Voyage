@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -14,9 +15,10 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.BasicActivities.HeroCampActivity;
 import com.example.thomas.voyage.ContainerClasses.Msg;
+import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
-import com.example.thomas.voyage.BasicActivities.HeroesPartyActivity;
 import com.example.thomas.voyage.R;
+import com.example.thomas.voyage.ResClasses.ConstRes;
 
 
 public class WorldMapQuickCombatActivity extends FragmentActivity {
@@ -33,9 +35,10 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     private PagerAdapter mPagerAdapter;
     private ImageView heroProfile;
     private TextView goInCombat;
-    private String image = "R.id.hero_dummy_0", heroName = "", primClass = "", secClass = "";
-    private int hitpoints = -1, costs = -1, evasion = -1;
-    private int[] difficulty;
+    private ConstRes c = new ConstRes();
+    private String heroName = "";
+    private long index = -1;
+    private int[] selectonArray;
     private boolean firstCheck = false, secondCheck = false;
 
 
@@ -47,32 +50,31 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         setContentView(R.layout.activity_world_map_quick_combat);
         hideSystemUI();
 
-        difficulty = new int[2];
+        selectonArray = new int[2];
+        DBheroesAdapter h = new DBheroesAdapter(this);
 
         Bundle b = getIntent().getExtras();
         if(b != null){
-            image = b.getString("IMAGE_RESOURCE", "");
-            heroName = b.getString("HEROES_NAME", "");
-            primClass = b.getString("HEROES_PRIMARY_CLASS", "");
-            secClass = b.getString("HEROES_SECONDARY_CLASS", "");
-            hitpoints = b.getInt("HEROES_HITPOINTS", -1);
-            costs = b.getInt("HEROES_COSTS", -1);
-            evasion = b.getInt("EVASION", -1);
+            index = b.getLong(c.HERO_DATABASE_INDEX);
+            Log.v("INDEX", "index : " + index);
 
-            heroProfile = (ImageView)findViewById(R.id.worldmap_imageView_hero_profile);
-            heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
-            heroProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if(index != -1){
+                heroName = h.getHeroName(index);
+                heroProfile = (ImageView) findViewById(R.id.worldmap_imageView_hero_profile);
+                heroProfile.setImageResource(getResources().getIdentifier(h.getHeroImgRes(index), "mipmap", getPackageName()));
+                heroProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                TextView heroProfile = (TextView) findViewById(R.id.worldmap_textView_hero_name);
+                heroProfile.setText(h.getHeroName(index));
+            }
         }
-
-        TextView heroProfile = (TextView) findViewById(R.id.worldmap_textView_hero_name);
-        heroProfile.setText(heroName);
 
         // Instantiate a ViewPager and a PagerAdapter.
         mPager = (ViewPager) findViewById(R.id.pager);
         mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
 
-        goInCombat = (TextView)findViewById(R.id.worldmap_textView_go_in_combat);
+        goInCombat = (TextView) findViewById(R.id.worldmap_textView_go_in_combat);
     }
 
     @Override
@@ -87,21 +89,17 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     public void chooseHeroForCombat(View view){
         Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-        i.putExtra("ORIGIN", "WorldMapQuickCombatActivity");
+        i.putExtra(c.ORIGIN, "WorldMapQuickCombatActivity");
         startActivity(i);
         finish();
     }
 
+    // Erst sichtbar, wenn Level + Dauer gewählt sind
     public void goInCombat(View view){
-        Intent i = new Intent(getApplicationContext(), CombatActivity.class);
-        i.putExtra("ORIGIN", "WorldMapQuickCombatActivity");
-        i.putExtra("HEROES_NAME", heroName);
-        i.putExtra("HEROES_PRIMARY_CLASS", primClass);
-        i.putExtra("HEROES_SECONDARY_CLASS",secClass);
-        i.putExtra("HEROES_HITPOINTS",hitpoints);
-        i.putExtra("HEROES_COSTS", costs);
-        i.putExtra("IMAGE_RESOURCE",image);
-        i.putExtra("EVASION", evasion);
+        Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+        i.putExtra(c.HERO_DATABASE_INDEX, index);
+        i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, selectonArray[0]);
+        i.putExtra(c.COMBAT_LENGTH, selectonArray[1]);
         startActivity(i);
         finish();
     }
@@ -133,8 +131,8 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
                                  3 - schwierig
 
 
-        Insgesamt zwei Gruppen:  1. - difficulty[0} - Anspruch an Gegner
-                                 2. - difficulty[1} - Dauer
+        Insgesamt zwei Gruppen:  1. - selectonArray[0} - Anspruch an Gegner
+                                 2. - selectonArray[1} - Dauer
 
 
          */
@@ -144,37 +142,37 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         switch(view.getId()) {
             case R.id.radioButton_heavy_0:
                 if (checked){
-                    difficulty[0] = 1;
+                    selectonArray[0] = 1;
                     firstCheck = true;
                 }
                     break;
             case R.id.radioButton_heavy_1:
                 if (checked){
-                    difficulty[0] = 2;
+                    selectonArray[0] = 2;
                     firstCheck = true;
                 }
                     break;
             case R.id.radioButton_heavy_2:
                 if (checked){
-                    difficulty[0] = 3;
+                    selectonArray[0] = 3;
                     firstCheck = true;
                 }
                     break;
             case R.id.radioButton_length_0:
                 if (checked){
-                    difficulty[1] = 1;
+                    selectonArray[1] = 1;
                     secondCheck = true;
                 }
                     break;
             case R.id.radioButton_length_1:
                 if (checked){
-                    difficulty[1] = 2;
+                    selectonArray[1] = 2;
                     secondCheck = true;
                 }
                     break;
             case R.id.radioButton_lenght_2:
                 if (checked){
-                    difficulty[1] = 3;
+                    selectonArray[1] = 3;
                     secondCheck = true;
                 }
                     break;

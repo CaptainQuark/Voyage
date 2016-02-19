@@ -9,14 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.BasicActivities.HeroCampActivity;
-import com.example.thomas.voyage.BasicActivities.HeroesPartyActivity;
+import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
 public class PrepareCombatActivity extends Activity {
 
-    private String heroName = "", heroPrimaryClass = "", heroSecondaryClass = "", image = "", origin = "";
-    private int heroHitpoints = -1, heroCosts  =-1, heroEvasion = -1;
+    private String origin = "";
+    private long index = -1;
     private ConstRes co = new ConstRes();
 
 
@@ -30,8 +30,10 @@ public class PrepareCombatActivity extends Activity {
         ImageView heroProfile = (ImageView) findViewById(R.id.combat_white_hero_profile);
         TextView toCombatView = (TextView) findViewById(R.id.pre_combat_to_battle_view);
 
-        if (origin.equals("HeroesPartyActivity")) {
-            heroProfile.setImageResource(getResources().getIdentifier(image, "mipmap", getPackageName()));
+        if (origin.equals("HeroCampActivity")) {
+            DBheroesAdapter h = new DBheroesAdapter(this);
+
+            heroProfile.setImageResource(getResources().getIdentifier(h.getHeroImgRes(index), "mipmap", getPackageName()));
             heroProfile.setScaleType(ImageView.ScaleType.CENTER_CROP);
             heroProfile.setColorFilter(Color.TRANSPARENT);
 
@@ -50,14 +52,8 @@ public class PrepareCombatActivity extends Activity {
     private void getHeroData(){
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            image = b.getString(co.IMAGE_RESOURCE, "hero_dummy_0");
-            heroName = b.getString(co.HEROES_NAME, "");
-            heroPrimaryClass = b.getString(co.HEROES_PRIMARY_CLASS, "");
-            heroSecondaryClass = b.getString(co.HEROES_SECONDARY_CLASS, "");
-            heroHitpoints = b.getInt(co.HEROES_HITPOINTS, -2);
-            heroCosts = b.getInt(co.HEROES_COSTS, -1);
-            origin = b.getString(co.ORIGIN, "");
-            heroEvasion = b.getInt("EVASION", -1);
+            index = b.getLong(co.HERO_DATABASE_INDEX);
+            origin = b.getString(co.ORIGIN);
         }
     }
 
@@ -70,18 +66,10 @@ public class PrepareCombatActivity extends Activity {
     public void startCombat(View view){
 
         if(origin.equals("HeroCampActivity")){
+            Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
 
-            Intent i = new Intent(getApplicationContext(), CombatActivity.class);
-
-            i.putExtra(co.HEROES_NAME,heroName);
-            i.putExtra(co.HEROES_PRIMARY_CLASS, heroPrimaryClass);
-            i.putExtra(co.HEROES_SECONDARY_CLASS,heroSecondaryClass);
-            i.putExtra(co.HEROES_HITPOINTS, heroHitpoints);
-            i.putExtra(co.HEROES_COSTS, heroCosts);
-            i.putExtra(co.IMAGE_RESOURCE, image);
-            i.putExtra(co.ORIGIN, "PrepareCombatActivity");
-            i.putExtra("EVASION", heroEvasion);
-
+            i.putExtra(co.HERO_DATABASE_INDEX, index);
+            i.putExtra(co.ORIGIN, origin);
             startActivity(i);
             finish();
         }

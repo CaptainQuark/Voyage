@@ -18,13 +18,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.CombatActivities.CombatActivity;
+import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
-import com.example.thomas.voyage.Fragments.ClassicWorkoutFragment;
 import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
@@ -43,7 +42,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
     // -> Scrollen in GridView bleibt flüssig
     private List<Hero> heroList;
-    //private List<Integer> heroToDatabaseList;
     private String origin = "";
     private boolean somethingSelected = true;
 
@@ -226,7 +224,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
                 default:
                     putFragmentToSleep();
-                    i = new Intent(getApplicationContext(), CombatActivity.class);
+                    i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
                     finish();
@@ -276,20 +274,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         ConstRes co = new ConstRes();
 
         if(lastSelectedHeroIndex != -1){
-
-             /*
-
-             Um die Funktion nutzen zu können, muss ein Held ausgewählt sein -> für Kämpfe gedacht
-
-            */
-
-            i.putExtra(co.HEROES_NAME, heroList.get(lastSelectedHeroIndex).getHeroName());
-            i.putExtra(co.HEROES_PRIMARY_CLASS, heroList.get(lastSelectedHeroIndex).getClassPrimary());
-            i.putExtra(co.HEROES_SECONDARY_CLASS,heroList.get(lastSelectedHeroIndex).getClassSecondary());
-            i.putExtra(co.HEROES_HITPOINTS, heroList.get(lastSelectedHeroIndex).getHp());
-            i.putExtra(co.HEROES_COSTS, heroList.get(lastSelectedHeroIndex).getCosts());
-            i.putExtra(co.IMAGE_RESOURCE, heroList.get(lastSelectedHeroIndex).getImageResource());
-            i.putExtra("EVASION", heroList.get(lastSelectedHeroIndex).getEvasion());
+            i.putExtra(co.HERO_DATABASE_INDEX, (long) lastSelectedHeroIndex + 1);
         }
 
         i.putExtra(co.ORIGIN, "HeroCampActivity");

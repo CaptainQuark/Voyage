@@ -15,7 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.CombatActivities.CombatActivity;
+import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Msg;
@@ -68,7 +68,7 @@ public class HeroesPartyActivity extends Activity {
             list.add(i);
         }
 
-        if (heroesHelper.equals(null)) {
+        if (heroesHelper == null) {
             Msg.msg(this, "No HeroesDatabase set yet created - ya betta' do!");
 
         } else {
@@ -176,7 +176,7 @@ public class HeroesPartyActivity extends Activity {
                     break;
 
                 default:
-                    i = new Intent(getApplicationContext(), CombatActivity.class);
+                    i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
                     finish();

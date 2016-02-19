@@ -41,10 +41,6 @@
             android:label="@string/title_activity_screen_slide"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".CombatActivities.CombatActivity"
-            android:label="@string/title_activity_combat"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".CombatActivities.PrepareCombatActivity"
             android:label="@string/title_activity_combat_white"
             android:screenOrientation="sensorLandscape" />

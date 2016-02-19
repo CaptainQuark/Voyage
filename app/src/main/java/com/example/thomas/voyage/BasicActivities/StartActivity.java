@@ -295,7 +295,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToStats(View view) {
-        Intent i = new Intent(getApplicationContext(), CombatMonsterHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), NewMerchantHeroActivity.class);
         startActivity(i);
     }
 

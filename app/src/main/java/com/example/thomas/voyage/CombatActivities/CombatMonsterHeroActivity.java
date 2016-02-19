@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -32,7 +31,7 @@ import java.util.Random;
 
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, lastSelectedValIndex = -1, bonusScore, scoreMultiplier;
+    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, lastSelectedValIndex = -1, bonusScore, scoreMultiplier, levelOfMonsters = -1, battleLength = -1;
     private long heroDbIndex;
     private String heroClassActive = "", logTopEntry = "";
     private Monster monster;
@@ -506,13 +505,13 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         h = new DBheroesAdapter(this);
         Bundle b = getIntent().getExtras();
         if(b != null){
-            long index = b.getLong(c.DATABASE_INDEX, -1);
+            long index = b.getLong(c.HERO_DATABASE_INDEX, -1);
             if(index > 0){heroDbIndex = index;}
             else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
-        }
 
-        // NUR FÜR DEBUGGING!!!
-        heroDbIndex = 1;
+            levelOfMonsters = b.getInt(c.COMBAT_LEVEL_OF_MONSTERS);
+            battleLength = b.getInt(c.COMBAT_LENGTH);
+        }
 
         scoreHelperList = new ArrayList<>();
         for(int i = 0; i < 20; i++){
