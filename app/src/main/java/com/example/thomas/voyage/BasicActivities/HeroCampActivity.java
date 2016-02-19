@@ -275,7 +275,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         ConstRes co = new ConstRes();
 
         if(lastSelectedHeroIndex != -1){
-            i.putExtra(co.HERO_DATABASE_INDEX, (long) lastSelectedHeroIndex + 1);
+            i.putExtra(co.HERO_DATABASE_INDEX, (long) dbIndexForHeroList.get(lastSelectedHeroIndex));
         }
 
         i.putExtra(co.ORIGIN, "HeroCampActivity");

@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@mipmap/monster_dummy_3"
+            android:src="@mipmap/journey_b6"
             android:id="@+id/imageview_com_splash_background" />
 
         <RelativeLayout
@@ -38,7 +38,7 @@
                     android:layout_height="200dp"
                     android:scaleType="centerCrop"
                     android:layout_marginBottom="150dp"
-                    android:layout_gravity="top"
+                    android:layout_gravity="top|center_horizontal"
                     android:src="@mipmap/placeholder_dummy_0"/>
 
                 <TextView
