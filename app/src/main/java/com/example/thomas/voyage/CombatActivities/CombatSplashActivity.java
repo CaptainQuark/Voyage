@@ -16,17 +16,18 @@ public class CombatSplashActivity extends Activity {
     private ConstRes c = new ConstRes();
     private Monster monster;
     private long heroIndex;
-    private int level = 0, length = 1;
-    private String biome = "";
+    private int level = 0, length = 1, biome = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat_splash);
+        hideSystemUI();
 
         TextView nameView = (TextView) findViewById(R.id.textview_com_splash_monster_name);
         TextView desView = (TextView) findViewById(R.id.textview_com_splash_monster_des);
         ImageView backgroundView = (ImageView) findViewById(R.id.imageview_com_splash_background);
+        ImageView monsterView = (ImageView) findViewById(R.id.imageview_com_splash_monster);
 
         // Es muss nicht in von jeder Activity level/length/biome
         // gesendet werden, deshalb sind Standardwerte für einen
@@ -34,15 +35,22 @@ public class CombatSplashActivity extends Activity {
         Bundle b = getIntent().getExtras();
         if(b != null) {
             heroIndex = b.getLong(c.HERO_DATABASE_INDEX, -1);
-            biome = b.getString(c.CURRENT_BIOME, "nowhere");
+            biome = b.getInt(c.CURRENT_BIOME, 0);
             level = b.getInt(c.COMBAT_LEVEL_OF_MONSTERS, 0);
             length = b.getInt(c.COMBAT_LENGTH, 1);
         }
 
-        monster = new Monster(String.valueOf(biome), String.valueOf(level), this);
+        monster = new Monster(getCurrentBiome(biome), String.valueOf(level), this);
         nameView.setText(monster.name);
         desView.setText("Fürchtet sich (nicht) im Dunkeln...");
-        backgroundView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
+        backgroundView.setImageResource(getResources().getIdentifier("journey_b" + biome, "mipmap", getPackageName()));
+        monsterView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
+    }
+
+    @Override
+    protected void onRestart(){
+        super.onRestart();
+        hideSystemUI();
     }
 
 
@@ -60,11 +68,12 @@ public class CombatSplashActivity extends Activity {
             case R.id.textview_com_splah_start_combat:
                 Intent i = new Intent(this, CombatMonsterHeroActivity.class);
                 i.putExtra(c.HERO_DATABASE_INDEX, heroIndex);
-                i.putExtra(c.CURRENT_BIOME, biome);
+                i.putExtra(c.CURRENT_BIOME, getCurrentBiome(biome));
                 i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS,level);
                 i.putExtra(c.COMBAT_LENGTH, length);
                 i.putExtra(c.MONSTER_NAME, monster.name);
                 i.putExtra(c.MONSTER_DESCRIPTION, "");
+                i.putExtra(c.MONSTER_IMG_RES, "placeholder_dummy_0");
                 i.putExtra(c.MONSTER_CHECKOUT, monster.checkout);
                 i.putExtra(c.MONSTER_IMG_RES, monster.imgRes);
                 i.putExtra(c.MONSTER_HITPOINTS_NOW, monster.hp);
@@ -82,4 +91,57 @@ public class CombatSplashActivity extends Activity {
         }
     }
 
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
+
+    private String getCurrentBiome(int biomeId){
+        String biome;
+
+        switch(biomeId){
+            case 0:
+                biome = "Forest";
+                break;
+            case 1:
+                biome = "Icelands";
+                break;
+            case 2:
+                biome = "Waterfall";
+                break;
+            default:
+                biome = "nowhere";
+        }
+
+        biome = "Forest";
+        return biome;
+    }
+
+
+
+    /*
+
+    Funktionen zur Auslagerung
+
+     */
+
+
+
+    private void hideSystemUI() {
+        // Set the IMMERSIVE flag.
+        // Set the content to appear under the system bars so that the content
+        // doesn't resize when the system bars hide and show.
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
 }

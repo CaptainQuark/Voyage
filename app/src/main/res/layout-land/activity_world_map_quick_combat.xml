@@ -49,7 +49,6 @@
                         android:layout_weight="0.4"
                         android:background="#b7010101"
                         android:gravity="top|center"
-                        android:text="Wernfried v. Haselnuss"
                         android:textColor="#ffffff"
                         android:textSize="15sp"
                         android:paddingTop="6dp"

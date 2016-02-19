@@ -511,6 +511,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             monster = new Monster(
                     b.getString(c.MONSTER_NAME),
                     b.getString(c.MONSTER_CHECKOUT),
+                    b.getString(c.MONSTER_IMG_RES),
                     b.getInt(c.MONSTER_EVASION),
                     b.getInt(c.MONSTER_ACCURACY),
                     b.getInt(c.MONSTER_CRIT_CHANCE),

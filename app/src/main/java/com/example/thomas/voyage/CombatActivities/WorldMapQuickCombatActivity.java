@@ -98,7 +98,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     public void goInCombat(View view){
         Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, index);
-        i.putExtra(c.CURRENT_BIOME, getCurrentBiome());
+        i.putExtra(c.CURRENT_BIOME, mPager.getCurrentItem());
         i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, selectonArray[0]);
         i.putExtra(c.COMBAT_LENGTH, selectonArray[1]);
         startActivity(i);
@@ -189,31 +189,11 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     /*
 
-    Funktionen
+    Funktionen zur Auslagerungen
 
      */
 
 
-
-    private String getCurrentBiome(){
-        String biome;
-
-        switch(mPager.getCurrentItem()){
-            case 0:
-                biome = "landscape";
-                break;
-            case 1:
-                biome = "icelands";
-                break;
-            case 2:
-                biome = "waterfall";
-                break;
-            default:
-                biome = "nowhere";
-        }
-
-        return biome;
-    }
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.

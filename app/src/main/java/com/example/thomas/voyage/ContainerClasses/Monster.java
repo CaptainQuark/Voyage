@@ -27,9 +27,10 @@ public class Monster {
         block = monsterPool.getBlock();
     }
 
-    public Monster(String tName, String check, int eva, int acc, int crit, int tHp, int tHpTotal, int tDmgMin, int tDmgMax, int block, double resistance, double critMultiplier){
+    public Monster(String tName, String check, String imgRes, int eva, int acc, int crit, int tHp, int tHpTotal, int tDmgMin, int tDmgMax, int block, double resistance, double critMultiplier){
         name = tName;
         checkout = check;
+        this.imgRes = imgRes;
         evasion = eva;
         accuracy = acc;
         critChance = crit;

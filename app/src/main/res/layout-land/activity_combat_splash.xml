@@ -25,20 +25,31 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="5dp"
                 app:cardElevation="10dp"
+                android:elevation="10dp"
+                app:cardUseCompatPadding="true"
                 app:cardBackgroundColor="@android:color/darker_gray">
+
+                <ImageView
+                    android:id="@+id/imageview_com_splash_monster"
+                    android:layout_width="400dp"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginBottom="150dp"
+                    android:layout_gravity="top"
+                    android:src="@mipmap/placeholder_dummy_0"/>
 
                 <TextView
                     android:id="@+id/textview_com_splash_monster_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|top"
+                    android:layout_gravity="center|bottom"
                     android:text="Monstername"
                     android:textColor="@android:color/black"
                     android:textSize="30sp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="100dp"
                     android:layout_marginStart="80dp"
                     android:layout_marginEnd="80dp"
                     android:fontFamily="sans-serif-light" />
@@ -46,8 +57,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|top"
-                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="70dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
                     android:text="Kurzbeschreibung"
                     android:textColor="@android:color/black"
                     android:textSize="17sp"
