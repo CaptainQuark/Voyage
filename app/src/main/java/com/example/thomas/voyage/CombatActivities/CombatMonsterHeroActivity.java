@@ -280,13 +280,13 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         battleLogView.setText(tempEventsString);
         eventsList.add(logTopEntry);
 
-        if(h.getHeroHitpoints(heroDbIndex) < 0){
+        if(h.getHeroHitpoints(heroDbIndex) <= 0){
             h.markOneRowAsUnused( (int) heroDbIndex);
             Intent i = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(i);
             finish();
 
-        }else if(monster.hp < 0){
+        }else if(monster.hp <= 0){
             Intent i = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(i);
             finish();
