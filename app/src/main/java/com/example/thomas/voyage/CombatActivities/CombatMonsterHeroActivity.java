@@ -287,9 +287,24 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             finish();
 
         }else if(monster.hp <= 0){
-            Intent i = new Intent(getApplicationContext(), StartActivity.class);
-            startActivity(i);
-            finish();
+            Bundle b = getIntent().getExtras();
+            ConstRes c = new ConstRes();
+
+            if(b.getInt(c.COMBAT_LENGTH, 1) > 0){
+
+                Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
+                i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
+                i.putExtra(c.CURRENT_BIOME, b.getInt(c.CURRENT_BIOME, 0));
+                i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getInt(c.COMBAT_LEVEL_OF_MONSTERS, 0));
+                i.putExtra(c.COMBAT_LENGTH, b.getInt(c.COMBAT_LENGTH, 1));
+                startActivity(i);
+                finish();
+
+            }else{
+                Intent i = new Intent(getApplicationContext(), StartActivity.class);
+                startActivity(i);
+                finish();
+            }
         }
 
         resetBonus();
