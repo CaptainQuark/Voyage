@@ -23,7 +23,7 @@ public class MonsterPool {
 
     private String checkout;
     private String name;
-    private String difficulty;
+    private String monsterdifficulty;
 
     private boolean run = true;
 
@@ -71,7 +71,7 @@ public class MonsterPool {
             checkout = list.get(rand)[11];
             resistance = Double.parseDouble(list.get(rand)[12]);
             block = Integer.parseInt(list.get(rand)[13]);
-            difficulty = list.get(rand)[17];
+            monsterdifficulty = list.get(rand)[17];
             bounty = Integer.parseInt(list.get(rand)[18]);
 
             if(currentBiome.equals(list.get(rand)[14])){
@@ -145,6 +145,6 @@ public class MonsterPool {
     }
 
     public String getDifficulty(){
-        return difficulty;
+        return monsterdifficulty;
     }
 }
