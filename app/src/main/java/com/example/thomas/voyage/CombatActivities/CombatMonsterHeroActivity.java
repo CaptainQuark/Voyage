@@ -33,7 +33,7 @@ import java.util.Random;
 
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, bonusScore, scoreMultiplier, battleLength = -1;
+    private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1;
     private long heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
@@ -236,6 +236,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         applyEffects();
         tempScore += scoreField * scoreMultiplier * monster.resistance - monster.block;
+        if(tempScore < 0) tempScore = 0;
 
         if((int)(Math.random() * 1000) < monster.evasion) {
         //Weicht das Monster aus?
@@ -251,8 +252,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             monster.hp = 0;
         }
 
-            logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore)
-                    + " und " + bonusScore + " Bonusangriff!";
+            battleLogHandler("heroAttack");
             monster.hp -= tempScore;
             scoreHelper.addOneThrow(tempScore);
             //tempScoreHistory[throwCount] = tempScore;
@@ -266,24 +266,16 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     monster.hp += scoreHelper.scoreByThrow[i];
                     scoreHelper.scoreByThrow[i] = 0;
                     scoreHelper.indexNow = 0;
+                    battleLogHandler("heroBust");
                 }
                 //Überworfen!
             }
         }
         else{
-            logTopEntry = monster.name + " weicht der Attacke aus! ";
+            battleLogHandler("monsterEvasion");
         }
 
         monsterHpView.setText(monster.hp + "");
-
-        String tempEventsString = logTopEntry + '\n' + '\n';
-
-        for(int i = logList.size() - 1; i >= 0; i--){
-            tempEventsString += logList.get(i) + '\n';
-        }
-
-        battleLogView.setText(tempEventsString);
-        logList.add(logTopEntry);
 
         if(h.getHeroHitpoints(heroDbIndex) <= 0){
             h.markOneRowAsUnused( (int) heroDbIndex);
@@ -293,6 +285,49 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         }
 
         resetBonus();
+    }
+
+    private void battleLogHandler(String s){
+        switch(s){
+            case "heroAttack":
+                if(tempScore == 0){
+                    logTopEntry = "Der Angriff hat keine Auswirkungen";
+                }
+                else if(bonusScore == 0){
+                    logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore) + ". ";
+                }
+                else{
+                    logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore)
+                            + " und " + bonusScore + " Bonusangriff!";
+                }
+                break;
+            case "heroBust":
+                logTopEntry = "Du hast überworfen! ";
+                break;
+            case "monsterEvasion":
+                logTopEntry = monster.name + " weicht der Attacke aus! ";
+                break;
+            case "monsterAttack":
+                logTopEntry = monster.name + " erwidert mit " + monsterDmg + ".";
+                break;
+            case "heroEvasion":
+                logTopEntry = h.getHeroName(heroDbIndex) + "kann dem Angriff ausweichen. ";
+                break;
+            case "monsterMiss":
+                logTopEntry = monster.name + " schlägt daneben. ";
+                break;
+            default:
+                logTopEntry = "FEHLER @BATTLELOGHANDLER! ";
+        }
+
+        String tempEventsString = logTopEntry + '\n' + '\n';
+
+        for(int i = logList.size() - 1; i >= 0; i--){
+            tempEventsString += logList.get(i) + '\n';
+        }
+
+        battleLogView.setText(tempEventsString);
+        logList.add(logTopEntry);
     }
 
     private void combatVictory(){
@@ -341,14 +376,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private void applyEffects(){
         tempScore += bonusScore;
         h.updateHeroHitpoints((int) heroDbIndex, h.getHeroHitpoints(heroDbIndex) + bonusHealth);
-        monster.hp -= bonusBlock;
     }
 
     private void resetBonus(){
         tempScore = 0;
         bonusScore = 0;
         bonusHealth = 0;
-        bonusBlock = 0;
     }
 
     private void updateCharacterInfoViews(){
@@ -443,17 +476,19 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
                 Random random = new Random();
                 if (random.nextInt(1000) < monster.accuracy) {
+                    //Trifft das Monster?
                     if (random.nextInt(1000) < h.getEvasion(heroDbIndex)) {
-                        int monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
+                        //Kann der Held ausweichen?
+                        monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
                         h.updateHeroHitpoints((int) heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
-                        logTopEntry = monster.name + " erwidert mit " + monsterDmg + ".";
+                        battleLogHandler("monsterAttack");
                     }
                     else{
-                        logTopEntry = h.getHeroName(heroDbIndex) + "kann dem Angriff ausweichen. ";
+                        battleLogHandler("heroEvasion");
                     }
                 }
                 else{
-                    logTopEntry = monster.name + " schlägt daneben. ";
+                    battleLogHandler("monsterMiss");
                 }
             }
 
