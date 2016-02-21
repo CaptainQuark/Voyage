@@ -31,7 +31,6 @@ public class HeroPool {
     private double pEvasionWeight = 4;
     private double sEvasionWeight = 4;
     Context context;
-    ArrayList<String> biomesRestrictedList = new ArrayList<>();
 
     public HeroPool(Context con) {
         context = con;

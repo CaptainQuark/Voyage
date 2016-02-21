@@ -36,9 +36,9 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     private ImageView heroProfile;
     private TextView goInCombat;
     private ConstRes c = new ConstRes();
-    private String heroName = "";
+    private int length;
+    private String heroName = "", difficulty;
     private long index = -1;
-    private int[] selectonArray;
     private boolean firstCheck = false, secondCheck = false;
 
 
@@ -50,7 +50,6 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         setContentView(R.layout.activity_world_map_quick_combat);
         hideSystemUI();
 
-        selectonArray = new int[2];
         DBheroesAdapter h = new DBheroesAdapter(this);
 
         Bundle b = getIntent().getExtras();
@@ -99,8 +98,8 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, index);
         i.putExtra(c.CURRENT_BIOME, mPager.getCurrentItem());
-        i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, selectonArray[0]);
-        i.putExtra(c.COMBAT_LENGTH, selectonArray[1]);
+        i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, difficulty);
+        i.putExtra(c.COMBAT_LENGTH, length);
         startActivity(i);
         finish();
     }
@@ -143,37 +142,37 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
         switch(view.getId()) {
             case R.id.radioButton_heavy_0:
                 if (checked){
-                    selectonArray[0] = 1;
+                    difficulty = "Easy";
                     firstCheck = true;
                 }
                     break;
             case R.id.radioButton_heavy_1:
                 if (checked){
-                    selectonArray[0] = 2;
+                    difficulty = "Medium";
                     firstCheck = true;
                 }
                     break;
             case R.id.radioButton_heavy_2:
                 if (checked){
-                    selectonArray[0] = 3;
+                    difficulty = "Hard";
                     firstCheck = true;
                 }
                     break;
             case R.id.radioButton_length_0:
                 if (checked){
-                    selectonArray[1] = 1;
+                    length = 3;
                     secondCheck = true;
                 }
                     break;
             case R.id.radioButton_length_1:
                 if (checked){
-                    selectonArray[1] = 2;
+                    length = 6;
                     secondCheck = true;
                 }
                     break;
             case R.id.radioButton_lenght_2:
                 if (checked){
-                    selectonArray[1] = 3;
+                    length = 9;
                     secondCheck = true;
                 }
                     break;

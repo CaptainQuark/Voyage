@@ -5,9 +5,9 @@ import android.util.Log;
 
 public class Monster {
 
-    public String name = "", checkout = "", imgRes = "";
+    public String name = "", checkout = "", imgRes = "", monsterDifficulty = "";
     public double  resistance = -1, critMultiplier = -1;
-    public int hp, hpTotal, dmgMin = -1, dmgMax = -1, block = 0, evasion = -1, accuracy = -1, critChance = -1;
+    public int hp, hpTotal, dmgMin = -1, dmgMax = -1, block = 0, evasion = -1, accuracy = -1, critChance = -1, bounty = -1;
 
     public Monster(String currentBiome, String difficulty, Context c){
         MonsterPool monsterPool = new MonsterPool(currentBiome, difficulty, c);
@@ -25,6 +25,8 @@ public class Monster {
         imgRes = monsterPool.getImgRes();
         resistance = monsterPool.getResistance();
         block = monsterPool.getBlock();
+        bounty = monsterPool.getBounty();
+        monsterDifficulty = monsterPool.getDifficulty();
     }
 
     public Monster(String tName, String check, String imgRes, int eva, int acc, int crit, int tHp, int tHpTotal, int tDmgMin, int tDmgMax, int block, double resistance, double critMultiplier){

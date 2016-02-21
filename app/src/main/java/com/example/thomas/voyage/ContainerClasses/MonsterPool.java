@@ -16,12 +16,16 @@ public class MonsterPool {
     private int accuracy;
     private int evasion;
     private int critChance;
+    private int bounty;
 
     private double resistance;
     private double critMultiplier;
 
     private String checkout;
     private String name;
+    private String difficulty;
+
+    private boolean run = true;
 
     public MonsterPool(String currentBiome, String difficulty, Context context ){
 
@@ -32,6 +36,20 @@ public class MonsterPool {
             rarity = 2;
         } else if (rarity <= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
+        }
+
+        String tDifficulty = "Easy";
+
+        switch (difficulty){
+            case "Medium":
+                if((int)(Math.random() * 100) >= 33)tDifficulty = "Medium";
+                // Zwei Drittel Chance auf Medium, sonst Easy Gegner
+                break;
+            case "Hard":
+                tDifficulty = ((int)(Math.random() * 100) >= 33) ? "Hard" : "Medium";
+                //Zwei Drittel Chance auf Hard, sonst Medium Gegner
+                break;
+            default:
         }
 
         HelperCSV helperCSV = new HelperCSV(context);
@@ -53,13 +71,20 @@ public class MonsterPool {
             checkout = list.get(rand)[11];
             resistance = Double.parseDouble(list.get(rand)[12]);
             block = Integer.parseInt(list.get(rand)[13]);
+            difficulty = list.get(rand)[17];
+            bounty = Integer.parseInt(list.get(rand)[18]);
 
-        }while(rarity != Integer.parseInt(list.get(rand)[3]) ||
-                !currentBiome.equals(list.get(rand)[14])
-                        //&&
-                //!currentBiome.equals(list.get(rand)[15]) &&
-                //!currentBiome.equals(list.get(rand)[16])
-        );
+            if(currentBiome.equals(list.get(rand)[14])){
+                run = false;
+            }
+            else if (currentBiome.equals(list.get(rand)[15])){
+                run = false;
+            }
+            else if (currentBiome.equals(list.get(rand)[16])){
+                run = false;
+            }
+
+        }while(rarity != Integer.parseInt(list.get(rand)[3]) || run || !difficulty.equals(tDifficulty));
 
         //Msg.msgShort(context, heroClass);
         //for(int i = 0; i < list.size(); i++)
@@ -95,6 +120,10 @@ public class MonsterPool {
         return block;
     }
 
+    public int getBounty(){
+        return bounty;
+    }
+
     public double getResistance(){
         return resistance;
     }
@@ -113,5 +142,9 @@ public class MonsterPool {
 
     public String getCheckout(){
         return checkout;
+    }
+
+    public String getDifficulty(){
+        return difficulty;
     }
 }

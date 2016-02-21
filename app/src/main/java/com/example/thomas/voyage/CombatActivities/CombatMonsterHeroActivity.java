@@ -33,9 +33,9 @@ import java.util.Random;
 
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, bonusScore, scoreMultiplier, levelOfMonsters = -1, battleLength = -1;
+    private int tempScore = 0, bonusHealth = 0, bonusBlock = 0, bonusScore, scoreMultiplier, battleLength = -1;
     private long heroDbIndex;
-    private String heroClassActive = "", logTopEntry = "";
+    private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
     private DBheroesAdapter h;
     private DBplayerItemsAdapter itemHelper;
@@ -43,7 +43,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private HeroAllDataCardFragment heroAllDataCardFragment;
     private List<ThrowInputHelper> scoreHelperList;
     private List<Item> playerItemList;
-    private List<String> eventsList;
+    private List<String> logList;
     private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView, lastSelectedShowBattleView;
     private GridView playerItemGridView;
     private ScrollView battleLogScrollView;
@@ -216,11 +216,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case "Waldläufer":
                 if(scoreField == 1){
                     bonusScore += 10 - scoreMultiplier;
-                    applyEffects();
                 }
                 else if(scoreField == 5 && scoreMultiplier == 1){
                     bonusScore += 5;
-                    applyEffects();
                 }
                 break;
             case "Kneipenschläger":
@@ -236,78 +234,87 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
         }
 
+        applyEffects();
         tempScore += scoreField * scoreMultiplier * monster.resistance - monster.block;
 
-        logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore)
-                + " und " + bonusScore + " Bonusangriff!";
+        if((int)(Math.random() * 1000) < monster.evasion) {
+        //Weicht das Monster aus?
 
         if( monster.checkout.equals("double") && checkOutPossible(2, monster.hp) ){
             if( monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2 ){
-                logTopEntry = "DOUBLE WIN!";
+                combatVictory();
                 monster.hp = 0;
             }
 
         }else if( monster.checkout.equals("master") && scoreField * scoreMultiplier == monster.hp ){
-            logTopEntry = "MASTER WIN!";
+            combatVictory();
             monster.hp = 0;
         }
 
-        monster.hp -= tempScore;
-        scoreHelper.addOneThrow(tempScore);
-        //tempScoreHistory[throwCount] = tempScore;
-        //throwCount++;
+            logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore)
+                    + " und " + bonusScore + " Bonusangriff!";
+            monster.hp -= tempScore;
+            scoreHelper.addOneThrow(tempScore);
+            //tempScoreHistory[throwCount] = tempScore;
+            //throwCount++;
 
-        if( monster.hp <= 0 && monster.checkout.equals("default")) {
-            logTopEntry = "NORMAL WIN!";
+            if (monster.hp <= 0 && monster.checkout.equals("default")) {
+                combatVictory();
 
-        } else if(monster.hp <= 0) {
-            for(int i = 0; i <= 2; i++) {
-                monster.hp += scoreHelper.scoreByThrow[i];
-                scoreHelper.scoreByThrow[i] = 0;
-                scoreHelper.indexNow = 0;
+            } else if (monster.hp <= 0) {
+                for (int i = 0; i <= 2; i++) {
+                    monster.hp += scoreHelper.scoreByThrow[i];
+                    scoreHelper.scoreByThrow[i] = 0;
+                    scoreHelper.indexNow = 0;
+                }
+                //Überworfen!
             }
-            //Überworfen!
+        }
+        else{
+            logTopEntry = monster.name + " weicht der Attacke aus! ";
         }
 
         monsterHpView.setText(monster.hp + "");
 
         String tempEventsString = logTopEntry + '\n' + '\n';
 
-        for(int i = eventsList.size() - 1; i >= 0; i--){
-            tempEventsString += eventsList.get(i) + '\n';
+        for(int i = logList.size() - 1; i >= 0; i--){
+            tempEventsString += logList.get(i) + '\n';
         }
 
         battleLogView.setText(tempEventsString);
-        eventsList.add(logTopEntry);
+        logList.add(logTopEntry);
 
         if(h.getHeroHitpoints(heroDbIndex) <= 0){
             h.markOneRowAsUnused( (int) heroDbIndex);
             Intent i = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(i);
             finish();
-
-        }else if(monster.hp <= 0){
-            Bundle b = getIntent().getExtras();
-            ConstRes c = new ConstRes();
-
-            if(b.getInt(c.COMBAT_LENGTH, 1) > 0){
-
-                Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
-                i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
-                i.putExtra(c.CURRENT_BIOME, b.getInt(c.CURRENT_BIOME, 0));
-                i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getInt(c.COMBAT_LEVEL_OF_MONSTERS, 0));
-                i.putExtra(c.COMBAT_LENGTH, b.getInt(c.COMBAT_LENGTH, 1));
-                startActivity(i);
-                finish();
-
-            }else{
-                Intent i = new Intent(getApplicationContext(), StartActivity.class);
-                startActivity(i);
-                finish();
-            }
         }
 
         resetBonus();
+    }
+
+    private void combatVictory(){
+
+        Bundle b = getIntent().getExtras();
+        ConstRes c = new ConstRes();
+
+        if(b.getInt(c.COMBAT_LENGTH, 1) > 0){
+
+            Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
+            i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
+            i.putExtra(c.CURRENT_BIOME, b.getInt(c.CURRENT_BIOME, 0));
+            i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getInt(c.COMBAT_LEVEL_OF_MONSTERS, 0));
+            i.putExtra(c.COMBAT_LENGTH, b.getInt(c.COMBAT_LENGTH, 1));
+            startActivity(i);
+            finish();
+
+        }else{
+            Intent i = new Intent(getApplicationContext(), StartActivity.class);
+            startActivity(i);
+            finish();
+        }
     }
 
     private Boolean checkOutPossible(int checkOutType, int monsterHealth){
@@ -428,16 +435,26 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             scoreByThrow[indexNow] = val;
 
             // Wenn nächster Wurf wieder an 1. Stelle, dann alle Felder ausgrauen
-            if(indexNow == 0 && numAttacks > 0){
+            if(indexNow == 0 && numAttacks > 0) {
                 numRounds++;
-                for(int i = 0; i < 3; i++){
+                for (int i = 0; i < 3; i++) {
                     scoreTextViewList.get(i).setTextColor(Color.LTGRAY);
                 }
 
                 Random random = new Random();
-                int monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
-                h.updateHeroHitpoints( (int) heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
-                logTopEntry = monster.name + " erwidert mit " + monsterDmg + ".";
+                if (random.nextInt(1000) < monster.accuracy) {
+                    if (random.nextInt(1000) < h.getEvasion(heroDbIndex)) {
+                        int monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
+                        h.updateHeroHitpoints((int) heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
+                        logTopEntry = monster.name + " erwidert mit " + monsterDmg + ".";
+                    }
+                    else{
+                        logTopEntry = h.getHeroName(heroDbIndex) + "kann dem Angriff ausweichen. ";
+                    }
+                }
+                else{
+                    logTopEntry = monster.name + " schlägt daneben. ";
+                }
             }
 
             this.showLatestThrow();
@@ -534,7 +551,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             if(index > 0){heroDbIndex = index;}
             else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
 
-            levelOfMonsters = b.getInt(c.COMBAT_LEVEL_OF_MONSTERS);
+            levelOfMonsters = b.getString(c.COMBAT_LEVEL_OF_MONSTERS);
             battleLength = b.getInt(c.COMBAT_LENGTH);
 
             monster = new Monster(
@@ -566,7 +583,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         bonusScore = 0;
         scoreMultiplier = 1;
 
-        eventsList = new ArrayList<>();
+        logList = new ArrayList<>();
         playerItemList = new ArrayList<>();
 
         itemHelper = new DBplayerItemsAdapter(this);

@@ -16,7 +16,8 @@ public class CombatSplashActivity extends Activity {
     private ConstRes c = new ConstRes();
     private Monster monster;
     private long heroIndex;
-    private int level = 0, length = 1, biome = 0;
+    private int length = 1, biome = 0;
+    private String level = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class CombatSplashActivity extends Activity {
         if(b != null) {
             heroIndex = b.getLong(c.HERO_DATABASE_INDEX, -1);
             biome = b.getInt(c.CURRENT_BIOME, 0);
-            level = b.getInt(c.COMBAT_LEVEL_OF_MONSTERS, 0);
+            level = b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "");
             length = b.getInt(c.COMBAT_LENGTH, 1);
         }
 
@@ -86,6 +87,8 @@ public class CombatSplashActivity extends Activity {
                 i.putExtra(c.MONSTER_CRIT_CHANCE, monster.critChance);
                 i.putExtra(c.MONSTER_CRIT_MULTIPLIER, monster.critMultiplier);
                 i.putExtra(c.MONSTER_RESISTANCE, monster.resistance);
+                i.putExtra(c.MONSTER_DIFFICULTY, monster.monsterDifficulty);
+                i.putExtra(c.MONSTER_BOUNTY, monster.bounty);
                 startActivity(i);
                 finish();
         }
