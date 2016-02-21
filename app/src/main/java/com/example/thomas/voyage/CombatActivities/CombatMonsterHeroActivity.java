@@ -109,7 +109,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
 
             case R.id.cell_com_secondary_attack:
-                heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+                heroClassActive = h.getHeroSecondaryClass(heroDbIndex);
                 TextView secTempView = (TextView) v;
                 secTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
                 if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
@@ -285,7 +285,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             startActivity(i);
             finish();
         }
-
         resetBonus();
     }
 
@@ -455,7 +454,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private class CountAndShowThrowsHelper {
         private List<TextView> scoreTextViewList;
         private Integer[] scoreByThrow;
-        private int indexNow = 0, numAttacks = 0, numRounds = 1;
+        private int indexNow = 1, numAttacks = 0, numRounds = 1;
 
         public CountAndShowThrowsHelper(){
 

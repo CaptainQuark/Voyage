@@ -14,7 +14,6 @@ public class HeroPool {
     private String heroClass;
     private String pClass;       //Primärklasse
     private String sClass;       //Sekundärklasse
-    private String neededBiome;  //Die Umgebung, die der Held zum spawnen benötigt, überall falls 'null'
     private int rarity;          //Unterteilung der Klassen in Seltenheitsblöcke
     private int imageID;
     private int pHp;
@@ -113,10 +112,6 @@ public class HeroPool {
 
          */
 
-        //Msg.msgShort(context, heroClass);
-        //for(int i = 0; i < list.size(); i++)
-          // Msg.msgShort(context, list.get(i)[0] + " " + list.get(i)[1]);
-
         return heroClass;
     }
 
@@ -173,12 +168,18 @@ public class HeroPool {
     }
 
     public String getImageResource() {
-        switch (imageID){
-            case 1:
+        switch (pClass){
+            case "Waldläufer":
                 break;
             default:
                 break;
         }
-        return ("hero_dummy_" + imageID);
+        String s = pClass;
+        s = s.toLowerCase();
+        s = s.replaceAll("ä", "ae");
+        s = s.replaceAll("ö", "oe");
+        s = s.replaceAll("ü", "ue");
+        Log.i("HEROIMAGE","hero_dummy_" + s);
+        return ("hero_dummy_" + s);
     }
 }
