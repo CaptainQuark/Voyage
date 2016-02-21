@@ -97,7 +97,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     public void goInCombat(View view){
         Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, index);
-        i.putExtra(c.CURRENT_BIOME, mPager.getCurrentItem());
+        i.putExtra(c.CURRENT_BIOME, getCurrentBiome());
         i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, difficulty);
         i.putExtra(c.COMBAT_LENGTH, length);
         startActivity(i);
@@ -184,6 +184,29 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
             goInCombat.setVisibility(View.VISIBLE);
     }
 
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
+
+    private String getCurrentBiome(){
+        String biome;
+
+        switch (mPager.getCurrentItem()){
+            case 0:
+                biome = "Forest";
+                break;
+            default:
+                biome = "Forest";
+        }
+
+        return biome;
+    }
 
 
     /*

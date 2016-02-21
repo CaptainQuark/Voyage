@@ -16,8 +16,8 @@ public class CombatSplashActivity extends Activity {
     private ConstRes c = new ConstRes();
     private Monster monster;
     private long heroIndex;
-    private int length = 1, biome = 0;
-    private String level = "";
+    private int length = 1;
+    private String level = "", biome = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +36,19 @@ public class CombatSplashActivity extends Activity {
         Bundle b = getIntent().getExtras();
         if(b != null) {
             heroIndex = b.getLong(c.HERO_DATABASE_INDEX, -1);
-            biome = b.getInt(c.CURRENT_BIOME, 0);
-            level = b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "");
+            biome = b.getString(c.CURRENT_BIOME, "Forest");
+            level = b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy");
             length = b.getInt(c.COMBAT_LENGTH, 1);
         }
 
-        monster = new Monster(getCurrentBiome(biome), String.valueOf(level), this);
+        monster = new Monster(biome, String.valueOf(level), this);
         nameView.setText(monster.name);
         desView.setText("Fürchtet sich (nicht) im Dunkeln...");
-        backgroundView.setImageResource(getResources().getIdentifier("journey_b" + biome, "mipmap", getPackageName()));
+
+        String backgroundFileId = "";
+        if(biome.equals("Forest")) backgroundFileId = "journey_b0";
+
+        backgroundView.setImageResource(getResources().getIdentifier(backgroundFileId, "mipmap", getPackageName()));
         monsterView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
     }
 
@@ -69,7 +73,7 @@ public class CombatSplashActivity extends Activity {
             case R.id.textview_com_splah_start_combat:
                 Intent i = new Intent(this, CombatMonsterHeroActivity.class);
                 i.putExtra(c.HERO_DATABASE_INDEX, heroIndex);
-                i.putExtra(c.CURRENT_BIOME, getCurrentBiome(biome));
+                i.putExtra(c.CURRENT_BIOME,biome);
                 i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS,level);
                 i.putExtra(c.COMBAT_LENGTH, length);
                 i.putExtra(c.MONSTER_NAME, monster.name);
@@ -104,26 +108,7 @@ public class CombatSplashActivity extends Activity {
 
 
 
-    private String getCurrentBiome(int biomeId){
-        String biome;
 
-        switch(biomeId){
-            case 0:
-                biome = "Forest";
-                break;
-            case 1:
-                biome = "Icelands";
-                break;
-            case 2:
-                biome = "Waterfall";
-                break;
-            default:
-                biome = "nowhere";
-        }
-
-        biome = "Forest";
-        return biome;
-    }
 
 
 

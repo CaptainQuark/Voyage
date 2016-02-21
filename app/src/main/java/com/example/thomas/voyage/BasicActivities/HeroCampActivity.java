@@ -223,7 +223,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     break;
 
                 default:
-                    i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
+                    i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
                     startActivity(i);
                     finish();

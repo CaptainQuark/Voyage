@@ -259,7 +259,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             //throwCount++;
 
             if (monster.hp <= 0 && monster.checkout.equals("default")) {
+                Log.v("CombatMonster", "before combatVictory");
                 combatVictory();
+                Log.v("CombatMonster", "after combatVictory");
 
             } else if (monster.hp <= 0) {
                 for (int i = 0; i <= 2; i++) {
@@ -337,11 +339,13 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         if(b.getInt(c.COMBAT_LENGTH, 1) > 0){
 
+            int combatLength = b.getInt(c.COMBAT_LENGTH, 1) - 1;
+
             Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
             i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
-            i.putExtra(c.CURRENT_BIOME, b.getInt(c.CURRENT_BIOME, 0));
-            i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getInt(c.COMBAT_LEVEL_OF_MONSTERS, 0));
-            i.putExtra(c.COMBAT_LENGTH, b.getInt(c.COMBAT_LENGTH, 1));
+            i.putExtra(c.CURRENT_BIOME, b.getString(c.CURRENT_BIOME, "Forest"));
+            i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"));
+            i.putExtra(c.COMBAT_LENGTH, combatLength);
             startActivity(i);
             finish();
 
