@@ -85,7 +85,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
         heroGridView = (GridView) findViewById(R.id.heroes_camp_gridview);
         heroGridView.setAdapter(new HeroImagesAdapter(this));
-
+/*
         heroGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
@@ -97,7 +97,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 heroGridView.invalidateViews();
             }
         });
-
+*/
         slotsView = (TextView) findViewById(R.id.textview_camp_slots);
         healView = (TextView) findViewById(R.id.textview_camp_heal_hero);
         toFightView = (TextView) findViewById(R.id.textview_camp_to_fight);
@@ -414,6 +414,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.profileView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    //lastSelectedHeroIndex = position;
+                    somethingSelected = lastSelectedHeroIndex != position;
                     lastSelectedHeroIndex = position;
 
                     FragmentManager fragmentManager = getFragmentManager();
@@ -428,6 +430,17 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     fragmentTransaction.commit();
 
                     setToolbarViews();
+                }
+            });
+
+            holder.rightPanelLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    somethingSelected = lastSelectedHeroIndex != position;
+                    lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
+
+                    setToolbarViews();
+                    heroGridView.invalidateViews();
                 }
             });
 

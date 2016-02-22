@@ -83,7 +83,8 @@
                             android:textSize="14sp"
                             android:onClick="onRadioButtonClicked"
                             android:buttonTint="@android:color/white"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:longClickable="false" />
 
                         <RadioButton
                             android:id="@+id/radioButton_heavy_1"
@@ -93,7 +94,8 @@
                             android:textSize="14sp"
                             android:onClick="onRadioButtonClicked"
                             android:buttonTint="@android:color/white"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:longClickable="false" />
 
                         <RadioButton
                             android:id="@+id/radioButton_heavy_2"
@@ -103,7 +105,8 @@
                             android:textSize="14sp"
                             android:onClick="onRadioButtonClicked"
                             android:buttonTint="@android:color/white"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:longClickable="false" />
                     </RadioGroup>
 
                     <TextView
@@ -134,7 +137,8 @@
                             android:textSize="14sp"
                             android:onClick="onRadioButtonClicked"
                             android:buttonTint="@android:color/white"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:longClickable="false" />
 
                         <RadioButton
                             android:id="@+id/radioButton_length_1"
@@ -144,7 +148,8 @@
                             android:textSize="14sp"
                             android:onClick="onRadioButtonClicked"
                             android:buttonTint="@android:color/white"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:longClickable="false" />
 
                         <RadioButton
                             android:id="@+id/radioButton_lenght_2"
@@ -154,7 +159,8 @@
                             android:textSize="14sp"
                             android:onClick="onRadioButtonClicked"
                             android:buttonTint="@android:color/white"
-                            android:checked="false" />
+                            android:checked="false"
+                            android:longClickable="false" />
                     </RadioGroup>
 
                 </LinearLayout>

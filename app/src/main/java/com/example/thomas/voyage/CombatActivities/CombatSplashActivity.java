@@ -91,11 +91,14 @@ public class CombatSplashActivity extends Activity {
 
 
     private int getEnvironmentBackgroundPicture(){
-        String backgroundFileId = "";
+        String backgroundFileId;
 
         switch (biome){
             case "Forest":
                 backgroundFileId = "journey_b0";
+                break;
+            case "Icecave":
+                backgroundFileId = "journey_b1";
                 break;
             default:
                 backgroundFileId = "placeholder_dummy_0";
