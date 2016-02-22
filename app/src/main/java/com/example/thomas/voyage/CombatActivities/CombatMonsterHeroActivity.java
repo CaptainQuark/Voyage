@@ -625,17 +625,20 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         itemHelper = new DBplayerItemsAdapter(this);
 
-        for(int i = 1; i < itemHelper.getTaskCount(); i++){
-            playerItemList.add(new Item(
-                    itemHelper.getItemName(i),
-                    itemHelper.getItemDescriptionMain(i),
-                    itemHelper.getItemDescriptionAdditonal(i),
-                    itemHelper.getItemRarity(i),
-                    itemHelper.getItemSkillsId(i),
-                    itemHelper.getItemBuyCosts(i),
-                    itemHelper.getItemSpellCosts(i)
-            ));
+        for(long i = 1; i <= itemHelper.getTaskCount(); i++){
+            if(!itemHelper.getItemName(i).equals(c.NOT_USED)){
+                playerItemList.add(new Item(
+                        itemHelper.getItemName(i),
+                        itemHelper.getItemDescriptionMain(i),
+                        itemHelper.getItemDescriptionAdditonal(i),
+                        itemHelper.getItemRarity(i),
+                        itemHelper.getItemSkillsId(i),
+                        itemHelper.getItemBuyCosts(i),
+                        itemHelper.getItemSpellCosts(i)
+                ));
+            }
         }
+
     }
 
     private void iniViews(){

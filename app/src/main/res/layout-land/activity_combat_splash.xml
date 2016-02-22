@@ -17,6 +17,12 @@
             android:src="@mipmap/journey_b6"
             android:id="@+id/imageview_com_splash_background" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="300dp"
+            android:src="@drawable/gradient90"/>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

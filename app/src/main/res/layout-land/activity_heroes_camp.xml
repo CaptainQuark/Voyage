@@ -51,7 +51,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@drawable/ripple_backbutton_standard_background"
+            android:background="@drawable/ripple_standard_background"
             android:onClick="heroesCampBackButton"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
@@ -80,7 +80,8 @@
             android:textColor="#707070"
             android:textSize="15sp"
             android:onClick="commitToQuest"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            android:background="@drawable/ripple_standard_background" />
 
         <TextView
             android:onClick="dismissHero"
@@ -93,7 +94,8 @@
             android:text="Helden verkaufen"
             android:textColor="#707070"
             android:textSize="15sp"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            android:background="@drawable/ripple_standard_background" />
 
         <TextView
             android:id="@+id/textview_camp_heal_hero"
@@ -106,7 +108,8 @@
             android:textSize="15sp"
             android:onClick="campHealHero"
             android:layout_marginRight="0dp"
-            android:fontFamily="sans-serif-light" />
+            android:fontFamily="sans-serif-light"
+            android:background="@drawable/ripple_standard_background" />
 
 
         <TextView

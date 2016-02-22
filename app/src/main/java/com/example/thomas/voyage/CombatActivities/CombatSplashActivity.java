@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.IntentExtrasHelper;
 import com.example.thomas.voyage.ContainerClasses.Monster;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
@@ -31,7 +32,7 @@ public class CombatSplashActivity extends Activity {
         ImageView backgroundView = (ImageView) findViewById(R.id.imageview_com_splash_background);
         ImageView monsterView = (ImageView) findViewById(R.id.imageview_com_splash_monster);
 
-        // Es muss nicht in von jeder Activity level/length/biome
+        // Es muss nicht von jeder Activity level/length/biome
         // gesendet werden, deshalb sind Standardwerte für einen
         // einfach Kampf gesetzt
         Bundle b = getIntent().getExtras();
@@ -46,10 +47,7 @@ public class CombatSplashActivity extends Activity {
         nameView.setText(monster.name);
         desView.setText("Fürchtet sich (nicht) im Dunkeln...");
 
-        String backgroundFileId = "";
-        if(biome.equals("Forest")) backgroundFileId = "journey_b0";
-
-        backgroundView.setImageResource(getResources().getIdentifier(backgroundFileId, "mipmap", getPackageName()));
+        backgroundView.setImageResource(getEnvironmentBackgroundPicture());
         monsterView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
     }
 
@@ -70,10 +68,15 @@ public class CombatSplashActivity extends Activity {
 
 
     public void onClick(View v){
-        switch (v.getId()){
-            case R.id.textview_com_splah_start_combat:
-                startActivity(IntentExtrasHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length));
-                finish();
+        try {
+            switch (v.getId()){
+                case R.id.textview_com_splah_start_combat:
+                    startActivity(IntentExtrasHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length));
+                    finish();
+            }
+
+        }catch (Exception e) {
+            Msg.msg(this, String.valueOf(e));
         }
     }
 
@@ -87,7 +90,20 @@ public class CombatSplashActivity extends Activity {
 
 
 
+    private int getEnvironmentBackgroundPicture(){
+        String backgroundFileId = "";
 
+        switch (biome){
+            case "Forest":
+                backgroundFileId = "journey_b0";
+                break;
+            default:
+                backgroundFileId = "placeholder_dummy_0";
+        }
+
+        // Ressourcen-Datei wird in Android indexiert -> deshalb 'int' als return
+        return getResources().getIdentifier(backgroundFileId, "mipmap", getPackageName());
+    }
 
 
 
