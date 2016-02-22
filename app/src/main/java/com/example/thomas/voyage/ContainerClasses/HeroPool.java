@@ -163,8 +163,13 @@ public class HeroPool {
     public int setBonusNumber(){
         Random r = new Random();
 
-        // inkl. 0 = wird als 'Fehlwurf' interpretiert
-        return r.nextInt(21);
+        switch(heroClass){
+            case "Waldläufer":
+                return r.nextInt(20) + 1;
+            default:
+                return -1;
+        }
+
     }
 
     public String getImageResource() {

@@ -58,7 +58,11 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         classesView.setText(h.getHeroPrimaryClass(dbIndex) + " & " + h.getHeroSecondaryClass(dbIndex));
         hpView.setText(h.getHeroHitpoints(dbIndex) + " / " + h.getHeroHitpointsTotal(dbIndex));
         marketValueView.setText(String.valueOf(h.getHeroCosts(dbIndex)));
-        battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
+        if(h.getBonusNumber(dbIndex) == -1) {
+            battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
+        }else{
+            battlesView.setText("N / A");
+        }
         evasionView.setText(String.valueOf(h.getEvasion(dbIndex)));
         avgAttacksView.setText("?");
         levelView.setText("?");
