@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +21,9 @@ import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
+import com.example.thomas.voyage.ResClasses.ImgRes;
+
+import java.util.Calendar;
 
 public class MerchantInventoryActivity extends Activity {
 
@@ -72,6 +77,7 @@ public class MerchantInventoryActivity extends Activity {
 
         fortuneView.setText("$" + getCurrentMoney());
         freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
+        showExpirationDate();
     }
 
     @Override
@@ -80,37 +86,15 @@ public class MerchantInventoryActivity extends Activity {
         hideSystemUI();
     }
 
-    public void setItemShowcase(){
-        if(lastSelectedUID.equals("player")){
-            itemNameView.setText(playerHelper.getItemName(selectedItemUIDfromPlayer) + "");
-            itemDesMainView.setText(playerHelper.getItemDescriptionMain(selectedItemUIDfromPlayer) + "");
-            itemDesAddView.setText(playerHelper.getItemDescriptionAdditonal(selectedItemUIDfromPlayer) + "");
-            itemRarityView.setText(playerHelper.getItemRarity(selectedItemUIDfromPlayer) + "");
-            itemPriceView.setText("");
 
-        }else if(lastSelectedUID.equals("merchant")){
-            itemNameView.setText(merchHelper.getItemName(selectedItemUIDFromMerch) + "");
-            itemDesMainView.setText(merchHelper.getItemDescriptionMain(selectedItemUIDFromMerch) + "");
-            itemDesAddView.setText(merchHelper.getItemDescriptionAdditonal(selectedItemUIDFromMerch) + "");
-            itemRarityView.setText(merchHelper.getItemRarity(selectedItemUIDFromMerch) + "");
-            itemPriceView.setText("$ " + merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
-        }
-    }
 
-    private long getCurrentMoney() {
-        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-        return prefs.getLong(CURRENT_MONEY_FILE, 4500);
-    }
+    /*
 
-    private void setCurrentMoney(long money) {
-        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-        prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
-    }
+    onClick-Methoden
 
-    public void merchantInventoryBackbuttonPressed(View view){
-        super.onBackPressed();
-        finish();
-    }
+     */
+
+
 
     public void merchantItemProfileTapped(View view){
         setNewItemMerchant();
@@ -177,6 +161,111 @@ public class MerchantInventoryActivity extends Activity {
         itemDesAddView.setText("");
         itemRarityView.setText("");
         itemPriceView.setText("");
+    }
+
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
+
+    private void showExpirationDate() {
+        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
+        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchInventoryToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
+
+        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
+        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+
+        if(System.currentTimeMillis() >= merchChangeDate){
+            timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
+            prefs.edit().putLong("merchInventoryToLeaveDaytime", merchToLeaveDaytime);
+            setNewItemMerchant();
+
+        }else{
+            timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+        }
+
+        //currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+        //merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
+
+        final TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_inventory_textView_time_to_next_merchant);
+
+        new CountDownTimer(timeToShow, 1000 / 60) {
+
+            public void onTick(long millisUntilFinished) {
+                merchantTimeView.setText("" + millisUntilFinished / 1000 / 60);
+            }
+
+            public void onFinish() {
+                prefs.edit().putLong("merchInventoryChangeDate", getNewMerchChangeDate()).apply();
+                prefs.edit().putLong("merchInventoryToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+                setNewItemMerchant();
+                //currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+                //merchantProfile.setImageResource(ImgRes.res(getApplicationContext(), "merch", currentMerchantId + ""));
+
+                showExpirationDate();
+            }
+        }.start();
+    }
+
+    private long getNowInSeconds(){
+        return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+    }
+
+    private long getNewMerchLeaveDaytime(){
+        return 24*60*60;
+    }
+
+    private long getNewMerchChangeDate(){
+
+        // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
+        long newFinishDate = getNewMerchLeaveDaytime();
+
+        long todayInSeconds = (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+
+        // neuer Abreise-Zeitpunkt des Händlers
+        return System.currentTimeMillis() + (newFinishDate - todayInSeconds)*1000;
+    }
+
+    public void setItemShowcase(){
+        if(lastSelectedUID.equals("player")){
+            itemNameView.setText(String.valueOf(playerHelper.getItemName(selectedItemUIDfromPlayer)));
+            itemDesMainView.setText(playerHelper.getItemDescriptionMain(selectedItemUIDfromPlayer));
+            itemDesAddView.setText(playerHelper.getItemDescriptionAdditonal(selectedItemUIDfromPlayer) + "");
+            itemRarityView.setText(String.valueOf(playerHelper.getItemRarity(selectedItemUIDfromPlayer)));
+            itemPriceView.setText("");
+
+        }else if(lastSelectedUID.equals("merchant")){
+            itemNameView.setText(merchHelper.getItemName(selectedItemUIDFromMerch));
+            itemDesMainView.setText(merchHelper.getItemDescriptionMain(selectedItemUIDFromMerch));
+            itemDesAddView.setText(merchHelper.getItemDescriptionAdditonal(selectedItemUIDFromMerch));
+            itemRarityView.setText(String.valueOf(merchHelper.getItemRarity(selectedItemUIDFromMerch)));
+            itemPriceView.setText("$ " + merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
+        }
+    }
+
+    private long getCurrentMoney() {
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        return prefs.getLong(CURRENT_MONEY_FILE, 4500);
+    }
+
+    private void setCurrentMoney(long money) {
+        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+        prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
+    }
+
+    public void merchantInventoryBackbuttonPressed(View view){
+        super.onBackPressed();
+        finish();
     }
 
     private void dismissItem(String id, int pos){
@@ -282,10 +371,11 @@ public class MerchantInventoryActivity extends Activity {
 
 
 
+    /*
 
+    Adapter
 
-
-
+     */
 
 
 
@@ -332,11 +422,6 @@ public class MerchantInventoryActivity extends Activity {
         }
     }
 
-
-
-
-
-
     private class MerchantAdapter extends BaseAdapter {
         private Context mContext;
         private final int num = (int) merchHelper.getTaskCount();
@@ -381,13 +466,11 @@ public class MerchantInventoryActivity extends Activity {
 
 
 
+    /*
 
+    Funktionen zur Auslagerung von Initialisierngen
 
-
-
-
-
-
+     */
 
 
 

@@ -1,6 +1,5 @@
 package com.example.thomas.voyage.CombatActivities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
