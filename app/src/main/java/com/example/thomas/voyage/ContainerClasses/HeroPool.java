@@ -105,6 +105,10 @@ public class HeroPool {
                 currentBiome.equals(list.get(rand)[11]) ||
                 currentBiome.equals(list.get(rand)[11]));
 
+        //currentBiome.equals(list.get(rand)[12]) ||
+        //currentBiome.equals(list.get(rand)[13]) ||
+         //       currentBiome.equals(list.get(rand)[14]));
+
         /*
 
         !!! -> letztes 'currentBiome.equals(list.get(rand)[12]));

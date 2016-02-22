@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.HelperCSV;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 
 import org.w3c.dom.Text;
+
+import java.util.List;
 
 
 public class HeroAllDataCardFragment extends Fragment implements View.OnClickListener{
@@ -69,7 +72,21 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         evasionView.setText(String.valueOf(h.getEvasion(dbIndex)));
         avgAttacksView.setText("?");
         levelView.setText("?");
-        //descriptionView.setText("Placeholder");
+
+        HelperCSV helperCSV = new HelperCSV(getContext());
+        List<String[]> list = helperCSV.getDataList("heroresourcetable");
+        String desc = "ERROR@HEROALLDATACARDFRAGMENT-descriptionView";
+        for(int i = 0; i < list.size(); i++){
+            if(list.get(i)[2].equals(h.getHeroPrimaryClass(dbIndex))){
+                desc = list.get(i)[15];
+            }
+        }
+        for(int t = 0; t < list.size(); t++){
+            if(list.get(t)[2].equals(h.getHeroSecondaryClass(dbIndex))){
+                desc = desc + '\n' + '\n' + list.get(t)[15];
+            }
+        }
+        //descriptionView.setText(desc);
 
         profileView.setOnClickListener(this);
 
