@@ -14,6 +14,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.BasicActivities.HeroCampActivity;
+import com.example.thomas.voyage.ContainerClasses.IntentExtrasHelper;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Fragments.ScreenSlidePageFragment;
@@ -95,12 +96,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     // Erst sichtbar, wenn Level + Dauer gewählt sind
     public void goInCombat(View view){
-        Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
-        i.putExtra(c.HERO_DATABASE_INDEX, index);
-        i.putExtra(c.CURRENT_BIOME, getCurrentBiome());
-        i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, difficulty);
-        i.putExtra(c.COMBAT_LENGTH, length);
-        startActivity(i);
+        startActivity(IntentExtrasHelper.toCombatSplash(this, new ConstRes(), index, getCurrentBiome(), difficulty, length));
         finish();
     }
 

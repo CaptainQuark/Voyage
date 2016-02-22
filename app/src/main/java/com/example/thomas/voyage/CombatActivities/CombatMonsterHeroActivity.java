@@ -339,16 +339,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         // wenn noch nicht letztes Monster erreicht, eröffne neuen Kampf
         if(b.getInt(c.COMBAT_LENGTH, 1) > 1){
-            /*
-            int combatLength = b.getInt(c.COMBAT_LENGTH, 1) - 1;
-            Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
-            i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
-            i.putExtra(c.CURRENT_BIOME, b.getString(c.CURRENT_BIOME, "Forest"));
-            i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"));
-            i.putExtra(c.COMBAT_LENGTH, combatLength);
-            */
-            IntentExtrasHelper ieh = new IntentExtrasHelper();
-            startActivity(ieh.toCombatSplash(this, heroDbIndex, b.getString(c.CURRENT_BIOME, "Forest"),
+
+            // Mit 'IntentExtrasHelper' werden Werte-Übergaben an Intent
+            // standardisiert - keine Kopierfehler, weniger Code, leichter zu verstehen
+            startActivity(IntentExtrasHelper.toCombatSplash(
+                    this, new ConstRes(), heroDbIndex, b.getString(c.CURRENT_BIOME, "Forest"),
                     b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"),  b.getInt(c.COMBAT_LENGTH, 1) - 1));
             finish();
 
