@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.BasicActivities.StartActivity;
+import com.example.thomas.voyage.ContainerClasses.IntentExtrasHelper;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
@@ -336,16 +337,19 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         Bundle b = getIntent().getExtras();
         ConstRes c = new ConstRes();
 
-        if(b.getInt(c.COMBAT_LENGTH, 1) > 0){
-
+        // wenn noch nicht letztes Monster erreicht, eröffne neuen Kampf
+        if(b.getInt(c.COMBAT_LENGTH, 1) > 1){
+            /*
             int combatLength = b.getInt(c.COMBAT_LENGTH, 1) - 1;
-
             Intent i = new Intent(getApplicationContext(), CombatSplashActivity.class);
             i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
             i.putExtra(c.CURRENT_BIOME, b.getString(c.CURRENT_BIOME, "Forest"));
             i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"));
             i.putExtra(c.COMBAT_LENGTH, combatLength);
-            startActivity(i);
+            */
+            IntentExtrasHelper ieh = new IntentExtrasHelper();
+            startActivity(ieh.toCombatSplash(this, heroDbIndex, b.getString(c.CURRENT_BIOME, "Forest"),
+                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"),  b.getInt(c.COMBAT_LENGTH, 1) - 1));
             finish();
 
         }else{

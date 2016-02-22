@@ -11,7 +11,7 @@ public class IntentExtrasHelper {
 
     private ConstRes c = new ConstRes();
 
-    public Intent toCombatSplash(Context c, int heroDbIndex, int biome, int level, int length){
+    public Intent toCombatSplash(Context c, long heroDbIndex, String biome, String level, int length){
         Intent i = new Intent(c, CombatSplashActivity.class);
         i.putExtra(this.c.HERO_DATABASE_INDEX, heroDbIndex);
         i.putExtra(this.c.CURRENT_BIOME, biome);
