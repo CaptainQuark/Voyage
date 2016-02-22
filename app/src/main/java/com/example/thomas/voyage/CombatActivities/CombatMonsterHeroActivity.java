@@ -561,7 +561,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
 
             holder.itemProfileView.setImageResource(R.mipmap.placeholder_dummy_0);
-            holder.nameView.setText(playerItemList.get(position).getStrings("ITEM_NAME"));
+            holder.nameView.setText(position + ". " + playerItemList.get(position).getStrings("ITEM_NAME"));
             holder.desView.setText(playerItemList.get(position).getStrings("DES_MAIN"));
 
             return convertView;
