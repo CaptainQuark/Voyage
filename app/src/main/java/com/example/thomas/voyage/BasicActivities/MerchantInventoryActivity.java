@@ -251,6 +251,8 @@ public class MerchantInventoryActivity extends Activity {
             itemRarityView.setText(String.valueOf(merchHelper.getItemRarity(selectedItemUIDFromMerch)));
             itemPriceView.setText("$ " + merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
         }
+
+        itemIconView.setImageResource(R.mipmap.ic_launcher);
     }
 
     private long getCurrentMoney() {
@@ -494,6 +496,7 @@ public class MerchantInventoryActivity extends Activity {
         itemDesAddView = (TextView)findViewById(R.id.textView_merch_inv_item_add_des);
         itemPriceView = (TextView)findViewById(R.id.textView_merch_inv_item_price);
         itemRarityView = (TextView)findViewById(R.id.textView_merch_inv_item_rarity);
+        itemIconView = (ImageView) findViewById(R.id.imageView_merch_inv_showcase_item);
         freeSlotsView = (TextView)findViewById(R.id.textView_merch_inv_free_slots);
         fortuneView = (TextView)findViewById(R.id.textView_merch_inv_fortune);
         dismissView = (TextView)findViewById(R.id.invetory_textView_dismiss);
