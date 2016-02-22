@@ -197,6 +197,12 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
             case 0:
                 biome = "Forest";
                 break;
+            case 1:
+                biome = "Icecave";
+                break;
+            case 3:
+                biome = "Waterfall";
+                break;
             default:
                 biome = "Forest";
         }
