@@ -198,6 +198,7 @@ public class MerchantInventoryActivity extends Activity {
 
             public void onTick(long millisUntilFinished) {
                 merchantTimeView.setText("" + millisUntilFinished / 1000 / 60);
+                Log.v("MerchInventoryActivity", String.valueOf(millisUntilFinished/1000));
             }
 
             public void onFinish() {
