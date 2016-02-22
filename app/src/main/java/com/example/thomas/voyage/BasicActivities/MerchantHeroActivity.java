@@ -50,13 +50,9 @@ public class MerchantHeroActivity extends Activity {
         setContentView(R.layout.activity_merchant_hero);
         merchantHelper = new DBmerchantHeroesAdapter(this);
 
+        iniValues();
         iniViews();
         hideSystemUI();
-
-        Bundle b = getIntent().getExtras();
-        if(b != null){
-            origin = b.getString("ORIGIN", "StartActivity");
-        }
 
         fillTextViewHeroes(3);
         showExpirationDate();
@@ -69,6 +65,132 @@ public class MerchantHeroActivity extends Activity {
         setSlotsViewAppearence();
         hideSystemUI();
     }
+
+
+
+    /*
+
+    onClick-Methoden
+
+     */
+
+
+
+    public void resetMerchant(View view){
+        heroDataLayout.setVisibility(View.INVISIBLE);
+        updateMerchantsDatabase(3);
+        setNewMerchantProfile();
+        fillTextViewHeroes(3);
+
+        if(marketView.getVisibility() == View.VISIBLE){
+            marketView.setVisibility(View.GONE);
+            containerLayoutMiddle.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void addMoneyToCurrentMoney(View view){
+        setCurrentMoney(getCurrentMoney() + 2500);
+        textView_current_money.setText("$ " + getCurrentMoney());
+    }
+
+    public void merchantHerosBackbuttonPressed(View view) {
+        timer.cancel();
+        if(origin.equals("HeroesPartyActivity")){
+            Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
+            startActivity(i);
+            finish();
+
+        }else {
+            onBackPressed();
+            finish();
+        }
+    }
+
+    public void goFromMerchantToHeroesParty(View view) {
+        timer.cancel();
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+        startActivity(i);
+    }
+
+    public void buyHero(View view) {
+
+        if (availableToBuy) {
+            String name = merchantHelper.getHeroName(selectedHeroId);
+            int hitpoints = merchantHelper.getHeroHitpoints(selectedHeroId);
+            String classOne = merchantHelper.getHeroClassOne(selectedHeroId);
+            String classTwo = merchantHelper.getHeroClassTwo(selectedHeroId);
+            int costs = merchantHelper.getHeroCosts(selectedHeroId);
+            String imageResource = merchantHelper.getHeroImgRes(selectedHeroId);
+            int evasion = merchantHelper.getHeroEvasion(selectedHeroId);
+            int hpTotal = merchantHelper.getHpTotal(selectedHeroId);
+            int bonusNumber = merchantHelper.getBonusNumber(selectedHeroId);
+
+            DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
+
+            for (int i = 1; i <= 10; i++) {
+
+                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hpTotal, -1, 0, evasion, bonusNumber);
+
+                if (updateValidation > 0) {
+
+                    // wenn updateValidation speichert Rückgabewert von '.updateRowWithHeroData' -> wenn -1, dann nicht erfolgreich
+                    //Msg.msg(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
+
+                    i = 11;
+                    merchantHelper.updateRow(selectedHeroId, "NOT_USED");
+                }
+            }
+
+            fillTextViewHeroes(3);
+            setSlotsViewAppearence();
+            currentMoneyInPocket = getCurrentMoney() - costs;
+            setCurrentMoney(currentMoneyInPocket);
+            textView_current_money.setText("$ " + currentMoneyInPocket);
+            buyHeroView.setText("...");
+            buyHeroView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
+            textView_available_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
+            heroDataLayout.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void heroSelected(View view){
+
+        switch (view.getId()){
+            case R.id.merch_hero_0:
+                tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                if(!merchantHelper.getHeroName(2).equals("NOT_USED")) tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(3).equals("NOT_USED")) tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                processSelectedHero(1);
+                break;
+
+            case R.id.merch_hero_1:
+                tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                if(!merchantHelper.getHeroName(1).equals("NOT_USED")) tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(3).equals("NOT_USED")) tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                processSelectedHero(2);
+                break;
+
+            case R.id.merch_hero_2:
+                tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
+                if(!merchantHelper.getHeroName(2).equals("NOT_USED")) tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                if(!merchantHelper.getHeroName(1).equals("NOT_USED")) tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
+                processSelectedHero(3);
+                break;
+
+            default:
+                Msg.msg(this, "ERROR @ 'heroSelected'");
+        }
+    }
+
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
 
     private long getUsedSlotsInHeroesDatabase() {
         DBheroesAdapter helper = new DBheroesAdapter(this);
@@ -236,7 +358,7 @@ public class MerchantHeroActivity extends Activity {
         return newExpirationDate.getTime();
     }
 
-    public void setNewMerchantProfile(){
+    private void setNewMerchantProfile(){
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 
         if(currentMerchantId >= 3){
@@ -249,7 +371,7 @@ public class MerchantHeroActivity extends Activity {
         merchantProfile.setImageResource(ImgRes.res(this, "merch", Integer.toString(currentMerchantId)));
     }
 
-    public long updateMerchantsDatabase(int numberOfInserts) {
+    private long updateMerchantsDatabase(int numberOfInserts) {
         Log.e("UPDATE_DATABASE", "updateMerchantDatabase, inserts: " + numberOfInserts);
         List<Hero> heroList = new ArrayList<>();
         long id = 0;
@@ -279,7 +401,7 @@ public class MerchantHeroActivity extends Activity {
         return id;
     }
 
-    public void fillTextViewHeroes(int rowsExistent){
+    private void fillTextViewHeroes(int rowsExistent){
         Log.i("fillText", "fillTextViewHeroes called");
 
         textView_current_money.setText("$ " + getCurrentMoney());
@@ -337,112 +459,6 @@ public class MerchantHeroActivity extends Activity {
         }
     }
 
-    public void resetMerchant(View view){
-        heroDataLayout.setVisibility(View.INVISIBLE);
-        updateMerchantsDatabase(3);
-        setNewMerchantProfile();
-        fillTextViewHeroes(3);
-
-        if(marketView.getVisibility() == View.VISIBLE){
-            marketView.setVisibility(View.GONE);
-            containerLayoutMiddle.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void addMoneyToCurrentMoney(View view){
-        setCurrentMoney(getCurrentMoney() + 2500);
-        textView_current_money.setText("$ " + getCurrentMoney());
-    }
-
-    public void merchantHerosBackbuttonPressed(View view) {
-        timer.cancel();
-        if(origin.equals("HeroesPartyActivity")){
-            Intent i = new Intent(getApplicationContext(), HeroesPartyActivity.class);
-            startActivity(i);
-            finish();
-
-        }else {
-            onBackPressed();
-            finish();
-        }
-    }
-
-    public void goFromMerchantToHeroesParty(View view) {
-        timer.cancel();
-        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-        startActivity(i);
-    }
-
-    public void buyHero(View view) {
-
-        if (availableToBuy) {
-            String name = merchantHelper.getHeroName(selectedHeroId);
-            int hitpoints = merchantHelper.getHeroHitpoints(selectedHeroId);
-            String classOne = merchantHelper.getHeroClassOne(selectedHeroId);
-            String classTwo = merchantHelper.getHeroClassTwo(selectedHeroId);
-            int costs = merchantHelper.getHeroCosts(selectedHeroId);
-            String imageResource = merchantHelper.getHeroImgRes(selectedHeroId);
-            int evasion = merchantHelper.getHeroEvasion(selectedHeroId);
-            int hpTotal = merchantHelper.getHpTotal(selectedHeroId);
-            int bonusNumber = merchantHelper.getBonusNumber(selectedHeroId);
-
-            DBheroesAdapter heroesAdapter = new DBheroesAdapter(this);
-
-            for (int i = 1; i <= 10; i++) {
-
-                int updateValidation = heroesAdapter.updateRowWithHeroData(i, name, hitpoints, classOne, classTwo, costs, imageResource, hpTotal, -1, 0, evasion, bonusNumber);
-
-                if (updateValidation > 0) {
-
-                    // wenn updateValidation speichert Rückgabewert von '.updateRowWithHeroData' -> wenn -1, dann nicht erfolgreich
-                    //Msg.msg(this, "Update in HerosDatabase an Stelle " + i + " erfolgreich.");
-
-                    i = 11;
-                    merchantHelper.updateRow(selectedHeroId, "NOT_USED");
-                }
-            }
-
-            fillTextViewHeroes(3);
-            setSlotsViewAppearence();
-            currentMoneyInPocket = getCurrentMoney() - costs;
-            setCurrentMoney(currentMoneyInPocket);
-            textView_current_money.setText("$ " + currentMoneyInPocket);
-            buyHeroView.setText("...");
-            buyHeroView.setBackgroundColor(getResources().getColor(R.color.inactive_field));
-            textView_available_slots.setText(getUsedSlotsInHeroesDatabase() + " / " + slotsInHeroesDatabase);
-            heroDataLayout.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    public void heroSelected(View view){
-
-        switch (view.getId()){
-            case R.id.merch_hero_0:
-                tag1.setBackgroundColor(getResources().getColor(R.color.standard_background));
-                if(!merchantHelper.getHeroName(2).equals("NOT_USED")) tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                if(!merchantHelper.getHeroName(3).equals("NOT_USED")) tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                processSelectedHero(1);
-                break;
-
-            case R.id.merch_hero_1:
-                tag2.setBackgroundColor(getResources().getColor(R.color.standard_background));
-                if(!merchantHelper.getHeroName(1).equals("NOT_USED")) tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                if(!merchantHelper.getHeroName(3).equals("NOT_USED")) tag3.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                processSelectedHero(2);
-                break;
-
-            case R.id.merch_hero_2:
-                tag3.setBackgroundColor(getResources().getColor(R.color.standard_background));
-                if(!merchantHelper.getHeroName(2).equals("NOT_USED")) tag2.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                if(!merchantHelper.getHeroName(1).equals("NOT_USED")) tag1.setBackgroundColor(getResources().getColor(R.color.merchant_heroes_name_tag_under_profile_picture));
-                processSelectedHero(3);
-                break;
-
-            default:
-                Msg.msg(this, "ERROR @ 'heroSelected'");
-        }
-    }
-
     private void processSelectedHero(int index) {
         selectedHeroId = index;
 
@@ -492,7 +508,24 @@ public class MerchantHeroActivity extends Activity {
     }
 
 
-    public void iniViews(){
+
+    /*
+
+    Funktionen zur Auslagerung von Initialisierungen
+
+     */
+
+
+
+    private void iniValues(){
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            origin = b.getString("ORIGIN", "StartActivity");
+        }
+    }
+
+    private void iniViews(){
         heroDataLayout = (LinearLayout)findViewById(R.id.merchant_linearLayout_hero_data);
         nameView = (TextView) findViewById(R.id.merchant_hero_name);
         hitpointsView = (TextView) findViewById(R.id.merchant_hero_hitpoints);
@@ -514,7 +547,7 @@ public class MerchantHeroActivity extends Activity {
         containerLayoutMiddle = (LinearLayout)findViewById(R.id.merchant_linearLayout_middle);
     }
 
-    public void hideSystemUI() {
+    private void hideSystemUI() {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -527,19 +560,4 @@ public class MerchantHeroActivity extends Activity {
         // Set the content to appear under the system bars so that the content
         // doesn't resize when the system bars hide and show.
     }
-
 }
-
-
-
-
-/*
-        // This snippet shows the system bars. It does this by removing all the flags
-// except for the ones that make the content appear under the system bars.
-        private void showSystemUI() {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
- */
