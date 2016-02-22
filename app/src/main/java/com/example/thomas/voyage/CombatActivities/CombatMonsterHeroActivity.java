@@ -215,10 +215,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         switch(heroClassActive){
             case "Waldläufer":
-                if(scoreField == 1){
-                    bonusScore += 10 - scoreMultiplier;
-                }
-                else if(scoreField == 5 && scoreMultiplier == 1){
+                if(scoreField == h.getBonusNumber(heroDbIndex)){
                     bonusScore += 5;
                 }
                 break;
@@ -228,6 +225,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             //Secondaries:
             case "Schurke":
+                if(scoreField == 1){
+                    bonusScore += 8 - scoreMultiplier;
+                }
+                else if(scoreField == 5 && scoreMultiplier == 1){
+                    bonusScore += 3;
+                }
                 break;
             case "Spion":
                 break;

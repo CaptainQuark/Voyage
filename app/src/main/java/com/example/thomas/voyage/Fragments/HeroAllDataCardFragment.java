@@ -13,6 +13,8 @@ import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
 
+import org.w3c.dom.Text;
+
 
 public class HeroAllDataCardFragment extends Fragment implements View.OnClickListener{
 
@@ -52,6 +54,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         TextView evasionView = (TextView) rootView.findViewById(R.id.frag_textview_evasion);
         TextView avgAttacksView = (TextView) rootView.findViewById(R.id.frag_textview_avg_attacks_per_battle);
         TextView levelView = (TextView) rootView.findViewById(R.id.frag_textview_level);
+        //TextView descriptionView = (TextView) rootView.findViewById(R.id.frag_textview_hero_chronic);
 
         profileView.setImageResource(getActivity().getResources().getIdentifier(h.getHeroImgRes(dbIndex), "mipmap", getActivity().getPackageName()));
         nameView.setText(h.getHeroName(dbIndex));
@@ -66,6 +69,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         evasionView.setText(String.valueOf(h.getEvasion(dbIndex)));
         avgAttacksView.setText("?");
         levelView.setText("?");
+        //descriptionView.setText("Placeholder");
 
         profileView.setOnClickListener(this);
 

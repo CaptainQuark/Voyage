@@ -34,7 +34,7 @@ public class MonsterPool {
             rarity = 1;
         } else if (rarity <= 80) {                          //Wsl 20% - 1/5
             rarity = 2;
-        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
+        } else if (rarity >= 90) {                          //Wsl 10% - 1/10
             rarity = 3;
         }
 
@@ -76,12 +76,13 @@ public class MonsterPool {
 
             if(currentBiome.equals(list.get(rand)[14])){
                 run = false;
-            }
-            else if (currentBiome.equals(list.get(rand)[15])){
+            }else if (currentBiome.equals(list.get(rand)[15])){
                 run = false;
-            }
-            else if (currentBiome.equals(list.get(rand)[16])){
+            }else if (currentBiome.equals(list.get(rand)[16])){
                 run = false;
+            }else if (currentBiome.equals("nowhere")){
+                run = false;
+                Log.e("ERROR@BIOMECHECK","currentBiome == nowhere!");
             }
 
         }while(rarity != Integer.parseInt(list.get(rand)[3]) || run || !difficulty.equals(tDifficulty));
