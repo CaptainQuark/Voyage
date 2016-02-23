@@ -1,247 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/standard_background">
 
-    <LinearLayout
-        android:layout_margin="50dp"
-        android:background="@android:color/black"
-        android:orientation="horizontal"
+    <android.support.v7.widget.CardView
+        android:layout_margin="40dp"
+        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:src="@mipmap/placeholder_dummy_0"
-            android:scaleType="centerCrop"
-            android:id="@+id/frag_imageview_hero_all_data_profile" />
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:background="@android:color/black"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
-                android:text="Heldenname"
-                android:gravity="bottom|center"
-                android:textSize="25sp"
-                android:paddingBottom="5dp"
-                android:textColor="#ffffff"
-                android:id="@+id/frag_textview_hero_name" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="Primärklasse &amp; Sekundärklasse"
-                android:gravity="top|center"
-                android:textSize="15sp"
-                android:textColor="#ababab"
-                android:id="@+id/frag_textview_classes" />
+                android:src="@mipmap/placeholder_dummy_0"
+                android:scaleType="centerCrop"
+                android:id="@+id/frag_imageview_hero_all_data_profile" />
 
-            <GridLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="5"
-                android:layout_gravity="center"
-                android:padding="10dp">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
 
                 <TextView
-                    android:layout_row="0"
-                    android:layout_column="0"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Wert"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:text="Heldenname"
                     android:gravity="bottom|center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:id="@+id/frag_textview_hp"
-                    android:textIsSelectable="false" />
+                    android:textSize="25sp"
+                    android:paddingBottom="5dp"
+                    android:textColor="#ffffff"
+                    android:id="@+id/frag_textview_hero_name" />
 
                 <TextView
-                    android:layout_row="0"
-                    android:layout_column="1"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Wert"
-                    android:gravity="bottom|center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:id="@+id/frag_textview_sell_value"
-                    android:textIsSelectable="false" />
-
-                <TextView
-                    android:layout_row="0"
-                    android:layout_column="2"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Wert"
-                    android:gravity="bottom|center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:id="@+id/frag_textview_evasion"
-                    android:textIsSelectable="false" />
-
-                <TextView
-                    android:layout_row="0"
-                    android:layout_column="3"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Wert"
-                    android:gravity="bottom|center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:id="@+id/frag_textview_bonus_number"
-                    android:textIsSelectable="false" />
-
-                <TextView
-                    android:layout_row="0"
-                    android:layout_column="4"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Wert"
-                    android:gravity="bottom|center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:id="@+id/frag_textview_avg_attacks_per_battle"
-                    android:textIsSelectable="false" />
-
-                <TextView
-                    android:layout_row="0"
-                    android:layout_column="5"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Wert"
-                    android:gravity="bottom|center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"
-                    android:id="@+id/frag_textview_level"
-                    android:textIsSelectable="false" />
-
-                <TextView
-                    android:layout_row="1"
-                    android:layout_column="0"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Hitpoints"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Primärklasse &amp; Sekundärklasse"
                     android:gravity="top|center"
-                    android:paddingTop="10dp"
-                    android:textStyle="italic"
-                    android:textColor="#a6a6a6"
-                    android:textSize="12sp" />
+                    android:textSize="15sp"
+                    android:textColor="#ababab"
+                    android:id="@+id/frag_textview_classes" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="5"
+                    android:layout_gravity="center"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_row="0"
+                        android:layout_column="0"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Wert"
+                        android:gravity="bottom|center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:id="@+id/frag_textview_hp"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:layout_row="0"
+                        android:layout_column="1"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Wert"
+                        android:gravity="bottom|center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:id="@+id/frag_textview_sell_value"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:layout_row="0"
+                        android:layout_column="2"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Wert"
+                        android:gravity="bottom|center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:id="@+id/frag_textview_evasion"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:layout_row="0"
+                        android:layout_column="3"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Wert"
+                        android:gravity="bottom|center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:id="@+id/frag_textview_bonus_number"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:layout_row="0"
+                        android:layout_column="4"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Wert"
+                        android:gravity="bottom|center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:id="@+id/frag_textview_avg_attacks_per_battle"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:layout_row="0"
+                        android:layout_column="5"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Wert"
+                        android:gravity="bottom|center"
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:id="@+id/frag_textview_level"
+                        android:textIsSelectable="false" />
+
+                    <TextView
+                        android:layout_row="1"
+                        android:layout_column="0"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Hitpoints"
+                        android:gravity="top|center"
+                        android:paddingTop="10dp"
+                        android:textStyle="italic"
+                        android:textColor="#a6a6a6"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_row="1"
+                        android:layout_column="1"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Verkaufswert"
+                        android:gravity="top|center"
+                        android:paddingTop="10dp"
+                        android:textStyle="italic"
+                        android:textColor="#a6a6a6"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_row="1"
+                        android:layout_column="2"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Ausflucht"
+                        android:gravity="top|center"
+                        android:paddingTop="10dp"
+                        android:textStyle="italic"
+                        android:textColor="#a6a6a6"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_row="1"
+                        android:layout_column="3"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Spezialwert"
+                        android:gravity="top|center"
+                        android:paddingTop="10dp"
+                        android:textStyle="italic"
+                        android:textColor="#a6a6a6"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_row="1"
+                        android:layout_column="4"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="o - Angriffe"
+                        android:gravity="top|center"
+                        android:paddingTop="10dp"
+                        android:textStyle="italic"
+                        android:textColor="#a6a6a6"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_row="1"
+                        android:layout_column="5"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:text="Rang"
+                        android:gravity="top|center"
+                        android:paddingTop="10dp"
+                        android:textStyle="italic"
+                        android:textColor="#a6a6a6"
+                        android:textSize="12sp" />
+
+                </GridLayout>
 
                 <TextView
-                    android:layout_row="1"
-                    android:layout_column="1"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Verkaufswert"
-                    android:gravity="top|center"
-                    android:paddingTop="10dp"
-                    android:textStyle="italic"
-                    android:textColor="#a6a6a6"
-                    android:textSize="12sp" />
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="6"
+                    android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                    android:textColor="#b9b9b9"
+                    android:textSize="16sp"
+                    android:paddingLeft="30dp"
+                    android:paddingTop="30dp"
+                    android:paddingRight="30dp"
+                    android:gravity="top"
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/frag_textview_hero_chronic" />
 
-                <TextView
-                    android:layout_row="1"
-                    android:layout_column="2"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Ausflucht"
-                    android:gravity="top|center"
-                    android:paddingTop="10dp"
-                    android:textStyle="italic"
-                    android:textColor="#a6a6a6"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_row="1"
-                    android:layout_column="3"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Spezialwert"
-                    android:gravity="top|center"
-                    android:paddingTop="10dp"
-                    android:textStyle="italic"
-                    android:textColor="#a6a6a6"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_row="1"
-                    android:layout_column="4"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="o - Angriffe"
-                    android:gravity="top|center"
-                    android:paddingTop="10dp"
-                    android:textStyle="italic"
-                    android:textColor="#a6a6a6"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_row="1"
-                    android:layout_column="5"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_rowWeight="1"
-                    android:text="Rang"
-                    android:gravity="top|center"
-                    android:paddingTop="10dp"
-                    android:textStyle="italic"
-                    android:textColor="#a6a6a6"
-                    android:textSize="12sp" />
-
-            </GridLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="6"
-                android:text="Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\nAt vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
-                android:textColor="#b9b9b9"
-                android:textSize="16sp"
-                android:paddingLeft="30dp"
-                android:paddingTop="30dp"
-                android:paddingRight="30dp"
-                android:gravity="top"
-                android:fontFamily="sans-serif-light"
-                android:id="@+id/frag_textview_hero_chronic" />
+            </LinearLayout>
 
         </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-    </LinearLayout>
+
 
 </RelativeLayout>

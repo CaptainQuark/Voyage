@@ -59,71 +59,31 @@
 
         <TextView
             android:id="@+id/textview_camp_slots"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="X / Y"
-            android:textColor="#707070"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-light" />
+            style="@style/ButtonToolbar"/>
 
         <TextView
             android:id="@+id/textview_camp_to_fight"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Auf in den Kampf!"
-            android:textColor="#707070"
-            android:textSize="15sp"
-            android:onClick="commitToQuest"
-            android:fontFamily="sans-serif-light"
-            android:background="@drawable/ripple_standard_background" />
+            style="@style/ButtonToolbar.Selectable"
+            android:text="Kämpfen"
+            android:onClick="commitToQuest" />
 
         <TextView
-            android:onClick="dismissHero"
             android:id="@+id/textview_camp_dismiss_hero"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Helden verkaufen"
-            android:textColor="#707070"
-            android:textSize="15sp"
-            android:fontFamily="sans-serif-light"
-            android:background="@drawable/ripple_standard_background" />
+            android:onClick="dismissHero"
+            style="@style/ButtonToolbar.Selectable"
+            android:text="Verkaufen"/>
 
         <TextView
             android:id="@+id/textview_camp_heal_hero"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Helden heilen"
-            android:textColor="#707070"
-            android:textSize="15sp"
             android:onClick="campHealHero"
-            android:layout_marginRight="0dp"
-            android:fontFamily="sans-serif-light"
-            android:background="@drawable/ripple_standard_background" />
+            style="@style/ButtonToolbar.Selectable"
+            android:text="Heilen" />
 
 
         <TextView
             android:id="@+id/textview_camp_fortune"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="$ ..."
-            android:textColor="#707070"
-            android:textSize="15sp"
-            android:onClick="commitToQuest"
-            android:fontFamily="sans-serif-light" />
+            style="@style/ButtonToolbar"
+            android:onClick="commitToQuest" />
 
     </LinearLayout>
 

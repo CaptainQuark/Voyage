@@ -5,4 +5,20 @@
 
     <style name="VoyageDark" parent="android:Theme.Material.NoActionBar.Fullscreen">
     </style>
+
+    <style name="ButtonToolbar">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text">BUTTON</item>
+        <item name="android:textColor">#707070</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="ButtonToolbar.Selectable">
+        <item name="android:background">@drawable/ripple_standard_background</item>
+    </style>
+
 </resources>
