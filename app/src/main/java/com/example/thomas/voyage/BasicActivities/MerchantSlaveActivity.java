@@ -1,30 +1,38 @@
 package com.example.thomas.voyage.BasicActivities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.Hero;
+import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MerchantSlaveActivity extends Activity {
 
+    private TextView tradeView, buyView, slotsView, fortuneView;
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
-    private SharedPreferences prefs;
+    private SharedPreferences prefsFortune, prefsMerchant;
     private List<HeroCardHolder> cardList;
+    private MerchantCardHolder merchantCardHolder;
     private ConstRes c;
+    private String origin;
     private long currentMoney;
     private int selectedHeroCardIndex;
 
@@ -34,6 +42,9 @@ public class MerchantSlaveActivity extends Activity {
         setContentView(R.layout.activity_merchant_slave);
         hideSystemUI();
         iniValues();
+        iniViews();
+
+        refreshToolbarViews();
     }
 
 
@@ -49,17 +60,30 @@ public class MerchantSlaveActivity extends Activity {
     public void onClick(View v){
         switch (v.getId()){
 
-            case R.id.tv_merch_slave_back_button:
+            case R.id.tv_merch_slave_buy:
+                if(getUsedRowsHeroDb() < h.getTaskCount()){
+                    if(currentMoney >= m.getHeroCosts(selectedHeroCardIndex + 1)){
+                        copyHeroFromMerchToPlayerDb();
+                        m.updateRow(selectedHeroCardIndex + 1, c.NOT_USED);
+                        cardList.get(selectedHeroCardIndex).showCard();
+                        prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
+                        selectedHeroCardIndex = -1;
 
-                super.onBackPressed();
+                        refreshToolbarViews();
+                    }
+                }
+
                 break;
 
-            case R.id.tv_merch_slave_buy:
+            case R.id.iv_merch_slave_back_button:
+                if(origin.equals("HeroCampActivity")){
+                    Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+                    startActivity(i);
+                    finish();
 
-                if(getUsedRowsHeroDb() < h.getTaskCount()){
-                    if(currentMoney >= m.getHeroCosts(selectedHeroCardIndex)){
-                        copyHeroFromMerchToPlayerDb();
-                    }
+                }else {
+                    onBackPressed();
+                    finish();
                 }
         }
     }
@@ -74,7 +98,7 @@ public class MerchantSlaveActivity extends Activity {
 
 
 
-    public int getUsedRowsMerchantDb(){
+    private int getUsedRowsMerchantDb(){
         int num = 0;
 
         for(int i = 1; i <= m.getTaskCount(); i++){
@@ -84,17 +108,17 @@ public class MerchantSlaveActivity extends Activity {
         return num;
     }
 
-    public int getUsedRowsHeroDb(){
+    private int getUsedRowsHeroDb(){
         int num = 0;
 
         for(int i = 1; i <= h.getTaskCount(); i++){
-            if(h.getHeroName(i).equals(c.NOT_USED)) num++;
+            if(!h.getHeroName(i).equals(c.NOT_USED)) num++;
         }
 
         return num;
     }
 
-    public int getNextFreeSlotInHeroDb(){
+    private int getNextFreeSlotInHeroDb(){
         for(int i = 1; i <= h.getTaskCount(); i++){
             if(h.getHeroName(i).equals(c.NOT_USED)) return i;
         }
@@ -102,21 +126,118 @@ public class MerchantSlaveActivity extends Activity {
         return -1;
     }
 
-    public void copyHeroFromMerchToPlayerDb(){
+    private void copyHeroFromMerchToPlayerDb(){
+        int i = selectedHeroCardIndex + 1;
         h.updateRowWithHeroData(
                 getNextFreeSlotInHeroDb(),
-                m.getHeroName(selectedHeroCardIndex),
-                m.getHeroHitpoints(selectedHeroCardIndex),
-                m.getHeroClassOne(selectedHeroCardIndex),
-                m.getHeroClassTwo(selectedHeroCardIndex),
-                m.getHeroCosts(selectedHeroCardIndex),
-                m.getHeroImgRes(selectedHeroCardIndex),
-                m.getHpTotal(selectedHeroCardIndex),
+                m.getHeroName(i),
+                m.getHeroHitpoints(i),
+                m.getHeroClassOne(i),
+                m.getHeroClassTwo(i),
+                m.getHeroCosts(i),
+                m.getHeroImgRes(i),
+                m.getHpTotal(i),
                 -1,
                 0,
-                m.getHeroEvasion(selectedHeroCardIndex),
-                m.getBonusNumber(selectedHeroCardIndex)
+                m.getHeroEvasion(i),
+                m.getBonusNumber(i)
         );
+    }
+
+    private void refreshToolbarViews(){
+
+        if(selectedHeroCardIndex != -1) {
+            buyView.setTextColor(getColor(android.R.color.white));
+            tradeView.setTextColor(getColor(android.R.color.white));
+
+        }else{
+            buyView.setTextColor(Color.parseColor("#707070"));
+            tradeView.setTextColor(Color.parseColor("#707070"));
+        }
+
+        slotsView.setText(getUsedRowsHeroDb() + " / " + h.getTaskCount());
+        fortuneView.setText("$ " + prefsFortune.getLong(c.MY_POCKET, -1));
+    }
+
+    private void refillMerchDatabase(){
+        Log.e("UPDATE_MERCH_DATABASE", "updateMerchantDatabase, inserts: " + c.TOTAL_HEROES_MERCHANT);
+        List<Hero> heroList = new ArrayList<>();
+
+        for (int i = 0, id; i < c.TOTAL_HEROES_MERCHANT; i++) {
+            heroList.add(new Hero(this));
+            heroList.get(i).Initialize("Everywhere");
+
+            id = m.updateRowComplete(
+                    i + 1,
+                    heroList.get(i).getHeroName(),
+                    heroList.get(i).getHp(),
+                    heroList.get(i).getClassPrimary(),
+                    heroList.get(i).getClassSecondary(),
+                    heroList.get(i).getCosts(),
+                    heroList.get(i).getImageResource(),
+                    heroList.get(i).getEvasion(),
+                    heroList.get(i).getHpTotal(),
+                    heroList.get(i).getBonusNumber());
+
+            if (id < 0) Msg.msg(this, "error@insert of hero " + i + 1);
+        }
+    }
+
+    private void setNewMerchant(){
+        int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_ID, 0);
+
+        currentMerchantId = ++currentMerchantId % 4;
+
+        prefsMerchant.edit().putInt(c.MERCHANT_ID, currentMerchantId).apply();
+        merchantCardHolder = new MerchantCardHolder(this, currentMerchantId, getTimeToShow());
+
+        refillMerchDatabase();
+        for(int i = 0; i < cardList.size(); i++)
+            cardList.get(i).showCard();
+
+        selectedHeroCardIndex = -1;
+        refreshToolbarViews();
+    }
+
+    private long getNowInSeconds(){
+        return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+    }
+
+    private long getNewMerchLeaveDaytime(){
+        return ((Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) < 12) ? 12*60*60 : 24*60*60;
+    }
+
+    private long getNewMerchChangeDate(){
+
+        // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
+        long newFinishDate = getNewMerchLeaveDaytime();
+
+        long todayInSeconds = (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+
+        // neuer Abreise-Zeitpunkt des Händlers
+        return System.currentTimeMillis() + (newFinishDate - todayInSeconds)*1000;
+    }
+
+    private long getTimeToShow() {
+        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
+        long timeToShow, merchChangeDate = prefs.getLong("merchChangeDate", -1);
+
+        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+
+        if(System.currentTimeMillis() >= merchChangeDate){
+            timeToShow = (getNewMerchChangeDate() - getNowInSeconds()) * 1000;
+            prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
+            //setNewMerchant();
+
+        }else{
+            timeToShow = (merchChangeDate - getNowInSeconds() * 1000);
+        }
+
+        return (merchChangeDate*1000 - System.currentTimeMillis())/1000/60;
     }
 
 
@@ -133,6 +254,7 @@ public class MerchantSlaveActivity extends Activity {
         private int cardIndex;
         private TextView nameView, classesView, hpView, evasionView, costsView, constantHpView, constantEvasionView;
         private ImageView profileView;
+        private FrameLayout cardLayout;
 
         public HeroCardHolder(int index){
             cardIndex = index;
@@ -147,6 +269,15 @@ public class MerchantSlaveActivity extends Activity {
             constantEvasionView = (TextView) findViewById(this.getResId("tv_merch_slave_hero_evasion_static_" + cardIndex, "id"));
             costsView = (TextView) findViewById(this.getResId("tv_merch_slave_hero_costs_" + cardIndex, "id"));
             profileView = (ImageView) findViewById(this.getResId("iv_merch_slave_hero_profile_" + cardIndex, "id"));
+
+            cardLayout = (FrameLayout) findViewById(this.getResId("layout_merch_slave_card_" + cardIndex, "id"));
+            cardLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectedHeroCardIndex = (cardIndex != selectedHeroCardIndex) ? cardIndex : -1;
+                    refreshToolbarViews();
+                }
+            });
         }
 
         public void showCard(){
@@ -160,8 +291,15 @@ public class MerchantSlaveActivity extends Activity {
                 costsView.setText("$ " + m.getHeroCosts(cardIndex + 1));
                 profileView.setImageResource(this.getResId(m.getHeroImgRes(cardIndex + 1), "mipmap"));
 
+                nameView.setVisibility(View.VISIBLE);
+                classesView.setVisibility(View.VISIBLE);
+                hpView.setVisibility(View.VISIBLE);
+                evasionView.setVisibility(View.VISIBLE);
+                costsView.setVisibility(View.VISIBLE);
+                constantEvasionView.setVisibility(View.VISIBLE);
+                constantHpView.setVisibility(View.VISIBLE);
 
-                if(currentMoney >= m.getHeroCosts(cardIndex))
+                if(currentMoney >= m.getHeroCosts(cardIndex + 1))
                     costsView.setTextColor(getColor(android.R.color.holo_green_dark));
                 else
                     costsView.setTextColor(getColor(android.R.color.holo_red_dark));
@@ -185,6 +323,41 @@ public class MerchantSlaveActivity extends Activity {
 
     }
 
+    private class MerchantCardHolder{
+        private TextView timeView;
+        private ImageView profileView;
+        private int imageResource;
+        private long timeToLeave;
+
+        public MerchantCardHolder(Context con, int imgSuffix, long time){
+            imageResource = con.getResources().getIdentifier("merchant_" + imgSuffix, "mipmap", con.getPackageName());
+            timeToLeave = time;
+
+            timeView = (TextView) findViewById(R.id.tv_merch_slave_time_to_leave);
+            profileView = (ImageView) findViewById(R.id.iv_merch_slave_merch_profile);
+
+            timeView.setText(String.valueOf(timeToLeave));
+            profileView.setImageResource(imageResource);
+
+            profileView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setNewMerchant();
+                    for(int i = 0; i < cardList.size(); i++)
+                        cardList.get(i).showCard();
+                }
+            });
+
+            timeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + 1500).apply();
+                    refreshToolbarViews();
+                }
+            });
+        }
+    }
+
 
 
     /*
@@ -198,16 +371,37 @@ public class MerchantSlaveActivity extends Activity {
     private void iniValues(){
         h = new DBheroesAdapter(this);
         m = new DBmerchantHeroesAdapter(this);
-
         c = new ConstRes();
+
+        selectedHeroCardIndex = -1;
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            origin = b.getString(c.ORIGIN);
+        }else{
+            origin = "Default";
+        }
+
+        prefsFortune = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+        prefsMerchant = getSharedPreferences(c.SP_SLAVE_MERCHANT, Context.MODE_PRIVATE);
+        currentMoney = prefsFortune.getLong(c.MY_POCKET, -1);
+
         cardList = new ArrayList<>();
         for(int i = 0; i < m.getTaskCount(); i++){
             cardList.add(new HeroCardHolder(i));
             cardList.get(i).showCard();
         }
 
-        prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-        currentMoney = prefs.getLong(c.MY_POCKET, -1);
+        // Solange kein Händler nach dem 1. Start der App gekommen ist,
+        // wird als Default-Wert '0' gewählt (da SP leer ist)
+        merchantCardHolder = new MerchantCardHolder(this, prefsMerchant.getInt(c.MERCHANT_ID, 0), getTimeToShow());
+    }
+
+    private void iniViews(){
+        tradeView = (TextView) findViewById(R.id.tv_merch_slave_trade);
+        buyView = (TextView) findViewById(R.id.tv_merch_slave_buy);
+        slotsView = (TextView) findViewById(R.id.tv_merch_slave_slots);
+        fortuneView = (TextView) findViewById(R.id.tv_merch_slave_fortune);
     }
 
     private void hideSystemUI() {

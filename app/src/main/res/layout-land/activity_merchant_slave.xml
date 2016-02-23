@@ -31,6 +31,7 @@
                 app:cardElevation="10dp" >
 
                 <ImageView
+                    android:id="@+id/iv_merch_slave_merch_profile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@mipmap/merchant_0"
@@ -77,7 +78,7 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             style="@style/ButtonToolbar.BackButton"
-            android:id="@+id/tv_merch_slave_back_button"
+            android:id="@+id/iv_merch_slave_back_button"
             android:onClick="onClick" />
 
         <LinearLayout
@@ -101,6 +102,7 @@
                 app:cardUseCompatPadding="true">
 
                 <FrameLayout
+                    android:id="@+id/layout_merch_slave_card_0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -108,7 +110,7 @@
                         android:id="@+id/iv_merch_slave_hero_profile_0"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@mipmap/hero_dummy_soeldner"
+                        android:src="@mipmap/placeholder_dummy_0"
                         android:scaleType="centerCrop"/>
 
                     <ImageView
@@ -121,7 +123,8 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_gravity="bottom">
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -133,7 +136,8 @@
                             android:paddingBottom="3dp"
                             android:paddingLeft="15dp"
                             android:paddingEnd="10dp"
-                            android:id="@+id/tv_merch_slave_hero_name_0" />
+                            android:id="@+id/tv_merch_slave_hero_name_0"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -207,7 +211,7 @@
                             android:gravity="center_vertical|start"
                             android:fontFamily="sans-serif-light"
                             android:paddingLeft="15dp"
-                            android:textColor="@android:color/holo_green_dark"
+                            android:textColor="#ffffff"
                             android:textStyle="bold"
                             android:id="@+id/tv_merch_slave_hero_costs_0" />
 
@@ -227,6 +231,7 @@
                 app:cardUseCompatPadding="true">
 
                 <FrameLayout
+                    android:id="@+id/layout_merch_slave_card_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -234,7 +239,7 @@
                         android:id="@+id/iv_merch_slave_hero_profile_1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@mipmap/hero_dummy_monsterjaeger"
+                        android:src="@mipmap/placeholder_dummy_0"
                         android:scaleType="centerCrop"/>
 
                     <ImageView
@@ -247,7 +252,8 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_gravity="bottom">
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -259,7 +265,8 @@
                             android:paddingBottom="3dp"
                             android:paddingLeft="15dp"
                             android:paddingEnd="10dp"
-                            android:id="@+id/tv_merch_slave_hero_name_1" />
+                            android:id="@+id/tv_merch_slave_hero_name_1"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -333,7 +340,7 @@
                             android:gravity="center_vertical|start"
                             android:fontFamily="sans-serif-light"
                             android:paddingLeft="15dp"
-                            android:textColor="@android:color/holo_red_dark"
+                            android:textColor="#ffffff"
                             android:textStyle="bold"
                             android:id="@+id/tv_merch_slave_hero_costs_1" />
 
@@ -353,6 +360,7 @@
                 app:cardUseCompatPadding="true">
 
                 <FrameLayout
+                    android:id="@+id/layout_merch_slave_card_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -360,7 +368,7 @@
                         android:id="@+id/iv_merch_slave_hero_profile_2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@mipmap/hero_dummy_kneipenschlaeger"
+                        android:src="@mipmap/placeholder_dummy_0"
                         android:scaleType="centerCrop"/>
 
                     <ImageView
@@ -373,7 +381,8 @@
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_gravity="bottom">
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -385,7 +394,8 @@
                             android:paddingBottom="3dp"
                             android:paddingLeft="15dp"
                             android:paddingEnd="10dp"
-                            android:id="@+id/tv_merch_slave_hero_name_2" />
+                            android:id="@+id/tv_merch_slave_hero_name_2"
+                            android:textSize="16sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -459,7 +469,7 @@
                             android:gravity="center_vertical|start"
                             android:fontFamily="sans-serif-light"
                             android:paddingLeft="15dp"
-                            android:textColor="#337445"
+                            android:textColor="#ffffff"
                             android:textStyle="bold"
                             android:id="@+id/tv_merch_slave_hero_costs_2" />
 
@@ -483,7 +493,7 @@
             <TextView
                 style="@style/ButtonToolbar.Selectable"
                 android:text="Tauschen"
-                android:id="@+id/tv_merch_slave_to_hero_camp"
+                android:id="@+id/tv_merch_slave_trade"
                 android:onClick="onClick" />
 
             <TextView
