@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.thomas.voyage.BasicActivities.MerchantSlaveActivity">
+
+    <GridLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/standard_background">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:layout_rowWeight="6"
+            android:layout_columnWeight="1"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="10dp"
+            app:cardUseCompatPadding="true">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/merchant_0"
+                    android:scaleType="centerCrop"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_gravity="bottom"
+                    android:background="@drawable/gradient90"/>
+
+            </FrameLayout>
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_column="0"
+            android:layout_row="1"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:text="Zeit"
+            android:textColor="#9fffffff"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_column="0"
+            android:layout_row="2"
+            android:layout_rowWeight="4"
+            android:layout_columnWeight="1"
+            android:gravity="center_horizontal"
+            android:onClick="addMoneyToCurrentMoney"
+            android:text="ABREISE IN MINUTEN"
+            android:textColor="#9fffffff"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-light" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_column="0"
+            android:layout_row="3"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            style="@style/ButtonToolbar.BackButton" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_row="0"
+            android:layout_column="1"
+            android:layout_columnWeight="4"
+            android:layout_rowWeight="1"
+            android:layout_rowSpan="3"
+            android:paddingEnd="20dp"
+            android:paddingStart="20dp">
+
+            <android.support.v7.widget.CardView
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/hero_dummy_soeldner"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient90"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Name des Helden"
+                            android:gravity="bottom|start"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp"
+                            android:paddingEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Primärklasse &amp; Sekundärklasse"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="100 / 100"
+                            android:gravity="bottom|start"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="HITPOINTS"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:textStyle="bold"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="1000"
+                            android:gravity="bottom|start"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="EVASION"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:textStyle="bold"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="$ 1000"
+                            android:gravity="center_vertical|start"
+                            android:fontFamily="sans-serif-light"
+                            android:paddingLeft="15dp"
+                            android:textColor="#488ac8"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/hero_dummy_monsterjaeger"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient90"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Name des Helden"
+                            android:gravity="bottom|start"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp"
+                            android:paddingEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Primärklasse &amp; Sekundärklasse"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="100 / 100"
+                            android:gravity="bottom|start"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="HITPOINTS"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:textStyle="bold"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="1000"
+                            android:gravity="bottom|start"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="EVASION"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:textStyle="bold"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="$ 1000"
+                            android:gravity="center_vertical|start"
+                            android:fontFamily="sans-serif-light"
+                            android:paddingLeft="15dp"
+                            android:textColor="#488ac8"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="10dp"
+                app:cardUseCompatPadding="true">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@mipmap/hero_dummy_kneipenschlaeger"
+                        android:scaleType="centerCrop"/>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:background="@drawable/gradient90"/>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_gravity="bottom">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Name des Helden"
+                            android:gravity="bottom|start"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp"
+                            android:paddingEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Primärklasse &amp; Sekundärklasse"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="5dp"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingEnd="10dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="100 / 100"
+                            android:gravity="bottom|start"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="HITPOINTS"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:textStyle="bold"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="1000"
+                            android:gravity="bottom|start"
+                            android:fontFamily="sans-serif-light"
+                            android:textColor="@android:color/white"
+                            android:paddingBottom="3dp"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="EVASION"
+                            android:textSize="10sp"
+                            android:fontFamily="sans-serif-light"
+                            android:gravity="top|start"
+                            android:textStyle="bold"
+                            android:textColor="@color/material_grey_300"
+                            android:paddingLeft="15dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="$ 1000"
+                            android:gravity="center_vertical|start"
+                            android:fontFamily="sans-serif-light"
+                            android:paddingLeft="15dp"
+                            android:textColor="#488ac8"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                </FrameLayout>
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_column="1"
+            android:layout_row="3"
+            android:layout_columnWeight="4"
+            android:layout_rowWeight="1">
+
+            <TextView
+                style="@style/ButtonToolbar.Selectable"
+                android:text="Gilde" />
+
+            <TextView
+                style="@style/ButtonToolbar.Selectable"
+                android:text="Kaufen" />
+
+            <TextView
+                style="@style/ButtonToolbar"
+                android:text="X / Y" />
+
+            <TextView
+                style="@style/ButtonToolbar"
+                android:text="$ ..." />
+
+        </LinearLayout>
+
+    </GridLayout>
+
+</RelativeLayout>

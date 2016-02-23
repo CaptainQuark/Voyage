@@ -90,6 +90,9 @@
             android:name=".CombatActivities.CombatSplashActivity"
             android:label="@string/title_activity_combat_splash"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".BasicActivities.MerchantSlaveActivity"
+            android:label="@string/title_activity_merchant_slave"></activity>
     </application>
 
 </manifest>
