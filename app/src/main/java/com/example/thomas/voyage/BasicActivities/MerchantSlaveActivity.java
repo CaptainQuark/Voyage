@@ -1,5 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
@@ -20,8 +22,11 @@ public class MerchantSlaveActivity extends Activity {
 
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
+    private SharedPreferences prefs;
     private List<HeroCardHolder> cardList;
     private ConstRes c;
+    private long currentMoney;
+    private int selectedHeroCardIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,23 @@ public class MerchantSlaveActivity extends Activity {
 
 
 
-    // Code
+    public void onClick(View v){
+        switch (v.getId()){
+
+            case R.id.tv_merch_slave_back_button:
+
+                super.onBackPressed();
+                break;
+
+            case R.id.tv_merch_slave_buy:
+
+                if(getUsedRowsHeroDb() < h.getTaskCount()){
+                    if(currentMoney >= m.getHeroCosts(selectedHeroCardIndex)){
+                        copyHeroFromMerchToPlayerDb();
+                    }
+                }
+        }
+    }
 
 
 
@@ -53,7 +74,50 @@ public class MerchantSlaveActivity extends Activity {
 
 
 
-    // Code
+    public int getUsedRowsMerchantDb(){
+        int num = 0;
+
+        for(int i = 1; i <= m.getTaskCount(); i++){
+            if(m.getHeroName(i).equals(c.NOT_USED)) num++;
+        }
+
+        return num;
+    }
+
+    public int getUsedRowsHeroDb(){
+        int num = 0;
+
+        for(int i = 1; i <= h.getTaskCount(); i++){
+            if(h.getHeroName(i).equals(c.NOT_USED)) num++;
+        }
+
+        return num;
+    }
+
+    public int getNextFreeSlotInHeroDb(){
+        for(int i = 1; i <= h.getTaskCount(); i++){
+            if(h.getHeroName(i).equals(c.NOT_USED)) return i;
+        }
+
+        return -1;
+    }
+
+    public void copyHeroFromMerchToPlayerDb(){
+        h.updateRowWithHeroData(
+                getNextFreeSlotInHeroDb(),
+                m.getHeroName(selectedHeroCardIndex),
+                m.getHeroHitpoints(selectedHeroCardIndex),
+                m.getHeroClassOne(selectedHeroCardIndex),
+                m.getHeroClassTwo(selectedHeroCardIndex),
+                m.getHeroCosts(selectedHeroCardIndex),
+                m.getHeroImgRes(selectedHeroCardIndex),
+                m.getHpTotal(selectedHeroCardIndex),
+                -1,
+                0,
+                m.getHeroEvasion(selectedHeroCardIndex),
+                m.getBonusNumber(selectedHeroCardIndex)
+        );
+    }
 
 
 
@@ -94,7 +158,13 @@ public class MerchantSlaveActivity extends Activity {
                 hpView.setText(m.getHeroHitpoints(cardIndex + 1) + " / " + m.getHeroHitpoints(cardIndex + 1));
                 evasionView.setText(String.valueOf(m.getHeroEvasion(cardIndex + 1)));
                 costsView.setText("$ " + m.getHeroCosts(cardIndex + 1));
-                profileView.setImageResource( this.getResId( m.getHeroImgRes(cardIndex + 1), "mipmap"));
+                profileView.setImageResource(this.getResId(m.getHeroImgRes(cardIndex + 1), "mipmap"));
+
+
+                if(currentMoney >= m.getHeroCosts(cardIndex))
+                    costsView.setTextColor(getColor(android.R.color.holo_green_dark));
+                else
+                    costsView.setTextColor(getColor(android.R.color.holo_red_dark));
 
             }else{
 
@@ -135,6 +205,9 @@ public class MerchantSlaveActivity extends Activity {
             cardList.add(new HeroCardHolder(i));
             cardList.get(i).showCard();
         }
+
+        prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+        currentMoney = prefs.getLong(c.MY_POCKET, -1);
     }
 
     private void hideSystemUI() {

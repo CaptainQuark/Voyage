@@ -77,7 +77,8 @@
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             style="@style/ButtonToolbar.BackButton"
-            android:id="@+id/tv_merch_slave_back_button" />
+            android:id="@+id/tv_merch_slave_back_button"
+            android:onClick="onClick" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -206,7 +207,7 @@
                             android:gravity="center_vertical|start"
                             android:fontFamily="sans-serif-light"
                             android:paddingLeft="15dp"
-                            android:textColor="#337445"
+                            android:textColor="@android:color/holo_green_dark"
                             android:textStyle="bold"
                             android:id="@+id/tv_merch_slave_hero_costs_0" />
 
@@ -332,7 +333,7 @@
                             android:gravity="center_vertical|start"
                             android:fontFamily="sans-serif-light"
                             android:paddingLeft="15dp"
-                            android:textColor="#743336"
+                            android:textColor="@android:color/holo_red_dark"
                             android:textStyle="bold"
                             android:id="@+id/tv_merch_slave_hero_costs_1" />
 
@@ -482,17 +483,20 @@
             <TextView
                 style="@style/ButtonToolbar.Selectable"
                 android:text="Tauschen"
-                android:id="@+id/tv_merch_slave_to_hero_camp" />
+                android:id="@+id/tv_merch_slave_to_hero_camp"
+                android:onClick="onClick" />
 
             <TextView
                 style="@style/ButtonToolbar.Selectable"
                 android:text="Kaufen"
-                android:id="@+id/tv_merch_slave_buy" />
+                android:id="@+id/tv_merch_slave_buy"
+                android:onClick="onClick" />
 
             <TextView
-                style="@style/ButtonToolbar"
+                style="@style/ButtonToolbar.Selectable"
                 android:text="X / Y"
-                android:id="@+id/tv_merch_slave_slots" />
+                android:id="@+id/tv_merch_slave_slots"
+                android:onClick="onClick" />
 
             <TextView
                 style="@style/ButtonToolbar"
