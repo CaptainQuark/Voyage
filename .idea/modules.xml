@@ -5,7 +5,10 @@
       <module fileurl="file://$PROJECT_DIR$/Voyage.iml" filepath="$PROJECT_DIR$/Voyage.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/libs.iml" filepath="$PROJECT_DIR$/libs/libs.iml" />
       <module fileurl="file://$PROJECT_DIR$/libs/opencsv-3.7/opencsv-3.7.iml" filepath="$PROJECT_DIR$/libs/opencsv-3.7/opencsv-3.7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libs/opencsv-3.7/opencsv-3.7.iml" filepath="$PROJECT_DIR$/libs/opencsv-3.7/opencsv-3.7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/voyagewear/voyagewear.iml" filepath="$PROJECT_DIR$/voyagewear/voyagewear.iml" />
       <module fileurl="file://$PROJECT_DIR$/voyagewear/voyagewear.iml" filepath="$PROJECT_DIR$/voyagewear/voyagewear.iml" />
     </modules>
   </component>

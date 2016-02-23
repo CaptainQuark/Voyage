@@ -392,7 +392,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.classesView.setText(heroList.get(position).getClassPrimary() + " und " + heroList.get(position).getClassSecondary());
             holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpTotal());
             holder.costsView.setText(String.valueOf(heroList.get(position).getCosts()));
-            holder.evasionView.setText(String.valueOf(heroList.get(position).getEvasion()));
+            holder.evasionView.setText(String.valueOf((1000 - heroList.get(position).getEvasion())/10));
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
                 holder.rightPanelLayout.setBackgroundColor(Color.WHITE);

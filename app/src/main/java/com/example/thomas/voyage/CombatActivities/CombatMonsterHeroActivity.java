@@ -18,6 +18,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.BasicActivities.StartActivity;
+import com.example.thomas.voyage.ContainerClasses.HelperCSV;
 import com.example.thomas.voyage.ContainerClasses.IntentExtrasHelper;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Monster;
@@ -34,7 +35,8 @@ import java.util.Random;
 
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1;
+    private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1, heroCritChanceP = -1, getHeroCritChanceS = -1;
+    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1;
     private long heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
@@ -583,6 +585,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private void iniValues(){
 
+        HelperCSV helperCSV = new HelperCSV(this);
+        List<String[]> heroresourcetable = helperCSV.getDataList("heroresourcetable");
+
         ConstRes c = new ConstRes();
         h = new DBheroesAdapter(this);
         Bundle b = getIntent().getExtras();
@@ -615,6 +620,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         }
 
         heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+
+        /*for(int i = 0; i < heroresourcetable.size(); i++){
+            if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
+                heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[15]);
+            }
+        }*/
 
         scoreHelperList = new ArrayList<>();
         for(int i = 0; i < 20; i++){

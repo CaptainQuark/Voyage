@@ -69,7 +69,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         }else{
             battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
         }
-        evasionView.setText(String.valueOf(h.getEvasion(dbIndex)));
+        evasionView.setText(String.valueOf((1000 - h.getEvasion(dbIndex))/10) + " %");
         avgAttacksView.setText("?");
         levelView.setText("?");
 
