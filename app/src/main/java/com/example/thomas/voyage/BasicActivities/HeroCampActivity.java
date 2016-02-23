@@ -128,8 +128,11 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
 
     public void heroesCampBackButton(View v){
-        super.onBackPressed();
-        finish();
+        if(heroAllDataCardFragment == null){
+            super.onBackPressed();
+            finish();
+        }
+        else putFragmentToSleep();
     }
 
     public void campHealHero(View v){

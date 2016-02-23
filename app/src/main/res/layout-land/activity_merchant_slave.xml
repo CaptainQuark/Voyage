@@ -10,7 +10,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/standard_background">
+        android:background="?android:colorBackground">
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -26,9 +26,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="3dp"
-                app:cardElevation="10dp"
                 app:cardUseCompatPadding="true"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                app:cardElevation="10dp" >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
             android:layout_height="0dp"
             android:layout_column="0"
             android:layout_row="1"
-            android:layout_rowWeight=".5"
+            android:layout_rowWeight="1"
             android:layout_columnWeight="1"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
@@ -59,7 +59,7 @@
             android:layout_height="0dp"
             android:layout_column="0"
             android:layout_row="2"
-            android:layout_rowWeight="4.5"
+            android:layout_rowWeight="4"
             android:layout_columnWeight="1"
             android:gravity="center_horizontal"
             android:onClick="addMoneyToCurrentMoney"
@@ -481,7 +481,7 @@
 
             <TextView
                 style="@style/ButtonToolbar.Selectable"
-                android:text="Gilde"
+                android:text="Tauschen"
                 android:id="@+id/tv_merch_slave_to_hero_camp" />
 
             <TextView

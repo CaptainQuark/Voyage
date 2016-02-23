@@ -18,11 +18,11 @@
     </style>
 
     <style name="ButtonToolbar.Selectable">
-        <item name="android:background">@drawable/ripple_standard_background</item>
+        <item name="android:background">@drawable/ripple_app_background_standard</item>
     </style>
 
     <style name="ButtonToolbar.BackButton">
-        <item name="android:background">@drawable/ripple_standard_background</item>
+        <item name="android:background">@drawable/ripple_app_background_standard</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:src">@mipmap/ic_backbutton</item>
         <item name="android:tint">#ffffffff</item>
