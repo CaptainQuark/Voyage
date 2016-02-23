@@ -101,13 +101,9 @@ public class HeroPool {
             }
         }while(!type.equals(heroType) ||
                 rarity != Integer.parseInt(list.get(rand)[3]) ||
-                currentBiome.equals(list.get(rand)[10]) ||
-                currentBiome.equals(list.get(rand)[11]) ||
-                currentBiome.equals(list.get(rand)[11]));
-
-        //currentBiome.equals(list.get(rand)[12]) ||
-        //currentBiome.equals(list.get(rand)[13]) ||
-         //       currentBiome.equals(list.get(rand)[14]));
+                currentBiome.equals(list.get(rand)[12]) ||
+                currentBiome.equals(list.get(rand)[13]) ||
+                currentBiome.equals(list.get(rand)[14]));
 
         /*
 
@@ -166,14 +162,16 @@ public class HeroPool {
 
     public int setBonusNumber(){
         Random r = new Random();
+        int returnVal;
 
-        switch(heroClass){
+        switch(pClass){
             case "Waldläufer":
-                return r.nextInt(20) + 1;
+                returnVal =  r.nextInt(20) + 1;
+                break;
             default:
-                return -1;
+                returnVal = -1;
         }
-
+        return returnVal;
     }
 
     public String getImageResource() {

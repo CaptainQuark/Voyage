@@ -614,6 +614,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             Msg.msg(this, "ERROR @ iniValues : Bundle is null");
         }
 
+        heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+
         scoreHelperList = new ArrayList<>();
         for(int i = 0; i < 20; i++){
             scoreHelperList.add(new ThrowInputHelper(i));

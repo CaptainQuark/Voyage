@@ -3,6 +3,8 @@ package com.example.thomas.voyage.BasicActivities;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.thomas.voyage.R;
 
@@ -13,6 +15,47 @@ public class MerchantSlaveActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_slave);
         hideSystemUI();
+    }
+
+
+
+    /*
+
+    onClick-Methoden
+
+     */
+
+
+
+    // Code
+
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
+
+    // Code
+
+
+
+    /*
+
+    Klassen
+
+     */
+
+
+
+    private class HeroCard{
+        private TextView nameView, classesView, hpView, evasionView, costsView, constantHpView, constantEvasionView;
+        private ImageView profileView;
+
+       // public
     }
 
 

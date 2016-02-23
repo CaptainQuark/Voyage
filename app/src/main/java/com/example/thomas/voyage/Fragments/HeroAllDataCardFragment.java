@@ -57,7 +57,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         TextView evasionView = (TextView) rootView.findViewById(R.id.frag_textview_evasion);
         TextView avgAttacksView = (TextView) rootView.findViewById(R.id.frag_textview_avg_attacks_per_battle);
         TextView levelView = (TextView) rootView.findViewById(R.id.frag_textview_level);
-        //TextView descriptionView = (TextView) rootView.findViewById(R.id.frag_textview_hero_chronic);
+        TextView descriptionView = (TextView) rootView.findViewById(R.id.frag_textview_hero_chronic);
 
         profileView.setImageResource(getActivity().getResources().getIdentifier(h.getHeroImgRes(dbIndex), "mipmap", getActivity().getPackageName()));
         nameView.setText(h.getHeroName(dbIndex));
@@ -65,9 +65,9 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         hpView.setText(h.getHeroHitpoints(dbIndex) + " / " + h.getHeroHitpointsTotal(dbIndex));
         marketValueView.setText(String.valueOf(h.getHeroCosts(dbIndex)));
         if(h.getBonusNumber(dbIndex) == -1) {
-            battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
-        }else{
             battlesView.setText("N / A");
+        }else{
+            battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
         }
         evasionView.setText(String.valueOf(h.getEvasion(dbIndex)));
         avgAttacksView.setText("?");
@@ -86,7 +86,7 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
                 desc = desc + '\n' + '\n' + list.get(t)[15];
             }
         }
-        //descriptionView.setText(desc);
+        descriptionView.setText(desc);
 
         profileView.setOnClickListener(this);
 
