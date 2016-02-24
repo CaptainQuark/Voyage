@@ -98,7 +98,8 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@android:color/black">
 
                 <FrameLayout
                     android:id="@+id/layout_merch_slave_card_0"
@@ -108,14 +109,14 @@
                     <ImageView
                         android:id="@+id/iv_merch_slave_hero_profile_0"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="450dp"
                         android:src="@mipmap/placeholder_dummy_0"
                         android:scaleType="centerCrop"/>
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom"
+                        android:layout_height="450dp"
+                        android:layout_gravity="top"
                         android:background="@drawable/gradient90"/>
 
                     <LinearLayout
@@ -222,7 +223,8 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@android:color/black">
 
                 <FrameLayout
                     android:id="@+id/layout_merch_slave_card_1"
@@ -232,14 +234,15 @@
                     <ImageView
                         android:id="@+id/iv_merch_slave_hero_profile_1"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="450dp"
                         android:src="@mipmap/placeholder_dummy_0"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="top" />
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom"
+                        android:layout_height="450dp"
+                        android:layout_gravity="top|bottom"
                         android:background="@drawable/gradient90"/>
 
                     <LinearLayout
@@ -346,7 +349,8 @@
                 android:layout_height="match_parent"
                 app:cardCornerRadius="3dp"
                 app:cardElevation="10dp"
-                app:cardUseCompatPadding="true">
+                app:cardUseCompatPadding="true"
+                app:cardBackgroundColor="@android:color/black">
 
                 <FrameLayout
                     android:id="@+id/layout_merch_slave_card_2"
@@ -356,14 +360,15 @@
                     <ImageView
                         android:id="@+id/iv_merch_slave_hero_profile_2"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="450dp"
                         android:src="@mipmap/placeholder_dummy_0"
-                        android:scaleType="centerCrop"/>
+                        android:scaleType="centerCrop"
+                        android:layout_gravity="top"/>
 
                     <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="bottom"
+                        android:layout_height="450dp"
+                        android:layout_gravity="top|bottom"
                         android:background="@drawable/gradient90"/>
 
                     <LinearLayout
