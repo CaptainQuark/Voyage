@@ -15,8 +15,6 @@ import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.R;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 
@@ -55,8 +53,8 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         TextView marketValueView = (TextView) rootView.findViewById(R.id.frag_textview_sell_value);
         TextView battlesView = (TextView) rootView.findViewById(R.id.frag_textview_bonus_number);
         TextView evasionView = (TextView) rootView.findViewById(R.id.frag_textview_evasion);
-        TextView avgAttacksView = (TextView) rootView.findViewById(R.id.frag_textview_avg_attacks_per_battle);
-        TextView levelView = (TextView) rootView.findViewById(R.id.frag_textview_level);
+        TextView critChanceView = (TextView) rootView.findViewById(R.id.frag_textview_crit_chance);
+        TextView critMultiplierView = (TextView) rootView.findViewById(R.id.frag_textview_crit_multiplier);
         TextView descriptionView = (TextView) rootView.findViewById(R.id.frag_textview_hero_chronic);
 
         if(dbIndex != -1){
@@ -73,8 +71,6 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
                 battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
             }
             evasionView.setText(String.valueOf((1000 - h.getEvasion(dbIndex))/10) + " %");
-            avgAttacksView.setText("?");
-            levelView.setText("?");
 
             HelperCSV helperCSV = new HelperCSV(getContext());
             List<String[]> list = helperCSV.getDataList("heroresourcetable");
@@ -91,6 +87,34 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
             }
             descriptionView.setText(desc);
 
+            String critChance = "ERROR@HEROALLDATACARDFRAGMENT-critChanceView";
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroPrimaryClass(dbIndex))){
+                    critChance = String.valueOf((1000 - Integer.parseInt(list.get(i)[10]))/10) + " % / ";
+
+                }
+            }
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroSecondaryClass(dbIndex))){
+                    critChance = critChance + String.valueOf((1000 - Integer.parseInt(list.get(i)[10]))/10) + " %";
+                }
+            }
+            critChanceView.setText(critChance);
+
+            String critMultiplier = "ERROR@HEROALLDATACARDFRAGMENT-critMultiplierView";
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroPrimaryClass(dbIndex))){
+                    critMultiplier = String.valueOf(list.get(i)[11] + " / ");
+
+                }
+            }
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroSecondaryClass(dbIndex))){
+                    critMultiplier = critMultiplier + String.valueOf(list.get(i)[11]);
+                }
+            }
+            critMultiplierView.setText(critMultiplier);
+
         }else if(dbIndexMerch != -1){
             DBmerchantHeroesAdapter h = new DBmerchantHeroesAdapter(getActivity());
 
@@ -105,8 +129,6 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
                 battlesView.setText(String.valueOf(h.getBonusNumber(dbIndexMerch)));
             }
             evasionView.setText(String.valueOf((1000 - h.getHeroEvasion(dbIndexMerch))/10) + " %");
-            avgAttacksView.setText("?");
-            levelView.setText("?");
 
             HelperCSV helperCSV = new HelperCSV(getContext());
             List<String[]> list = helperCSV.getDataList("heroresourcetable");
@@ -122,6 +144,34 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
                 }
             }
             descriptionView.setText(desc);
+
+            String critChance = "ERROR@HEROALLDATACARDFRAGMENT-critChanceView";
+            for(int i = 0; i < list.size(); i++){
+                if (list.get(i)[2].equals(h.getHeroClassOne(dbIndexMerch))){
+                    critChance = String.valueOf((1000 - Integer.parseInt(list.get(i)[10]))/10) + " % / ";
+
+                }
+            }
+            for(int i = 0; i < list.size(); i++){
+                if (list.get(i)[2].equals(h.getHeroClassTwo(dbIndexMerch))){
+                    critChance = critChance + String.valueOf((1000 - Integer.parseInt(list.get(i)[10]))/10) + " %";
+                }
+            }
+            critChanceView.setText(critChance);
+
+            String critMultiplier = "ERROR@HEROALLDATACARDFRAGMENT-critMultiplierView";
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroClassOne(dbIndexMerch))){
+                    critMultiplier = String.valueOf(list.get(i)[11] + " / ");
+
+                }
+            }
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroClassTwo(dbIndexMerch))){
+                    critMultiplier = critMultiplier + String.valueOf(list.get(i)[11]);
+                }
+            }
+            critMultiplierView.setText(critMultiplier);
         }
 
         profileView.setOnClickListener(this);

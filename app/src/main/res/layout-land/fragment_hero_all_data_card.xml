@@ -131,7 +131,7 @@
                         android:gravity="bottom|center"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
-                        android:id="@+id/frag_textview_avg_attacks_per_battle"
+                        android:id="@+id/frag_textview_crit_chance"
                         android:textIsSelectable="false" />
 
                     <TextView
@@ -145,7 +145,7 @@
                         android:gravity="bottom|center"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
-                        android:id="@+id/frag_textview_level"
+                        android:id="@+id/frag_textview_crit_multiplier"
                         android:textIsSelectable="false" />
 
                     <TextView
@@ -211,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="o - Angriffe"
+                        android:text="Krit - Chance"
                         android:gravity="top|center"
                         android:paddingTop="10dp"
                         android:textStyle="italic"
@@ -225,7 +225,7 @@
                         android:layout_height="wrap_content"
                         android:layout_columnWeight="1"
                         android:layout_rowWeight="1"
-                        android:text="Rang"
+                        android:text="Multiplikator"
                         android:gravity="top|center"
                         android:paddingTop="10dp"
                         android:textStyle="italic"

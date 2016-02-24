@@ -382,7 +382,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 nameView.setText(m.getHeroName(cardIndex + 1));
                 classesView.setText(m.getHeroClassOne(cardIndex + 1) + " & " + m.getHeroClassTwo(cardIndex + 1));
                 hpView.setText(m.getHeroHitpoints(cardIndex + 1) + " / " + m.getHeroHitpoints(cardIndex + 1));
-                evasionView.setText(String.valueOf(m.getHeroEvasion(cardIndex + 1)));
+                evasionView.setText(String.valueOf((1000 - m.getHeroEvasion(cardIndex + 1))/10) + " %");
                 costsView.setText("$ " + m.getHeroCosts(cardIndex + 1));
                 profileView.setImageResource(this.getResId(m.getHeroImgRes(cardIndex + 1), "mipmap"));
 
