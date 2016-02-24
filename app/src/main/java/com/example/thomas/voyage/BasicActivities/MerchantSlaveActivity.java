@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -19,6 +20,7 @@ import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
+import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -155,8 +157,8 @@ public class MerchantSlaveActivity extends Activity {
     private void refreshToolbarViews(){
 
         if(selectedHeroCardIndex != -1) {
-            buyView.setTextColor(getColor(android.R.color.white));
-            tradeView.setTextColor(getColor(android.R.color.white));
+            if(m.getHeroCosts(selectedHeroCardIndex + 1) <= currentMoney) buyView.setTextColor(getColor(android.R.color.white));
+            if(getUsedRowsHeroDb() > 0) tradeView.setTextColor(getColor(android.R.color.white));
 
         }else{
             buyView.setTextColor(Color.parseColor("#707070"));
@@ -232,20 +234,52 @@ public class MerchantSlaveActivity extends Activity {
 
     private long getTimeToShow() {
         final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
-        long timeToShow, merchChangeDate = prefs.getLong("merchChangeDate", -1);
+        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
 
+        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
         if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
 
         if(System.currentTimeMillis() >= merchChangeDate){
-            timeToShow = (getNewMerchChangeDate() - getNowInSeconds()) * 1000;
+            timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
+            prefs.edit().putLong("merchToLeaveDaytime", merchToLeaveDaytime);
+            setNewMerchant();
             prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
-            //setNewMerchant();
+            prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+            return timeToShow/1000/60;
 
         }else{
-            timeToShow = (merchChangeDate - getNowInSeconds() * 1000);
+            timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+            return timeToShow/1000/60;
         }
 
-        return (merchChangeDate*1000 - System.currentTimeMillis())/1000/60;
+        /*
+        currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+        merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
+
+        final TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
+
+        timer = new CountDownTimer(timeToShow, 1000 / 60) {
+
+            public void onTick(long millisUntilFinished) {
+                merchantTimeView.setText("" + millisUntilFinished / 1000 / 60);
+            }
+
+            public void onFinish() {
+                prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
+                prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+                setNewMerchantProfile();
+                currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+                merchantProfile.setImageResource(ImgRes.res(getApplicationContext(), "merch", currentMerchantId + ""));
+
+                if (updateMerchantsDatabase(3) < 0)
+                    Log.e("ERROR @ ", "updateMerchantsDatabase");
+
+                showExpirationDate();
+            }
+        }.start();
+        */
+
     }
 
 
@@ -368,6 +402,7 @@ public class MerchantSlaveActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + 1500).apply();
+                    currentMoney = prefsFortune.getLong(c.MY_POCKET, -1);
                     refreshToolbarViews();
                 }
             });

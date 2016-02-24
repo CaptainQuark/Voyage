@@ -277,7 +277,7 @@ public class StartActivity extends Activity {
     }
 
     public void clickToHeroMerchant(View view) {
-        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+        Intent i = new Intent(getApplicationContext(), MerchantSlaveActivity.class);
         startActivity(i);
     }
 
