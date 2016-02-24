@@ -148,6 +148,7 @@ public class DBplayerItemsAdapter {
             Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 
@@ -174,6 +175,7 @@ public class DBplayerItemsAdapter {
             Msg.msg(c, "ERROR @ getitemDesMain with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 
@@ -200,6 +202,7 @@ public class DBplayerItemsAdapter {
             Msg.msg(c, "ERROR @ getItemDesAdd with exception: " + n);
         }
 
+        db.close();
         return value;
     }
 

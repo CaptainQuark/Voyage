@@ -44,7 +44,30 @@ public class CombatSplashActivity extends Activity {
 
         monster = new Monster(biome, String.valueOf(level), this);
         nameView.setText(monster.name);
-        desView.setText("Fürchtet sich (nicht) im Dunkeln...");
+
+        //Je nach biome wird die Länge in einer anderen Einheit angegeben
+        String unitSingural;
+        String unitPlural;
+        switch (biome){
+            case "Forest":
+            case "Placeholder_Mountains":
+                unitSingural = " Tag...";
+                unitPlural = " Tage...";
+                break;
+            case "Placeholder_Dungeon":
+                unitSingural = " Etage...";
+                unitPlural = " Etagen...";
+                break;
+            default:
+                unitSingural = "ERROR@: desView: Biome nicht erkannt";
+                unitPlural = "ERROR@: desView: Biome nicht erkannt";
+        }
+        if(length == 1){
+            desView.setText("Noch " + length + unitSingural);
+        }else{
+            desView.setText("Noch " + length + unitPlural);
+        }
+
 
         backgroundView.setImageResource(getEnvironmentBackgroundPicture());
         monsterView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
@@ -69,7 +92,7 @@ public class CombatSplashActivity extends Activity {
     public void onClick(View v){
         try {
             switch (v.getId()){
-                case R.id.textview_com_splah_start_combat:
+                case R.id.textview_com_splash_start_combat:
                     startActivity(IntentExtrasHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length));
                     finish();
             }

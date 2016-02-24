@@ -79,7 +79,7 @@
                     android:gravity="center"
                     android:textColor="@color/material_grey_900"
                     android:onClick="onClick"
-                    android:id="@+id/textview_com_splah_start_combat" />
+                    android:id="@+id/textview_com_splash_start_combat" />
 
             </android.support.v7.widget.CardView>
 
