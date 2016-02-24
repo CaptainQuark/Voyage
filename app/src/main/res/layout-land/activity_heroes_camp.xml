@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.example.thomas.voyage.BasicActivities.HeroCampActivity"
-    android:background="@color/standard_background">
+    android:background="?android:colorBackground">
 
     <FrameLayout
         android:layout_width="match_parent"

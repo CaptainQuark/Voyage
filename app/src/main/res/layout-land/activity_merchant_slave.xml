@@ -102,6 +102,7 @@
                 app:cardUseCompatPadding="true">
 
                 <FrameLayout
+                    android:foreground="#ae000000"
                     android:id="@+id/layout_merch_slave_card_0"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">

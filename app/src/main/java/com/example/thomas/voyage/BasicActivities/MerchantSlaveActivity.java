@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -67,7 +68,10 @@ public class MerchantSlaveActivity extends Activity {
                         m.updateRow(selectedHeroCardIndex + 1, c.NOT_USED);
                         cardList.get(selectedHeroCardIndex).showCard();
                         prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
+                        currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
                         selectedHeroCardIndex = -1;
+
+                        for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
 
                         refreshToolbarViews();
                     }
@@ -85,6 +89,10 @@ public class MerchantSlaveActivity extends Activity {
                     onBackPressed();
                     finish();
                 }
+
+                break;
+
+            default: Msg.msgShort(this, "ERROR @ onClick : switch : default called");
         }
     }
 
@@ -274,8 +282,13 @@ public class MerchantSlaveActivity extends Activity {
             cardLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectedHeroCardIndex = (cardIndex != selectedHeroCardIndex) ? cardIndex : -1;
-                    refreshToolbarViews();
+
+                    if(!m.getHeroName(cardIndex + 1).equals(c.NOT_USED)){
+                        selectedHeroCardIndex = (cardIndex != selectedHeroCardIndex) ? cardIndex : -1;
+                        refreshToolbarViews();
+                        for(int i = 0; i < cardList.size(); i++)
+                            cardList.get(i).showCard();
+                    }
                 }
             });
         }
@@ -315,6 +328,9 @@ public class MerchantSlaveActivity extends Activity {
                 constantHpView.setVisibility(View.GONE);
                 profileView.setImageResource(this.getResId("camp_0", "mipmap"));
             }
+
+            if(cardIndex == selectedHeroCardIndex || selectedHeroCardIndex == -1 || m.getHeroName(cardIndex+1).equals(c.NOT_USED)) cardLayout.setForeground(null);
+            else cardLayout.setForeground(new ColorDrawable(Color.parseColor("#ae000000")));
         }
 
         private int getResId(String resString, String resType){
