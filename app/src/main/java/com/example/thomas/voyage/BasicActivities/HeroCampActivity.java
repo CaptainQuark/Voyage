@@ -39,9 +39,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     private TextView slotsView, healView, toFightView, sellView, fortuneView;
     private List<Integer> dbIndexForHeroList;
     private HeroAllDataCardFragment heroAllDataCardFragment;
-
-    // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
-    // -> Scrollen in GridView bleibt flüssig
+    private ConstRes c;
     private List<Hero> heroList;
     private String origin = "";
     private boolean somethingSelected = true;
@@ -55,7 +53,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heroes_camp);
         hideSystemUI();
-        ConstRes c = new ConstRes();
+        c = new ConstRes();
 
         Bundle b = getIntent().getExtras();
         if(b != null){
@@ -64,6 +62,9 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
         h = new DBheroesAdapter(this);
         dbIndexForHeroList = new ArrayList<>();
+
+        // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
+        // -> Scrollen in GridView bleibt flüssig
         heroList = new ArrayList<>();
 
         for(int i = 1; i <= h.getTaskCount(); i++){
@@ -105,8 +106,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
         setSlotsView();
 
-        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-        fortuneView.setText("$ " + prefs.getLong("currentMoneyLong", -1));
+        SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
     }
 
     @Override
@@ -180,11 +181,11 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
             if(slotIndex >= 0 && slotIndex <= 2){
                 putFragmentToSleep();
-                SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+                SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
                 int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
-                long money = prefs.getLong("currentMoneyLong", -1) - costs;
+                long money = prefs.getLong(c.MY_POCKET, -1) - costs;
 
-                prefs.edit().putLong("currentMoneyLong", money).apply();
+                prefs.edit().putLong(c.MY_POCKET, money).apply();
                 fortuneView.setText("$ " + money);
 
                 /*
@@ -193,7 +194,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 */
 
                 if(money >= 0){
-                    prefs.edit().putLong("currentMoneyLong", money);
+                    prefs.edit().putLong(c.MY_POCKET, money);
                     Intent i = new Intent(this, HospitalActivity.class);
                     startActivity(i);
                     finish();
@@ -218,13 +219,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     finish();
                     break;
 
-                case "WorldMapQuickCombatActivity":
-                    i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
-                    passHeroesParameterstoNewActivity(i);
-                    startActivity(i);
-                    finish();
-                    break;
-
                 default:
                     i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
                     passHeroesParameterstoNewActivity(i);
@@ -241,8 +235,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void dismissHero(View v){
         if((lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1)){
 
-            SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-            long money = prefs.getLong("currentMoneyLong", -1) + h.getHeroCosts(lastSelectedHeroIndex+1);
+            SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+            long money = prefs.getLong(c.MY_POCKET, -1) + h.getHeroCosts(lastSelectedHeroIndex+1);
             fortuneView.setText("$ " + money);
 
             // Annahme: 'costs' wurde bereits nach Kauf des Helden abgewertet und entspricht jetzt dem akutellen Verkaufswert
@@ -293,9 +287,9 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             sellView.setTextColor(Color.WHITE);
             toFightView.setTextColor(Color.WHITE);
 
-            SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
+            SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
             float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
-            long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
+            long money = prefs.getLong(c.MY_POCKET, -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
 
             if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1))
                 healView.setTextColor(Color.parseColor("#707070"));
@@ -322,6 +316,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
             lastSelectedHeroIndex = -1;
             setToolbarViews();
+            heroAllDataCardFragment = null;
         }
     }
 
@@ -392,7 +387,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.classesView.setText(heroList.get(position).getClassPrimary() + " und " + heroList.get(position).getClassSecondary());
             holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpTotal());
             holder.costsView.setText(String.valueOf(heroList.get(position).getCosts()));
-            holder.evasionView.setText(String.valueOf((1000 - heroList.get(position).getEvasion())/10));
+            holder.evasionView.setText((1000 - heroList.get(position).getEvasion())/10 + " %");
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
                 holder.rightPanelLayout.setBackgroundColor(Color.WHITE);

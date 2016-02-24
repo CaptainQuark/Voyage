@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.thomas.voyage.ContainerClasses.HelperCSV;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
+import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.R;
 
 import org.w3c.dom.Text;
@@ -22,7 +23,7 @@ import java.util.List;
 public class HeroAllDataCardFragment extends Fragment implements View.OnClickListener{
 
     private onHeroAllDataCardListener mListener;
-    private int dbIndex;
+    private int dbIndex, dbIndexMerch;
 
     public HeroAllDataCardFragment() {
         // Required empty public constructor
@@ -34,7 +35,8 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
 
         if (getArguments() != null) {
             Bundle args = getArguments();
-            dbIndex = args.getInt("DB_INDEX");
+            dbIndex = args.getInt("DB_INDEX", -1);
+            dbIndexMerch = args.getInt("DB_INDEX_MERCH", -1);
         }
         else{
             Msg.msg(getActivity(), "ERROR  getArguments in Fragment");
@@ -45,8 +47,6 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_hero_all_data_card, container, false);
-
-        DBheroesAdapter h = new DBheroesAdapter(getActivity());
 
         ImageView profileView = (ImageView) rootView.findViewById(R.id.frag_imageview_hero_all_data_profile);
         TextView nameView = (TextView) rootView.findViewById(R.id.frag_textview_hero_name);
@@ -59,34 +59,70 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         TextView levelView = (TextView) rootView.findViewById(R.id.frag_textview_level);
         TextView descriptionView = (TextView) rootView.findViewById(R.id.frag_textview_hero_chronic);
 
-        profileView.setImageResource(getActivity().getResources().getIdentifier(h.getHeroImgRes(dbIndex), "mipmap", getActivity().getPackageName()));
-        nameView.setText(h.getHeroName(dbIndex));
-        classesView.setText(h.getHeroPrimaryClass(dbIndex) + " & " + h.getHeroSecondaryClass(dbIndex));
-        hpView.setText(h.getHeroHitpoints(dbIndex) + " / " + h.getHeroHitpointsTotal(dbIndex));
-        marketValueView.setText(String.valueOf(h.getHeroCosts(dbIndex)));
-        if(h.getBonusNumber(dbIndex) == -1) {
-            battlesView.setText("N / A");
-        }else{
-            battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
-        }
-        evasionView.setText(String.valueOf((1000 - h.getEvasion(dbIndex))/10) + " %");
-        avgAttacksView.setText("?");
-        levelView.setText("?");
+        if(dbIndex != -1){
+            DBheroesAdapter h = new DBheroesAdapter(getActivity());
 
-        HelperCSV helperCSV = new HelperCSV(getContext());
-        List<String[]> list = helperCSV.getDataList("heroresourcetable");
-        String desc = "ERROR@HEROALLDATACARDFRAGMENT-descriptionView";
-        for(int i = 0; i < list.size(); i++){
-            if(list.get(i)[2].equals(h.getHeroPrimaryClass(dbIndex))){
-                desc = list.get(i)[15];
+            profileView.setImageResource(getActivity().getResources().getIdentifier(h.getHeroImgRes(dbIndex), "mipmap", getActivity().getPackageName()));
+            nameView.setText(h.getHeroName(dbIndex));
+            classesView.setText(h.getHeroPrimaryClass(dbIndex) + " & " + h.getHeroSecondaryClass(dbIndex));
+            hpView.setText(h.getHeroHitpoints(dbIndex) + " / " + h.getHeroHitpointsTotal(dbIndex));
+            marketValueView.setText(String.valueOf(h.getHeroCosts(dbIndex)));
+            if(h.getBonusNumber(dbIndex) == -1) {
+                battlesView.setText("N / A");
+            }else{
+                battlesView.setText(String.valueOf(h.getBonusNumber(dbIndex)));
             }
-        }
-        for(int t = 0; t < list.size(); t++){
-            if(list.get(t)[2].equals(h.getHeroSecondaryClass(dbIndex))){
-                desc = desc + '\n' + '\n' + list.get(t)[15];
+            evasionView.setText(String.valueOf((1000 - h.getEvasion(dbIndex))/10) + " %");
+            avgAttacksView.setText("?");
+            levelView.setText("?");
+
+            HelperCSV helperCSV = new HelperCSV(getContext());
+            List<String[]> list = helperCSV.getDataList("heroresourcetable");
+            String desc = "ERROR@HEROALLDATACARDFRAGMENT-descriptionView";
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroPrimaryClass(dbIndex))){
+                    desc = list.get(i)[15];
+                }
             }
+            for(int t = 0; t < list.size(); t++){
+                if(list.get(t)[2].equals(h.getHeroSecondaryClass(dbIndex))){
+                    desc = desc + '\n' + '\n' + list.get(t)[15];
+                }
+            }
+            descriptionView.setText(desc);
+
+        }else if(dbIndexMerch != -1){
+            DBmerchantHeroesAdapter h = new DBmerchantHeroesAdapter(getActivity());
+
+            profileView.setImageResource(getActivity().getResources().getIdentifier(h.getHeroImgRes(dbIndexMerch), "mipmap", getActivity().getPackageName()));
+            nameView.setText(h.getHeroName(dbIndexMerch));
+            classesView.setText(h.getHeroClassOne(dbIndexMerch) + " & " + h.getHeroClassTwo(dbIndexMerch));
+            hpView.setText(h.getHeroHitpoints(dbIndexMerch) + " / " + h.getHeroHitpoints(dbIndexMerch));
+            marketValueView.setText(String.valueOf(h.getHeroCosts(dbIndexMerch)));
+            if(h.getBonusNumber(dbIndexMerch) == -1) {
+                battlesView.setText("N / A");
+            }else{
+                battlesView.setText(String.valueOf(h.getBonusNumber(dbIndexMerch)));
+            }
+            evasionView.setText(String.valueOf((1000 - h.getHeroEvasion(dbIndexMerch))/10) + " %");
+            avgAttacksView.setText("?");
+            levelView.setText("?");
+
+            HelperCSV helperCSV = new HelperCSV(getContext());
+            List<String[]> list = helperCSV.getDataList("heroresourcetable");
+            String desc = "ERROR@HEROALLDATACARDFRAGMENT-descriptionView";
+            for(int i = 0; i < list.size(); i++){
+                if(list.get(i)[2].equals(h.getHeroClassOne(dbIndexMerch))){
+                    desc = list.get(i)[15];
+                }
+            }
+            for(int t = 0; t < list.size(); t++){
+                if(list.get(t)[2].equals(h.getHeroClassTwo(dbIndexMerch))){
+                    desc = desc + '\n' + '\n' + list.get(t)[15];
+                }
+            }
+            descriptionView.setText(desc);
         }
-        descriptionView.setText(desc);
 
         profileView.setOnClickListener(this);
 

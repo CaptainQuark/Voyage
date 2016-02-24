@@ -1,5 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,6 +20,7 @@ import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
+import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 import com.example.thomas.voyage.ResClasses.ImgRes;
@@ -26,11 +29,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MerchantSlaveActivity extends Activity {
+public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener {
 
     private TextView tradeView, buyView, slotsView, fortuneView;
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
+    private HeroAllDataCardFragment heroAllDataCardFragment;
     private SharedPreferences prefsFortune, prefsMerchant;
     private List<HeroCardHolder> cardList;
     private MerchantCardHolder merchantCardHolder;
@@ -82,14 +86,18 @@ public class MerchantSlaveActivity extends Activity {
                 break;
 
             case R.id.iv_merch_slave_back_button:
-                if(origin.equals("HeroCampActivity")){
-                    Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-                    startActivity(i);
-                    finish();
+                if(heroAllDataCardFragment == null ){
+                    if(origin.equals("HeroCampActivity")){
+                        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        onBackPressed();
+                        finish();
+                    }
 
-                }else {
-                    onBackPressed();
-                    finish();
+                }else{
+                    putFragmentToSleep();
                 }
 
                 break;
@@ -286,6 +294,26 @@ public class MerchantSlaveActivity extends Activity {
 
     /*
 
+    Fragment-Listener
+
+     */
+
+
+
+    @Override
+    public void putFragmentToSleep() {
+        if(heroAllDataCardFragment != null){
+            getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
+            selectedHeroCardIndex = -1;
+            refreshToolbarViews();
+            heroAllDataCardFragment = null;
+        }
+    }
+
+
+
+    /*
+
     Klassen
 
      */
@@ -323,6 +351,26 @@ public class MerchantSlaveActivity extends Activity {
                         for(int i = 0; i < cardList.size(); i++)
                             cardList.get(i).showCard();
                     }
+                }
+            });
+
+            cardLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    heroAllDataCardFragment = new HeroAllDataCardFragment();
+                    selectedHeroCardIndex = cardIndex;
+                    Bundle b = new Bundle();
+                    b.putInt("DB_INDEX_MERCH", selectedHeroCardIndex + 1);
+
+                    heroAllDataCardFragment.setArguments(b);
+                    fragmentTransaction.add(R.id.layout_merch_slave_main, heroAllDataCardFragment);
+                    fragmentTransaction.commit();
+
+                    refreshToolbarViews();
+                    return true;
                 }
             });
         }

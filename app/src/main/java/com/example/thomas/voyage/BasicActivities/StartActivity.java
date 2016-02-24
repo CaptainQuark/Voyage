@@ -50,26 +50,8 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         hideSystemUI();
-
-        // Datenbankobjekte initialisieren
-        heroesHelper = new DBheroesAdapter(this);
-        merchantHelper = new DBmerchantHeroesAdapter(this);
-        itemPlayerHelper = new DBplayerItemsAdapter(this);
-        itemMerchantHelper = new DBmerchantItemsAdapter(this);
-        c = new ConstRes();
-
-        isAppFirstStarted();
-        isQuickCombatfirstStarted();
-
-        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
-        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
-        textViewItemMarket = (TextView) findViewById(R.id.start_textView_inventory_merchant);
-        textViewHospital = (TextView) findViewById(R.id.start_textView_hospital);
-
-        setSlaveMarketWindow();
-        setHeroesPartyWindow();
-        setItemMarketWindow();
-        setHospitalWindows();
+        iniValues();
+        iniViews();
     }
 
     @Override
@@ -81,6 +63,62 @@ public class StartActivity extends Activity {
         setHospitalWindows();
         hideSystemUI();
     }
+
+
+
+    /*
+
+    onClick-Methoden
+
+     */
+
+
+
+    public void clickToPrepareCombat(View view) {
+        Intent i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
+        startActivity(i);
+    }
+
+    public void clickToQuickCombat(View view){
+        Intent i = new Intent(getApplicationContext(), QuickCombatActivity.class);
+        startActivity(i);
+    }
+    public void toScreenSlideActivity(View view) {
+        Intent i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
+        startActivity(i);
+    }
+
+    public void clickToStats(View view) {
+        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+        startActivity(i);
+    }
+
+    public void clickToMerchantInventory(View view){
+        Intent i = new Intent(getApplicationContext(), MerchantInventoryActivity.class);
+        startActivity(i);
+    }
+
+    public void clickToCamp(View view){
+        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+        i.putExtra(c.ORIGIN, "StartActivity");
+        startActivity(i);
+    }
+
+    public void onClickHospital(View view){
+        Intent i = new Intent(getApplicationContext(), HospitalActivity.class);
+        i.putExtra(c.ORIGIN, "StartActivity");
+        startActivity(i);
+    }
+
+
+
+    /*
+
+    Funktionen
+
+     */
+
+
 
     public void isAppFirstStarted() {
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
@@ -281,39 +319,40 @@ public class StartActivity extends Activity {
         startActivity(i);
     }
 
-    public void clickToPrepareCombat(View view) {
-        Intent i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
-        startActivity(i);
+
+
+    /*
+
+    Funktionen zur Auslagerung von Initialisierungen
+
+     */
+
+
+
+    private void iniValues(){
+
+        // Datenbankobjekte initialisieren
+        heroesHelper = new DBheroesAdapter(this);
+        merchantHelper = new DBmerchantHeroesAdapter(this);
+        itemPlayerHelper = new DBplayerItemsAdapter(this);
+        itemMerchantHelper = new DBmerchantItemsAdapter(this);
+        c = new ConstRes();
+
+        isAppFirstStarted();
+        isQuickCombatfirstStarted();
     }
 
-    public void clickToQuickCombat(View view){
-        Intent i = new Intent(getApplicationContext(), QuickCombatActivity.class);
-        startActivity(i);
-    }
-    public void toScreenSlideActivity(View view) {
-        Intent i = new Intent(getApplicationContext(), WorldMapQuickCombatActivity.class);
-        startActivity(i);
-    }
+    private void iniViews(){
 
-    public void clickToStats(View view) {
-        Intent i = new Intent(getApplicationContext(), MerchantSlaveActivity.class);
-        startActivity(i);
-    }
+        textViewSlaveMarket = (TextView) findViewById(R.id.start_textView_slave_market);
+        textViewHeroesParty = (TextView) findViewById(R.id.start_textView_manage_heroes);
+        textViewItemMarket = (TextView) findViewById(R.id.start_textView_inventory_merchant);
+        textViewHospital = (TextView) findViewById(R.id.start_textView_hospital);
 
-    public void clickToMerchantInventory(View view){
-        Intent i = new Intent(getApplicationContext(), MerchantInventoryActivity.class);
-        startActivity(i);
-    }
-
-    public void clickToCamp(View view){
-        Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
-        i.putExtra(c.ORIGIN, "StartActivity");
-        startActivity(i);
-    }
-
-    public void onClickHospital(View view){
-        Intent i = new Intent(getApplicationContext(), HospitalActivity.class);
-        startActivity(i);
+        setSlaveMarketWindow();
+        setHeroesPartyWindow();
+        setItemMarketWindow();
+        setHospitalWindows();
     }
 
     private void hideSystemUI() {
@@ -329,28 +368,3 @@ public class StartActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 }
-
-
-
-/* CODE SNIPPETS 2 LEARN
-
-        //View viewLandscape = findViewById(R.id.activity_start);
-        //viewLandscape.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-
-        // zuerst der Activity eine id geben -> danach direkt ansprechbar
-        // in Manifest zur activity ".StartActivity" "android:screenOrientation="landscape"" einfügen -> immer Landschaftsmodus
-
-
-        heroesHelper = new DBheroesAdapter(this);
-
-        long id = heroesHelper.insertData("Thomas", 100, "eins", "zwei");
-
-        if (id < 0) Msg.msg(this, "error@insert");
-        else Msg.msg(this, "success@insert");
-
-        String data = heroesHelper.getAllData();
-        Msg.msg(this, data);
-        */
-
-
-
