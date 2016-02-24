@@ -451,6 +451,8 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 public void onClick(View v) {
                     prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + 1500).apply();
                     currentMoney = prefsFortune.getLong(c.MY_POCKET, -1);
+                    for(int i = 0; i < cardList.size(); i++)
+                        cardList.get(i).showCard();
                     refreshToolbarViews();
                 }
             });
