@@ -194,10 +194,10 @@ public class StartActivity extends Activity {
 
         Random rand = new Random();
         if(rand.nextInt(2) == 0){
-            if(timeToShow < 60) textViewSlaveMarket.setText("Hänlder geht in weniger als einer Stunde...");
-            else if(timeToShow < 20) textViewSlaveMarket.setText("Hänlder geht in wenigen Minuten...");
+            if(timeToShow < 60) textViewSlaveMarket.setText("Händler geht in weniger als einer Stunde...");
+            else if(timeToShow < 20) textViewSlaveMarket.setText("Händler geht in wenigen Minuten...");
             else if(timeToShow < 5) textViewSlaveMarket.setText("Schnell! Er verlässt bereits den Markt!");
-            else textViewSlaveMarket.setText("Hänlder geht in ca. " + timeToShow/60 + " Stunden");
+            else textViewSlaveMarket.setText("Händler geht in ca. " + timeToShow/60 + " Stunden");
 
         }else{
             if(countNewHeroes == 1) textViewSlaveMarket.setText("1 neuer Held");

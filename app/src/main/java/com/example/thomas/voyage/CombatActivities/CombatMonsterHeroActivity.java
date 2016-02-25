@@ -282,17 +282,13 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 Log.v("CombatMonster", "after combatVictory");
             }
 
-            scoreHelper.addOneThrow(tempScore);
-            //tempScoreHistory[throwCount] = tempScore;
-            //throwCount++;
+            //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg
+            if(scoreHelper.addOneThrow(tempScore)){
+                calculateMonsterDamage();
+            }
 
             if (monster.hp <= 0) {
-                for (int i = 0; i <= 2; i++) {
-                    monster.hp += scoreHelper.scoreByThrow[i];
-                    scoreHelper.scoreByThrow[i] = 0;
-                    scoreHelper.indexNow = 0;
-                    battleLogHandler("heroBust");
-                }
+                scoreHelper.bustReset();
                 //Überworfen!
             }
         }
@@ -309,6 +305,28 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             finish();
         }
         resetBonus();
+    }
+
+    private void calculateMonsterDamage(){
+        Random random = new Random();
+
+        //Trifft das Monster?
+        if (random.nextInt(1000) < monster.accuracy) {
+
+            //Kann der Held ausweichen?
+            if (random.nextInt(1000) < h.getHeroEvasion(heroDbIndex)) {
+                monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
+                h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
+                battleLogHandler("monsterAttack");
+            }
+            else{
+                battleLogHandler("heroEvasion");
+            }
+        }
+        else{
+            battleLogHandler("monsterMiss");
+        }
+        updateCharacterInfoViews();
     }
 
     private void battleLogHandler(String s){
@@ -482,58 +500,55 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     // und Speicherung der Wurf-Werte
     private class CountAndShowThrowsHelper {
         private List<TextView> scoreTextViewList;
-        private Integer[] scoreByThrow;
-        private int indexNow = 1, numAttacks = 0, numRounds = 1;
+        private Integer[] tempScoreHistory;
+        private int throwCount = 0, numAttacks = 0;
 
         public CountAndShowThrowsHelper(){
 
             scoreTextViewList = new ArrayList<>();
-            scoreByThrow = new Integer[3];
+            tempScoreHistory = new Integer[3];
 
             for(int i = 1; i <= 3; i++){
                 scoreTextViewList.add( (TextView) findViewById(getResources().getIdentifier("textview_com_throw_" + i, "id", getPackageName())));
-                scoreByThrow[i-1] = 0;
             }
         }
 
-        public void addOneThrow(int val){
-            scoreByThrow[indexNow] = val;
+        //Aktualisiert Score-Display und returned 'true' falls 3. Wurf
+        public boolean addOneThrow(int val){
+            tempScoreHistory[throwCount] = val;
 
             // Wenn nächster Wurf wieder an 1. Stelle, dann alle Felder ausgrauen
-            if(indexNow == 0 && numAttacks > 0) {
-                numRounds++;
-                for (int i = 0; i < 3; i++) {
+            if(throwCount == 0 && numAttacks > 0) {
+                for (int i = 0; i <= 2; i++) {
                     scoreTextViewList.get(i).setTextColor(Color.LTGRAY);
-                }
-
-                Random random = new Random();
-                if (random.nextInt(1000) < monster.accuracy) {
-                    //Trifft das Monster?
-                    if (random.nextInt(1000) < h.getHeroEvasion(heroDbIndex)) {
-                        //Kann der Held ausweichen?
-                        monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
-                        h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
-                        battleLogHandler("monsterAttack");
-                    }
-                    else{
-                        battleLogHandler("heroEvasion");
-                    }
-                }
-                else{
-                    battleLogHandler("monsterMiss");
                 }
             }
 
-            this.showLatestThrow();
-            updateCharacterInfoViews();
+            scoreTextViewList.get(throwCount).setText(String.valueOf(tempScoreHistory[throwCount]));
+            scoreTextViewList.get(throwCount).setTextColor(Color.BLACK);
 
+            throwCount++;
             numAttacks++;
-            indexNow = ++indexNow % 3;
+
+            if(throwCount == 3){
+                for (int i = 0; i <= 2; i++) {
+                    tempScoreHistory[i] = 0;
+                    throwCount = 0;
+                }
+                return true;
+            }
+            else return false;
         }
 
-        public void showLatestThrow(){
-            scoreTextViewList.get(indexNow).setText(String.valueOf(scoreByThrow[indexNow]));
-            scoreTextViewList.get(indexNow).setTextColor(Color.BLACK);
+        //Überworfen!
+        public void bustReset(){
+            for (int i = 0; i <= 2; i++) {
+                monster.hp += scoreHelper.tempScoreHistory[i];
+                tempScoreHistory[i] = 0;
+                throwCount = 0;
+                battleLogHandler("heroBust");
+                updateCharacterInfoViews();
+            }
         }
     }
 
