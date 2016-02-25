@@ -521,7 +521,7 @@
 
         <FrameLayout
             android:id="@+id/layout_merch_slave_merch_has_left"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_column="0"

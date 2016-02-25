@@ -73,20 +73,20 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                     if(currentMoney >= m.getHeroCosts(selectedHeroCardIndex + 1)){
                         copyHeroFromMerchToPlayerDb();
                         m.updateRow(selectedHeroCardIndex + 1, c.NOT_USED);
-                        cardList.get(selectedHeroCardIndex).showCard();
-                        prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
-                        currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
-                        selectedHeroCardIndex = -1;
 
-                        if(fragContainerLayout != null) fragContainerLayout.setVisibility(View.GONE);
+                        if(!checkIfMerchantLeaves()){
+                            cardList.get(selectedHeroCardIndex).showCard();
+                            prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
+                            currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
+                            selectedHeroCardIndex = -1;
 
-                        for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
+                            if(fragContainerLayout != null) fragContainerLayout.setVisibility(View.GONE);
 
-                        refreshToolbarViews();
+                            for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
+
+                            refreshToolbarViews();
+                        }
                     }
-
-                }else{
-                    checkIfMerchantLeaves();
                 }
 
                 break;
@@ -133,14 +133,35 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
 
 
 
-    private void checkIfMerchantLeaves(){
-        if(getUsedRowsHeroDb() == h.getTaskCount()){
-            FrameLayout merchLeftLayout = (FrameLayout) findViewById(R.id.layout_merch_slave_merch_has_left);
+    private boolean checkIfMerchantLeaves(){
+        if(getUsedRowsMerchDb() == 0){
+            final FrameLayout merchLeftLayout = (FrameLayout) findViewById(R.id.layout_merch_slave_merch_has_left);
             merchLeftLayout.setVisibility(View.VISIBLE);
 
             TextView tv = (TextView) findViewById(R.id.tv_merch_slave_has_left_des);
             tv.setText("Ein neuer Händler erscheint in " + getTimeToShow() + " Minuten...");
+
+            tv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    merchLeftLayout.setVisibility(View.GONE);
+                }
+            });
+
+            return true;
         }
+
+        return false;
+    }
+
+    private int getUsedRowsMerchDb(){
+        int num = 0;
+
+        for(int i = 1; i <= m.getTaskCount(); i++){
+            if(!m.getHeroName(i).equals(c.NOT_USED)) num++;
+        }
+
+        return num;
     }
 
     private int getUsedRowsHeroDb(){
