@@ -11,15 +11,12 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
-import com.example.thomas.voyage.CombatActivities.CombatSplashActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
 import com.example.thomas.voyage.ContainerClasses.Hero;
@@ -78,8 +75,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                         h.getHeroHitpoints(i),
                         h.getHeroHitpointsTotal(i),
                         h.getHeroCosts(i),
-                        h.getEvasion(i),
-                        h.getBonusNumber(i)
+                        h.getHeroEvasion(i),
+                        h.getHeroBonusNumber(i)
                 ));
             }
         }
@@ -189,7 +186,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 fortuneView.setText("$ " + money);
 
                 /*
-                float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
+                float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHeroHitpointsTotal() / heroList.get(lastSelectedHeroIndex).getHp());
                 long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
                 */
 
@@ -421,7 +418,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
                     heroAllDataCardFragment = new HeroAllDataCardFragment();
                     Bundle b = new Bundle();
-                    b.putInt("DB_INDEX", dbIndexForHeroList.get(lastSelectedHeroIndex));
+                    b.putInt("DB_INDEX_PLAYER", dbIndexForHeroList.get(lastSelectedHeroIndex));
 
                     heroAllDataCardFragment.setArguments(b);
                     fragmentTransaction.add(R.id.layout_camp_fragment_container, heroAllDataCardFragment);

@@ -167,15 +167,15 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 getNextFreeSlotInHeroDb(),
                 m.getHeroName(i),
                 m.getHeroHitpoints(i),
-                m.getHeroClassOne(i),
-                m.getHeroClassTwo(i),
+                m.getHeroPrimaryClass(i),
+                m.getHeroSecondaryClass(i),
                 m.getHeroCosts(i),
                 m.getHeroImgRes(i),
-                m.getHpTotal(i),
+                m.getHeroHitpointsTotal(i),
                 -1,
                 0,
                 m.getHeroEvasion(i),
-                m.getBonusNumber(i)
+                m.getHeroBonusNumber(i)
         );
     }
 
@@ -400,7 +400,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
             if(!m.getHeroName(cardIndex + 1).equals(c.NOT_USED)){
 
                 nameView.setText(m.getHeroName(cardIndex + 1));
-                classesView.setText(m.getHeroClassOne(cardIndex + 1) + " & " + m.getHeroClassTwo(cardIndex + 1));
+                classesView.setText(m.getHeroPrimaryClass(cardIndex + 1) + " & " + m.getHeroSecondaryClass(cardIndex + 1));
                 hpView.setText(m.getHeroHitpoints(cardIndex + 1) + " / " + m.getHeroHitpoints(cardIndex + 1));
                 evasionView.setText(String.valueOf((1000 - m.getHeroEvasion(cardIndex + 1))/10) + " %");
                 costsView.setText("$ " + m.getHeroCosts(cardIndex + 1));

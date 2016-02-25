@@ -195,7 +195,7 @@ public class DBmerchantHeroesAdapter {
         return value;
     }
 
-    public String getHeroClassOne(int id) {
+    public String getHeroPrimaryClass(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBmerchantHeroesHelper.CLASS_ONE};
@@ -211,14 +211,14 @@ public class DBmerchantHeroesAdapter {
             }
 
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getHeroClassOne with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroPrimaryClass with exception: " + n);
         }
 
         db.close();
         return value;
     }
 
-    public String getHeroClassTwo(int id) {
+    public String getHeroSecondaryClass(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBmerchantHeroesHelper.CLASS_TWO};
@@ -234,7 +234,7 @@ public class DBmerchantHeroesAdapter {
                 cursor.close();
             }
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getHeroClassTwo with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroSecondaryClass with exception: " + n);
         }
 
         db.close();
@@ -317,7 +317,7 @@ public class DBmerchantHeroesAdapter {
         return costs;
     }
 
-    public int getHpTotal(int id) {
+    public int getHeroHitpointsTotal(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBmerchantHeroesHelper.HP_TOTAL};
@@ -342,7 +342,7 @@ public class DBmerchantHeroesAdapter {
         return costs;
     }
 
-    public int getBonusNumber(int id) {
+    public int getHeroBonusNumber(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBmerchantHeroesHelper.BONUS_NUMBER};
@@ -359,7 +359,7 @@ public class DBmerchantHeroesAdapter {
             }
 
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getBonusNumber with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroBonusNumber with exception: " + n);
         }
 
         db.close();

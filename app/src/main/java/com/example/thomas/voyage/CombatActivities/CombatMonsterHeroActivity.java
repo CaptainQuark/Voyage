@@ -92,7 +92,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
                 heroAllDataCardFragment = new HeroAllDataCardFragment();
                 Bundle b = new Bundle();
-                b.putInt("DB_INDEX", heroDbIndex);
+                b.putInt("DB_INDEX_PLAYER", heroDbIndex);
 
                 heroAllDataCardFragment.setArguments(b);
                 fragmentTransaction.add(R.id.layout_com_main, heroAllDataCardFragment);
@@ -217,7 +217,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         switch(heroClassActive){
             case "Waldläufer":
-                if(scoreField == h.getBonusNumber(heroDbIndex)){
+                if(scoreField == h.getHeroBonusNumber(heroDbIndex)){
                     bonusScore += 5;
                 }
                 break;
@@ -484,7 +484,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 Random random = new Random();
                 if (random.nextInt(1000) < monster.accuracy) {
                     //Trifft das Monster?
-                    if (random.nextInt(1000) < h.getEvasion(heroDbIndex)) {
+                    if (random.nextInt(1000) < h.getHeroEvasion(heroDbIndex)) {
                         //Kann der Held ausweichen?
                         monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
                         h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
@@ -503,7 +503,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             updateCharacterInfoViews();
 
             numAttacks++;
-            indexNow = ++indexNow % 3;
+            indexNow = ++indexNow % 4;
         }
 
         public void showLatestThrow(){

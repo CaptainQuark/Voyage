@@ -219,7 +219,7 @@ public class DBheroesAdapter {
             }
 
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getHeroClassOne with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroPrimaryClass with exception: " + n);
         }
 
         db.close();
@@ -243,7 +243,7 @@ public class DBheroesAdapter {
             }
 
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getHeroClassTwo with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroSecondaryClass with exception: " + n);
         }
 
         db.close();
@@ -377,7 +377,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getEvasion(int id) {
+    public int getHeroEvasion(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.EVASION};
@@ -399,7 +399,7 @@ public class DBheroesAdapter {
                 cursor.close();
             }
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getEvasion with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroEvasion with exception: " + n);
         }
 
         db.close();
@@ -407,7 +407,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getBonusNumber(int id) {
+    public int getHeroBonusNumber(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.BONUS_NUMBER};
@@ -429,7 +429,7 @@ public class DBheroesAdapter {
                 cursor.close();
             }
         } catch (NullPointerException n) {
-            Msg.msg(context1, "ERROR @ getBonusNumber with exception: " + n);
+            Msg.msg(context1, "ERROR @ getHeroBonusNumber with exception: " + n);
         }
 
         db.close();
