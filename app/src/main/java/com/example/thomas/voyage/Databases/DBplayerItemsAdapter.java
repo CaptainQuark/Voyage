@@ -63,33 +63,31 @@ public class DBplayerItemsAdapter {
 
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         StringBuilder buffer = new StringBuilder();
 
         try {
-            int indexUID = cursor.getColumnIndex(DBplayerItemsHelper.UID);
-            int indexName = cursor.getColumnIndex(DBplayerItemsHelper.NAME);
-            int indexHitpoints = cursor.getColumnIndex(DBplayerItemsHelper.SKILLS_ID);
-            int indexClassOne = cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_MAIN);
-            int indexClassTwo = cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_ADD);
-            int indexCostsBuy = cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_BUY);
-            int indexCostsSpell = cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL);
-            int indexImage = cursor.getColumnIndex(DBplayerItemsHelper.RARITY);
+            if (cursor != null) {
+                cursor.moveToFirst();
+                int indexUID = cursor.getColumnIndex(DBplayerItemsHelper.UID);
+                int indexName = cursor.getColumnIndex(DBplayerItemsHelper.NAME);
+                int indexHitpoints = cursor.getColumnIndex(DBplayerItemsHelper.SKILLS_ID);
+                int indexClassOne = cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_MAIN);
+                int indexClassTwo = cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_ADD);
+                int indexCostsBuy = cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_BUY);
+                int indexCostsSpell = cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL);
+                int indexImage = cursor.getColumnIndex(DBplayerItemsHelper.RARITY);
 
-            int cid = cursor.getInt(indexUID);
-            String name = cursor.getString(indexName);
-            int hitpoints = cursor.getInt(indexHitpoints);
-            String classOne = cursor.getString(indexClassOne);
-            String classTwo = cursor.getString(indexClassTwo);
-            int costsBuy = cursor.getInt(indexCostsBuy);
-            int costsSpell = cursor.getInt(indexCostsSpell);
-            String image = cursor.getString(indexImage);
+                int cid = cursor.getInt(indexUID);
+                String name = cursor.getString(indexName);
+                int hitpoints = cursor.getInt(indexHitpoints);
+                String classOne = cursor.getString(indexClassOne);
+                String classTwo = cursor.getString(indexClassTwo);
+                int costsBuy = cursor.getInt(indexCostsBuy);
+                int costsSpell = cursor.getInt(indexCostsSpell);
+                String image = cursor.getString(indexImage);
 
-            buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costsBuy + "\n" + costsSpell + '\n' + image);
+                buffer.append(cid + " " + name + "\n" + hitpoints + "\n" + classOne + "\n" + classTwo + "\n" + costsBuy + "\n" + costsSpell + '\n' + image);
+            }
 
         } catch (SQLiteException e) {
 
@@ -107,16 +105,14 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.NAME};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.NAME));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.NAME));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemName with exception: " + n);
@@ -132,18 +128,15 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.SKILLS_ID};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.SKILLS_ID));
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.SKILLS_ID));
+                cursor.close();
+            }
 
-            cursor.close();
-            db.close();
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
         }
@@ -158,18 +151,14 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.DESCRIPTION_MAIN};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_MAIN));
-
-            cursor.close();
-            db.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_MAIN));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getitemDesMain with exception: " + n);
@@ -185,18 +174,14 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.DESCRIPTION_ADD};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_ADD));
-
-            cursor.close();
-            db.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.DESCRIPTION_ADD));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemDesAdd with exception: " + n);
@@ -212,16 +197,14 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.COSTS_TO_BUY};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_BUY));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_BUY));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemCosts with exception: " + n);
@@ -237,16 +220,14 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.COSTS_TO_SPELL};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         int value = -1;
 
         try {
-            value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL));
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getInt(cursor.getColumnIndex(DBplayerItemsHelper.COSTS_TO_SPELL));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
@@ -262,17 +243,14 @@ public class DBplayerItemsAdapter {
         String[] columns = {DBplayerItemsHelper.RARITY};
         String[] selectionArgs = {String.valueOf(id)};
         Cursor cursor = db.query(DBplayerItemsHelper.TABLE_NAME, columns, DBplayerItemsHelper.UID + "=?", selectionArgs, null, null, null);
-
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
         String value = "";
 
         try {
-            value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.RARITY));
-
-            cursor.close();
+            if (cursor != null) {
+                cursor.moveToFirst();
+                value = cursor.getString(cursor.getColumnIndex(DBplayerItemsHelper.RARITY));
+                cursor.close();
+            }
 
         } catch (NullPointerException n) {
             Msg.msg(c, "ERROR @ getItemSkillsId with exception: " + n);
