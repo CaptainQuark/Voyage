@@ -276,16 +276,17 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             battleLogHandler("heroAttack");
             monster.hp -= tempScore;
-            scoreHelper.addOneThrow(tempScore);
-            //tempScoreHistory[throwCount] = tempScore;
-            //throwCount++;
-
             if (monster.hp <= 0 && monster.checkout.equals("default")) {
                 Log.v("CombatMonster", "before combatVictory");
                 combatVictory();
                 Log.v("CombatMonster", "after combatVictory");
+            }
 
-            } else if (monster.hp <= 0) {
+            scoreHelper.addOneThrow(tempScore);
+            //tempScoreHistory[throwCount] = tempScore;
+            //throwCount++;
+
+            if (monster.hp <= 0) {
                 for (int i = 0; i <= 2; i++) {
                     monster.hp += scoreHelper.scoreByThrow[i];
                     scoreHelper.scoreByThrow[i] = 0;
