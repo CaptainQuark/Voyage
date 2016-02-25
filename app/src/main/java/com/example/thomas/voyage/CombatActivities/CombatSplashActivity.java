@@ -1,21 +1,26 @@
 package com.example.thomas.voyage.CombatActivities;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.thomas.voyage.ContainerClasses.IntentExtrasHelper;
+import com.example.thomas.voyage.ContainerClasses.PassParametersHelper;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
+import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
+import com.example.thomas.voyage.Fragments.MonsterAllDataFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
-public class CombatSplashActivity extends Activity {
+public class CombatSplashActivity extends Activity implements MonsterAllDataFragment.OnFragmentInteractionListener{
 
     private ConstRes c = new ConstRes();
     private Monster monster;
+    private MonsterAllDataFragment monsterAllDataFragment;
     private int heroIndex, length = 1;
     private String level = "", biome = "";
 
@@ -92,12 +97,44 @@ public class CombatSplashActivity extends Activity {
         try {
             switch (v.getId()){
                 case R.id.textview_com_splash_start_combat:
-                    startActivity(IntentExtrasHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length));
+                    startActivity(PassParametersHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length));
                     finish();
+                    break;
+
+                case R.id.imageview_com_splash_monster:
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                    monsterAllDataFragment = new MonsterAllDataFragment();
+                    monsterAllDataFragment.setArguments(PassParametersHelper.toMonsterAllDataFragment(new ConstRes(), monster));
+                    fragmentTransaction.add(R.id.layout_com_splash_main, monsterAllDataFragment);
+                    fragmentTransaction.commit();
+                    break;
+
+                default:
+                    Msg.msgShort(this, "ERROR @ onClick : switch : default called");
             }
 
         }catch (Exception e) {
             Msg.msg(this, String.valueOf(e));
+        }
+    }
+
+
+
+    /*
+
+    Fragment-Listener
+
+     */
+
+
+
+    @Override
+    public void putMonsterAllDataFragToSleep() {
+        if(monsterAllDataFragment != null){
+            getFragmentManager().beginTransaction().remove(monsterAllDataFragment).commit();
+            monsterAllDataFragment = null;
         }
     }
 

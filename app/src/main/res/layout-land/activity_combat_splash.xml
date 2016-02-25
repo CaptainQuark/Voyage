@@ -7,6 +7,7 @@
     tools:context="com.example.thomas.voyage.CombatActivities.CombatSplashActivity">
 
     <FrameLayout
+        android:id="@+id/layout_com_splash_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -45,6 +46,7 @@
                     android:scaleX="1"
                     android:layout_marginBottom="150dp"
                     android:layout_gravity="top|center_horizontal"
+                    android:onClick="onClick"
                     android:src="@mipmap/placeholder_dummy_0"/>
 
                 <TextView

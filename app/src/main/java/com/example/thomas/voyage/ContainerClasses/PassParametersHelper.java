@@ -2,12 +2,13 @@ package com.example.thomas.voyage.ContainerClasses;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
 import com.example.thomas.voyage.CombatActivities.CombatSplashActivity;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
-public class IntentExtrasHelper {
+public class PassParametersHelper {
 
     /*
 
@@ -33,12 +34,12 @@ public class IntentExtrasHelper {
 
         Intent i = new Intent(context, CombatMonsterHeroActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, heroIndex);
-        i.putExtra(c.CURRENT_BIOME,biome);
-        i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS,level);
+        i.putExtra(c.CURRENT_BIOME, biome);
+        i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, level);
         i.putExtra(c.COMBAT_LENGTH, length);
         i.putExtra(c.MONSTER_NAME, monster.name);
         i.putExtra(c.MONSTER_DESCRIPTION, "");
-        //i.putExtra(c.MONSTER_IMG_RES, "placeholder_dummy_0");
+        i.putExtra(c.MONSTER_IMG_RES, monster.imgRes);
         i.putExtra(c.MONSTER_CHECKOUT, monster.checkout);
         i.putExtra(c.MONSTER_IMG_RES, monster.imgRes);
         i.putExtra(c.MONSTER_HITPOINTS_NOW, monster.hp);
@@ -55,5 +56,31 @@ public class IntentExtrasHelper {
         i.putExtra(c.MONSTER_BOUNTY, monster.bounty);
 
         return i;
+    }
+
+    public static Bundle toMonsterAllDataFragment(ConstRes c, Monster monster){
+        Bundle b = new Bundle();
+
+        b.putString(c.COMBAT_LEVEL_OF_MONSTERS, monster.monsterDifficulty);
+        b.putString(c.MONSTER_IMG_RES, monster.imgRes);
+        b.putString(c.MONSTER_NAME, monster.name);
+        b.putString(c.MONSTER_DESCRIPTION, "");
+        b.putString(c.MONSTER_IMG_RES, "placeholder_dummy_0");
+        b.putString(c.MONSTER_CHECKOUT, monster.checkout);
+        b.putString(c.MONSTER_IMG_RES, monster.imgRes);
+        b.putInt(c.MONSTER_HITPOINTS_NOW, monster.hp);
+        b.putInt(c.MONSTER_HITPOINTS_TOTAL, monster.hpTotal);
+        b.putInt(c.MONSTER_DAMAGE_MIN, monster.dmgMin);
+        b.putInt(c.MONSTER_DAMAGE_MAX, monster.dmgMax);
+        b.putInt(c.MONSTER_BLOCK, monster.block);
+        b.putInt(c.MONSTER_EVASION, monster.evasion);
+        b.putInt(c.MONSTER_ACCURACY, monster.accuracy);
+        b.putInt(c.MONSTER_CRIT_CHANCE, monster.critChance);
+        b.putDouble(c.MONSTER_CRIT_MULTIPLIER, monster.critMultiplier);
+        b.putDouble(c.MONSTER_RESISTANCE, monster.resistance);
+        b.putString(c.MONSTER_DIFFICULTY, monster.monsterDifficulty);
+        b.putInt(c.MONSTER_BOUNTY, monster.bounty);
+
+        return b;
     }
 }

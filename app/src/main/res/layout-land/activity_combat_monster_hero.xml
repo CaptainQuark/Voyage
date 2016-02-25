@@ -97,7 +97,8 @@
                             android:layout_width="310dp"
                             android:layout_height="match_parent"
                             android:src="@mipmap/monster_dummy_0"
-                            android:scaleType="centerCrop" />
+                            android:scaleType="centerCrop"
+                            android:onClick="onClick"/>
 
                     </RelativeLayout>
 

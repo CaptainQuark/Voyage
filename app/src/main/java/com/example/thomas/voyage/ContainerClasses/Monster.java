@@ -29,7 +29,7 @@ public class Monster {
         monsterDifficulty = monsterPool.getDifficulty();
     }
 
-    public Monster(String tName, String check, String imgRes, int eva, int acc, int crit, int tHp, int tHpTotal, int tDmgMin, int tDmgMax, int block, double resistance, double critMultiplier){
+    public Monster(String tName, String check, String imgRes, int eva, int acc, int crit, int tHp, int tHpTotal, int tDmgMin, int tDmgMax, int block, double resistance, double critMultiplier, String diff){
         name = tName;
         checkout = check;
         this.imgRes = imgRes;
@@ -43,5 +43,6 @@ public class Monster {
         this.block = block;
         this.resistance = resistance;
         this.critMultiplier = critMultiplier;
+        monsterDifficulty = diff;
     }
 }

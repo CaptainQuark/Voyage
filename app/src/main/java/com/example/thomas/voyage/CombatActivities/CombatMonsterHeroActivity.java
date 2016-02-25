@@ -19,13 +19,14 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.HelperCSV;
-import com.example.thomas.voyage.ContainerClasses.IntentExtrasHelper;
+import com.example.thomas.voyage.ContainerClasses.PassParametersHelper;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
+import com.example.thomas.voyage.Fragments.MonsterAllDataFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
 
@@ -33,7 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener{
+public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener,
+        MonsterAllDataFragment.OnFragmentInteractionListener{
 
     private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1, heroCritChanceP = -1, getHeroCritChanceS = -1;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1;
@@ -44,6 +46,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private DBplayerItemsAdapter itemHelper;
     private CountAndShowThrowsHelper scoreHelper;
     private HeroAllDataCardFragment heroAllDataCardFragment;
+    private MonsterAllDataFragment monsterAllDataFragment;
     private List<ThrowInputHelper> scoreHelperList;
     private List<Item> playerItemList;
     private List<String> logList;
@@ -118,6 +121,19 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
                 lastClassView = secTempView;
                 break;
+
+            case R.id.imageview_com_monster_profile:
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                monsterAllDataFragment = new MonsterAllDataFragment();
+                monsterAllDataFragment.setArguments(PassParametersHelper.toMonsterAllDataFragment(new ConstRes(), monster));
+                ft.add(R.id.layout_com_main, monsterAllDataFragment);
+                ft.commit();
+                break;
+
+            default:
+                Msg.msgShort(this, "ERROR @ onClick : switch : default called");
         }
     }
 
@@ -345,11 +361,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         // wenn noch nicht letztes Monster erreicht, eröffne neuen Kampf
         if(b.getInt(c.COMBAT_LENGTH, 1) > 1){
 
-            // Mit 'IntentExtrasHelper' werden Werte-Übergaben an Intent
+            // Mit 'PassParametersHelper' werden Werte-Übergaben an Intent
             // standardisiert - keine Kopierfehler, weniger Code, leichter zu verstehen
-            startActivity(IntentExtrasHelper.toCombatSplash(
+            startActivity(PassParametersHelper.toCombatSplash(
                     this, new ConstRes(), heroDbIndex, b.getString(c.CURRENT_BIOME, "Forest"),
-                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"),  b.getInt(c.COMBAT_LENGTH, 1) - 1));
+                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"), b.getInt(c.COMBAT_LENGTH, 1) - 1));
             finish();
 
         }else{
@@ -410,6 +426,14 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     public void putFragmentToSleep() {
         if(heroAllDataCardFragment != null){
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
+        }
+    }
+
+    @Override
+    public void putMonsterAllDataFragToSleep() {
+        if(monsterAllDataFragment != null){
+            getFragmentManager().beginTransaction().remove(monsterAllDataFragment).commit();
+            monsterAllDataFragment = null;
         }
     }
 
@@ -503,7 +527,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             updateCharacterInfoViews();
 
             numAttacks++;
-            indexNow = ++indexNow % 4;
+            indexNow = ++indexNow % 3;
         }
 
         public void showLatestThrow(){
@@ -612,7 +636,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getInt(c.MONSTER_DAMAGE_MAX),
                     b.getInt(c.MONSTER_BLOCK),
                     b.getDouble(c.MONSTER_RESISTANCE),
-                    b.getDouble(c.MONSTER_CRIT_MULTIPLIER)
+                    b.getDouble(c.MONSTER_CRIT_MULTIPLIER),
+                    b.getString(c.MONSTER_DIFFICULTY)
             );
 
         }else{
