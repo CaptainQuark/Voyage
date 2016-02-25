@@ -50,61 +50,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_heroes_camp);
         hideSystemUI();
-        c = new ConstRes();
-
-        Bundle b = getIntent().getExtras();
-        if(b != null){
-            origin = b.getString(c.ORIGIN, "StartActivity");
-        }
-
-        h = new DBheroesAdapter(this);
-        dbIndexForHeroList = new ArrayList<>();
-
-        // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
-        // -> Scrollen in GridView bleibt flüssig
-        heroList = new ArrayList<>();
-
-        for(int i = 1; i <= h.getTaskCount(); i++){
-            if(!h.getHeroName(i).equals(c.NOT_USED)){
-                dbIndexForHeroList.add(i);
-                heroList.add(new Hero(
-                        h.getHeroName(i),
-                        h.getHeroPrimaryClass(i),
-                        h.getHeroSecondaryClass(i),
-                        h.getHeroImgRes(i),
-                        h.getHeroHitpoints(i),
-                        h.getHeroHitpointsTotal(i),
-                        h.getHeroCosts(i),
-                        h.getHeroEvasion(i),
-                        h.getHeroBonusNumber(i)
-                ));
-            }
-        }
-
-        heroGridView = (GridView) findViewById(R.id.heroes_camp_gridview);
-        heroGridView.setAdapter(new HeroImagesAdapter(this));
-/*
-        heroGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-
-                somethingSelected = lastSelectedHeroIndex != position;
-                lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
-
-                setToolbarViews();
-                heroGridView.invalidateViews();
-            }
-        });
-*/
-        slotsView = (TextView) findViewById(R.id.textview_camp_slots);
-        healView = (TextView) findViewById(R.id.textview_camp_heal_hero);
-        toFightView = (TextView) findViewById(R.id.textview_camp_to_fight);
-        sellView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
-        fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
-        setSlotsView();
-
-        SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
+        iniValues();
+        iniViews();
     }
 
     @Override
@@ -463,6 +410,58 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
      */
 
 
+
+    private void iniValues(){
+        c = new ConstRes();
+
+        Bundle b = getIntent().getExtras();
+        if(b != null){
+            origin = b.getString(c.ORIGIN, "StartActivity");
+        }
+
+        h = new DBheroesAdapter(this);
+        dbIndexForHeroList = new ArrayList<>();
+
+        // 'heroList' wird erstellt, um Datenbank-Einträge zwischen zu speichern
+        // -> Scrollen in GridView bleibt flüssig
+        heroList = new ArrayList<>();
+
+        for(int i = 1; i <= h.getTaskCount(); i++){
+            if(!h.getHeroName(i).equals(c.NOT_USED)){
+                dbIndexForHeroList.add(i);
+                heroList.add(new Hero(
+                        h.getHeroName(i),
+                        h.getHeroPrimaryClass(i),
+                        h.getHeroSecondaryClass(i),
+                        h.getHeroImgRes(i),
+                        h.getHeroHitpoints(i),
+                        h.getHeroHitpointsTotal(i),
+                        h.getHeroCosts(i),
+                        h.getHeroEvasion(i),
+                        h.getHeroBonusNumber(i)
+                ));
+            }
+        }
+    }
+
+    private void iniViews(){
+        heroGridView = (GridView) findViewById(R.id.heroes_camp_gridview);
+        heroGridView.setAdapter(new HeroImagesAdapter(this));
+
+        //somethingSelected = lastSelectedHeroIndex != position;
+        //lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
+
+        slotsView = (TextView) findViewById(R.id.textview_camp_slots);
+        healView = (TextView) findViewById(R.id.textview_camp_heal_hero);
+        toFightView = (TextView) findViewById(R.id.textview_camp_to_fight);
+        sellView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
+        fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
+
+        SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+
+        setSlotsView();
+        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
+    }
 
     private void hideSystemUI() {
         // Set the IMMERSIVE flag.

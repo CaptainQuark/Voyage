@@ -291,6 +291,10 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
             setNewMerchant();
             prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
             prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+            final FrameLayout merchLeftLayout = (FrameLayout) findViewById(R.id.layout_merch_slave_merch_has_left);
+            merchLeftLayout.setVisibility(View.GONE);
+
             return timeToShow/1000/60;
 
         }else{

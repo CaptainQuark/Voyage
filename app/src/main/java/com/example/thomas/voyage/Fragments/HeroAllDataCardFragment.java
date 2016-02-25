@@ -2,6 +2,7 @@ package com.example.thomas.voyage.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,10 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
 
     public HeroAllDataCardFragment() {
         // Required empty public constructor
+    }
+
+    public static HeroAllDataCardFragment newInstance() {
+        return new HeroAllDataCardFragment();
     }
 
     @Override
@@ -125,12 +130,12 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            mListener = (onHeroAllDataCardListener) activity;
+            mListener = (onHeroAllDataCardListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
+            throw new ClassCastException(context.toString()
                     + " must implement onHeroAllDataInteractionListener");
         }
     }
