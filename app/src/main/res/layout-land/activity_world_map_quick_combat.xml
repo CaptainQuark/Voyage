@@ -187,16 +187,15 @@
                 <TextView
                     android:id="@+id/worldmap_textView_go_in_combat"
                     android:visibility="invisible"
-                    android:layout_width="200dp"
-                    android:layout_height="50dp"
+                    android:layout_width="300dp"
+                    android:layout_height="100dp"
                     android:text="AUF IN DIE SCHLACHT"
                     android:gravity="center"
                     android:textStyle="italic"
                     android:background="@drawable/ripple_go_in_combat"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_margin="20dp"
                     android:onClick="goInCombat" />
 
             </RelativeLayout>

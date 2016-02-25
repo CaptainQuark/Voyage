@@ -39,7 +39,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
     private ConstRes c = new ConstRes();
     private int length;
     private String heroName = "", difficulty;
-    private long index = -1;
+    private int index = -1;
     private boolean firstCheck = false, secondCheck = false;
 
 
@@ -55,7 +55,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
         Bundle b = getIntent().getExtras();
         if(b != null){
-            index = b.getLong(c.HERO_DATABASE_INDEX);
+            index = b.getInt(c.HERO_DATABASE_INDEX);
             Log.v("INDEX", "index : " + index);
 
             if(index != -1){

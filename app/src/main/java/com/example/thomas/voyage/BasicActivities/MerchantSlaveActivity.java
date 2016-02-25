@@ -9,11 +9,11 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.Activity;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.thomas.voyage.ContainerClasses.Hero;
@@ -23,7 +23,6 @@ import com.example.thomas.voyage.Databases.DBmerchantHeroesAdapter;
 import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
-import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +30,7 @@ import java.util.List;
 
 public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener {
 
+    private RelativeLayout fragContainerLayout;
     private TextView tradeView, buyView, slotsView, fortuneView;
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
@@ -50,6 +50,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
         hideSystemUI();
         iniValues();
         iniViews();
+        checkIfMerchantLeaves();
 
         refreshToolbarViews();
     }
@@ -77,10 +78,15 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                         currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
                         selectedHeroCardIndex = -1;
 
+                        if(fragContainerLayout != null) fragContainerLayout.setVisibility(View.GONE);
+
                         for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
 
                         refreshToolbarViews();
                     }
+
+                }else{
+                    checkIfMerchantLeaves();
                 }
 
                 break;
@@ -102,6 +108,17 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
 
                 break;
 
+            case R.id.tv_merch_slave_slots:
+                Intent i = new Intent(getApplicationContext(), HeroCampActivity.class);
+                startActivity(i);
+                finish();
+                break;
+
+            case R.id.iv_merch_slave_has_left_back_button:
+                super.onBackPressed();
+                finish();
+                break;
+
             default: Msg.msgShort(this, "ERROR @ onClick : switch : default called");
         }
     }
@@ -116,14 +133,14 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
 
 
 
-    private int getUsedRowsMerchantDb(){
-        int num = 0;
+    private void checkIfMerchantLeaves(){
+        if(getUsedRowsHeroDb() == h.getTaskCount()){
+            FrameLayout merchLeftLayout = (FrameLayout) findViewById(R.id.layout_merch_slave_merch_has_left);
+            merchLeftLayout.setVisibility(View.VISIBLE);
 
-        for(int i = 1; i <= m.getTaskCount(); i++){
-            if(m.getHeroName(i).equals(c.NOT_USED)) num++;
+            TextView tv = (TextView) findViewById(R.id.tv_merch_slave_has_left_des);
+            tv.setText("Ein neuer Händler erscheint in " + getTimeToShow() + " Minuten...");
         }
-
-        return num;
     }
 
     private int getUsedRowsHeroDb(){
@@ -304,6 +321,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     public void putFragmentToSleep() {
         if(heroAllDataCardFragment != null){
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
+            fragContainerLayout.setVisibility(View.GONE);
             selectedHeroCardIndex = -1;
             refreshToolbarViews();
             heroAllDataCardFragment = null;
@@ -365,8 +383,10 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                     Bundle b = new Bundle();
                     b.putInt("DB_INDEX_MERCH", selectedHeroCardIndex + 1);
 
+                    fragContainerLayout.setVisibility(View.VISIBLE);
+
                     heroAllDataCardFragment.setArguments(b);
-                    fragmentTransaction.add(R.id.layout_merch_slave_main, heroAllDataCardFragment);
+                    fragmentTransaction.add(R.id.layout_merch_slave_frag_container, heroAllDataCardFragment);
                     fragmentTransaction.commit();
 
                     refreshToolbarViews();
@@ -503,6 +523,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
         buyView = (TextView) findViewById(R.id.tv_merch_slave_buy);
         slotsView = (TextView) findViewById(R.id.tv_merch_slave_slots);
         fortuneView = (TextView) findViewById(R.id.tv_merch_slave_fortune);
+        fragContainerLayout = (RelativeLayout) findViewById(R.id.layout_merch_slave_frag_container);
     }
 
     private void hideSystemUI() {

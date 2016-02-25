@@ -4,18 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.example.thomas.voyage.BasicActivities.MerchantSlaveActivity"
-    android:id="@+id/layout_merch_slave_main">
+    tools:context="com.example.thomas.voyage.BasicActivities.MerchantSlaveActivity">
 
     <GridLayout
+        android:id="@+id/layout_merch_slave_gridlayout_main"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground">
 
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_column="0"
+            android:layout_row="0"
             android:layout_rowWeight="6"
             android:layout_columnWeight="1"
             android:paddingTop="30dp"
@@ -503,6 +506,61 @@
                 android:id="@+id/tv_merch_slave_fortune" />
 
         </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/layout_merch_slave_frag_container"
+            android:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="3"/>
+
+        <FrameLayout
+            android:id="@+id/layout_merch_slave_merch_has_left"
+            android:visibility="visible"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_column="0"
+            android:layout_row="0"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:layout_columnSpan="2"
+            android:layout_rowSpan="4">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/market_dummy_0"
+                android:scaleType="centerCrop"
+                android:tint="#98000000" />
+
+            <TextView
+                android:id="@+id/tv_merch_slave_has_left_des"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Ein neuer Händler erscheint in ... Minuten"
+                android:textSize="30sp"
+                android:textColor="@android:color/white"
+                android:fontFamily="sans-serif-light"
+                android:textStyle="italic"/>
+
+            <ImageView
+                android:id="@+id/iv_merch_slave_has_left_back_button"
+                android:onClick="onClick"
+                android:clickable="false"
+                android:layout_gravity="center_horizontal|bottom"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_backbutton"
+                android:tint="#ffffff" />
+
+        </FrameLayout>
 
     </GridLayout>
 

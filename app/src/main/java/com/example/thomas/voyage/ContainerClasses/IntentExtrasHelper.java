@@ -19,9 +19,7 @@ public class IntentExtrasHelper {
 
      */
 
-    private ConstRes c = new ConstRes();
-
-    public static Intent toCombatSplash(Context context, ConstRes c, long heroDbIndex, String biome, String level, int length){
+    public static Intent toCombatSplash(Context context, ConstRes c, int heroDbIndex, String biome, String level, int length){
         Intent i = new Intent(context, CombatSplashActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
         i.putExtra(c.CURRENT_BIOME, biome);
@@ -31,7 +29,7 @@ public class IntentExtrasHelper {
         return i;
     }
 
-    public static Intent toCombatMonsterHero(Context context, ConstRes c, Monster monster, long heroIndex, String biome, String level, int length){
+    public static Intent toCombatMonsterHero(Context context, ConstRes c, Monster monster, int heroIndex, String biome, String level, int length){
 
         Intent i = new Intent(context, CombatMonsterHeroActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, heroIndex);

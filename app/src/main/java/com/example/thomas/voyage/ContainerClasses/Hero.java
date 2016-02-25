@@ -53,6 +53,10 @@ public class Hero {
         //heroName = "JA"; classPrimary = ""; classSecondary = ""; hp = -100; costs = 500; imageResource = "hero_dummy_0";
     }
 
+    public void copyHeroDataFromPlayerDatabase(int i){
+
+    }
+
     public String getHeroName() {return heroName;}
 
     public String getClassPrimary() {

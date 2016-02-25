@@ -29,14 +29,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".BasicActivities.HeroesPartyActivity"
-            android:label="@string/title_activity_heroes_party"
-            android:screenOrientation="sensorLandscape" />
-        <activity
-            android:name=".BasicActivities.MerchantHeroActivity"
-            android:label="@string/title_activity_merchant"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".CombatActivities.WorldMapQuickCombatActivity"
             android:label="@string/title_activity_screen_slide"
             android:screenOrientation="sensorLandscape" />
@@ -81,10 +73,6 @@
         <activity
             android:name=".CombatActivities.CombatMonsterHeroActivity"
             android:label="@string/title_activity_combat_monster_hero"
-            android:screenOrientation="sensorLandscape" />
-        <activity
-            android:name=".BasicActivities.NewMerchantHeroActivity"
-            android:label="@string/title_activity_new_merchant_hero"
             android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".CombatActivities.CombatSplashActivity"

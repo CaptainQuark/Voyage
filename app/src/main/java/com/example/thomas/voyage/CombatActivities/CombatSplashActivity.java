@@ -16,8 +16,7 @@ public class CombatSplashActivity extends Activity {
 
     private ConstRes c = new ConstRes();
     private Monster monster;
-    private long heroIndex;
-    private int length = 1;
+    private int heroIndex, length = 1;
     private String level = "", biome = "";
 
     @Override
@@ -36,7 +35,7 @@ public class CombatSplashActivity extends Activity {
         // einfach Kampf gesetzt
         Bundle b = getIntent().getExtras();
         if(b != null) {
-            heroIndex = b.getLong(c.HERO_DATABASE_INDEX, -1);
+            heroIndex = b.getInt(c.HERO_DATABASE_INDEX, -1);
             biome = b.getString(c.CURRENT_BIOME, "Forest");
             level = b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy");
             length = b.getInt(c.COMBAT_LENGTH, 1);

@@ -152,7 +152,7 @@ public class DBheroesAdapter {
         return buffer.toString();
     }
 
-    public String getHeroName(long id) {
+    public String getHeroName(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.NAME};
@@ -177,7 +177,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getHeroHitpoints(long id) {
+    public int getHeroHitpoints(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.HITPOINTS};
@@ -202,7 +202,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public String getHeroPrimaryClass(long id) {
+    public String getHeroPrimaryClass(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.CLASS_ONE};
@@ -226,7 +226,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public String getHeroSecondaryClass(long id) {
+    public String getHeroSecondaryClass(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.CLASS_TWO};
@@ -250,7 +250,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getHeroCosts(long id) {
+    public int getHeroCosts(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.COSTS};
@@ -275,7 +275,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public String getHeroImgRes(long id) {
+    public String getHeroImgRes(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.IMAGE_RESOURCE};
@@ -299,7 +299,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getHeroHitpointsTotal(long id) {
+    public int getHeroHitpointsTotal(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.HP_TOTAL};
@@ -323,7 +323,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getMedSlotIndex(long id) {
+    public int getMedSlotIndex(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.MED_SLOT_INDEX};
@@ -347,7 +347,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public long getTimeToLeave(long id) {
+    public long getTimeToLeave(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.TIME_TO_LEAVE};
@@ -377,7 +377,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getEvasion(long id) {
+    public int getEvasion(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.EVASION};
@@ -407,7 +407,7 @@ public class DBheroesAdapter {
         return value;
     }
 
-    public int getBonusNumber(long id) {
+    public int getBonusNumber(int id) {
         SQLiteDatabase db = helper.getReadableDatabase();
 
         String[] columns = {DBheroesHelper.BONUS_NUMBER};

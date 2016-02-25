@@ -37,7 +37,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1, heroCritChanceP = -1, getHeroCritChanceS = -1;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1;
-    private long heroDbIndex;
+    private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
     private DBheroesAdapter h;
@@ -92,7 +92,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
                 heroAllDataCardFragment = new HeroAllDataCardFragment();
                 Bundle b = new Bundle();
-                b.putInt("DB_INDEX", (int) heroDbIndex);
+                b.putInt("DB_INDEX", heroDbIndex);
 
                 heroAllDataCardFragment.setArguments(b);
                 fragmentTransaction.add(R.id.layout_com_main, heroAllDataCardFragment);
@@ -286,7 +286,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         monsterHpView.setText(monster.hp + "");
 
         if(h.getHeroHitpoints(heroDbIndex) <= 0){
-            h.markOneRowAsUnused( (int) heroDbIndex);
+            h.markOneRowAsUnused( heroDbIndex);
             Intent i = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(i);
             finish();
@@ -382,7 +382,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private void applyEffects(){
         tempScore += bonusScore;
-        h.updateHeroHitpoints((int) heroDbIndex, h.getHeroHitpoints(heroDbIndex) + bonusHealth);
+        h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) + bonusHealth);
     }
 
     private void resetBonus(){
@@ -487,7 +487,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     if (random.nextInt(1000) < h.getEvasion(heroDbIndex)) {
                         //Kann der Held ausweichen?
                         monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
-                        h.updateHeroHitpoints((int) heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
+                        h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
                         battleLogHandler("monsterAttack");
                     }
                     else{
@@ -592,7 +592,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         h = new DBheroesAdapter(this);
         Bundle b = getIntent().getExtras();
         if(b != null){
-            long index = b.getLong(c.HERO_DATABASE_INDEX, -1);
+            int index = b.getInt(c.HERO_DATABASE_INDEX, -1);
             if(index > 0){heroDbIndex = index;}
             else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
 

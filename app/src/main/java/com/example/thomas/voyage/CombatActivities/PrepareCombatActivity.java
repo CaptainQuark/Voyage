@@ -16,7 +16,7 @@ import com.example.thomas.voyage.ResClasses.ConstRes;
 public class PrepareCombatActivity extends Activity {
 
     private String origin = "";
-    private long index = -1;
+    private int index = -1;
     private ConstRes co = new ConstRes();
 
 
@@ -52,7 +52,7 @@ public class PrepareCombatActivity extends Activity {
     private void getHeroData(){
         Bundle b = getIntent().getExtras();
         if (b != null) {
-            index = b.getLong(co.HERO_DATABASE_INDEX);
+            index = b.getInt(co.HERO_DATABASE_INDEX);
             origin = b.getString(co.ORIGIN);
         }
     }

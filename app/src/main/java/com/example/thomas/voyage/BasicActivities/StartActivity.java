@@ -89,8 +89,8 @@ public class StartActivity extends Activity {
     }
 
     public void clickToStats(View view) {
-        Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
-        startActivity(i);
+        //Intent i = new Intent(getApplicationContext(), MerchantHeroActivity.class);
+        //startActivity(i);
     }
 
     public void clickToMerchantInventory(View view){
