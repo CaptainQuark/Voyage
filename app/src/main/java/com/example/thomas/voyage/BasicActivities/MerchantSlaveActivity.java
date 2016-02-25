@@ -465,17 +465,20 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     }
 
     private class MerchantCardHolder{
-        private TextView timeView;
+        private TextView timeView, timeConstantView;
         private ImageView profileView;
         private int imageResource;
         private long timeToLeave;
+        private boolean timeInMinutes;
 
         public MerchantCardHolder(Context con, int imgSuffix, long time){
             imageResource = con.getResources().getIdentifier("merchant_" + imgSuffix, "mipmap", con.getPackageName());
             timeToLeave = time;
+            timeInMinutes = true;
 
             timeView = (TextView) findViewById(R.id.tv_merch_slave_time_to_leave);
             profileView = (ImageView) findViewById(R.id.iv_merch_slave_merch_profile);
+            timeConstantView = (TextView) findViewById(R.id.tv_merch_slave_time_to_leave_constant);
 
             timeView.setText(String.valueOf(timeToLeave));
             profileView.setImageResource(imageResource);
@@ -484,7 +487,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 @Override
                 public void onClick(View v) {
                     setNewMerchant();
-                    for(int i = 0; i < cardList.size(); i++)
+                    for (int i = 0; i < cardList.size(); i++)
                         cardList.get(i).showCard();
                 }
             });
@@ -492,11 +495,27 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
             timeView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(timeInMinutes =! timeInMinutes || timeToLeave < 60){
+                        timeView.setText(String.valueOf(timeToLeave));
+                        timeConstantView.setText("abreise in minuten");
+                    }
+                    else{
+                        timeView.setText(String.valueOf(timeToLeave/60) + " : " + timeToLeave % 60);
+                        timeConstantView.setText("abreise in stunden");
+                    }
+                }
+            });
+
+            timeView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
                     prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + 1500).apply();
                     currentMoney = prefsFortune.getLong(c.MY_POCKET, -1);
-                    for(int i = 0; i < cardList.size(); i++)
+                    for (int i = 0; i < cardList.size(); i++)
                         cardList.get(i).showCard();
                     refreshToolbarViews();
+
+                    return false;
                 }
             });
         }

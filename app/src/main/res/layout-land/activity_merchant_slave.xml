@@ -60,6 +60,8 @@
             android:id="@+id/tv_merch_slave_time_to_leave" />
 
         <TextView
+            android:id="@+id/tv_merch_slave_time_to_leave_constant"
+            android:textAllCaps="true"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_column="0"
