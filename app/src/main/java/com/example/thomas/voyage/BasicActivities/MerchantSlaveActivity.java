@@ -346,7 +346,6 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
         if(heroAllDataCardFragment != null){
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
             fragContainerLayout.setVisibility(View.GONE);
-            selectedHeroCardIndex = -1;
             refreshToolbarViews();
             heroAllDataCardFragment = null;
         }
@@ -452,7 +451,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 costsView.setVisibility(View.GONE);
                 constantEvasionView.setVisibility(View.GONE);
                 constantHpView.setVisibility(View.GONE);
-                profileView.setImageResource(this.getResId("camp_0", "mipmap"));
+                profileView.setImageResource(this.getResId("market_dummy_1", "mipmap"));
             }
 
             if(cardIndex == selectedHeroCardIndex || selectedHeroCardIndex == -1 || m.getHeroName(cardIndex+1).equals(c.NOT_USED)) cardLayout.setForeground(null);

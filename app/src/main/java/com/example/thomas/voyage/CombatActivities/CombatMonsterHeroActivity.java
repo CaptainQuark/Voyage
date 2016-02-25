@@ -628,7 +628,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getString(c.MONSTER_CHECKOUT),
                     b.getString(c.MONSTER_IMG_RES),
                     b.getInt(c.MONSTER_EVASION),
-                    b.getInt(c.MONSTER_ACCURACY),
+                    b.getDouble(c.MONSTER_ACCURACY),
                     b.getInt(c.MONSTER_CRIT_CHANCE),
                     b.getInt(c.MONSTER_HITPOINTS_NOW),
                     b.getInt(c.MONSTER_HITPOINTS_TOTAL),
@@ -637,7 +637,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getInt(c.MONSTER_BLOCK),
                     b.getDouble(c.MONSTER_RESISTANCE),
                     b.getDouble(c.MONSTER_CRIT_MULTIPLIER),
-                    b.getString(c.MONSTER_DIFFICULTY)
+                    b.getString(c.MONSTER_DIFFICULTY),
+                    b.getInt(c.MONSTER_BOUNTY)
             );
 
         }else{

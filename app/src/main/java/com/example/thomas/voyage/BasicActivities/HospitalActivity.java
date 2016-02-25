@@ -174,17 +174,9 @@ public class HospitalActivity extends Activity {
             startActivity(i);
             finish();
 
-            /*
-            lastSelectedSlotIndex = -1;
-            brokenHeroList.add(new BrokenHero(slotIndex + 1, slotIndex));
-            slotsList.get( slotIndex ).showHero(
-                    brokenHeroList.get(brokenHeroList.size() - 1)
-            );
-            */
-
         }else{
-            abortMedicationView.setTextColor(Color.parseColor("#ffffff"));
-            boostMedicationView.setTextColor(Color.parseColor("#ffffff"));
+            abortMedicationView.setTextColor(Color.BLACK);
+            boostMedicationView.setTextColor(Color.BLACK);
         }
 
         setFreeSlotsView();

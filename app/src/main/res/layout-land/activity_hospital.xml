@@ -377,9 +377,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/black"
         android:orientation="horizontal"
-        android:longClickable="false">
+        android:longClickable="false"
+        android:background="#cdcdcd">
 
         <ImageButton
             android:id="@+id/imagebutton_hospital_back_button"
@@ -389,7 +389,7 @@
             android:layout_weight="1"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
-            android:tint="#ffffff"
+            android:tint="#8d8d8d"
             android:onClick="onClick"
             android:background="@drawable/ripple_backbutton_hospital" />
 
@@ -402,7 +402,6 @@
             android:text="Kraftakt"
             android:textColor="#707070"
             android:textSize="15sp"
-            android:background="#b4b4b4"
             android:onClick="onClick"/>
 
         <TextView
@@ -415,8 +414,7 @@
             android:gravity="center"
             android:text="Heilung abbrechen"
             android:textColor="#707070"
-            android:textSize="15sp"
-            android:background="#b4b4b4" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textview_hospital_slots"
@@ -427,8 +425,7 @@
             android:gravity="center"
             android:text="3 / 3"
             android:textColor="#707070"
-            android:textSize="15sp"
-            android:background="#b4b4b4" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/textview_hospital_fortune"
@@ -439,8 +436,7 @@
             android:text="$ 1000"
             android:textColor="#707070"
             android:textSize="15sp"
-            android:layout_marginRight="0dp"
-            android:background="#b4b4b4" />
+            android:layout_marginRight="0dp" />
 
     </LinearLayout>
 </LinearLayout>
