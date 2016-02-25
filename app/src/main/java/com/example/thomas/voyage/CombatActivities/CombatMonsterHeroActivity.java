@@ -37,8 +37,9 @@ import java.util.Random;
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener,
         MonsterAllDataFragment.OnFragmentInteractionListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1, heroCritChanceP = -1, getHeroCritChanceS = -1;
-    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1;
+    private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
+            heroCritChanceActive = -1;
+    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
@@ -108,6 +109,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             case R.id.cell_com_primary_attack:
                 heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+                heroCritChanceActive = heroCritChanceP;
+                heroCritMultiplierActive = heroCritMultiplierP;
                 TextView primTempView = (TextView) v;
                 primTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
                 if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
@@ -116,6 +119,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             case R.id.cell_com_secondary_attack:
                 heroClassActive = h.getHeroSecondaryClass(heroDbIndex);
+                heroCritChanceActive = heroCritChanceS;
+                heroCritMultiplierActive = heroCritMultiplierS;
                 TextView secTempView = (TextView) v;
                 secTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
                 if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
@@ -661,13 +666,25 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             Msg.msg(this, "ERROR @ iniValues : Bundle is null");
         }
 
-        heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
-
-        /*for(int i = 0; i < heroresourcetable.size(); i++){
+        //CritChance und Multiplier für Primär und Sekundär werden initialisiert
+        for(int i = 0; i < heroresourcetable.size(); i++){
             if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
-                heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[15]);
+                heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[10]);
             }
-        }*/
+            if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
+                heroCritMultiplierP = Integer.parseInt(heroresourcetable.get(i)[11]);
+            }
+            if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
+                heroCritChanceS = Integer.parseInt(heroresourcetable.get(i)[10]);
+            }
+            if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
+                heroCritMultiplierS = Integer.parseInt(heroresourcetable.get(i)[11]);
+            }
+        }
+
+        heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+        heroCritChanceActive = heroCritChanceP;
+        heroCritMultiplierActive = heroCritMultiplierP;
 
         scoreHelperList = new ArrayList<>();
         for(int i = 0; i < 20; i++){
