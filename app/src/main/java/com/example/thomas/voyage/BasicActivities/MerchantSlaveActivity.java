@@ -304,7 +304,6 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
             }
         }.start();
         */
-
     }
 
 

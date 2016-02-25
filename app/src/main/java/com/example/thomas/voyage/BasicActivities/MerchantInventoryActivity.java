@@ -115,7 +115,7 @@ public class MerchantInventoryActivity extends Activity {
 
         }else{
             addOneItemToPlayerDatabase(selectedItemUIDFromMerch);
-            buyView.setTextColor(getResources().getColor(R.color.standard_background));
+            buyView.setTextColor(getColor(R.color.standard_background));
             playerGridView.invalidateViews();
             merchantGridView.invalidateViews();
 
@@ -135,8 +135,8 @@ public class MerchantInventoryActivity extends Activity {
             dismissItem("merchant", selectedItemUIDFromMerch);
             selectedItemUIDFromMerch = -1;
             selectedItemUIDfromPlayer = -1;
-            dismissView.setTextColor(getResources().getColor(R.color.standard_background));
-            buyView.setTextColor(getResources().getColor(R.color.standard_background));
+            dismissView.setTextColor(getColor(R.color.standard_background));
+            buyView.setTextColor(getColor(R.color.standard_background));
         }
     }
 
@@ -146,14 +146,14 @@ public class MerchantInventoryActivity extends Activity {
             dismissItem(lastSelectedUID, selectedItemUIDfromPlayer);
             selectedItemUIDfromPlayer = -1;
             playerGridView.invalidateViews();
-            dismissView.setTextColor(getResources().getColor(R.color.standard_background));
+            dismissView.setTextColor(getColor(R.color.standard_background));
         }
         else if(lastSelectedUID.equals("merchant") && selectedItemUIDFromMerch != -1){
             //dismissItem(lastSelectedUID, selectedItemUIDFromMerch);
             selectedItemUIDFromMerch = -1;
             //merchantGridView.invalidateViews();
-            dismissView.setTextColor(getResources().getColor(R.color.standard_background));
-            buyView.setTextColor(getResources().getColor(R.color.standard_background));
+            dismissView.setTextColor(getColor(R.color.standard_background));
+            buyView.setTextColor(getColor(R.color.standard_background));
         }
 
         itemNameView.setText("");
@@ -173,6 +173,29 @@ public class MerchantInventoryActivity extends Activity {
 
 
 
+    private void showExpirationDate() {
+        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
+        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
+        TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_inventory_textView_time_to_next_merchant);
+
+        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
+        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+
+        if(System.currentTimeMillis() >= merchChangeDate){
+            timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
+            prefs.edit().putLong("merchInventoryToLeaveDaytime", merchToLeaveDaytime);
+            setNewItemMerchant();
+            prefs.edit().putLong("merchInventoryChangeDate", getNewMerchChangeDate()).apply();
+            prefs.edit().putLong("merchInventoryToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+        }else{
+            timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+        }
+
+        merchantTimeView.setText(String.valueOf(timeToShow/1000/60));
+
+
+            /*
     private void showExpirationDate() {
         final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
         long timeToShow, merchToLeaveDaytime = prefs.getLong("merchInventoryToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
@@ -212,6 +235,8 @@ public class MerchantInventoryActivity extends Activity {
                 showExpirationDate();
             }
         }.start();
+    }
+    */
     }
 
     private long getNowInSeconds(){
@@ -502,8 +527,8 @@ public class MerchantInventoryActivity extends Activity {
         fortuneView = (TextView)findViewById(R.id.textView_merch_inv_fortune);
         dismissView = (TextView)findViewById(R.id.invetory_textView_dismiss);
 
-        buyView.setTextColor(getResources().getColor(R.color.standard_background));
-        dismissView.setTextColor(getResources().getColor(R.color.standard_background));
+        buyView.setTextColor(getColor(R.color.standard_background));
+        dismissView.setTextColor(getColor(R.color.standard_background));
 
     }
 }
