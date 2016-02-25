@@ -5,17 +5,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
-import com.example.thomas.voyage.ContainerClasses.HelperCSV;
 import com.example.thomas.voyage.ContainerClasses.Hero;
-import com.example.thomas.voyage.ContainerClasses.HeroPool;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
@@ -25,15 +24,11 @@ import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.Databases.DBscorefieldAndMultiAmountAdapter;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
-import com.opencsv.CSVReader;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 
 public class StartActivity extends Activity {
@@ -58,7 +53,7 @@ public class StartActivity extends Activity {
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         setSlaveMarketWindow();
-        setHeroesPartyWindow();
+        setHeroCampWindow();
         setItemMarketWindow();
         setHospitalWindows();
         hideSystemUI();
@@ -107,6 +102,11 @@ public class StartActivity extends Activity {
     public void onClickHospital(View view){
         Intent i = new Intent(getApplicationContext(), HospitalActivity.class);
         i.putExtra(c.ORIGIN, "StartActivity");
+        startActivity(i);
+    }
+
+    public void clickToHeroMerchant(View view) {
+        Intent i = new Intent(getApplicationContext(), MerchantSlaveActivity.class);
         startActivity(i);
     }
 
@@ -180,6 +180,10 @@ public class StartActivity extends Activity {
     private void setSlaveMarketWindow(){
         int countNewHeroes = 0;
 
+        // Überprüfe, ob neuer Händler
+        // -> wenn ja, aktualisiere Datenbank
+        long timeToShow = getTimeToShow();
+
         for(int i = 1; i <= merchantHelper.getTaskCount(); i++){
             if( !(merchantHelper.getHeroName(i)
                     .equals(getResources().getString(R.string.indicator_unused_row))) ){
@@ -188,12 +192,18 @@ public class StartActivity extends Activity {
             }
         }
 
-        if(countNewHeroes == 1) textViewSlaveMarket.setText("1 neuer Held");
-        else if(countNewHeroes == 0) textViewSlaveMarket.setText("Nichts anzubieten...");
-        else textViewSlaveMarket.setText(countNewHeroes + " neue Helden");
+        Random rand = new Random();
+        if(rand.nextInt(2) == 0){
+            textViewSlaveMarket.setText("Hänlder geht in ca. " + timeToShow/60 + " Stunden");
+
+        }else{
+            if(countNewHeroes == 1) textViewSlaveMarket.setText("1 neuer Held");
+            else if(countNewHeroes == 0) textViewSlaveMarket.setText("Nichts anzubieten...");
+            else textViewSlaveMarket.setText(countNewHeroes + " neue Helden");
+        }
     }
 
-    private void setHeroesPartyWindow(){
+    private void setHeroCampWindow(){
         long size = heroesHelper.getTaskCount();
         long count = 0;
 
@@ -314,9 +324,85 @@ public class StartActivity extends Activity {
         return id;
     }
 
-    public void clickToHeroMerchant(View view) {
-        Intent i = new Intent(getApplicationContext(), MerchantSlaveActivity.class);
-        startActivity(i);
+    private void refillMerchDatabase(){
+        DBmerchantHeroesAdapter m = new DBmerchantHeroesAdapter(this);
+        Log.e("UPDATE_MERCH_DATABASE", "updateMerchantDatabase, inserts: " + c.TOTAL_HEROES_MERCHANT);
+        List<Hero> heroList = new ArrayList<>();
+
+        for (int i = 0, id; i < c.TOTAL_HEROES_MERCHANT; i++) {
+            heroList.add(new Hero(this));
+            heroList.get(i).Initialize("Everywhere");
+
+            id = m.updateRowComplete(
+                    i + 1,
+                    heroList.get(i).getHeroName(),
+                    heroList.get(i).getHp(),
+                    heroList.get(i).getClassPrimary(),
+                    heroList.get(i).getClassSecondary(),
+                    heroList.get(i).getCosts(),
+                    heroList.get(i).getImageResource(),
+                    heroList.get(i).getEvasion(),
+                    heroList.get(i).getHpTotal(),
+                    heroList.get(i).getBonusNumber());
+
+            if (id < 0) Msg.msg(this, "error@insert of hero " + i + 1);
+        }
+    }
+
+    private void setNewMerchant(){
+        SharedPreferences prefsMerchant = getSharedPreferences(c.SP_SLAVE_MERCHANT, Context.MODE_PRIVATE);
+        int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_ID, 0);
+
+        currentMerchantId = ++currentMerchantId % 4;
+
+        prefsMerchant.edit().putInt(c.MERCHANT_ID, currentMerchantId).apply();
+
+        refillMerchDatabase();
+    }
+
+    private long getNowInSeconds(){
+        return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+    }
+
+    private long getNewMerchLeaveDaytime(){
+        return ((Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) < 12) ? 12*60*60 : 24*60*60;
+    }
+
+    private long getNewMerchChangeDate(){
+
+        // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
+        long newFinishDate = getNewMerchLeaveDaytime();
+
+        long todayInSeconds = (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
+                + Calendar.getInstance().get(Calendar.MINUTE) * 60
+                + Calendar.getInstance().get(Calendar.SECOND);
+
+        // neuer Abreise-Zeitpunkt des Händlers
+        return System.currentTimeMillis() + (newFinishDate - todayInSeconds)*1000;
+    }
+
+    private long getTimeToShow() {
+        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
+        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
+
+        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
+        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+
+        if(System.currentTimeMillis() >= merchChangeDate){
+            timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
+            prefs.edit().putLong("merchToLeaveDaytime", merchToLeaveDaytime);
+            setNewMerchant();
+            prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
+            prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+            return timeToShow/1000/60;
+
+        }else{
+            timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+            return timeToShow/1000/60;
+        }
     }
 
 
@@ -350,7 +436,7 @@ public class StartActivity extends Activity {
         textViewHospital = (TextView) findViewById(R.id.start_textView_hospital);
 
         setSlaveMarketWindow();
-        setHeroesPartyWindow();
+        setHeroCampWindow();
         setItemMarketWindow();
         setHospitalWindows();
     }
