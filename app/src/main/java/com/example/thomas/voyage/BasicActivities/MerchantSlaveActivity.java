@@ -119,6 +119,16 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 finish();
                 break;
 
+            case R.id.tv_merch_slave_trade:
+                if(getUsedRowsHeroDb() > 0){
+                    Msg.msgShort(this, "Not yet implemented...");
+
+                }else{
+                    Msg.msgShort(this, "No hero to trade...");
+                }
+
+                break;
+
             default: Msg.msgShort(this, "ERROR @ onClick : switch : default called");
         }
     }

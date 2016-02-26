@@ -178,6 +178,7 @@ public class HospitalActivity extends Activity {
                 slotsList.get(slotIndex).showPlaceholder();
                 brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
                 if(!brokenHeroList.get(index).setHeroMedSlotIndex(-1)){ Log.e("removeBrokenHero", "setHeroMedSlotIndex(-1)"); }
+                if(!brokenHeroList.get(index).setTimeToLeave(0)){ Log.e("removeBrokenHero", "setTimeToLeave(-1)"); }
                 brokenHeroList.remove(index);
 
                 index = 3;
@@ -351,10 +352,6 @@ public class HospitalActivity extends Activity {
 
         public boolean setHeroHitpoints(int hpNew){
             return h.updateHeroHitpoints(dbIndex, hpNew) != -1;
-        }
-
-        public boolean incrementHitpointsByOne(){
-            return h.updateHeroHitpoints(dbIndex, ++hpNow) != -1;
         }
 
         public boolean setHeroMedSlotIndex(int slotIndex){

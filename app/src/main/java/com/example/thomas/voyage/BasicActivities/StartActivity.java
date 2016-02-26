@@ -242,7 +242,7 @@ public class StartActivity extends Activity {
         int sum = 0;
 
         for(int i = 1; i <= 10; i++){
-            if(h.getTimeToLeave(i) > 0) sum++;
+            if(h.getMedSlotIndex(i) != -1) sum++;
         }
 
         if(sum == 0) textViewHospital.setText("Niemand in Behandlung...");
