@@ -346,8 +346,7 @@ public class HospitalActivity extends Activity {
 
         public int getPercentToCompleteHealth(){
             // Wie viel % der HpTotal sind noch nicht geheilt
-            // +1, um Rundungsfehler zu korrigieren
-            return (int) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * 101);
+            return (int) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * 100);
         }
 
         public boolean setHeroHitpoints(int hpNew){
