@@ -525,7 +525,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                         cardList.get(i).showCard();
                     refreshToolbarViews();
 
-                    return false;
+                    return true;
                 }
             });
         }

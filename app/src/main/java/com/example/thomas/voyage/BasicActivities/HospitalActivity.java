@@ -324,7 +324,10 @@ public class HospitalActivity extends Activity {
                 // 'tempTime' wird verwendet, um weniger Datenbankzugriffe zu haben (nur einen)
                 long tempTime = h.getTimeToLeave(dbIndex);
 
-                if(tempTime == 0) timeToLeave = this.getNewFinishTimeInMillis();
+                if(tempTime == 0){
+                    timeToLeave = this.getNewFinishTimeInMillis();
+                    this.setTimeToLeave(timeToLeave);
+                }
                 else { timeToLeave = tempTime; }
 
                 // Überprüfe, ob Held geheilt ist, also ob Zeitpunkt der Heilung

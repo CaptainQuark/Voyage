@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,26 +223,34 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     }
 
     private void setToolbarViews(){
-        if(lastSelectedHeroIndex == -1){
-            sellView.setTextColor(Color.parseColor("#707070"));
-            toFightView.setTextColor(Color.parseColor("#707070"));
-            healView.setTextColor(Color.parseColor("#707070"));
-        }
-        else {
-            sellView.setTextColor(Color.WHITE);
-            toFightView.setTextColor(Color.WHITE);
-
-            SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-            float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
-            long money = prefs.getLong(c.MY_POCKET, -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
-
-            if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1))
-                healView.setTextColor(Color.parseColor("#707070"));
-            else if(money < 0){
+        try{
+            if(lastSelectedHeroIndex == -1){
+                sellView.setTextColor(Color.parseColor("#707070"));
+                toFightView.setTextColor(Color.parseColor("#707070"));
                 healView.setTextColor(Color.parseColor("#707070"));
             }
-            else healView.setTextColor(Color.WHITE);
+            else {
+                sellView.setTextColor(Color.WHITE);
+                toFightView.setTextColor(Color.WHITE);
+
+                SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+
+                float diff = (heroList.get(lastSelectedHeroIndex).getHp() > 0) ? 0 : 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
+                long money = prefs.getLong(c.MY_POCKET, -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
+
+                if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1))
+                    healView.setTextColor(Color.parseColor("#707070"));
+                else if(money < 0){
+                    healView.setTextColor(Color.parseColor("#707070"));
+                }
+                else healView.setTextColor(Color.WHITE);
+            }
+
+        }catch (Exception e){
+            Msg.msg(this, String.valueOf(e));
+            Log.e("EXCEPTION", String.valueOf(e));
         }
+
     }
 
 
