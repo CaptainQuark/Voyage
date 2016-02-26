@@ -258,7 +258,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void putFragmentToSleep() {
         if(heroAllDataCardFragment != null){
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
-            lastSelectedHeroIndex = -1;
             setToolbarViews();
             heroAllDataCardFragment = null;
         }
