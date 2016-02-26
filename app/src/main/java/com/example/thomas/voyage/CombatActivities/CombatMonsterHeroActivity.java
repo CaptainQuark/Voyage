@@ -37,7 +37,7 @@ import java.util.Random;
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener,
         MonsterAllDataFragment.OnFragmentInteractionListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusScore, scoreMultiplier, battleLength = -1, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
+    private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, currentMonsterCounter = -1, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
             heroCritChanceActive = -1;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1;
     private int heroDbIndex;
@@ -649,7 +649,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
 
                 levelOfMonsters = b.getString(c.COMBAT_LEVEL_OF_MONSTERS);
-                battleLength = b.getInt(c.COMBAT_LENGTH);
+                currentMonsterCounter = b.getInt(c.COMBAT_LENGTH);
 
                 monster = new Monster(
                         b.getString(c.MONSTER_NAME),
@@ -699,7 +699,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
 
             scoreHelper = new CountAndShowThrowsHelper();
-            bonusScore = 0;
             scoreMultiplier = 1;
 
             logList = new ArrayList<>();
