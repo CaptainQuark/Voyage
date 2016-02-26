@@ -266,10 +266,10 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         tempScore += scoreField * scoreMultiplier * monster.resistance - monster.block;
         if(tempScore < 0) tempScore = 0;
 
-        if((int)(Math.random() * 1000) < monster.evasion) {
-        //Weicht das Monster aus?
+        if((int)(Math.random() * 1000) < monster.evasion || monster.hp <= 170) {
+        //Weicht das Monster aus? Ist auch kein Checkout möglich (würde diese sonst zamhaun!)?
 
-        if( monster.checkout.equals("double") && checkOutPossible(2, monster.hp) ){
+        if( monster.checkout.equals("double") && checkOutPossible(2) ){
             if( monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2 ){
                 combatVictory();
                 monster.hp = 0;
@@ -300,6 +300,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         }
         else{
             battleLogHandler("monsterEvasion");
+            if(scoreHelper.addOneThrow(0)){
+                calculateMonsterDamage();
+            }
         }
 
         monsterHpView.setText(monster.hp + "");
@@ -354,9 +357,10 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             case "monsterEvasion":
                 logTopEntry = monster.name + " weicht der Attacke aus! ";
+                Msg.msgShort(this, "Der Angriff schlägt fehl!");
                 break;
             case "monsterAttack":
-                logTopEntry = monster.name + " erwidert mit " + monsterDmg + ".";
+                logTopEntry = "   " + monster.name + " erwidert mit " + monsterDmg + ".";
                 break;
             case "heroEvasion":
                 logTopEntry = h.getHeroName(heroDbIndex) + "kann dem Angriff ausweichen. ";
@@ -400,19 +404,19 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         }
     }
 
-    private Boolean checkOutPossible(int checkOutType, int monsterHealth){
+    private Boolean checkOutPossible(int checkOutType){
         switch(checkOutType){
             case 1:
                 for(int i = 1; i < 21; i++) {
                     for (int p = 1; p < 4; p++) {
-                        if ((i*p - monsterHealth) == 0 || 25 - monsterHealth == 0 || 50 - monsterHealth == 0) {
+                        if ((i*p - monster.hp) == 0 || 25 - monster.hp == 0 || 50 - monster.hp == 0) {
                             return true;
                         }
                     }
                 }
                 break;
             case 2:
-                if( (monsterHealth == 50) || ((monsterHealth <= 40) && (monsterHealth % 2 == 0)) ){
+                if( (monster.hp == 50) || ((monster.hp <= 40) && (monster.hp % 2 == 0)) ){
                     return true;
                 }
                 break;
@@ -679,13 +683,13 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[10]);
                 }
                 if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
-                    heroCritMultiplierP = Integer.parseInt(heroresourcetable.get(i)[11]);
+                    heroCritMultiplierP = Double.parseDouble(heroresourcetable.get(i)[11]);
                 }
                 if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
                     heroCritChanceS = Integer.parseInt(heroresourcetable.get(i)[10]);
                 }
                 if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
-                    heroCritMultiplierS = Integer.parseInt(heroresourcetable.get(i)[11]);
+                    heroCritMultiplierS = Double.parseDouble(heroresourcetable.get(i)[11]);
                 }
             }
 
