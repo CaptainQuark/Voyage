@@ -16,10 +16,10 @@ public class MonsterPool {
     private int evasion;
     private int critChance;
     private int bounty;
+    private int accuracy;
 
     private double resistance;
     private double critMultiplier;
-    private double accuracy;
 
     private String checkout;
     private String name;
@@ -64,7 +64,7 @@ public class MonsterPool {
             hp = Integer.parseInt(list.get(rand)[4]);
             dmgMin = Integer.parseInt(list.get(rand)[5]);
             dmgMax = Integer.parseInt(list.get(rand)[6]);
-            accuracy = Double.parseDouble(list.get(rand)[7]);
+            accuracy = Integer.parseInt(list.get(rand)[7]);
             evasion = Integer.parseInt(list.get(rand)[8]);
             critChance = Integer.parseInt(list.get(rand)[9]);
             critMultiplier = Double.parseDouble(list.get(rand)[10]);
@@ -97,9 +97,7 @@ public class MonsterPool {
         return evasion;
     }
 
-    public double getAccuracy(){
-        return accuracy;
-    }
+    public int getAccuracy(){return accuracy;}
 
     public int getCritChance(){
         return critChance;

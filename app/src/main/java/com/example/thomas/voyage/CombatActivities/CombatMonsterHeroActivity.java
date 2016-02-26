@@ -55,6 +55,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private GridView playerItemGridView;
     private ScrollView battleLogScrollView;
 
+    Integer[] intArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -590,6 +591,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             private ImageView itemProfileView;
 
             ViewHolder(View v) {
+
                 nameView = (TextView) v.findViewById(R.id.textiew_com_listitem_item_name);
                 desView = (TextView) v.findViewById(R.id.textiew_com_listitem_item_description);
                 itemProfileView = (ImageView) v.findViewById(R.id.imageview_com_listitem_item_profile);
@@ -610,10 +612,14 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 holder = (ViewHolder) convertView.getTag();
             }
 
+            /*
             holder.itemProfileView.setImageResource(R.mipmap.placeholder_dummy_0);
             holder.nameView.setText(position + ". " + playerItemList.get(position).getStrings("ITEM_NAME"));
             holder.desView.setText(playerItemList.get(position).getStrings("DES_MAIN"));
+            */
 
+            holder.nameView.setText(String.valueOf(intArray[position]));
+            holder.desView.setText(String.valueOf(intArray[position+1]));
             return convertView;
         }
     }
@@ -630,90 +636,100 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private void iniValues(){
 
-        HelperCSV helperCSV = new HelperCSV(this);
-        List<String[]> heroresourcetable = helperCSV.getDataList("heroresourcetable");
+        try {
+            HelperCSV helperCSV = new HelperCSV(this);
+            List<String[]> heroresourcetable = helperCSV.getDataList("heroresourcetable");
 
-        ConstRes c = new ConstRes();
-        h = new DBheroesAdapter(this);
-        Bundle b = getIntent().getExtras();
-        if(b != null){
-            int index = b.getInt(c.HERO_DATABASE_INDEX, -1);
-            if(index > 0){heroDbIndex = index;}
-            else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
+            ConstRes c = new ConstRes();
+            h = new DBheroesAdapter(this);
+            Bundle b = getIntent().getExtras();
+            if(b != null){
+                int index = b.getInt(c.HERO_DATABASE_INDEX, -1);
+                if(index > 0){heroDbIndex = index;}
+                else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
 
-            levelOfMonsters = b.getString(c.COMBAT_LEVEL_OF_MONSTERS);
-            battleLength = b.getInt(c.COMBAT_LENGTH);
+                levelOfMonsters = b.getString(c.COMBAT_LEVEL_OF_MONSTERS);
+                battleLength = b.getInt(c.COMBAT_LENGTH);
 
-            monster = new Monster(
-                    b.getString(c.MONSTER_NAME),
-                    b.getString(c.MONSTER_CHECKOUT),
-                    b.getString(c.MONSTER_IMG_RES),
-                    b.getInt(c.MONSTER_EVASION),
-                    b.getDouble(c.MONSTER_ACCURACY),
-                    b.getInt(c.MONSTER_CRIT_CHANCE),
-                    b.getInt(c.MONSTER_HITPOINTS_NOW),
-                    b.getInt(c.MONSTER_HITPOINTS_TOTAL),
-                    b.getInt(c.MONSTER_DAMAGE_MIN),
-                    b.getInt(c.MONSTER_DAMAGE_MAX),
-                    b.getInt(c.MONSTER_BLOCK),
-                    b.getDouble(c.MONSTER_RESISTANCE),
-                    b.getDouble(c.MONSTER_CRIT_MULTIPLIER),
-                    b.getString(c.MONSTER_DIFFICULTY),
-                    b.getInt(c.MONSTER_BOUNTY)
-            );
+                monster = new Monster(
+                        b.getString(c.MONSTER_NAME),
+                        b.getString(c.MONSTER_CHECKOUT),
+                        b.getString(c.MONSTER_IMG_RES),
+                        b.getInt(c.MONSTER_EVASION),
+                        b.getInt(c.MONSTER_ACCURACY),
+                        b.getInt(c.MONSTER_CRIT_CHANCE),
+                        b.getInt(c.MONSTER_HITPOINTS_NOW),
+                        b.getInt(c.MONSTER_HITPOINTS_TOTAL),
+                        b.getInt(c.MONSTER_DAMAGE_MIN),
+                        b.getInt(c.MONSTER_DAMAGE_MAX),
+                        b.getInt(c.MONSTER_BLOCK),
+                        b.getDouble(c.MONSTER_RESISTANCE),
+                        b.getDouble(c.MONSTER_CRIT_MULTIPLIER),
+                        b.getString(c.MONSTER_DIFFICULTY),
+                        b.getInt(c.MONSTER_BOUNTY)
+                );
 
-        }else{
-            Msg.msg(this, "ERROR @ iniValues : Bundle is null");
+            }else{
+                Msg.msg(this, "ERROR @ iniValues : Bundle is null");
+            }
+
+            //CritChance und Multiplier für Primär und Sekundär werden initialisiert
+            for(int i = 0; i < heroresourcetable.size(); i++){
+                if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
+                    heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[10]);
+                }
+                if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
+                    heroCritMultiplierP = Integer.parseInt(heroresourcetable.get(i)[11]);
+                }
+                if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
+                    heroCritChanceS = Integer.parseInt(heroresourcetable.get(i)[10]);
+                }
+                if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
+                    heroCritMultiplierS = Integer.parseInt(heroresourcetable.get(i)[11]);
+                }
+            }
+
+            heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+            heroCritChanceActive = heroCritChanceP;
+            heroCritMultiplierActive = heroCritMultiplierP;
+
+            scoreHelperList = new ArrayList<>();
+            for(int i = 0; i < 20; i++){
+                scoreHelperList.add(new ThrowInputHelper(i));
+            }
+
+            scoreHelper = new CountAndShowThrowsHelper();
+            bonusScore = 0;
+            scoreMultiplier = 1;
+
+            logList = new ArrayList<>();
+            playerItemList = new ArrayList<>();
+
+            itemHelper = new DBplayerItemsAdapter(this);
+
+            for(long i = 1; i <= itemHelper.getTaskCount(); i++){
+                if(!itemHelper.getItemName(i).equals(c.NOT_USED)){
+                    playerItemList.add(new Item(
+                            itemHelper.getItemName(i),
+                            itemHelper.getItemDescriptionMain(i),
+                            itemHelper.getItemDescriptionAdditonal(i),
+                            itemHelper.getItemRarity(i),
+                            itemHelper.getItemSkillsId(i),
+                            itemHelper.getItemBuyCosts(i),
+                            itemHelper.getItemSpellCosts(i)
+                    ));
+                }
+            }
+
+            intArray = new Integer[100];
+            for(int i = 0; i < intArray.length; i++){
+                intArray[i] = i+1;
+            }
+
+        }catch (Exception e){
+            Msg.msg(this, String.valueOf(e));
+            Log.e("iniValues()", String.valueOf(e));
         }
-
-        //CritChance und Multiplier für Primär und Sekundär werden initialisiert
-        for(int i = 0; i < heroresourcetable.size(); i++){
-            if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
-                heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[10]);
-            }
-            if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
-                heroCritMultiplierP = Integer.parseInt(heroresourcetable.get(i)[11]);
-            }
-            if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
-                heroCritChanceS = Integer.parseInt(heroresourcetable.get(i)[10]);
-            }
-            if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
-                heroCritMultiplierS = Integer.parseInt(heroresourcetable.get(i)[11]);
-            }
-        }
-
-        heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
-        heroCritChanceActive = heroCritChanceP;
-        heroCritMultiplierActive = heroCritMultiplierP;
-
-        scoreHelperList = new ArrayList<>();
-        for(int i = 0; i < 20; i++){
-            scoreHelperList.add(new ThrowInputHelper(i));
-        }
-
-        scoreHelper = new CountAndShowThrowsHelper();
-        bonusScore = 0;
-        scoreMultiplier = 1;
-
-        logList = new ArrayList<>();
-        playerItemList = new ArrayList<>();
-
-        itemHelper = new DBplayerItemsAdapter(this);
-
-        for(long i = 1; i <= itemHelper.getTaskCount(); i++){
-            if(!itemHelper.getItemName(i).equals(c.NOT_USED)){
-                playerItemList.add(new Item(
-                        itemHelper.getItemName(i),
-                        itemHelper.getItemDescriptionMain(i),
-                        itemHelper.getItemDescriptionAdditonal(i),
-                        itemHelper.getItemRarity(i),
-                        itemHelper.getItemSkillsId(i),
-                        itemHelper.getItemBuyCosts(i),
-                        itemHelper.getItemSpellCosts(i)
-                ));
-            }
-        }
-
     }
 
     private void iniViews(){

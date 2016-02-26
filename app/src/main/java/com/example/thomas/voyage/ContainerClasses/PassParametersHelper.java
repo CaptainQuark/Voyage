@@ -74,7 +74,7 @@ public class PassParametersHelper {
         b.putInt(c.MONSTER_DAMAGE_MAX, monster.dmgMax);
         b.putInt(c.MONSTER_BLOCK, monster.block);
         b.putInt(c.MONSTER_EVASION, monster.evasion);
-        b.putDouble(c.MONSTER_ACCURACY, monster.accuracy);
+        b.putInt(c.MONSTER_ACCURACY, monster.accuracy);
         b.putInt(c.MONSTER_CRIT_CHANCE, monster.critChance);
         b.putDouble(c.MONSTER_CRIT_MULTIPLIER, monster.critMultiplier);
         b.putDouble(c.MONSTER_RESISTANCE, monster.resistance);

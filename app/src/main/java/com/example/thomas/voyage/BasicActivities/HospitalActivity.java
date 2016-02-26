@@ -7,9 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,8 +28,6 @@ public class HospitalActivity extends Activity {
     private List<Slot> slotsList = new ArrayList<>();
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
     private int lastSelectedSlotIndex = -1;
-    private long[] timeUsedArray = {0,0,0};
-    private boolean toCancel = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,14 +70,6 @@ public class HospitalActivity extends Activity {
     public void onClick(View v){
         switch(v.getId()){
             case R.id.imagebutton_hospital_back_button:
-
-                for(int i = 0; i < brokenHeroList.size(); i++){
-
-                    slotsList.get(brokenHeroList.get(i).getSlotIndex()).cancelCountDownTimer(
-                            brokenHeroList.get(i), brokenHeroList.get(i).getTimeToLeave() - timeUsedArray[brokenHeroList.get(i).getSlotIndex()]
-                    );
-                }
-
                 super.onBackPressed();
                 finish();
                 break;
@@ -188,7 +175,6 @@ public class HospitalActivity extends Activity {
 
             if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
 
-                slotsList.get(slotIndex).cancelCountDownTimer(brokenHeroList.get(index), 0);
                 slotsList.get(slotIndex).showPlaceholder();
                 brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
                 if(!brokenHeroList.get(index).setHeroMedSlotIndex(-1)){ Log.e("removeBrokenHero", "setHeroMedSlotIndex(-1)"); }
@@ -268,17 +254,6 @@ public class HospitalActivity extends Activity {
         }
     }
 
-    private long getNewDate(int hpNow, int hpTotal){
-
-        // Wie viel % der HpTotal sind noch nicht geheilt
-        // +1, um Rundungsfehler zu korrigieren
-        long percentToCompleteHealth = (long) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * (float) 100 + 1);
-        Msg.msg(getApplicationContext(), "percentToCompleteHealth : " + percentToCompleteHealth);
-
-        // Jedes Prozent benötigt eine Stunde zur Heilung
-        return(System.currentTimeMillis() + (60 * 60 * 1000 * percentToCompleteHealth));
-    }
-
 
 
     /**
@@ -311,12 +286,12 @@ public class HospitalActivity extends Activity {
             hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
             staticHpView.setVisibility(View.VISIBLE);
             staticTimeView.setText("abreise in min");
+            timeToLeaveView.setText((String.valueOf( (hero.getTimeToLeave() - System.currentTimeMillis()) / 1000/60 )));
 
             long dateDiff = hero.getTimeToLeave() - System.currentTimeMillis();
 
             Log.v("showHero", "getTimeToLeave: " + hero.getTimeToLeave());
             Log.v("showHero", "dateDiff: " + dateDiff);
-            this.setCountDownTimer(dateDiff, hero);
         }
 
         public void showPlaceholder(){
@@ -326,72 +301,6 @@ public class HospitalActivity extends Activity {
             timeToLeaveView.setText("");
             staticHpView.setVisibility(View.INVISIBLE);
             staticTimeView.setText("hinzufügen");
-        }
-
-        private void setCountDownTimer(final long time, final BrokenHero hero){
-
-            timer = new CountDownTimer(time, 1000) {
-                @Override
-                public void onTick(long l) {
-                    timeToLeaveView.setText("" + l / 1000 / 60);
-                    Log.v("timeToLeaveView", "onTick called with " + l);
-
-                    // Die verstrichenen Sekunden werden zwischengespeichert
-                    // und bei Verlassen der Activity in DB geschrieben
-                    timeUsedArray[slotIndex] += 1000;
-
-                    // Es wird mit Modulo-Rechnung geprüft, ob eine ganze Stunde vergangen ist
-                    // Wenn ja, dann wird Held um einen Punkt geheilt
-                    if(hero.getHpNow() % (60*60*1000) == 0){
-                        brokenHeroList.get(slotIndex).incrementHitpointsByOne();
-                        slotsList.get(slotIndex).hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
-                    }
-                }
-
-                @Override
-                public void onFinish() {
-                    if(!hero.setTimeToLeave(0)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
-                    timeToLeaveView.setText("");
-
-                    if(toCancel){
-                        this.cancel();
-                        toCancel = false;
-                        Msg.msg(getApplicationContext(), "onFinish called");
-
-                    }else{
-                        for(int index = 0; index < brokenHeroList.size(); index++){
-
-                            if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
-                                slotsList.get(slotIndex).showPlaceholder();
-                                brokenHeroList.get(index).setHeroMedSlotIndex(-1);
-                                brokenHeroList.remove(index);
-                                index = 3;
-
-                                Msg.msg(getApplicationContext(), "Held vollständig genesen");
-
-                            }else if(index == 2) Msg.msg(getApplicationContext(), "ERROR @ onFinish : removeBrokenHeroFromList : no matching index");
-                        }
-                    }
-                }
-            };
-
-            timer.start();
-        }
-
-        private void cancelCountDownTimer(final BrokenHero hero, long time){
-            Log.v("cancelCountDown", "called");
-            toCancel = true;
-            timer.onFinish();
-            if(!hero.setTimeToLeave(time)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
-            /*
-            try{
-                timer.cancel();
-                timer = null;
-                if(!hero.setTimeToLeave(time)) Msg.msg(getApplicationContext(), "ERROR @ setTimeToLeave : updateTimeToLeave");
-                Log.v("cancelCountDownTimer","time to leave from db, read: " + h.getTimeToLeave(hero.dbIndex) );
-
-            }catch (Exception e){ Msg.msg(getApplicationContext(), String.valueOf(e));}
-            */
         }
     }
 
@@ -405,11 +314,6 @@ public class HospitalActivity extends Activity {
             this.slotIndex = si;
             this.dbIndex = dbIndex;
 
-            /*
-            SharedPreferences prefs = getSharedPreferences("HOSPITAL_SLOT_PREFS", Context.MODE_PRIVATE);
-            prefs.edit().putInt("DB_INDEX_BY_SLOT_" + si, dbIndex).apply();
-            */
-
             if(dbIndex > 0){
                 name = h.getHeroName(dbIndex);
                 hpNow = h.getHeroHitpoints(dbIndex);
@@ -417,15 +321,33 @@ public class HospitalActivity extends Activity {
                 hpTotal = h.getHeroHitpointsTotal(dbIndex);
 
                 // 'tempTime' wird verwendet, um weniger Datenbankzugriffe zu haben (nur einen)
-                //long tempTime = heroesHelper.getTimeToLeave(dbIndex);
-
                 long tempTime = h.getTimeToLeave(dbIndex);
 
-                if(tempTime == 0) timeToLeave = getNewDate(hpNow, hpTotal);
+                if(tempTime == 0) timeToLeave = this.getNewFinishTimeInMillis();
                 else { timeToLeave = tempTime; }
+
+                // Überprüfe, ob Held geheilt ist, also ob Zeitpunkt der Heilung
+                // bereits in der Vergangenheit liegt
+                if(timeToLeave - System.currentTimeMillis() > 0){
+                    hpNow = hpTotal - (int) ((timeToLeave - System.currentTimeMillis()) / 1000 / 60 / 60);
+
+                }else{
+                    removeBrokenHeroFromList(slotIndex);
+                }
 
                 this.setHeroMedSlotIndex(si);
             }
+        }
+
+        private long getNewFinishTimeInMillis(){
+            // Jedes Prozent benötigt eine Stunde zur Heilung
+            return(System.currentTimeMillis() + (60 * 60 * 1000 * this.getPercentToCompleteHealth()));
+        }
+
+        public int getPercentToCompleteHealth(){
+            // Wie viel % der HpTotal sind noch nicht geheilt
+            // +1, um Rundungsfehler zu korrigieren
+            return (int) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * 101);
         }
 
         public boolean setHeroHitpoints(int hpNew){
