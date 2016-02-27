@@ -234,12 +234,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     */
 
 
+    private void combat(int scoreField) {
 
-    private void combat(int scoreField){
-
-        switch(heroClassActive){
+        switch (heroClassActive) {
             case "Waldläufer":
-                if(scoreField == h.getHeroBonusNumber(heroDbIndex)){
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
                     bonusScore += 5;
                 }
                 break;
@@ -249,10 +248,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             //Secondaries:
             case "Schurke":
-                if(scoreField == 1){
+                if (scoreField == 1) {
                     bonusScore += 8 - scoreMultiplier;
-                }
-                else if(scoreField == 5 && scoreMultiplier == 1){
+                } else if (scoreField == 5 && scoreMultiplier == 1) {
                     bonusScore += 3;
                 }
                 break;
@@ -264,51 +262,48 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         applyEffects();
         tempScore += scoreField * scoreMultiplier * monster.resistance - monster.block;
-        if(tempScore < 0) tempScore = 0;
+        if (tempScore < 0) tempScore = 0;
 
-        if((int)(Math.random() * 1000) < monster.evasion || monster.hp <= 170) {
-        //Weicht das Monster aus? Ist auch kein Checkout möglich (würde diese sonst zamhaun!)?
+        if ((int) (Math.random() * 1000) <= monster.evasion || monster.hp <= 170) {
+            //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
 
-        if( monster.checkout.equals("double") && checkOutPossible(2) ){
-            if( monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2 ){
+            if (monster.checkout.equals("double") && checkOutPossible(2)) {
+                if (monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2) {
+                    combatVictory();
+                    monster.hp = 0;
+                }
+
+            } else if (monster.checkout.equals("master") && scoreField * scoreMultiplier == monster.hp) {
                 combatVictory();
                 monster.hp = 0;
             }
 
-        }else if( monster.checkout.equals("master") && scoreField * scoreMultiplier == monster.hp ){
-            combatVictory();
-            monster.hp = 0;
-        }
-
             battleLogHandler("heroAttack");
             monster.hp -= tempScore;
+
             if (monster.hp <= 0 && monster.checkout.equals("default")) {
                 Log.v("CombatMonster", "before combatVictory");
                 combatVictory();
                 Log.v("CombatMonster", "after combatVictory");
-            }
-
+            } else if (scoreHelper.addOneThrow(tempScore)) {
             //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg
-            if(scoreHelper.addOneThrow(tempScore)){
                 calculateMonsterDamage();
-            }
-
-            if (monster.hp <= 0) {
+            } else if (monster.hp <= 0) {
+                calculateMonsterDamage();
                 scoreHelper.bustReset();
                 //Überworfen!
             }
-        }
-        else{
+        } else {
             battleLogHandler("monsterEvasion");
-            if(scoreHelper.addOneThrow(0)){
+            if (scoreHelper.addOneThrow(0)) {
                 calculateMonsterDamage();
             }
         }
 
         monsterHpView.setText(monster.hp + "");
 
-        if(h.getHeroHitpoints(heroDbIndex) <= 0){
-            h.markOneRowAsUnused( heroDbIndex);
+        if (h.getHeroHitpoints(heroDbIndex) <= 0) {
+            h.markOneRowAsUnused(heroDbIndex);
             Intent i = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(i);
             finish();
