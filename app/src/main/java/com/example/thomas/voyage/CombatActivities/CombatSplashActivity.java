@@ -2,12 +2,14 @@ package com.example.thomas.voyage.CombatActivities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.PassParametersHelper;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
@@ -15,6 +17,8 @@ import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.Fragments.MonsterAllDataFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
+
+import org.w3c.dom.Text;
 
 public class CombatSplashActivity extends Activity implements MonsterAllDataFragment.OnFragmentInteractionListener{
 
@@ -32,6 +36,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
 
         TextView nameView = (TextView) findViewById(R.id.textview_com_splash_monster_name);
         TextView desView = (TextView) findViewById(R.id.textview_com_splash_monster_des);
+        TextView retreatView = (TextView) findViewById(R.id.textview_com_splash_retreat);
         ImageView backgroundView = (ImageView) findViewById(R.id.imageview_com_splash_background);
         ImageView monsterView = (ImageView) findViewById(R.id.imageview_com_splash_monster);
 
@@ -48,6 +53,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
 
         monster = new Monster(biome, String.valueOf(level), this);
         nameView.setText(monster.name);
+        if(length == 0)retreatView.setTextColor(getColor(android.R.color.darker_gray));
 
         //Je nach biome wird die Länge in einer anderen Einheit angegeben
         String unitSingural;
@@ -55,12 +61,12 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         switch (biome){
             case "Forest":
             case "Placeholder_Mountains":
-                unitSingural = " Tag...";
-                unitPlural = " Tage...";
+                unitSingural = " Tag bis zum nächsten Außenposten ...";
+                unitPlural = " Tage bis zum nächsten Dorf ...";
                 break;
             case "Placeholder_Dungeon":
-                unitSingural = " Etage...";
-                unitPlural = " Etagen...";
+                unitSingural = " Etage bis zum nächsten Ausgang ...";
+                unitPlural = " Etagen bis zum nächsten Ausgang ...";
                 break;
             default:
                 unitSingural = "ERROR@: desView: Biome nicht erkannt";
@@ -109,6 +115,16 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
                     monsterAllDataFragment.setArguments(PassParametersHelper.toMonsterAllDataFragment(new ConstRes(), monster));
                     fragmentTransaction.add(R.id.layout_com_splash_main, monsterAllDataFragment);
                     fragmentTransaction.commit();
+                    break;
+
+                case R.id.textview_com_splash_retreat:
+                    if(length == 0){
+                        Intent i = new Intent(getApplicationContext(), StartActivity.class);
+                        startActivity(i);
+                        finish();
+                    }else{
+                        Msg.msg(this, "Rückzug ist noch nicht möglich!");
+                    }
                     break;
 
                 default:
