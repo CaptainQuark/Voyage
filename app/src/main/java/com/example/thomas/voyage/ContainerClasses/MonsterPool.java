@@ -85,7 +85,7 @@ public class MonsterPool {
                 Log.e("ERROR@BIOMECHECK","currentBiome == nowhere!");
             }
 
-        }while(rarity != Integer.parseInt(list.get(rand)[3]) || run || !difficulty.equals(tDifficulty));
+        }while(rarity != Integer.parseInt(list.get(rand)[3]) || run || !monsterdifficulty.equals(tDifficulty));
 
         //Msg.msgShort(context, heroClass);
         //for(int i = 0; i < list.size(); i++)
