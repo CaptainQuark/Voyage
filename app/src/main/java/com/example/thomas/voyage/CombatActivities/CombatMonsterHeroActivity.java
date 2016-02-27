@@ -37,7 +37,8 @@ import java.util.Random;
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener,
         MonsterAllDataFragment.OnFragmentInteractionListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, currentMonsterCounter = -1, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
+    private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, turnsBetweenRetreat = -1,
+            currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
             heroCritChanceActive = -1;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1;
     private int heroDbIndex;
@@ -389,7 +390,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             // standardisiert - keine Kopierfehler, weniger Code, leichter zu verstehen
             startActivity(PassParametersHelper.toCombatSplash(
                     this, new ConstRes(), heroDbIndex, b.getString(c.CURRENT_BIOME, "Forest"),
-                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"), b.getInt(c.COMBAT_LENGTH, 1) - 1));
+                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"), b.getInt(c.COMBAT_LENGTH, 1) - 1,
+                    b.getInt(c.COMBAT_MONSTER_COUNTER) + 1, b.getInt(c.COMBAT_BOUNTY_TOTAL) + monster.bounty));
             finish();
 
         }else{
@@ -648,7 +650,10 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
 
                 levelOfMonsters = b.getString(c.COMBAT_LEVEL_OF_MONSTERS);
-                currentMonsterCounter = b.getInt(c.COMBAT_LENGTH);
+                turnsBetweenRetreat = b.getInt(c.COMBAT_LENGTH);
+                currentMonsterCounter = b.getInt(c.COMBAT_MONSTER_COUNTER);
+                bountyTotal = b.getInt(c.COMBAT_BOUNTY_TOTAL);
+
 
                 monster = new Monster(
                         b.getString(c.MONSTER_NAME),

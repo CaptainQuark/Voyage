@@ -96,7 +96,7 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     // Erst sichtbar, wenn Level + Dauer gewählt sind
     public void goInCombat(View view){
-        startActivity(PassParametersHelper.toCombatSplash(this, new ConstRes(), index, getCurrentBiome(), difficulty, length));
+        startActivity(PassParametersHelper.toCombatSplash(this, new ConstRes(), index, getCurrentBiome(), difficulty, length, 0, 0));
         finish();
     }
 

@@ -20,17 +20,19 @@ public class PassParametersHelper {
 
      */
 
-    public static Intent toCombatSplash(Context context, ConstRes c, int heroDbIndex, String biome, String level, int length){
+    public static Intent toCombatSplash(Context context, ConstRes c, int heroDbIndex, String biome, String level, int length, int monsterCounter, int bountyTotal){
         Intent i = new Intent(context, CombatSplashActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, heroDbIndex);
         i.putExtra(c.CURRENT_BIOME, biome);
         i.putExtra(c.COMBAT_LEVEL_OF_MONSTERS, level);
         i.putExtra(c.COMBAT_LENGTH, length);
+        i.putExtra(c.COMBAT_MONSTER_COUNTER, monsterCounter);
+        i.putExtra(c.COMBAT_BOUNTY_TOTAL, bountyTotal);
 
         return i;
     }
 
-    public static Intent toCombatMonsterHero(Context context, ConstRes c, Monster monster, int heroIndex, String biome, String level, int length){
+    public static Intent toCombatMonsterHero(Context context, ConstRes c, Monster monster, int heroIndex, String biome, String level, int length, int monsterCounter, int bountyTotal){
 
         Intent i = new Intent(context, CombatMonsterHeroActivity.class);
         i.putExtra(c.HERO_DATABASE_INDEX, heroIndex);
@@ -54,6 +56,8 @@ public class PassParametersHelper {
         i.putExtra(c.MONSTER_RESISTANCE, monster.resistance);
         i.putExtra(c.MONSTER_DIFFICULTY, monster.monsterDifficulty);
         i.putExtra(c.MONSTER_BOUNTY, monster.bounty);
+        i.putExtra(c.COMBAT_MONSTER_COUNTER, monsterCounter);
+        i.putExtra(c.COMBAT_BOUNTY_TOTAL, bountyTotal);
 
         return i;
     }

@@ -3,11 +3,13 @@ package com.example.thomas.voyage.CombatActivities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.SharedPreferences;
 
 import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.PassParametersHelper;
@@ -25,14 +27,17 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
     private ConstRes c = new ConstRes();
     private Monster monster;
     private MonsterAllDataFragment monsterAllDataFragment;
-    private int heroIndex, length = 1;
+    private int heroIndex, length = 1, monsterCounter = -1, bountyTotal = -1;
     private String level = "", biome = "";
+    private SharedPreferences prefsFortune;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat_splash);
         hideSystemUI();
+
+        prefsFortune = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, this.MODE_PRIVATE);
 
         TextView nameView = (TextView) findViewById(R.id.textview_com_splash_monster_name);
         TextView desView = (TextView) findViewById(R.id.textview_com_splash_monster_des);
@@ -49,11 +54,14 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
             biome = b.getString(c.CURRENT_BIOME, "Forest");
             level = b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy");
             length = b.getInt(c.COMBAT_LENGTH, 1);
+            monsterCounter = b.getInt(c.COMBAT_MONSTER_COUNTER, 0);
+            bountyTotal = b.getInt(c.COMBAT_BOUNTY_TOTAL, 0);
         }
 
         monster = new Monster(biome, String.valueOf(level), this);
         nameView.setText(monster.name);
-        if(length == 0)retreatView.setTextColor(getColor(android.R.color.darker_gray));
+        //Wenn kein Rückzug möglich wird das Feld ausgegraut
+        if(monsterCounter % length != 0)retreatView.setTextColor(Color.parseColor("#707070"));
 
         //Je nach biome wird die Länge in einer anderen Einheit angegeben
         String unitSingural;
@@ -103,7 +111,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         try {
             switch (v.getId()){
                 case R.id.textview_com_splash_start_combat:
-                    startActivity(PassParametersHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length));
+                    startActivity(PassParametersHelper.toCombatMonsterHero(this, new ConstRes(), monster, heroIndex, biome, level, length, monsterCounter, bountyTotal));
                     finish();
                     break;
 
@@ -118,7 +126,8 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
                     break;
 
                 case R.id.textview_com_splash_retreat:
-                    if(length == 0){
+                    if(monsterCounter % length == 0){
+                        prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + bountyTotal).apply();
                         Intent i = new Intent(getApplicationContext(), StartActivity.class);
                         startActivity(i);
                         finish();

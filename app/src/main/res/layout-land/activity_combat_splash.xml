@@ -81,7 +81,7 @@
 
                     <TextView
                         android:id="@+id/textview_com_splash_retreat"
-                        android:layout_width="190"
+                        android:layout_width="190dp"
                         android:layout_height="match_parent"
                         android:layout_column="1"
                         android:layout_gravity="center|bottom"
@@ -93,7 +93,7 @@
 
                     <TextView
                         android:id="@+id/textview_com_splash_start_combat"
-                        android:layout_width="190"
+                        android:layout_width="190dp"
                         android:layout_height="match_parent"
                         android:layout_column="0"
                         android:layout_gravity="center|bottom"
