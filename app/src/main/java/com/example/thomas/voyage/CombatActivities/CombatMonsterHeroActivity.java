@@ -389,9 +389,13 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             // Mit 'PassParametersHelper' werden Werte-Übergaben an Intent
             // standardisiert - keine Kopierfehler, weniger Code, leichter zu verstehen
             startActivity(PassParametersHelper.toCombatSplash(
-                    this, new ConstRes(), heroDbIndex, b.getString(c.CURRENT_BIOME, "Forest"),
-                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"), b.getInt(c.COMBAT_LENGTH, 1) - 1,
-                    b.getInt(c.COMBAT_MONSTER_COUNTER) + 1, b.getInt(c.COMBAT_BOUNTY_TOTAL) + monster.bounty));
+                    this, new ConstRes(), heroDbIndex,
+                    b.getString(c.CURRENT_BIOME, "Forest"),
+                    b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"),
+                    b.getInt(c.COMBAT_LENGTH, 1),
+                    b.getInt(c.COMBAT_MONSTER_COUNTER) + 1,
+                    //TODO: Bounty nach Schwierigkeit berechnen, randomness einfügen
+                    b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))));
             finish();
 
         }else{
@@ -406,7 +410,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case 1:
                 for(int i = 1; i < 21; i++) {
                     for (int p = 1; p < 4; p++) {
-                        if ((i*p - monster.hp) == 0 || 25 - monster.hp == 0 || 50 - monster.hp == 0) {
+                        if ((i*p - monster.hp) == 0 || monster.hp == 25 || monster.hp == 50) {
                             return true;
                         }
                     }
