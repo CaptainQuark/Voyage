@@ -396,6 +396,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getInt(c.COMBAT_MONSTER_COUNTER) + 1,
                     //TODO: Bounty nach Schwierigkeit berechnen, randomness einfügen
                     b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))));
+            Log.i("BOUNTY", "monsterBounty : " + monster.bounty +
+                    " / raw bounty: " + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))
+                    + " / new bountyTotal: " + (bountyTotal + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))));
             finish();
 
         }else{

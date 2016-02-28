@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -128,6 +129,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
                 case R.id.textview_com_splash_retreat:
                     if(monsterCounter % length == 0){
                         prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + bountyTotal).apply();
+                        Log.i("BOUNTYTOTAL", "bounty : " + bountyTotal);
                         Intent i = new Intent(getApplicationContext(), StartActivity.class);
                         startActivity(i);
                         finish();
