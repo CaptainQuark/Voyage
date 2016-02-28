@@ -247,6 +247,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             case "Monsterjäger":
                 break;
+
             //Secondaries:
             case "Schurke":
                 if (scoreField == 1) {
@@ -395,10 +396,10 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getInt(c.COMBAT_LENGTH, 1),
                     b.getInt(c.COMBAT_MONSTER_COUNTER) + 1,
                     //TODO: Bounty nach Schwierigkeit berechnen, randomness einfügen
-                    b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))));
-            Log.i("BOUNTY", "monsterBounty : " + monster.bounty +
-                    " / raw bounty: " + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))
-                    + " / new bountyTotal: " + (bountyTotal + (monster.bounty * (1 + (turnsBetweenRetreat + currentMonsterCounter) / 100))));
+                    b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)))));
+            Log.i("BOUNTY", "monsterBounty : " + monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)) +
+                    " / raw bounty: " + monster.bounty
+                    + " / new bountyTotal: " + (bountyTotal + (monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)))));
             finish();
 
         }else{

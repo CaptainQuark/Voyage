@@ -26,6 +26,7 @@ public class HelperCSV {
                     c.getResources().getIdentifier(fileName, "raw", c.getPackageName()))), ',');
             String [] nextLine;
 
+            //Header wird verworfen
             reader.readNext();
 
             while ((nextLine = reader.readNext()) != null) {

@@ -51,6 +51,7 @@ public class MonsterPool {
                 break;
             default:
         }
+        Log.i("DIFFICULTY: ", "difficulty: " + difficulty + " / tdifficulty: " + tDifficulty);
 
         HelperCSV helperCSV = new HelperCSV(context);
         List<String[]> list = helperCSV.getDataList("monsterresourcetable");
@@ -84,6 +85,10 @@ public class MonsterPool {
                 run = false;
                 Log.e("ERROR@BIOMECHECK","currentBiome == nowhere!");
             }
+
+            Log.i("MONSTERPOOL: ", "New monster created!");
+            Log.i("DIFFICULTY: ", "monsterdifficulty: " + monsterdifficulty + " / tdifficulty: " + tDifficulty);
+            Log.i("RARITY: ", "rarity: " + rarity + " / monsterrarity: " + Integer.parseInt(list.get(rand)[3]));
 
         }while(rarity != Integer.parseInt(list.get(rand)[3]) || run || !monsterdifficulty.equals(tDifficulty));
 

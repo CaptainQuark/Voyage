@@ -67,24 +67,34 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         //Je nach biome wird die Länge in einer anderen Einheit angegeben
         String unitSingural;
         String unitPlural;
+        String destinationReached;
         switch (biome){
             case "Forest":
             case "Placeholder_Mountains":
-                unitSingural = " Tag bis zum nächsten Außenposten ...";
+                unitSingural = "ein Tag bis zum nächsten Außenposten ...";
                 unitPlural = " Tage bis zum nächsten Dorf ...";
+                destinationReached = "Ein sicherer Handelsposten wurde erreicht!";
                 break;
             case "Placeholder_Dungeon":
-                unitSingural = " Etage bis zum nächsten Ausgang ...";
+                unitSingural = "eine Etage bis zum nächsten Ausgang ...";
                 unitPlural = " Etagen bis zum nächsten Ausgang ...";
+                destinationReached = "Am Ende des Schachtes leuchtet ein Licht!";
                 break;
             default:
                 unitSingural = "ERROR@: desView: Biome nicht erkannt";
                 unitPlural = "ERROR@: desView: Biome nicht erkannt";
+                destinationReached = "ERROR@: desView: Biome nicht erkannt";
         }
-        if(length == 1){
-            desView.setText("Noch " + length + unitSingural);
-        }else{
-            desView.setText("Noch " + length + unitPlural);
+        if(monsterCounter == 0){
+            desView.setText("Es ist noch nicht zu spät, umzukehren!" + '\n' + "Noch " + length + unitPlural);
+        } else if (monsterCounter % length == 0) {
+            desView.setText(destinationReached + '\n' + "Noch " + length + unitPlural);
+        } else if ((monsterCounter + 1) % length == 0) {
+            desView.setText("Noch " + unitSingural);
+        } else if ((monsterCounter + 2) % length == 0) {
+            desView.setText("Noch 2 " + unitPlural);
+        } else if ((monsterCounter + 3) % length == 0) {
+            desView.setText("Noch 3 " + unitPlural);
         }
 
 
