@@ -53,6 +53,8 @@ public class MonsterPool {
         }
         Log.i("DIFFICULTY: ", "difficulty: " + difficulty + " / tdifficulty: " + tDifficulty);
 
+        //TODO: Zusätzliche Monster in CSV hinzufügen, jede Schwierigkeit braucht alle drei Rarities!!!
+
         HelperCSV helperCSV = new HelperCSV(context);
         List<String[]> list = helperCSV.getDataList("monsterresourcetable");
         Random random = new Random();
