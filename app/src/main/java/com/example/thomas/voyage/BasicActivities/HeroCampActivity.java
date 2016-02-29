@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -59,7 +60,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     protected void onRestart() {
         super.onRestart();  // Always call the superclass method first
         heroGridView.invalidateViews();
-        setSlotsView();
+        setToolbarViews();
+        //setSlotsView();
         hideSystemUI();
     }
 
@@ -187,7 +189,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             // Annahme: 'costs' wurde bereits nach Kauf des Helden abgewertet und entspricht jetzt dem akutellen Verkaufswert
             prefs.edit().putLong("currentMoneyLong", money).apply();
 
-            h.markOneRowAsUnused(lastSelectedHeroIndex + 1);
+            h.markOneRowAsUnused(dbIndexForHeroList.get(lastSelectedHeroIndex));
             dbIndexForHeroList.remove(lastSelectedHeroIndex);
             heroList.remove(lastSelectedHeroIndex);
 
@@ -244,6 +246,13 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     healView.setTextColor(Color.parseColor("#707070"));
                 }
                 else healView.setTextColor(Color.WHITE);
+            }
+
+            slotsView.setText(heroList.size() + " / " + h.getTaskCount());
+
+            if(heroList.size() == 0){
+                ImageView emptyCampImageView = (ImageView) findViewById(R.id.iv_camp_empty);
+                emptyCampImageView.setVisibility(View.VISIBLE);
             }
 
         }catch (Exception e){
