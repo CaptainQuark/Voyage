@@ -85,6 +85,9 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                             for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
 
                             refreshToolbarViews();
+
+                        }else{
+
                         }
                     }
                 }
@@ -212,9 +215,12 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
 
     private void refreshToolbarViews(){
 
-        if(selectedHeroCardIndex != -1) {
-            if(m.getHeroCosts(selectedHeroCardIndex + 1) <= currentMoney) buyView.setTextColor(getColor(android.R.color.white));
-            if(getUsedRowsHeroDb() > 0) tradeView.setTextColor(getColor(android.R.color.white));
+        if(selectedHeroCardIndex != -1
+                && m.getHeroCosts(selectedHeroCardIndex + 1) <= currentMoney
+                && getUsedRowsHeroDb() < c.TOTAL_HEROES_PLAYER) {
+
+            buyView.setTextColor(getColor(android.R.color.white));
+            tradeView.setTextColor(getColor(android.R.color.white));
 
         }else{
             buyView.setTextColor(Color.parseColor("#707070"));
