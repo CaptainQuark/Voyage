@@ -383,10 +383,7 @@
 
         <ImageButton
             android:id="@+id/imagebutton_hospital_back_button"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
+            style="@style/ButtonToolbar"
             android:scaleType="fitCenter"
             android:src="@mipmap/ic_backbutton"
             android:tint="#8d8d8d"
@@ -395,48 +392,25 @@
 
         <TextView
             android:id="@+id/textview_hospital_boost_healing"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
+            style="@style/ButtonToolbar"
             android:text="Kraftakt"
-            android:textColor="#707070"
-            android:textSize="15sp"
             android:onClick="onClick"/>
 
         <TextView
             android:onClick="onClick"
             android:id="@+id/textview_hospital_abort_medication"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Heilung abbrechen"
-            android:textColor="#707070"
-            android:textSize="15sp" />
+            style="@style/ButtonToolbar"
+            android:text="Heilung abbrechen" />
 
         <TextView
             android:id="@+id/textview_hospital_slots"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="3 / 3"
-            android:textColor="#707070"
-            android:textSize="15sp" />
+            style="@style/ButtonToolbar"
+            android:text="X / Y" />
 
         <TextView
             android:id="@+id/textview_hospital_fortune"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="$ 1000"
-            android:textColor="#707070"
-            android:textSize="15sp"
-            android:layout_marginRight="0dp" />
+            style="@style/ButtonToolbar"
+            android:text="$ ..."/>
 
     </LinearLayout>
 </LinearLayout>

@@ -29,4 +29,6 @@
     <color name="quick_combat_player_1">#FF0098CB</color>
     <color name="quick_combat_player_2">#FFCF1313</color>
 
+    <color name="button_text_inactive">#707070</color>
+
 </resources>
