@@ -2,6 +2,7 @@ package com.example.thomas.voyage.CombatActivities;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -39,7 +40,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         setContentView(R.layout.activity_combat_splash);
         hideSystemUI();
 
-        prefsFortune = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, this.MODE_PRIVATE);
+        prefsFortune = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
 
         final TextView nameView = (TextView) findViewById(R.id.textview_com_splash_monster_name);
         TextView desView = (TextView) findViewById(R.id.textview_com_splash_monster_des);
