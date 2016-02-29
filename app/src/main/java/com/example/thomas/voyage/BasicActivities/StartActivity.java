@@ -327,7 +327,7 @@ public class StartActivity extends Activity {
     }
 
     private void refillMerchSlaveDatabase(){
-        Log.e("UPDATE_MERCH_DATABASE", "updateMerchantDatabase, inserts: " + c.TOTAL_HEROES_MERCHANT);
+        Log.v("UNEW MERCHANT", "updateMerchantDatabase, inserts: " + c.TOTAL_HEROES_MERCHANT);
         List<Hero> heroList = new ArrayList<>();
 
         for (int i = 0, id; i < c.TOTAL_HEROES_MERCHANT; i++) {
@@ -351,6 +351,7 @@ public class StartActivity extends Activity {
     }
 
     private void setNewMerchant(){
+        Log.v("NEW MERCHANT", "setNewMerchant");
         SharedPreferences prefsMerchant = getSharedPreferences(c.SP_SLAVE_MERCHANT, Context.MODE_PRIVATE);
         int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_ID, 0);
 
@@ -402,6 +403,7 @@ public class StartActivity extends Activity {
 
         }else{
             timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+            Log.v("NEW MERCHANT", "timeToShow : " + timeToShow);
             return timeToShow/1000/60;
         }
     }
