@@ -3,11 +3,15 @@ package com.example.thomas.voyage.CombatActivities;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.SharedPreferences;
@@ -16,12 +20,9 @@ import com.example.thomas.voyage.BasicActivities.StartActivity;
 import com.example.thomas.voyage.ContainerClasses.PassParametersHelper;
 import com.example.thomas.voyage.ContainerClasses.Monster;
 import com.example.thomas.voyage.ContainerClasses.Msg;
-import com.example.thomas.voyage.Fragments.HeroAllDataCardFragment;
 import com.example.thomas.voyage.Fragments.MonsterAllDataFragment;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
-
-import org.w3c.dom.Text;
 
 public class CombatSplashActivity extends Activity implements MonsterAllDataFragment.OnFragmentInteractionListener{
 
@@ -40,7 +41,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
 
         prefsFortune = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, this.MODE_PRIVATE);
 
-        TextView nameView = (TextView) findViewById(R.id.textview_com_splash_monster_name);
+        final TextView nameView = (TextView) findViewById(R.id.textview_com_splash_monster_name);
         TextView desView = (TextView) findViewById(R.id.textview_com_splash_monster_des);
         TextView retreatView = (TextView) findViewById(R.id.textview_com_splash_retreat);
         ImageView backgroundView = (ImageView) findViewById(R.id.imageview_com_splash_background);
@@ -96,7 +97,6 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         } else if ((monsterCounter + 3) % length == 0) {
             desView.setText("Noch 3 " + unitPlural);
         }
-
 
         backgroundView.setImageResource(getEnvironmentBackgroundPicture());
         monsterView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));

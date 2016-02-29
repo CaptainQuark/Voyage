@@ -103,25 +103,24 @@ public class HospitalActivity extends Activity {
 
     private void initializeBrokenHeroes(){
         try {
-            DBheroesAdapter heroesHelper = new DBheroesAdapter(this);
-            long sizeDatabase = heroesHelper.getTaskCount();
+            long sizeDatabase = h.getTaskCount();
 
             for(int i = 1; i <= sizeDatabase; i++){
-                Log.v("iniBrokenHeroes", "time to leave from db @ index " + i + ": " + heroesHelper.getTimeToLeave(i));
+                Log.v("iniBrokenHeroes", "time to leave from db @ index " + i + ": " + h.getTimeToLeave(i));
             }
 
             List<Integer> placeholderList = new ArrayList<>();
             for(int i = 0; i < 3; i++) placeholderList.add(i);
 
             for(int i = 1; i <= sizeDatabase; i++){
-                int medSlot = heroesHelper.getMedSlotIndex(i);
+                int medSlot = h.getMedSlotIndex(i);
 
                 if(medSlot != -1){
 
                     //Msg.msg(getApplicationContext(), "medSlot != -1 @ index " + i);
 
                     brokenHeroList.add( new BrokenHero(i, medSlot));
-                    slotsList.get(heroesHelper.getMedSlotIndex(i)).showHero( brokenHeroList.get( brokenHeroList.size() - 1));
+                    slotsList.get(h.getMedSlotIndex(i)).showHero(brokenHeroList.get(brokenHeroList.size() - 1));
 
                     for(int j = 0; j < placeholderList.size(); j++){
                         if(placeholderList.get(j) == medSlot) placeholderList.remove(j);
@@ -266,13 +265,10 @@ public class HospitalActivity extends Activity {
 
 
     private class Slot{
-        private int slotIndex;
-        private CountDownTimer timer;
         private TextView nameView, hpNowView, timeToLeaveView, staticHpView, staticTimeView;
         private ImageView profileResourceView;
 
         public Slot(int slotIndex){
-            this.slotIndex = slotIndex;
             profileResourceView = (ImageView) findViewById(getResources().getIdentifier("imageview_hospital_hero_" + slotIndex, "id", getPackageName()));
             nameView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_name_" + slotIndex,"id",getPackageName()));
             hpNowView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_hp_" + slotIndex,"id",getPackageName()));

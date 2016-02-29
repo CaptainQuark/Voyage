@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,8 +32,8 @@ import java.util.Random;
 
 public class StartActivity extends Activity {
 
-    private DBheroesAdapter heroesHelper;
-    private DBmerchantHeroesAdapter merchantHelper;
+    private DBheroesAdapter h;
+    private DBmerchantHeroesAdapter m;
     private DBplayerItemsAdapter itemPlayerHelper;
     private DBmerchantItemsAdapter itemMerchantHelper;
     private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket, textViewHospital;
@@ -184,8 +183,8 @@ public class StartActivity extends Activity {
         // -> wenn ja, aktualisiere Datenbank
         long timeToShow = getTimeToShow();
 
-        for(int i = 1; i <= merchantHelper.getTaskCount(); i++){
-            if( !(merchantHelper.getHeroName(i)
+        for(int i = 1; i <= m.getTaskCount(); i++){
+            if( !(m.getHeroName(i)
                     .equals(getResources().getString(R.string.indicator_unused_row))) ){
 
                 countNewHeroes++;
@@ -207,11 +206,11 @@ public class StartActivity extends Activity {
     }
 
     private void setHeroCampWindow(){
-        long size = heroesHelper.getTaskCount();
+        long size = h.getTaskCount();
         long count = 0;
 
         for(int i = 1; i <= size; i++){
-            if(!heroesHelper.getHeroName(i).equals(c.NOT_USED)){
+            if(!h.getHeroName(i).equals(c.NOT_USED)){
                 count++;
             }
         }
@@ -255,7 +254,7 @@ public class StartActivity extends Activity {
         long validation = 0;
 
         for (int i = rows; i > 0; i--) {
-            validation = heroesHelper.insertData(c.NOT_USED, 0, "", "", 0, "");
+            validation = h.insertData(c.NOT_USED, 0, "", "", 0, "");
 
             if(validation < 0){
                 Toast.makeText(this, "ERROR @ prepareHeroesDatabaseForGame with index " + i, Toast.LENGTH_SHORT).show();
@@ -309,7 +308,7 @@ public class StartActivity extends Activity {
             heroList.add(new Hero(this));
             heroList.get(i).Initialize("Everywhere");
 
-            id = merchantHelper.insertData(
+            id = m.insertData(
                     heroList.get(i).getHeroName(),
                     heroList.get(i).getHp(),
                     heroList.get(i).getClassPrimary(),
@@ -327,8 +326,7 @@ public class StartActivity extends Activity {
         return id;
     }
 
-    private void refillMerchDatabase(){
-        DBmerchantHeroesAdapter m = new DBmerchantHeroesAdapter(this);
+    private void refillMerchSlaveDatabase(){
         Log.e("UPDATE_MERCH_DATABASE", "updateMerchantDatabase, inserts: " + c.TOTAL_HEROES_MERCHANT);
         List<Hero> heroList = new ArrayList<>();
 
@@ -360,7 +358,7 @@ public class StartActivity extends Activity {
 
         prefsMerchant.edit().putInt(c.MERCHANT_ID, currentMerchantId).apply();
 
-        refillMerchDatabase();
+        refillMerchSlaveDatabase();
     }
 
     private long getNowInSeconds(){
@@ -421,8 +419,8 @@ public class StartActivity extends Activity {
     private void iniValues(){
 
         // Datenbankobjekte initialisieren
-        heroesHelper = new DBheroesAdapter(this);
-        merchantHelper = new DBmerchantHeroesAdapter(this);
+        h = new DBheroesAdapter(this);
+        m = new DBmerchantHeroesAdapter(this);
         itemPlayerHelper = new DBplayerItemsAdapter(this);
         itemMerchantHelper = new DBmerchantItemsAdapter(this);
         c = new ConstRes();
