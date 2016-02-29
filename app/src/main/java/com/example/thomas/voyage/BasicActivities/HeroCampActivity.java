@@ -54,6 +54,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         hideSystemUI();
         iniValues();
         iniViews();
+        setToolbarViews();
     }
 
     @Override
@@ -256,8 +257,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             }
 
         }catch (Exception e){
-            Msg.msg(this, String.valueOf(e));
             Log.e("EXCEPTION", String.valueOf(e));
+            Msg.msg(this, String.valueOf(e));
         }
 
     }
