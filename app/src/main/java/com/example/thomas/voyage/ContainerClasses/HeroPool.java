@@ -175,17 +175,22 @@ public class HeroPool {
     }
 
     public String getImageResource() {
+
+        //Sonderregeln für bestimmte Klassen
         switch (pClass){
             case "Waldläufer":
                 break;
             default:
                 break;
         }
+
         String s = pClass;
         s = s.toLowerCase();
         s = s.replaceAll("ä", "ae");
         s = s.replaceAll("ö", "oe");
         s = s.replaceAll("ü", "ue");
+        s = s.replaceAll("-", "_");
+        s = s.replaceAll(" ", "_");
         Log.i("HEROIMAGE","hero_dummy_" + s);
         return ("hero_dummy_" + s);
     }

@@ -37,11 +37,11 @@
                 app:cardElevation="10dp"
                 android:elevation="10dp"
                 app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@android:color/darker_gray">
+                app:cardBackgroundColor="@android:color/dark_gray">
 
                 <GridLayout
                     android:id="@+id/layout_com_splash_grid_in_card"
-                    android:layout_width="500dp"
+                    android:layout_width="450dp"
                     android:layout_height="400dp">
 
                     <ImageView

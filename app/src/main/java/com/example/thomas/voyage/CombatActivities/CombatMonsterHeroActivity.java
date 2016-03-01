@@ -56,6 +56,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private GridView playerItemGridView;
     private ScrollView battleLogScrollView;
 
+    //Monster-Fähigkeiten
+    private boolean monsterScalingDamage = false;
+
     Integer[] intArray;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         hideSystemUI();
     }
 
-
+//TODO: MonsterCritMultiplier debuggen(übernimmt er tatsächlich den Double?)
 
     /*
 
@@ -648,6 +651,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         try {
             HelperCSV helperCSV = new HelperCSV(this);
             List<String[]> heroresourcetable = helperCSV.getDataList("heroresourcetable");
+            List<String[]> monsterresourcetable = helperCSV.getDataList("monsterresourcetable");
 
             ConstRes c = new ConstRes();
             h = new DBheroesAdapter(this);
@@ -683,6 +687,14 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             }else{
                 Msg.msg(this, "ERROR @ iniValues : Bundle is null");
+            }
+
+            //Monster-Fähigkeiten werden ausgelesen
+            for (int m = 0; m < monsterresourcetable.size(); m++) {
+                if (monsterresourcetable.get(m)[2].equals(monster.name)) {
+                    Log.i("INIVALUES: ", "Monsterdaten wurden ausgelesen");
+                    monsterScalingDamage = Boolean.parseBoolean(monsterresourcetable.get(m)[19]);
+                }
             }
 
             //CritChance und Multiplier für Primär und Sekundär werden initialisiert

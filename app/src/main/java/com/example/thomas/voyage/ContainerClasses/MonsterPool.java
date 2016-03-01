@@ -11,7 +11,6 @@ public class MonsterPool {
     private int hp;
     private int dmgMin;
     private int dmgMax;
-    private int image;
     private int block;
     private int evasion;
     private int critChance;
@@ -32,9 +31,9 @@ public class MonsterPool {
         rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
         if (rarity <= 70) {                               //Wsl 70%
             rarity = 1;
-        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
+        } else if (rarity <= 90) {                          //Wsl 20% - 1/5
             rarity = 2;
-        } else if (rarity >= 90) {                          //Wsl 10% - 1/10
+        } else if (rarity > 90) {                          //Wsl 10% - 1/10
             rarity = 3;
         }
 
@@ -62,7 +61,6 @@ public class MonsterPool {
 
         do {
             rand = random.nextInt(list.size());
-            image = rand + 1;
             name = list.get(rand)[2];
             hp = Integer.parseInt(list.get(rand)[4]);
             dmgMin = Integer.parseInt(list.get(rand)[5]);
@@ -139,7 +137,25 @@ public class MonsterPool {
     }
 
     public String getImgRes(){
-        return "monster_dummy_" + image;
+
+        //Besondere Regeln für bestimmte Monster
+        switch (name){
+            case "":
+                break;
+            default:
+                break;
+        }
+
+        String s = name;
+        s = s.toLowerCase();
+        s = s.replaceAll("ä", "ae");
+        s = s.replaceAll("ö", "oe");
+        s = s.replaceAll("ü", "ue");
+        s = s.replaceAll("-", "_");
+        s = s.replaceAll(" ", "_");
+        Log.i("MONSTERIMAGE","monster_dummy_" + s);
+
+        return ("monster_dummy_" + s);
     }
 
     public String getName(){
