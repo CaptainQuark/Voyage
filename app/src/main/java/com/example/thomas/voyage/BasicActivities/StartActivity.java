@@ -363,18 +363,21 @@ public class StartActivity extends Activity {
     }
 
     private long getNowInSeconds(){
+        Log.v("Merch Time", "getNowInSeconds");
         return (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
                 + Calendar.getInstance().get(Calendar.MINUTE) * 60
                 + Calendar.getInstance().get(Calendar.SECOND);
     }
 
     private long getNewMerchLeaveDaytime(){
+        Log.v("Merch Time", "getNewMerchLeaveDaytime");
+
+        // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
         return ((Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) < 12) ? 12*60*60 : 24*60*60;
     }
 
     private long getNewMerchChangeDate(){
-
-        // Wenn jetzt nach Mittag, dann Mitternacht neuer Merchant, sonst zu Mittag
+        Log.v("Merch Time", "getNewMerchChangeDate");
         long newFinishDate = getNewMerchLeaveDaytime();
 
         long todayInSeconds = (Calendar.getInstance().get(Calendar.HOUR_OF_DAY)+1) * 60 *60
@@ -386,24 +389,32 @@ public class StartActivity extends Activity {
     }
 
     private long getTimeToShow() {
-        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", Context.MODE_PRIVATE);
         long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
 
-        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
-        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+        Log.v("Merch Time" , "merchToLeaveDaytime : " + merchToLeaveDaytime);
+        Log.v("Merch Time" , "merchChangeDate : " + merchChangeDate);
+        Log.v("Merch Time" , ".currentTimeMillis : " + System.currentTimeMillis());
 
+
+        if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
+        //if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+
+
+        // Wenn der gegenwärtige Zeitpunkt aus mehr Millisekunden
+        // besteht als das Ablaufdatum des Händlers, dann wechsle
         if(System.currentTimeMillis() >= merchChangeDate){
             timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
-            prefs.edit().putLong("merchToLeaveDaytime", merchToLeaveDaytime);
-            setNewMerchant();
             prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
             prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+            setNewMerchant();
 
             return timeToShow/1000/60;
 
         }else{
             timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
-            Log.v("NEW MERCHANT", "timeToShow : " + timeToShow);
+            Log.v("NEW MERCHANT", "timeToShow didn't change: " + timeToShow);
             return timeToShow/1000/60;
         }
     }
