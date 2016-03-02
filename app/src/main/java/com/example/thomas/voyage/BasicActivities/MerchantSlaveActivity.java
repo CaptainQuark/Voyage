@@ -75,20 +75,16 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                         m.updateRow(selectedHeroCardIndex + 1, c.NOT_USED);
 
                         if(!checkIfMerchantLeaves()){
-                            cardList.get(selectedHeroCardIndex).showCard();
-                            prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
-                            currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
                             selectedHeroCardIndex = -1;
-
                             if(fragContainerLayout != null) fragContainerLayout.setVisibility(View.GONE);
-
                             for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
 
                             refreshToolbarViews();
 
-                        }else{
-
                         }
+
+                        prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
+                        currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
                     }
                 }
 
