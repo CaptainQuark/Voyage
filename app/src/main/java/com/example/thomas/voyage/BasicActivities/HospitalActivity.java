@@ -201,6 +201,14 @@ public class HospitalActivity extends Activity {
     }
 
     private void abortMedication(){
+
+        /*
+
+        'abortMedicaton sollte keine Kosten verursachen,
+        um zu vermeiden, dass dem Spieler alle Helden fehlen
+
+         */
+
         if(lastSelectedSlotIndex == -1){
             Msg.msg(this, "No hero yet choosen!");
 
@@ -234,13 +242,26 @@ public class HospitalActivity extends Activity {
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
 
-                    if(!brokenHeroList.get(i).setHeroHitpoints(brokenHeroList.get(i).getHpTotal()))
-                        Msg.msg(this, "ERROR @ setHeroHitpoints");
+                    SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+                    long money = prefs.getLong(c.MY_POCKET, -1);
+                    int hoursToLeave = (int) ((brokenHeroList.get(i).getTimeToLeave() - System.currentTimeMillis()) / 1000 / 60 / 60);
 
-                    // zum Beenden der Schleife
-                    i = brokenHeroList.size();
-                    Msg.msg(this, "Heal-A-Hero!");
-                    releaseBrokenHero(lastSelectedSlotIndex);
+                    if(money - hoursToLeave * 150 >= 0){
+                        // pro fehlendem Hitpoint werden 150 Kosten als Penality verrecnet
+                        prefs.edit().putLong(c.MY_POCKET, prefs.getLong(c.MY_POCKET, -1) - hoursToLeave * 150).apply();
+
+                        if(!brokenHeroList.get(i).setHeroHitpoints(brokenHeroList.get(i).getHpTotal()))
+                            Msg.msg(this, "ERROR @ setHeroHitpoints");
+
+                        // zum Beenden der Schleife
+                        i = brokenHeroList.size();
+                        Msg.msg(this, "Heal-A-Hero!");
+                        releaseBrokenHero(lastSelectedSlotIndex);
+
+                    }else{
+                        Msg.msg(this, "No money, boy!");
+                    }
+
                 }else{
                     Log.v("BOOST", "no match at indices");
                 }
