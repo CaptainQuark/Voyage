@@ -39,7 +39,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, turnsBetweenRetreat = -1,
             currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
-            heroCritChanceActive = -1;
+            heroCritChanceActive = -1, monsterHpTotal;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
@@ -326,6 +326,15 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             //Kann der Held ausweichen?
             if (random.nextInt(1000) < h.getHeroEvasion(heroDbIndex)) {
                 monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
+
+                //Monster-Fähigkeiten
+                if(monsterScalingDamage){
+                    Log.i("MONSTERSCALINGDAMAGE:", "Original damage: " + monsterDmg);
+                    if(monster.hp < monster.hpTotal / 4) monsterDmg /= 4;
+                    else if (monster.hp < monster.hpTotal / 2) monsterDmg /= 2;
+                    else if (monster.hp < monster.hpTotal / (4 * 3)) monsterDmg = (monsterDmg /4) * 3;
+                    Log.i("MONSTERSCALINGDAMAGE:", "Scaled Damage: " + monsterDmg);
+                }
                 h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
                 battleLogHandler("monsterAttack");
             }
@@ -364,7 +373,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 logTopEntry = "   " + monster.name + " erwidert mit " + monsterDmg + ".";
                 break;
             case "heroEvasion":
-                logTopEntry = h.getHeroName(heroDbIndex) + "kann dem Angriff ausweichen. ";
+                logTopEntry = h.getHeroName(heroDbIndex) + " kann dem Angriff ausweichen. ";
                 break;
             case "monsterMiss":
                 logTopEntry = monster.name + " schlägt daneben. ";
