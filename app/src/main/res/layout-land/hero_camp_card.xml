@@ -21,7 +21,7 @@
             android:layout_weight="2"
             android:id="@+id/imageView_camp_card_profile"
             android:scaleType="centerCrop"
-            android:src="@mipmap/hero_dummy_3"
+            android:src="@mipmap/placeholder_dummy_0"
             android:clickable="true"/>
 
         <LinearLayout
@@ -75,9 +75,9 @@
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="X/Y"
-                    android:fontFamily="sans-serif-normal"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/textView_camp_card_costs"
@@ -86,9 +86,9 @@
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="-1"
-                    android:fontFamily="sans-serif-normal"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -108,9 +108,9 @@
                     android:text="Hitpoints"
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textColor="#626262"
-                    android:textStyle="bold" />
+                    android:textAllCaps="true"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -120,9 +120,9 @@
                     android:text="Marktwert"
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textColor="#626262"
-                    android:textStyle="bold" />
+                    android:textAllCaps="true"/>
 
             </LinearLayout>
 
@@ -143,9 +143,9 @@
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="-1"
-                    android:fontFamily="sans-serif-normal"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/textView_camp_card_hospital_costs"
@@ -154,9 +154,9 @@
                     android:layout_weight="1"
                     android:gravity="bottom|center"
                     android:text="-1"
-                    android:fontFamily="sans-serif-normal"
+                    android:fontFamily="sans-serif-light"
                     android:textColor="@android:color/black"
-                    android:textSize="14sp" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -176,9 +176,9 @@
                     android:text="Ausflucht"
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textColor="#626262"
-                    android:textStyle="bold" />
+                    android:textAllCaps="true"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -188,9 +188,9 @@
                     android:text="Heilung"
                     android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     android:textColor="#626262"
-                    android:textStyle="bold" />
+                    android:textAllCaps="true"/>
             </LinearLayout>
 
         </LinearLayout>

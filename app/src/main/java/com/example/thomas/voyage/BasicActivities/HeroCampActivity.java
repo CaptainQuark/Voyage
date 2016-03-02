@@ -111,7 +111,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 //int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
 
                 // pro fehlendem hitpoint werden $ 100 angerechnet
-                int costs = (heroList.get(lastSelectedHeroIndex).getHpTotal() - heroList.get(lastSelectedHeroIndex).getHp()) * 100;
+                int costs = getCostsToHeal(lastSelectedHeroIndex);
 
                 if( prefs.getLong(c.MY_POCKET, -1) - costs >= 0){
                     putFragmentToSleep();
@@ -192,6 +192,10 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
 
 
+    private int getCostsToHeal(int i){
+        return (heroList.get(i).getHpTotal() - heroList.get(i).getHp()) * c.COSTS_TO_HEAL_PER_HP;
+    }
+
     private int getFreeSlotAtHospital(){
         int[] slotsArray = {1,1,1};
         int slotIndex = -1;
@@ -234,9 +238,9 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     private void setToolbarViews(){
         try{
             if(lastSelectedHeroIndex == -1){
-                sellView.setTextColor(Color.parseColor("#707070"));
-                toFightView.setTextColor(Color.parseColor("#707070"));
-                healView.setTextColor(Color.parseColor("#707070"));
+                sellView.setTextColor(getColor(R.color.inactive_field));
+                toFightView.setTextColor(getColor(R.color.inactive_field));
+                healView.setTextColor(getColor(R.color.inactive_field));
             }
             else {
                 sellView.setTextColor(Color.WHITE);
@@ -247,12 +251,14 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 float diff = (heroList.get(lastSelectedHeroIndex).getHp() > 0) ? 0 : 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
                 long money = prefs.getLong(c.MY_POCKET, -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
 
-                if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1))
-                    healView.setTextColor(Color.parseColor("#707070"));
-                else if(money < 0){
-                    healView.setTextColor(Color.parseColor("#707070"));
-                }
-                else healView.setTextColor(Color.WHITE);
+                if(h.getHeroHitpoints(dbIndexForHeroList.get(lastSelectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(lastSelectedHeroIndex))
+                        || money < getCostsToHeal(lastSelectedHeroIndex)
+                        || getFreeSlotAtHospital() == -1
+                        || h.getMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex)) != -1){
+
+                    healView.setTextColor(getColor(R.color.inactive_field));
+
+                }else healView.setTextColor(Color.WHITE);
             }
 
             slotsView.setText(heroList.size() + " / " + h.getTaskCount());
@@ -285,6 +291,9 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
             setToolbarViews();
             heroAllDataCardFragment = null;
+
+            somethingSelected = false;
+            heroGridView.invalidateViews();
         }
     }
 
@@ -354,10 +363,11 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.nameView.setText(String.valueOf(heroList.get(position).getHeroName()));
             holder.classesView.setText(heroList.get(position).getClassPrimary() + " und " + heroList.get(position).getClassSecondary());
             holder.hpView.setText(heroList.get(position).getHp() + " / " + heroList.get(position).getHpTotal());
-            holder.costsView.setText(String.valueOf(heroList.get(position).getCosts()));
+            holder.costsView.setText("$ " + heroList.get(position).getCosts());
             holder.evasionView.setText((1000 - heroList.get(position).getEvasion())/10 + " %");
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
+                //holder.rightCardLayout.setBackgroundColor(Color.WHITE);
                 holder.rightCardLayout.setBackgroundColor(Color.WHITE);
 
             }else{
@@ -365,14 +375,13 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             }
 
             if(h.getMedSlotIndex(position+1) != -1) {
-                holder.hospitalCostsView.setText("IN HEILUNG");
-                holder.hospitalCostsView.setTextColor(Color.WHITE);
+                holder.hospitalCostsView.setText("In Heilung...");
             }
             else {
-                if(heroList.get(position).getHpTotal() == heroList.get(position).getHpTotal())
+                if(heroList.get(position).getHp() == heroList.get(position).getHpTotal())
                     holder.hospitalCostsView.setText("-");
                 else
-                    holder.hospitalCostsView.setText("$ " + ((heroList.get(position).getHpTotal() - (heroList.get(position).getHp())) / (heroList.get(position).getHpTotal()) * 100 + 1) * 100);
+                    holder.hospitalCostsView.setText("$ " + getCostsToHeal(position) + " / " + getCostsToHeal(position) / c.COSTS_TO_HEAL_PER_HP + " h");
 
                 holder.hospitalCostsView.setTextColor(Color.BLACK);
             }

@@ -139,8 +139,7 @@ public class HospitalActivity extends Activity {
                 slotsList.get( placeholderList.get(i)).showPlaceholder();
             }
 
-            setFreeSlotsView();
-            setFortuneView();
+            refreshToolbarViews();
 
         }catch (IndexOutOfBoundsException e){
             Msg.msg(this, e + "");
@@ -149,7 +148,8 @@ public class HospitalActivity extends Activity {
 
     private void checkForAction(int slotIndex){
         boolean isUsed = false;
-        lastSelectedSlotIndex = slotIndex;
+        //lastSelectedSlotIndex = slotIndex;
+        lastSelectedSlotIndex = (slotIndex == lastSelectedSlotIndex) ? -1 : slotIndex;
 
         for(int i = 0; i < brokenHeroList.size(); i++){
             if( brokenHeroList.get(i).getSlotIndex() == slotIndex ) isUsed = true;
@@ -164,11 +164,9 @@ public class HospitalActivity extends Activity {
             finish();
 
         }else{
-            abortMedicationView.setTextColor(Color.BLACK);
-            boostMedicationView.setTextColor(Color.BLACK);
-        }
 
-        setFreeSlotsView();
+            refreshToolbarViews();
+        }
     }
 
     private void releaseBrokenHero(int slotIndex){
@@ -189,15 +187,19 @@ public class HospitalActivity extends Activity {
         }
     }
 
-    private void setFreeSlotsView(){
+    private void refreshToolbarViews(){
+        if(lastSelectedSlotIndex != -1){
+            abortMedicationView.setTextColor(Color.BLACK);
+            boostMedicationView.setTextColor(Color.BLACK);
+
+        }else{
+            abortMedicationView.setTextColor(getColor(R.color.button_text_inactive));
+            boostMedicationView.setTextColor(getColor(R.color.button_text_inactive));
+        }
+
         freeSlotsView.setText(brokenHeroList.size() + " / " + slotsList.size());
-    }
-
-    private void setFortuneView(){
         SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-        long money = prefs.getLong(c.MY_POCKET, -1);
-
-        fortuneView.setText("$ " + money);
+        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
     }
 
     private void abortMedication(){
@@ -225,10 +227,7 @@ public class HospitalActivity extends Activity {
             }
 
             lastSelectedSlotIndex = -1;
-            setFreeSlotsView();
-            setFortuneView();
-            boostMedicationView.setTextColor(Color.parseColor("#707070"));
-            abortMedicationView.setTextColor(Color.parseColor("#707070"));
+            refreshToolbarViews();
         }
     }
 
@@ -268,12 +267,7 @@ public class HospitalActivity extends Activity {
             }
 
             lastSelectedSlotIndex = -1;
-            setFreeSlotsView();
-            setFortuneView();
-
-            // beide wieder als inaktiv zeigen, da Auswahl nun beendet ist
-            boostMedicationView.setTextColor(Color.parseColor("#707070"));
-            abortMedicationView.setTextColor(Color.parseColor("#707070"));
+            refreshToolbarViews();
         }
     }
 
