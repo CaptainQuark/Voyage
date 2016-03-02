@@ -290,14 +290,15 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 Log.v("CombatMonster", "before combatVictory");
                 combatVictory();
                 Log.v("CombatMonster", "after combatVictory");
-            } else if (scoreHelper.addOneThrow(tempScore)) {
-            //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg
-                calculateMonsterDamage();
             } else if (monster.hp <= 0) {
+                //Überworfen!
                 calculateMonsterDamage();
                 scoreHelper.bustReset();
-                //Überworfen!
+            } else if (scoreHelper.addOneThrow(tempScore)) {
+                //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg
+                calculateMonsterDamage();
             }
+
         } else {
             battleLogHandler("monsterEvasion");
             if (scoreHelper.addOneThrow(0)) {
@@ -305,7 +306,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
         }
 
-        monsterHpView.setText(monster.hp + "");
+        updateCharacterInfoViews();
 
         if (h.getHeroHitpoints(heroDbIndex) <= 0) {
             h.markOneRowAsUnused(heroDbIndex);
@@ -560,13 +561,15 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         //Überworfen!
         public void bustReset(){
+            tempScoreHistory[throwCount] = tempScore;
             for (int i = 0; i <= 2; i++) {
                 monster.hp += scoreHelper.tempScoreHistory[i];
+                Log.i("BUST:", i + ". Eintrag, + " + scoreHelper.tempScoreHistory[i] + " Leben!");
                 tempScoreHistory[i] = 0;
-                throwCount = 0;
-                battleLogHandler("heroBust");
-                updateCharacterInfoViews();
             }
+            throwCount = 0;
+            battleLogHandler("heroBust");
+            updateCharacterInfoViews();
         }
     }
 

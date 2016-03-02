@@ -74,12 +74,12 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
             case "Forest":
             case "Placeholder_Mountains":
                 unitSingural = "ein Tag bis zum nächsten Außenposten ...";
-                unitPlural = " Tage bis zum nächsten Dorf ...";
+                unitPlural = "Tage bis zum nächsten Dorf ...";
                 destinationReached = "Ein sicherer Handelsposten wurde erreicht!";
                 break;
             case "Placeholder_Dungeon":
                 unitSingural = "eine Etage bis zum nächsten Ausgang ...";
-                unitPlural = " Etagen bis zum nächsten Ausgang ...";
+                unitPlural = "Etagen bis zum nächsten Ausgang ...";
                 destinationReached = "Am Ende des Schachtes leuchtet ein Licht!";
                 break;
             default:
