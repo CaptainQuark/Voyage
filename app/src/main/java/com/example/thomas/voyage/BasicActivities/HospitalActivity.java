@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -60,11 +59,13 @@ public class HospitalActivity extends Activity {
     }
 
 
-    /**
+
+    /*
 
      onClick-Methoden
 
      */
+
 
 
     public void onClick(View v){
@@ -94,11 +95,13 @@ public class HospitalActivity extends Activity {
     }
 
 
-    /**
+
+    /*
 
      Funktionen
 
      */
+
 
 
     private void initializeBrokenHeroes(){
@@ -168,21 +171,21 @@ public class HospitalActivity extends Activity {
         setFreeSlotsView();
     }
 
-    private void removeBrokenHeroFromList(int slotIndex){
+    private void releaseBrokenHero(int slotIndex){
 
         for(int index = 0; index < brokenHeroList.size(); index++){
 
             if(brokenHeroList.get(index).getSlotIndex() == slotIndex){
 
                 slotsList.get(slotIndex).showPlaceholder();
-                brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
-                if(!brokenHeroList.get(index).setHeroMedSlotIndex(-1)){ Log.e("removeBrokenHero", "setHeroMedSlotIndex(-1)"); }
-                if(!brokenHeroList.get(index).setTimeToLeave(0)){ Log.e("removeBrokenHero", "setTimeToLeave(-1)"); }
+                //brokenHeroList.get(index).setHeroHitpoints(brokenHeroList.get(index).getHpNow());
+                if(!brokenHeroList.get(index).setHeroMedSlotIndex(-1)){ Log.e("releaseBrokenHero", "setHeroMedSlotIndex(-1)"); }
+                if(!brokenHeroList.get(index).setTimeToLeave(0)){ Log.e("releaseBrokenHero", "setTimeToLeave(-1)"); }
                 brokenHeroList.remove(index);
 
                 index = 3;
 
-            }else if(index == 2) Msg.msg(this, "ERROR @ removeBrokenHeroFromList : no matching index");
+            }else if(index == 2) Msg.msg(this, "ERROR @ releaseBrokenHero : no matching index");
         }
     }
 
@@ -202,15 +205,14 @@ public class HospitalActivity extends Activity {
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
-            Log.v("removeBrokenHero", "brokenHeroList.size : " + brokenHeroList.size());
-            Log.v("removeBrokenHero", "slotList.size : " + slotsList.size());
+            Log.v("releaseBrokenHero", "brokenHeroList.size : " + brokenHeroList.size());
+            Log.v("releaseBrokenHero", "slotList.size : " + slotsList.size());
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
 
+                    releaseBrokenHero(lastSelectedSlotIndex);
                     i = brokenHeroList.size();
                     Msg.msg(this, "No more medication");
-
-                    removeBrokenHeroFromList(lastSelectedSlotIndex);
                 }
             }
 
@@ -227,20 +229,20 @@ public class HospitalActivity extends Activity {
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
-            Log.v("removeBrokenHero", "brokenHeroList.size : " + brokenHeroList.size());
-            Log.v("removeBrokenHero", "slotList.size : " + slotsList.size());
+            Log.v("boostMedication", "brokenHeroList.size : " + brokenHeroList.size());
+            Log.v("boostMedication", "slotList.size : " + slotsList.size());
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
-                    int hpNew = brokenHeroList.get(i).getHpTotal();
 
-                    // return-Wert aus Datenbank wird davor in boolean umgewandelt
-                    //  und hier betrachtet - wenn 'false', dann Fehler bei update
-                    if(!brokenHeroList.get(i).setHeroHitpoints(hpNew)) Msg.msg(this, "ERROR @ setHeroHitpoints");
+                    if(!brokenHeroList.get(i).setHeroHitpoints(brokenHeroList.get(i).getHpTotal()))
+                        Msg.msg(this, "ERROR @ setHeroHitpoints");
 
                     // zum Beenden der Schleife
                     i = brokenHeroList.size();
                     Msg.msg(this, "Heal-A-Hero!");
-                    removeBrokenHeroFromList(lastSelectedSlotIndex);
+                    releaseBrokenHero(lastSelectedSlotIndex);
+                }else{
+                    Log.v("BOOST", "no match at indices");
                 }
             }
 
@@ -256,9 +258,9 @@ public class HospitalActivity extends Activity {
 
 
 
-    /**
+    /*
 
-     Klassen
+    Klassen
 
      */
 
@@ -307,8 +309,8 @@ public class HospitalActivity extends Activity {
         private long timeToLeave;
         private String name, profileResource;
 
-        public BrokenHero(int dbIndex, int si){
-            this.slotIndex = si;
+        public BrokenHero(int dbIndex, int slotIndex){
+            this.slotIndex = slotIndex;
             this.dbIndex = dbIndex;
 
             if(dbIndex > 0){
@@ -317,36 +319,18 @@ public class HospitalActivity extends Activity {
                 profileResource = h.getHeroImgRes(dbIndex);
                 hpTotal = h.getHeroHitpointsTotal(dbIndex);
 
-                // 'tempTime' wird verwendet, um weniger Datenbankzugriffe zu haben (nur einen)
-                long tempTime = h.getTimeToLeave(dbIndex);
-
-                if(tempTime == 0){
-                    timeToLeave = this.getNewFinishTimeInMillis();
-                    this.setTimeToLeave(timeToLeave);
-                }
-                else { timeToLeave = tempTime; }
+                timeToLeave = h.getTimeToLeave(dbIndex);
 
                 // Überprüfe, ob Held geheilt ist, also ob Zeitpunkt der Heilung
                 // bereits in der Vergangenheit liegt
                 if(timeToLeave - System.currentTimeMillis() > 0){
-                    hpNow = hpTotal - (int) ((timeToLeave - System.currentTimeMillis()) / 1000 / 60 / 60);
+                    hpNow = hpTotal - 1 - (int) ((timeToLeave - System.currentTimeMillis()) / 1000 / 60 / 60);
+                    this.setHeroHitpoints(hpNow);
 
                 }else{
-                    removeBrokenHeroFromList(slotIndex);
+                    releaseBrokenHero(this.slotIndex);
                 }
-
-                this.setHeroMedSlotIndex(si);
             }
-        }
-
-        private long getNewFinishTimeInMillis(){
-            // Jedes Prozent benötigt eine Stunde zur Heilung
-            return(System.currentTimeMillis() + (60 * 60 * 1000 * this.getPercentToCompleteHealth()));
-        }
-
-        public int getPercentToCompleteHealth(){
-            // Wie viel % der HpTotal sind noch nicht geheilt
-            return (int) ((((float)hpTotal-(float)hpNow) / (float)hpTotal) * 100);
         }
 
         public boolean setHeroHitpoints(int hpNew){
@@ -372,11 +356,13 @@ public class HospitalActivity extends Activity {
     }
 
 
-    /**
 
-     Funktionen zur Auslagerung von Initialisierungen
+    /*
+
+    Funktionen zur Auslagerung von Initialisierungen
 
      */
+
 
 
     private void prepareActivity(){

@@ -37,7 +37,7 @@
                 app:cardElevation="10dp"
                 android:elevation="10dp"
                 app:cardUseCompatPadding="true"
-                app:cardBackgroundColor="@android:color/dark_gray">
+                app:cardBackgroundColor="@android:color/darker_gray">
 
                 <GridLayout
                     android:id="@+id/layout_com_splash_grid_in_card"
@@ -50,7 +50,7 @@
                         android:layout_height="0dp"
                         android:scaleType="centerCrop"
                         android:onClick="onClick"
-                        android:src="@mipmap/placeholder_dummy_0"
+                        android:src="@mipmap/monster_dummy_uruk_kapitaen"
                         android:layout_column="0"
                         android:layout_row="0"
                         android:layout_rowWeight="4"

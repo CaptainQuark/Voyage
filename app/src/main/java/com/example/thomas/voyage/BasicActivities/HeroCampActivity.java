@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
@@ -93,64 +92,43 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             Msg.msg(this, "Your hero doesn't need any medication");
 
         }else{
-            int slotIndex = -1;
+            int medSlotIndex;
             Bundle b = getIntent().getExtras();
-            if(b != null){ slotIndex = b.getInt("SLOT_INDEX", -1); }
+            medSlotIndex = (b != null) ? b.getInt("SLOT_INDEX", -1) : getFreeSlotAtHospital();
+
+            if(b != null)
+                medSlotIndex = b.getInt("SLOT_INDEX", -1);
+
+            if(medSlotIndex == -1)
+                medSlotIndex = getFreeSlotAtHospital();
 
             // nächsten freien Slot in HospitalActivity finden
-            if(slotIndex == -1){
-                int[] slotsArray = {1,1,1};
+            if(medSlotIndex == -1){
+                Msg.msg(this, "No free medic available");
 
-                for(int i = 1; i <= h.getTaskCount(); i++){
-                    switch (h.getMedSlotIndex(i)){
-                        case 0:
-                            slotsArray[0] = -1;
-                            break;
-                        case 1:
-                            slotsArray[1] = -1;
-                            break;
-                        case 2:
-                            slotsArray[2] = -1;
-                            break;
-                    }
-                }
-
-                for(int i = 0; i < slotsArray.length; i++){
-                    if(slotsArray[i] == 1){
-                        slotIndex = i;
-                        i = slotsArray.length;
-                    }
-                }
-
-                if(slotIndex == -1) Msg.msg(this, "No free medic available");
-            }
-
-            if(!h.updateMedSlotIndex(lastSelectedHeroIndex+1, slotIndex)) Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
-
-            if(slotIndex >= 0 && slotIndex <= 2){
-                putFragmentToSleep();
+            }else{
                 SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-                int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
-                long money = prefs.getLong(c.MY_POCKET, -1) - costs;
+                //int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
 
-                prefs.edit().putLong(c.MY_POCKET, money).apply();
-                fortuneView.setText("$ " + money);
+                // pro fehlendem hitpoint werden $ 100 angerechnet
+                int costs = (heroList.get(lastSelectedHeroIndex).getHpTotal() - heroList.get(lastSelectedHeroIndex).getHp()) * 100;
 
-                /*
-                float diff = 1 / (heroList.get(lastSelectedHeroIndex).getHeroHitpointsTotal() / heroList.get(lastSelectedHeroIndex).getHp());
-                long money = prefs.getLong("currentMoneyLong", -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
-                */
+                if( prefs.getLong(c.MY_POCKET, -1) - costs >= 0){
+                    putFragmentToSleep();
 
-                if(money >= 0){
-                    prefs.edit().putLong(c.MY_POCKET, money);
+                    if(!h.updateMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex), medSlotIndex))
+                        Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
+
+                    if(!h.updateTimeToLeave(dbIndexForHeroList.get(lastSelectedHeroIndex), System.currentTimeMillis() + (1000* 60 * 60 * (costs / 100))))
+                        Msg.msg(this, "ERROR @ campHealHero : updateTimeToLeave");
+
+                    prefs.edit().putLong(c.MY_POCKET,  prefs.getLong(c.MY_POCKET, -1) - costs);
                     Intent i = new Intent(this, HospitalActivity.class);
                     startActivity(i);
                     finish();
+
                 } else
                     Msg.msg(this, "Not enough money, boy!");
-
-            }else{
-                Msg.msg(this, "ERROR @ campHealHero : invalid slotIndex");
             }
         }
     }
@@ -213,6 +191,34 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
      */
 
 
+
+    private int getFreeSlotAtHospital(){
+        int[] slotsArray = {1,1,1};
+        int slotIndex = -1;
+
+        for(int i = 1; i <= h.getTaskCount(); i++){
+            switch (h.getMedSlotIndex(i)){
+                case 0:
+                    slotsArray[0] = -1;
+                    break;
+                case 1:
+                    slotsArray[1] = -1;
+                    break;
+                case 2:
+                    slotsArray[2] = -1;
+                    break;
+            }
+        }
+
+        for(int i = 0; i < slotsArray.length; i++){
+            if(slotsArray[i] == 1){
+                slotIndex = i;
+                i = slotsArray.length;
+            }
+        }
+
+        return slotIndex;
+    }
 
     public void passHeroesParameterstoNewActivity(Intent i){
         ConstRes co = new ConstRes();
@@ -316,7 +322,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
             private TextView nameView,classesView, hpView, costsView, evasionView, hospitalCostsView;
             private ImageView profileView;
-            private LinearLayout rightPanelLayout;
+            private LinearLayout rightCardLayout;
 
             ViewHolder(View v) {
                 nameView = (TextView) v.findViewById(R.id.textView_camp_card_name);
@@ -326,7 +332,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 hospitalCostsView = (TextView) v.findViewById(R.id.textView_camp_card_hospital_costs);
                 evasionView = (TextView) v.findViewById(R.id.textView_camp_card_evasion);
                 profileView = (ImageView) v.findViewById(R.id.imageView_camp_card_profile);
-                rightPanelLayout = (LinearLayout) v.findViewById(R.id.layout_camp_right_panel);
+                rightCardLayout = (LinearLayout) v.findViewById(R.id.layout_camp_right_panel);
             }
         }
 
@@ -352,10 +358,10 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.evasionView.setText((1000 - heroList.get(position).getEvasion())/10 + " %");
 
             if(lastSelectedHeroIndex == position && !somethingSelected){
-                holder.rightPanelLayout.setBackgroundColor(Color.WHITE);
+                holder.rightCardLayout.setBackgroundColor(Color.WHITE);
 
             }else{
-                holder.rightPanelLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
+                holder.rightCardLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
             }
 
             if(h.getMedSlotIndex(position+1) != -1) {
@@ -393,7 +399,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 }
             });
 
-            holder.rightPanelLayout.setOnClickListener(new View.OnClickListener() {
+            holder.rightCardLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     somethingSelected = lastSelectedHeroIndex != position;
@@ -423,7 +429,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
     /*
 
-    Funktionen zur Auslagerung
+    Auslagerung von Initialisierungen
 
      */
 

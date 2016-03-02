@@ -404,6 +404,7 @@ public class StartActivity extends Activity {
         // Wenn der gegenwärtige Zeitpunkt aus mehr Millisekunden
         // besteht als das Ablaufdatum des Händlers, dann wechsle
         if(System.currentTimeMillis() >= merchChangeDate){
+            Log.v("Merch Time", "new merchant will is arriving");
             timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
             prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
             prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
@@ -414,7 +415,7 @@ public class StartActivity extends Activity {
 
         }else{
             timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
-            Log.v("NEW MERCHANT", "timeToShow didn't change: " + timeToShow);
+            Log.v("Merch Time", "timeToShow didn't change: " + timeToShow);
             return timeToShow/1000/60;
         }
     }
