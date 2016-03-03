@@ -269,7 +269,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         tempScore += scoreField * scoreMultiplier * monster.resistance - monster.block;
         if (tempScore < 0) tempScore = 0;
 
-        if ((int) (Math.random() * 1000) <= monster.evasion || monster.hp <= 170) {
+        if ((int) (Math.random() * 1000) <= monster.evasion ||
+                (monster.hp <= 170 && monster.checkout.equals("master")) ||
+                (monster.hp <= 170 && monster.checkout.equals("double"))) {
             //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
 
             if (monster.checkout.equals("double") && checkOutPossible(2)) {
@@ -330,9 +332,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 //Monster-Fähigkeiten
                 if(monsterScalingDamage){
                     Log.i("MONSTERSCALINGDAMAGE:", "Original damage: " + monsterDmg);
-                    if(monster.hp < monster.hpTotal / 4) monsterDmg /= 4;
-                    else if (monster.hp < monster.hpTotal / 2) monsterDmg /= 2;
-                    else if (monster.hp < monster.hpTotal / (4 * 3)) monsterDmg = (monsterDmg /4) * 3;
+                    if (monster.hp < monster.hpTotal / 3) monsterDmg = monsterDmg / 3;
+                    else if (monster.hp < monster.hpTotal / 3 * 2) monsterDmg = (monsterDmg / 3) * 2;
+
                     Log.i("MONSTERSCALINGDAMAGE:", "Scaled Damage: " + monsterDmg);
                 }
                 h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
@@ -408,7 +410,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getString(c.COMBAT_LEVEL_OF_MONSTERS, "Easy"),
                     b.getInt(c.COMBAT_LENGTH, 1),
                     b.getInt(c.COMBAT_MONSTER_COUNTER) + 1,
-                    //TODO: Bounty nach Schwierigkeit berechnen, randomness einfügen
+                    //TODO: Bounty randomness einfügen
                     b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)))));
             Log.i("BOUNTY", "monsterBounty : " + monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)) +
                     " / raw bounty: " + monster.bounty

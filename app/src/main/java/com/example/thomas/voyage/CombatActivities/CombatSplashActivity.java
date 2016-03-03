@@ -73,13 +73,13 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         switch (biome){
             case "Forest":
             case "Placeholder_Mountains":
-                unitSingural = "ein Tag bis zum nächsten Außenposten ...";
-                unitPlural = "Tage bis zum nächsten Dorf ...";
+                unitSingural = " ein Tag bis zum nächsten Außenposten ...";
+                unitPlural = " Tage bis zum nächsten Dorf ...";
                 destinationReached = "Ein sicherer Handelsposten wurde erreicht!";
                 break;
             case "Placeholder_Dungeon":
-                unitSingural = "eine Etage bis zum nächsten Ausgang ...";
-                unitPlural = "Etagen bis zum nächsten Ausgang ...";
+                unitSingural = " eine Etage bis zum nächsten Ausgang ...";
+                unitPlural = " Etagen bis zum nächsten Ausgang ...";
                 destinationReached = "Am Ende des Schachtes leuchtet ein Licht!";
                 break;
             default:
@@ -94,9 +94,9 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         } else if ((monsterCounter + 1) % length == 0) {
             desView.setText("Noch " + unitSingural);
         } else if ((monsterCounter + 2) % length == 0) {
-            desView.setText("Noch 2 " + unitPlural);
+            desView.setText("Noch 2" + unitPlural);
         } else if ((monsterCounter + 3) % length == 0) {
-            desView.setText("Noch 3 " + unitPlural);
+            desView.setText("Noch 3" + unitPlural);
         }
 
         backgroundView.setImageResource(getEnvironmentBackgroundPicture());
