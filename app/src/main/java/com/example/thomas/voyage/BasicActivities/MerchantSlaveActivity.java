@@ -252,7 +252,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     }
 
     private void setNewMerchant(){
-        merchantCardHolder = new MerchantCardHolder(this, HelperSharedPrefs.setNewMerchantSlaveIdAndReturnVal(this, new ConstRes()), getTimeToShow());
+        merchantCardHolder = new MerchantCardHolder(this, HelperSharedPrefs.incrementMerchantSlaveId(this, new ConstRes()), getTimeToShow());
 
         refillMerchDatabase();
         for(int i = 0; i < cardList.size(); i++)

@@ -3,7 +3,7 @@ package com.example.thomas.voyage.BasicActivities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+//import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.QuickCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
+import com.example.thomas.voyage.ContainerClasses.HelperSharedPrefs;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.ContainerClasses.Msg;
@@ -123,14 +124,14 @@ public class StartActivity extends Activity {
         // vor Datenbank-Upgrade durchgeführt -> zuerst letztes 'false' durch 'true' ersetzen
         //  -> App starten -> 'true' wieder auf 'false' & Versionsnummer erhöhen -> starten
 
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
-        Boolean isFirstRun = prefs.getBoolean(c.IS_FIRST_RUN, true);
+        //SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        //Boolean isFirstRun = prefs.getBoolean(c.IS_FIRST_RUN, true);
+        Boolean isFirstRun = HelperSharedPrefs.getIsFirstStarted(this, new ConstRes());
 
         if (isFirstRun) {
             Msg.msg(this, "IS_FIRST_RUN: " + isFirstRun);
 
-            SharedPreferences money_pref = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-            money_pref.edit().putLong(c.MY_POCKET, 5000).apply();
+            HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(5000, this, new ConstRes());
 
             long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
@@ -146,17 +147,18 @@ public class StartActivity extends Activity {
             preparePlayersItemDatabase(c.TOTAL_ITEMS_PLAYER_LV1);
             insertToItemMerchantDatabase(c.TOTAL_ITEMS_MERCHANT_LV1);
 
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putBoolean(c.IS_FIRST_RUN, false);
-            editor.apply();
+            //SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            //editor.putBoolean(c.IS_FIRST_RUN, false);
+            //editor.apply();
+            HelperSharedPrefs.setIsFirstStarted(false, this, new ConstRes());
         }
     }
 
     private void isQuickCombatfirstStarted(){
         c = new ConstRes();
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        //SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 
-        if(prefs.getBoolean(c.QUICK_COMBAT_FIRST_STARTED, true)){
+        if(HelperSharedPrefs.getQuickCombatFirstStarted(this, new ConstRes())){
             Msg.msg(this, "SCOREFIELDS AND MULTIS DB CREATED");
             DBscorefieldAndMultiAmountAdapter scoreHelper = new DBscorefieldAndMultiAmountAdapter(this);
 
@@ -170,9 +172,10 @@ public class StartActivity extends Activity {
 
             if(validation < 0) Msg.msg(this, "ERROR @ insert for 20 values in scoreDatabase");
 
-            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-            editor.putBoolean(c.QUICK_COMBAT_FIRST_STARTED, false);
-            editor.apply();
+            //SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            //editor.putBoolean(c.QUICK_COMBAT_FIRST_STARTED, false);
+            //editor.apply();
+            HelperSharedPrefs.setQuickCombatFirstStarted(false, this, new ConstRes());
         }
     }
 
@@ -352,12 +355,7 @@ public class StartActivity extends Activity {
 
     private void setNewMerchant(){
         Log.v("NEW MERCHANT", "setNewMerchant");
-        SharedPreferences prefsMerchant = getSharedPreferences(c.SP_SLAVE_MERCHANT, Context.MODE_PRIVATE);
-        int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_SLAVE_ID, 0);
-
-        currentMerchantId = ++currentMerchantId % 4;
-
-        prefsMerchant.edit().putInt(c.MERCHANT_SLAVE_ID, currentMerchantId).apply();
+        HelperSharedPrefs.incrementMerchantSlaveId(this, new ConstRes());
 
         refillMerchSlaveDatabase();
     }
@@ -389,8 +387,8 @@ public class StartActivity extends Activity {
     }
 
     private long getTimeToShow() {
-        SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", Context.MODE_PRIVATE);
-        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
+        long timeToShow, merchToLeaveDaytime = HelperSharedPrefs.getMerchSlaveDaytime(this, new ConstRes()),
+                merchChangeDate = HelperSharedPrefs.getMerchSlaveChangeDate(this, new ConstRes());
 
         Log.v("Merch Time" , "merchToLeaveDaytime : " + merchToLeaveDaytime);
         Log.v("Merch Time" , "merchChangeDate : " + merchChangeDate);
@@ -406,8 +404,11 @@ public class StartActivity extends Activity {
         if(System.currentTimeMillis() >= merchChangeDate){
             Log.v("Merch Time", "new merchant will is arriving");
             timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
-            prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
-            prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+            //prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
+            //prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+
+            HelperSharedPrefs.setNewMerchSlaveDaytime(getNewMerchLeaveDaytime(), this, new ConstRes());
+            HelperSharedPrefs.setNewMerchChangeDate(getNewMerchChangeDate(), this, new ConstRes());
 
             setNewMerchant();
 
