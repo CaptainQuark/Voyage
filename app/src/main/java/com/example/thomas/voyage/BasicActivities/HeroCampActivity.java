@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.example.thomas.voyage.CombatActivities.PrepareCombatActivity;
 import com.example.thomas.voyage.CombatActivities.WorldMapQuickCombatActivity;
+import com.example.thomas.voyage.ContainerClasses.HelperSharedPrefs;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
@@ -107,13 +108,13 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 Msg.msg(this, "No free medic available");
 
             }else{
-                SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
+                //SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
                 //int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
 
                 // pro fehlendem hitpoint werden $ 100 angerechnet
                 int costs = getCostsToHeal(lastSelectedHeroIndex);
 
-                if( prefs.getLong(c.MY_POCKET, -1) - costs >= 0){
+                if( HelperSharedPrefs.getCurrentMoney(this, new ConstRes()) - costs >= 0){
                     putFragmentToSleep();
 
                     if(!h.updateMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex), medSlotIndex))
@@ -122,7 +123,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     if(!h.updateTimeToLeave(dbIndexForHeroList.get(lastSelectedHeroIndex), System.currentTimeMillis() + (1000* 60 * 60 * (costs / 100))))
                         Msg.msg(this, "ERROR @ campHealHero : updateTimeToLeave");
 
-                    prefs.edit().putLong(c.MY_POCKET,  prefs.getLong(c.MY_POCKET, -1) - costs);
+                    HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(costs, this, new ConstRes());
                     Intent i = new Intent(this, HospitalActivity.class);
                     startActivity(i);
                     finish();
@@ -161,12 +162,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void dismissHero(View v){
         if((lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1)){
 
-            SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-            long money = prefs.getLong(c.MY_POCKET, -1) + h.getHeroCosts(lastSelectedHeroIndex+1);
+            long money = HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(h.getHeroCosts(lastSelectedHeroIndex+1), this, new ConstRes());
             fortuneView.setText("$ " + money);
-
-            // Annahme: 'costs' wurde bereits nach Kauf des Helden abgewertet und entspricht jetzt dem akutellen Verkaufswert
-            prefs.edit().putLong("currentMoneyLong", money).apply();
 
             h.markOneRowAsUnused(dbIndexForHeroList.get(lastSelectedHeroIndex));
             dbIndexForHeroList.remove(lastSelectedHeroIndex);
@@ -246,10 +243,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 sellView.setTextColor(Color.WHITE);
                 toFightView.setTextColor(Color.WHITE);
 
-                SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-
                 float diff = (heroList.get(lastSelectedHeroIndex).getHp() > 0) ? 0 : 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
-                long money = prefs.getLong(c.MY_POCKET, -1) - ((long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()) );
+                long money = HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal( (long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()), this, new ConstRes());
 
                 if(h.getHeroHitpoints(dbIndexForHeroList.get(lastSelectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(lastSelectedHeroIndex))
                         || money < getCostsToHeal(lastSelectedHeroIndex)
@@ -490,10 +485,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         sellView = (TextView) findViewById(R.id.textview_camp_dismiss_hero);
         fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
 
-        SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-
         setSlotsView();
-        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
+        fortuneView.setText("$ " + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
     }
 
     private void hideSystemUI() {

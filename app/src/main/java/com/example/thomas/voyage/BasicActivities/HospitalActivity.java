@@ -1,9 +1,7 @@
 package com.example.thomas.voyage.BasicActivities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.HelperSharedPrefs;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
 import com.example.thomas.voyage.R;
@@ -198,8 +197,7 @@ public class HospitalActivity extends Activity {
         }
 
         freeSlotsView.setText(brokenHeroList.size() + " / " + slotsList.size());
-        SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-        fortuneView.setText("$ " + prefs.getLong(c.MY_POCKET, -1));
+        fortuneView.setText("$ " + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
     }
 
     private void abortMedication(){
@@ -241,13 +239,12 @@ public class HospitalActivity extends Activity {
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
 
-                    SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-                    long money = prefs.getLong(c.MY_POCKET, -1);
+                    long money = HelperSharedPrefs.getCurrentMoney(this, new ConstRes());
                     int hoursToLeave = (int) ((brokenHeroList.get(i).getTimeToLeave() - System.currentTimeMillis()) / 1000 / 60 / 60);
 
                     if(money - hoursToLeave * 150 >= 0){
                         // pro fehlendem Hitpoint werden 150 Kosten als Penality verrecnet
-                        prefs.edit().putLong(c.MY_POCKET, prefs.getLong(c.MY_POCKET, -1) - hoursToLeave * 150).apply();
+                        HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(hoursToLeave * 150, this, new ConstRes());
 
                         if(!brokenHeroList.get(i).setHeroHitpoints(brokenHeroList.get(i).getHpTotal()))
                             Msg.msg(this, "ERROR @ setHeroHitpoints");
