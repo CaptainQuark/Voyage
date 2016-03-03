@@ -41,7 +41,7 @@
 
                 <GridLayout
                     android:id="@+id/layout_com_splash_grid_in_card"
-                    android:layout_width="450dp"
+                    android:layout_width="415dp"
                     android:layout_height="400dp">
 
                     <ImageView

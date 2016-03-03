@@ -75,7 +75,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         hideSystemUI();
     }
 
-//TODO: MonsterCritMultiplier debuggen(übernimmt er tatsächlich den Double?)
 
     /*
 
