@@ -40,7 +40,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, turnsBetweenRetreat = -1,
             currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
             heroCritChanceActive = -1, monsterHpTotal;
-    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier;
+    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier = 1;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
@@ -267,16 +267,24 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         applyEffects();
 
-        if ((int) (Math.random() * 10000) > heroCritChanceActive) bonusCritMultiplier += heroCritMultiplierActive;
-        Log.i("CRITMULTIPLIER: ", "bonusCritMultiplier: " + bonusCritMultiplier);
+        //Crit-Probe nur möglich falls kein Checkout oder HP außerhalb des Finish-Bereichs
+        if ((int) (Math.random() * 1000) > heroCritChanceActive){
+            if(monster.checkout.equals("default") || monster.hp > 170){
+                bonusCritMultiplier += heroCritMultiplierActive - 1;
+                battleLogHandler("heroCrit");
+                Log.i("CRITSUCCESS: ", "bonusCritMultiplier: " + bonusCritMultiplier);
+            }
+        }
+
         tempScore += (scoreField * scoreMultiplier + bonusScore) * bonusCritMultiplier * monster.resistance - monster.block;
         if (tempScore < 0) tempScore = 0;
 
+        //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
         if ((int) (Math.random() * 1000) <= monster.evasion ||
                 (monster.hp <= 170 && monster.checkout.equals("master")) ||
                 (monster.hp <= 170 && monster.checkout.equals("double"))) {
-            //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
 
+            //Checkout-Probe mit raw-Score und dem tempScore mit Boni
             if (monster.checkout.equals("double") && checkOutPossible(2)) {
                 if ((monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2)
                         || (monster.hp == tempScore && scoreMultiplier == 2)) {
@@ -334,7 +342,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             //Kann der Held ausweichen?
             if (random.nextInt(1000) < h.getHeroEvasion(heroDbIndex)) {
                 monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
-                if((Math.random() * 1000) > monster.critChance) monsterDmg *= monster.critMultiplier;
+
+                //Krittet das Monster?
+                if((Math.random() * 1000) > monster.critChance) {
+                    monsterDmg *= monster.critMultiplier;
+                    battleLogHandler("monsterCrit");
+                }
 
                 //Monster-Fähigkeiten
                 if(monsterScalingDamage){
@@ -386,6 +399,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             case "monsterMiss":
                 logTopEntry = monster.name + " schlägt daneben. ";
+                break;
+            case "heroCrit":
+                logTopEntry = h.getHeroName(heroDbIndex) + " landet einen kritischen Treffer! ";
+                break;
+            case "monsterCrit":
+                logTopEntry = monster.name + " attackiert mit voller Wucht! ";
                 break;
             default:
                 logTopEntry = "FEHLER @BATTLELOGHANDLER! ";

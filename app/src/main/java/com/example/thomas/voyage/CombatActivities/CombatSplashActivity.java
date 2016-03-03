@@ -92,7 +92,7 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
         } else if (monsterCounter % length == 0) {
             desView.setText(destinationReached + '\n' + "Noch " + length + unitPlural);
         } else if ((monsterCounter + 1) % length == 0) {
-            desView.setText("Noch " + unitSingural);
+            desView.setText("Noch" + unitSingural);
         } else if ((monsterCounter + 2) % length == 0) {
             desView.setText("Noch 2" + unitPlural);
         } else if ((monsterCounter + 3) % length == 0) {
