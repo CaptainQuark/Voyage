@@ -40,7 +40,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, turnsBetweenRetreat = -1,
             currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
             heroCritChanceActive = -1, monsterHpTotal;
-    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1;
+    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
@@ -266,7 +266,10 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         }
 
         applyEffects();
-        tempScore += scoreField * scoreMultiplier * monster.resistance - monster.block;
+
+        if ((int) (Math.random() * 10000) > heroCritChanceActive) bonusCritMultiplier += heroCritMultiplierActive;
+        Log.i("CRITMULTIPLIER: ", "bonusCritMultiplier: " + bonusCritMultiplier);
+        tempScore += (scoreField * scoreMultiplier + bonusScore) * bonusCritMultiplier * monster.resistance - monster.block;
         if (tempScore < 0) tempScore = 0;
 
         if ((int) (Math.random() * 1000) <= monster.evasion ||
@@ -275,14 +278,17 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
 
             if (monster.checkout.equals("double") && checkOutPossible(2)) {
-                if (monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2) {
+                if ((monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2)
+                        || (monster.hp == tempScore && scoreMultiplier == 2)) {
                     combatVictory();
                     monster.hp = 0;
                 }
 
-            } else if (monster.checkout.equals("master") && scoreField * scoreMultiplier == monster.hp) {
+            } else if (monster.checkout.equals("master")) {
+                if (scoreField * scoreMultiplier == monster.hp || monster.hp == tempScore) {
                 combatVictory();
                 monster.hp = 0;
+            }
             }
 
             battleLogHandler("heroAttack");
@@ -328,6 +334,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             //Kann der Held ausweichen?
             if (random.nextInt(1000) < h.getHeroEvasion(heroDbIndex)) {
                 monsterDmg = random.nextInt(monster.dmgMax - monster.dmgMin) + monster.dmgMin;
+                if((Math.random() * 1000) > monster.critChance) monsterDmg *= monster.critMultiplier;
 
                 //Monster-Fähigkeiten
                 if(monsterScalingDamage){
@@ -446,12 +453,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     }
 
     private void applyEffects(){
-        tempScore += bonusScore;
         h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) + bonusHealth);
     }
 
     private void resetBonus(){
         tempScore = 0;
+        bonusCritMultiplier = 1;
         bonusScore = 0;
         bonusHealth = 0;
     }
