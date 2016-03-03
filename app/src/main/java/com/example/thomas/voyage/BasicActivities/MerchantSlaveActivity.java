@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.HelperSharedPrefs;
 import com.example.thomas.voyage.ContainerClasses.Hero;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBheroesAdapter;
@@ -35,7 +36,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
     private HeroAllDataCardFragment heroAllDataCardFragment;
-    private SharedPreferences prefsFortune, prefsMerchant;
+    //private SharedPreferences prefsFortune, prefsMerchant;
     private List<HeroCardHolder> cardList;
     private MerchantCardHolder merchantCardHolder;
     private ConstRes c;
@@ -83,8 +84,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
 
                         }
 
-                        prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) - m.getHeroCosts(selectedHeroCardIndex + 1)).apply();
-                        currentMoney = prefsFortune.getLong(c.MY_POCKET, 0);
+                        currentMoney = HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(m.getHeroCosts(selectedHeroCardIndex + 1), getApplicationContext(), new ConstRes());
                     }
                 }
 
@@ -224,7 +224,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
         }
 
         slotsView.setText(getUsedRowsHeroDb() + " / " + h.getTaskCount());
-        fortuneView.setText("$ " + prefsFortune.getLong(c.MY_POCKET, -1));
+        fortuneView.setText("$ " + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
     }
 
     private void refillMerchDatabase(){
@@ -252,12 +252,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     }
 
     private void setNewMerchant(){
-        int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_ID, 0);
-
-        currentMerchantId = ++currentMerchantId % 4;
-
-        prefsMerchant.edit().putInt(c.MERCHANT_ID, currentMerchantId).apply();
-        merchantCardHolder = new MerchantCardHolder(this, currentMerchantId, getTimeToShow());
+        merchantCardHolder = new MerchantCardHolder(this, HelperSharedPrefs.setNewMerchantSlaveIdAndReturnVal(this, new ConstRes()), getTimeToShow());
 
         refillMerchDatabase();
         for(int i = 0; i < cardList.size(); i++)
@@ -315,7 +310,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
         }
 
         /*
-        currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+        currentMerchantId = prefs.getInt(MERCHANT_SLAVE_ID, 0);
         merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
 
         final TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
@@ -331,7 +326,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
 
                 setNewMerchantProfile();
-                currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+                currentMerchantId = prefs.getInt(MERCHANT_SLAVE_ID, 0);
                 merchantProfile.setImageResource(ImgRes.res(getApplicationContext(), "merch", currentMerchantId + ""));
 
                 if (updateMerchantsDatabase(3) < 0)
@@ -521,8 +516,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
             timeView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    prefsFortune.edit().putLong(c.MY_POCKET, prefsFortune.getLong(c.MY_POCKET, 0) + 1500).apply();
-                    currentMoney = prefsFortune.getLong(c.MY_POCKET, -1);
+                    currentMoney = HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(1500, getApplicationContext(), new ConstRes());
                     for (int i = 0; i < cardList.size(); i++)
                         cardList.get(i).showCard();
                     refreshToolbarViews();
@@ -557,9 +551,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
             origin = "Default";
         }
 
-        prefsFortune = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-        prefsMerchant = getSharedPreferences(c.SP_SLAVE_MERCHANT, Context.MODE_PRIVATE);
-        currentMoney = prefsFortune.getLong(c.MY_POCKET, -1);
+        currentMoney = HelperSharedPrefs.getCurrentMoney(this, new ConstRes());
 
         cardList = new ArrayList<>();
         for(int i = 0; i < m.getTaskCount(); i++){
@@ -569,7 +561,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
 
         // Solange kein Händler nach dem 1. Start der App gekommen ist,
         // wird als Default-Wert '0' gewählt (da SP leer ist)
-        merchantCardHolder = new MerchantCardHolder(this, prefsMerchant.getInt(c.MERCHANT_ID, 0), getTimeToShow());
+        merchantCardHolder = new MerchantCardHolder(this, HelperSharedPrefs.getMerchantSlaveId(this, new ConstRes()), getTimeToShow());
     }
 
     private void iniViews(){

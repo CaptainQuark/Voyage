@@ -353,11 +353,11 @@ public class StartActivity extends Activity {
     private void setNewMerchant(){
         Log.v("NEW MERCHANT", "setNewMerchant");
         SharedPreferences prefsMerchant = getSharedPreferences(c.SP_SLAVE_MERCHANT, Context.MODE_PRIVATE);
-        int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_ID, 0);
+        int currentMerchantId = prefsMerchant.getInt(c.MERCHANT_SLAVE_ID, 0);
 
         currentMerchantId = ++currentMerchantId % 4;
 
-        prefsMerchant.edit().putInt(c.MERCHANT_ID, currentMerchantId).apply();
+        prefsMerchant.edit().putInt(c.MERCHANT_SLAVE_ID, currentMerchantId).apply();
 
         refillMerchSlaveDatabase();
     }

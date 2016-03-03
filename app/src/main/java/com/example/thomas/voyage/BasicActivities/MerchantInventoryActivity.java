@@ -212,7 +212,7 @@ public class MerchantInventoryActivity extends Activity {
             timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
         }
 
-        //currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+        //currentMerchantId = prefs.getInt(MERCHANT_SLAVE_ID, 0);
         //merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
 
         final TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_inventory_textView_time_to_next_merchant);
@@ -229,7 +229,7 @@ public class MerchantInventoryActivity extends Activity {
                 prefs.edit().putLong("merchInventoryToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
 
                 setNewItemMerchant();
-                //currentMerchantId = prefs.getInt(MERCHANT_ID, 0);
+                //currentMerchantId = prefs.getInt(MERCHANT_SLAVE_ID, 0);
                 //merchantProfile.setImageResource(ImgRes.res(getApplicationContext(), "merch", currentMerchantId + ""));
 
                 showExpirationDate();
