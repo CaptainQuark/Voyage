@@ -39,6 +39,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     private List<Integer> dbIndexForHeroList;
     private HeroAllDataCardFragment heroAllDataCardFragment;
     private ConstRes c;
+    private HelperSharedPrefs prefs = new HelperSharedPrefs();
     private List<Hero> heroList;
     private String origin = "";
     private boolean somethingSelected = true;
@@ -114,7 +115,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 // pro fehlendem hitpoint werden $ 100 angerechnet
                 int costs = getCostsToHeal(lastSelectedHeroIndex);
 
-                if( HelperSharedPrefs.getCurrentMoney(this, new ConstRes()) - costs >= 0){
+                if( prefs.getCurrentMoney(this, new ConstRes()) - costs >= 0){
                     putFragmentToSleep();
 
                     if(!h.updateMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex), medSlotIndex))
@@ -123,7 +124,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                     if(!h.updateTimeToLeave(dbIndexForHeroList.get(lastSelectedHeroIndex), System.currentTimeMillis() + (1000* 60 * 60 * (costs / 100))))
                         Msg.msg(this, "ERROR @ campHealHero : updateTimeToLeave");
 
-                    HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(costs, this, new ConstRes());
+                    prefs.removeFromCurrentMoneyAndGetNewVal(costs, this, new ConstRes());
                     Intent i = new Intent(this, HospitalActivity.class);
                     startActivity(i);
                     finish();
@@ -162,8 +163,9 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void dismissHero(View v){
         if((lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1)){
 
-            long money = HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(h.getHeroCosts(lastSelectedHeroIndex+1), this, new ConstRes());
-            fortuneView.setText("$ " + money);
+            long money = (long) h.getHeroCosts(dbIndexForHeroList.get(lastSelectedHeroIndex));
+            Msg.msg(this, "Costs: " + money);
+            fortuneView.setText("$ " + prefs.addToCurrentMoneyAndGetNewVal(money, getApplicationContext(), new ConstRes()));
 
             h.markOneRowAsUnused(dbIndexForHeroList.get(lastSelectedHeroIndex));
             dbIndexForHeroList.remove(lastSelectedHeroIndex);
@@ -174,8 +176,9 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             setToolbarViews();
             putFragmentToSleep();
             heroGridView.invalidateViews();
+
         }else{
-            Msg.msgShort(this, "No fight now.");
+            Msg.msgShort(this, "No hero to sell (selected)");
         }
     }
 
@@ -243,11 +246,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 sellView.setTextColor(Color.WHITE);
                 toFightView.setTextColor(Color.WHITE);
 
-                float diff = (heroList.get(lastSelectedHeroIndex).getHp() > 0) ? 0 : 1 / (heroList.get(lastSelectedHeroIndex).getHpTotal() / heroList.get(lastSelectedHeroIndex).getHp());
-                long money = HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal( (long) ((1-diff)* heroList.get(lastSelectedHeroIndex).getCosts()), this, new ConstRes());
-
                 if(h.getHeroHitpoints(dbIndexForHeroList.get(lastSelectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(lastSelectedHeroIndex))
-                        || money < getCostsToHeal(lastSelectedHeroIndex)
+                        ||  prefs.getCurrentMoney(this, new ConstRes()) < getCostsToHeal(lastSelectedHeroIndex)
                         || getFreeSlotAtHospital() == -1
                         || h.getMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex)) != -1){
 
@@ -486,7 +486,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         fortuneView = (TextView) findViewById(R.id.textview_camp_fortune);
 
         setSlotsView();
-        fortuneView.setText("$ " + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
+        fortuneView.setText("$ " + prefs.getCurrentMoney(this, new ConstRes()));
     }
 
     private void hideSystemUI() {

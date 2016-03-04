@@ -39,6 +39,7 @@ public class StartActivity extends Activity {
     private DBmerchantItemsAdapter itemMerchantHelper;
     private TextView textViewSlaveMarket, textViewHeroesParty, textViewItemMarket, textViewHospital;
     private ConstRes c;
+    private HelperSharedPrefs prefs = new HelperSharedPrefs();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,12 +127,12 @@ public class StartActivity extends Activity {
 
         //SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         //Boolean isFirstRun = prefs.getBoolean(c.IS_FIRST_RUN, true);
-        Boolean isFirstRun = HelperSharedPrefs.getIsFirstStarted(this, new ConstRes());
+        Boolean isFirstRun = prefs.getIsFirstStarted(this, new ConstRes());
 
         if (isFirstRun) {
             Msg.msg(this, "IS_FIRST_RUN: " + isFirstRun);
 
-            HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(5000, this, new ConstRes());
+            prefs.addToCurrentMoneyAndGetNewVal(5000, this, new ConstRes());
 
             long validation = prepareHeroesDatabaseForGame(c.TOTAL_HEROES_PLAYER);
             if (validation < 0) {
@@ -158,7 +159,7 @@ public class StartActivity extends Activity {
         c = new ConstRes();
         //SharedPreferences prefs = getPreferences(MODE_PRIVATE);
 
-        if(HelperSharedPrefs.getQuickCombatFirstStarted(this, new ConstRes())){
+        if(prefs.getQuickCombatFirstStarted(this, new ConstRes())){
             Msg.msg(this, "SCOREFIELDS AND MULTIS DB CREATED");
             DBscorefieldAndMultiAmountAdapter scoreHelper = new DBscorefieldAndMultiAmountAdapter(this);
 
@@ -355,7 +356,7 @@ public class StartActivity extends Activity {
 
     private void setNewMerchant(){
         Log.v("NEW MERCHANT", "setNewMerchant");
-        HelperSharedPrefs.incrementMerchantSlaveId(this, new ConstRes());
+        prefs.incrementMerchantSlaveId(this, new ConstRes());
 
         refillMerchSlaveDatabase();
     }
@@ -387,8 +388,8 @@ public class StartActivity extends Activity {
     }
 
     private long getTimeToShow() {
-        long timeToShow, merchToLeaveDaytime = HelperSharedPrefs.getMerchSlaveDaytime(this, new ConstRes()),
-                merchChangeDate = HelperSharedPrefs.getMerchSlaveChangeDate(this, new ConstRes());
+        long timeToShow, merchToLeaveDaytime = prefs.getMerchSlaveDaytime(this, new ConstRes()),
+                merchChangeDate = prefs.getMerchSlaveChangeDate(this, new ConstRes());
 
         Log.v("Merch Time" , "merchToLeaveDaytime : " + merchToLeaveDaytime);
         Log.v("Merch Time" , "merchChangeDate : " + merchChangeDate);
@@ -407,8 +408,8 @@ public class StartActivity extends Activity {
             //prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
             //prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
 
-            HelperSharedPrefs.setNewMerchSlaveDaytime(getNewMerchLeaveDaytime(), this, new ConstRes());
-            HelperSharedPrefs.setNewMerchChangeDate(getNewMerchChangeDate(), this, new ConstRes());
+            prefs.setNewMerchSlaveDaytime(getNewMerchLeaveDaytime(), this, new ConstRes());
+            prefs.setNewMerchChangeDate(getNewMerchChangeDate(), this, new ConstRes());
 
             setNewMerchant();
 

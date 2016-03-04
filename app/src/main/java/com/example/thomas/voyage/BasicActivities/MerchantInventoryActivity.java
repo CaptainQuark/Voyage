@@ -31,6 +31,7 @@ public class MerchantInventoryActivity extends Activity {
     private TextView buyView, dismissView, itemNameView, itemDesMainView, itemDesAddView, itemRarityView, freeSlotsView, fortuneView, itemPriceView;
     private ImageView itemIconView;
     private GridView playerGridView, merchantGridView;
+    private HelperSharedPrefs prefs = new HelperSharedPrefs();
 
     // = UID der Tabelle und NICHT die Position innerhalb des Grids
     private int selectedItemUIDFromMerch = -1, selectedItemUIDfromPlayer = -1;
@@ -74,7 +75,7 @@ public class MerchantInventoryActivity extends Activity {
         }else if( selectedItemUIDFromMerch == -1 ){
             Msg.msg(this, "Kein Item ausgewählt!");
 
-        }else if( HelperSharedPrefs.getCurrentMoney(this, new ConstRes()) < merchHelper.getItemBuyCosts(selectedItemUIDFromMerch)){
+        }else if( prefs.getCurrentMoney(this, new ConstRes()) < merchHelper.getItemBuyCosts(selectedItemUIDFromMerch)){
             Msg.msg(this, "Nicht genug Vermögen vorhanden!");
 
         }else{
@@ -83,10 +84,9 @@ public class MerchantInventoryActivity extends Activity {
             playerGridView.invalidateViews();
             merchantGridView.invalidateViews();
 
-            HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(
-                    HelperSharedPrefs.getCurrentMoney(this, new ConstRes()) - merchHelper.getItemBuyCosts(selectedItemUIDFromMerch), this, c);
+            prefs.removeFromCurrentMoneyAndGetNewVal(merchHelper.getItemBuyCosts(selectedItemUIDFromMerch), this, c);
 
-            fortuneView.setText("$" + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
+            fortuneView.setText("$" + prefs.getCurrentMoney(this, new ConstRes()));
             freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
             itemDesMainView.setText("");
             itemDesAddView.setText("");
@@ -495,7 +495,7 @@ public class MerchantInventoryActivity extends Activity {
             }
         });
 
-        fortuneView.setText("$" + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
+        fortuneView.setText("$" + prefs.getCurrentMoney(this, new ConstRes()));
         freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
         showExpirationDate();
     }

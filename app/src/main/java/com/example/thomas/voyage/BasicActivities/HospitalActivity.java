@@ -22,6 +22,7 @@ public class HospitalActivity extends Activity {
 
     private DBheroesAdapter h;
     private ConstRes c;
+    private HelperSharedPrefs prefs = new HelperSharedPrefs();
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
@@ -197,7 +198,7 @@ public class HospitalActivity extends Activity {
         }
 
         freeSlotsView.setText(brokenHeroList.size() + " / " + slotsList.size());
-        fortuneView.setText("$ " + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
+        fortuneView.setText("$ " + prefs.getCurrentMoney(this, new ConstRes()));
     }
 
     private void abortMedication(){
@@ -239,12 +240,12 @@ public class HospitalActivity extends Activity {
             for(int i = 0; i < brokenHeroList.size(); i++){
                 if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
 
-                    long money = HelperSharedPrefs.getCurrentMoney(this, new ConstRes());
+                    long money = prefs.getCurrentMoney(this, new ConstRes());
                     int hoursToLeave = (int) ((brokenHeroList.get(i).getTimeToLeave() - System.currentTimeMillis()) / 1000 / 60 / 60);
 
                     if(money - hoursToLeave * 150 >= 0){
                         // pro fehlendem Hitpoint werden 150 Kosten als Penality verrecnet
-                        HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(hoursToLeave * 150, this, new ConstRes());
+                        prefs.removeFromCurrentMoneyAndGetNewVal(hoursToLeave * 150, this, new ConstRes());
 
                         if(!brokenHeroList.get(i).setHeroHitpoints(brokenHeroList.get(i).getHpTotal()))
                             Msg.msg(this, "ERROR @ setHeroHitpoints");
