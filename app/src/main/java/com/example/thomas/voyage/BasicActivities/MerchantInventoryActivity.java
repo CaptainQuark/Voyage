@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,69 +13,35 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.thomas.voyage.ContainerClasses.HelperSharedPrefs;
 import com.example.thomas.voyage.ContainerClasses.Msg;
 import com.example.thomas.voyage.Databases.DBmerchantItemsAdapter;
 import com.example.thomas.voyage.Databases.DBplayerItemsAdapter;
 import com.example.thomas.voyage.ContainerClasses.Item;
 import com.example.thomas.voyage.R;
 import com.example.thomas.voyage.ResClasses.ConstRes;
-import com.example.thomas.voyage.ResClasses.ImgRes;
 
 import java.util.Calendar;
 
 public class MerchantInventoryActivity extends Activity {
 
-    private ConstRes co = new ConstRes();
+    private ConstRes c = new ConstRes();
     private DBmerchantItemsAdapter merchHelper;
     private DBplayerItemsAdapter playerHelper;
     private TextView buyView, dismissView, itemNameView, itemDesMainView, itemDesAddView, itemRarityView, freeSlotsView, fortuneView, itemPriceView;
     private ImageView itemIconView;
     private GridView playerGridView, merchantGridView;
-    private String CURRENT_MONEY_FILE = "currentMoneyLong";
 
     // = UID der Tabelle und NICHT die Position innerhalb des Grids
     private int selectedItemUIDFromMerch = -1, selectedItemUIDfromPlayer = -1;
-    private String lastSelectedUID = co.NOT_USED;
+    private String lastSelectedUID = c.NOT_USED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_merchant_inventory);
         initializeViews();
-
-        merchHelper = new DBmerchantItemsAdapter(this);
-        playerHelper = new DBplayerItemsAdapter(this);
-
-        playerGridView.setAdapter(new MyStuffAdapter(this, (int) playerHelper.getTaskCount()));
-        merchantGridView.setAdapter(new MerchantAdapter(this));
-
-
-        playerGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                selectedItemUIDfromPlayer = position + 1;
-                dismissView.setTextColor(Color.WHITE);
-                lastSelectedUID = "player";
-                setItemShowcase();
-            }
-        });
-
-        merchantGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v,
-                                    int position, long id) {
-                selectedItemUIDFromMerch = position + 1;
-                if (getPosOfFreeSlotInPlayerItemDatabase() != -1) {
-                    buyView.setTextColor(Color.WHITE);
-                }
-                dismissView.setTextColor(Color.WHITE);
-                lastSelectedUID = "merchant";
-                setItemShowcase();
-            }
-        });
-
-        fortuneView.setText("$" + getCurrentMoney());
-        freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
-        showExpirationDate();
+        iniValues();
     }
 
     @Override
@@ -110,7 +74,7 @@ public class MerchantInventoryActivity extends Activity {
         }else if( selectedItemUIDFromMerch == -1 ){
             Msg.msg(this, "Kein Item ausgewählt!");
 
-        }else if( getCurrentMoney() < merchHelper.getItemBuyCosts(selectedItemUIDFromMerch)){
+        }else if( HelperSharedPrefs.getCurrentMoney(this, new ConstRes()) < merchHelper.getItemBuyCosts(selectedItemUIDFromMerch)){
             Msg.msg(this, "Nicht genug Vermögen vorhanden!");
 
         }else{
@@ -119,12 +83,10 @@ public class MerchantInventoryActivity extends Activity {
             playerGridView.invalidateViews();
             merchantGridView.invalidateViews();
 
-            setCurrentMoney(getCurrentMoney() - merchHelper.getItemBuyCosts(selectedItemUIDFromMerch));
+            HelperSharedPrefs.addToCurrentMoneyAndGetNewVal(
+                    HelperSharedPrefs.getCurrentMoney(this, new ConstRes()) - merchHelper.getItemBuyCosts(selectedItemUIDFromMerch), this, c);
 
-            //Msg.msg(this, getCurrentMoney() + " = current money");
-            //Msg.msg(this, merchHelper.getItemBuyCosts(selectedItemUIDFromMerch) + " = costs");
-
-            fortuneView.setText("$" + getCurrentMoney());
+            fortuneView.setText("$" + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
             freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
             itemDesMainView.setText("");
             itemDesAddView.setText("");
@@ -281,16 +243,6 @@ public class MerchantInventoryActivity extends Activity {
         itemIconView.setImageResource(R.mipmap.ic_launcher);
     }
 
-    private long getCurrentMoney() {
-        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-        return prefs.getLong(CURRENT_MONEY_FILE, 4500);
-    }
-
-    private void setCurrentMoney(long money) {
-        SharedPreferences prefs = getSharedPreferences("CURRENT_MONEY_PREF", Context.MODE_PRIVATE);
-        prefs.edit().putLong(CURRENT_MONEY_FILE, money).apply();
-    }
-
     public void merchantInventoryBackbuttonPressed(View view){
         super.onBackPressed();
         finish();
@@ -378,7 +330,7 @@ public class MerchantInventoryActivity extends Activity {
             case "player":
 
                 for(int i = 1; i <= playerHelper.getTaskCount(); i++){
-                    if(! playerHelper.getItemName(i).equals(co.NOT_USED) ){
+                    if(! playerHelper.getItemName(i).equals(c.NOT_USED) ){
                         count++;
                     }
                 }
@@ -387,7 +339,7 @@ public class MerchantInventoryActivity extends Activity {
             case "merchant":
 
                 for(int i = 1; i <= merchHelper.getTaskCount(); i++){
-                    if(! merchHelper.getItemName(i).equals(co.NOT_USED) ){
+                    if(! merchHelper.getItemName(i).equals(c.NOT_USED) ){
                         count++;
                     }
                 }
@@ -442,7 +394,7 @@ public class MerchantInventoryActivity extends Activity {
                 imageView = (ImageView) convertView;
             }
 
-            if( !playerHelper.getItemName(position + 1).equals(co.NOT_USED)) imageView.setImageResource(R.mipmap.ic_launcher);
+            if( !playerHelper.getItemName(position + 1).equals(c.NOT_USED)) imageView.setImageResource(R.mipmap.ic_launcher);
             else{
                 imageView.setImageResource(R.mipmap.ic_dot);
             }
@@ -482,7 +434,7 @@ public class MerchantInventoryActivity extends Activity {
                 imageView = (ImageView) convertView;
             }
 
-            if( !merchHelper.getItemName(position+1).equals(co.NOT_USED)){
+            if( !merchHelper.getItemName(position+1).equals(c.NOT_USED)){
                 imageView.setImageResource(R.mipmap.ic_launcher);
             }else{
                 imageView.setImageResource(R.mipmap.ic_dot);
@@ -512,6 +464,42 @@ public class MerchantInventoryActivity extends Activity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
+    private void iniValues(){
+        merchHelper = new DBmerchantItemsAdapter(this);
+        playerHelper = new DBplayerItemsAdapter(this);
+
+        playerGridView.setAdapter(new MyStuffAdapter(this, (int) playerHelper.getTaskCount()));
+        merchantGridView.setAdapter(new MerchantAdapter(this));
+
+
+        playerGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                selectedItemUIDfromPlayer = position + 1;
+                dismissView.setTextColor(Color.WHITE);
+                lastSelectedUID = "player";
+                setItemShowcase();
+            }
+        });
+
+        merchantGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                selectedItemUIDFromMerch = position + 1;
+                if (getPosOfFreeSlotInPlayerItemDatabase() != -1) {
+                    buyView.setTextColor(Color.WHITE);
+                }
+                dismissView.setTextColor(Color.WHITE);
+                lastSelectedUID = "merchant";
+                setItemShowcase();
+            }
+        });
+
+        fortuneView.setText("$" + HelperSharedPrefs.getCurrentMoney(this, new ConstRes()));
+        freeSlotsView.setText(getNumberOfUsedSlots("player") + "/" + playerHelper.getTaskCount() + " Plätzen belegt");
+        showExpirationDate();
+    }
+
     private void initializeViews(){
         hideSystemUI();
         playerGridView = (GridView) findViewById(R.id.inventory_gridView_my_stuff);
@@ -529,9 +517,5 @@ public class MerchantInventoryActivity extends Activity {
 
         buyView.setTextColor(getColor(R.color.standard_background));
         dismissView.setTextColor(getColor(R.color.standard_background));
-
     }
 }
-
-
-

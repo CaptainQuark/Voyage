@@ -73,6 +73,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                 if(getUsedRowsHeroDb() < h.getTaskCount()){
                     if(currentMoney >= m.getHeroCosts(selectedHeroCardIndex + 1)){
                         copyHeroFromMerchToPlayerDb();
+                        currentMoney = HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(m.getHeroCosts(selectedHeroCardIndex + 1), getApplicationContext(), new ConstRes());
                         m.updateRow(selectedHeroCardIndex + 1, c.NOT_USED);
 
                         if(!checkIfMerchantLeaves()){
@@ -81,10 +82,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
                             for(int i = 0; i < cardList.size(); i++) cardList.get(i).showCard();
 
                             refreshToolbarViews();
-
                         }
-
-                        currentMoney = HelperSharedPrefs.removeFromCurrentMoneyAndGetNewVal(m.getHeroCosts(selectedHeroCardIndex + 1), getApplicationContext(), new ConstRes());
                     }
                 }
 

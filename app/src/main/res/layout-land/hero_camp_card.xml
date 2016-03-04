@@ -106,10 +106,9 @@
                     android:layout_weight="1"
                     android:gravity="top|center"
                     android:text="Hitpoints"
-                    android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="12sp"
-                    android:textColor="#626262"
+                    android:textColor="#3a3a3a"
                     android:textAllCaps="true"/>
 
                 <TextView
@@ -118,10 +117,9 @@
                     android:layout_weight="1"
                     android:gravity="top|center"
                     android:text="Marktwert"
-                    android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="12sp"
-                    android:textColor="#626262"
+                    android:textColor="#3a3a3a"
                     android:textAllCaps="true"/>
 
             </LinearLayout>
@@ -174,10 +172,9 @@
                     android:layout_weight="1"
                     android:gravity="top|center"
                     android:text="Ausflucht"
-                    android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="12sp"
-                    android:textColor="#626262"
+                    android:textColor="#3a3a3a"
                     android:textAllCaps="true"/>
 
                 <TextView
@@ -186,10 +183,9 @@
                     android:layout_weight="1"
                     android:gravity="top|center"
                     android:text="Heilung"
-                    android:paddingTop="4dp"
                     android:fontFamily="sans-serif-light"
                     android:textSize="12sp"
-                    android:textColor="#626262"
+                    android:textColor="#3a3a3a"
                     android:textAllCaps="true"/>
             </LinearLayout>
 
