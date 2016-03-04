@@ -3,9 +3,11 @@ package com.example.thomas.voyage.BasicActivities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,7 +28,7 @@ public class HospitalActivity extends Activity {
     private List<BrokenHero> brokenHeroList = new ArrayList<>();
     private List<Slot> slotsList = new ArrayList<>();
     private TextView freeSlotsView, fortuneView, abortMedicationView, boostMedicationView;
-    private int lastSelectedSlotIndex = -1;
+    private int selectedSlotIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +77,13 @@ public class HospitalActivity extends Activity {
                 finish();
                 break;
             case R.id.framelayout_hospital_slot_0:
-                checkForAction(0);
+                checkForActionAfterTapOnCard(0);
                 break;
             case R.id.framelayout_hospital_slot_1:
-                checkForAction(1);
+                checkForActionAfterTapOnCard(1);
                 break;
             case R.id.framelayout_hospital_slot_2:
-                checkForAction(2);
+                checkForActionAfterTapOnCard(2);
                 break;
             case R.id.textview_hospital_abort_medication:
                 abortMedication();
@@ -146,13 +148,13 @@ public class HospitalActivity extends Activity {
         }
     }
 
-    private void checkForAction(int slotIndex){
+    private void checkForActionAfterTapOnCard(int slotIndex){
         boolean isUsed = false;
-        //lastSelectedSlotIndex = slotIndex;
-        lastSelectedSlotIndex = (slotIndex == lastSelectedSlotIndex) ? -1 : slotIndex;
+        //selectedSlotIndex = slotIndex;
+        selectedSlotIndex = (slotIndex == selectedSlotIndex) ? -1 : slotIndex;
 
         for(int i = 0; i < brokenHeroList.size(); i++){
-            if( brokenHeroList.get(i).getSlotIndex() == slotIndex ) isUsed = true;
+            if( brokenHeroList.get(i).getSlotIndex() == slotIndex ){isUsed = true;}
         }
 
         if(!isUsed){
@@ -164,6 +166,18 @@ public class HospitalActivity extends Activity {
             finish();
 
         }else{
+            for(int i = 0; i < slotsList.size(); i++){
+                boolean used = false;
+                for(int j = 0; j < brokenHeroList.size(); j++){
+                    if(brokenHeroList.get(j).getSlotIndex() == i){
+                        used = true;
+                        slotsList.get(i).showHero(brokenHeroList.get(j));
+                        j = brokenHeroList.size();
+                    }
+
+                    if(!used) slotsList.get(i).showPlaceholder();
+                }
+            }
 
             refreshToolbarViews();
         }
@@ -188,7 +202,7 @@ public class HospitalActivity extends Activity {
     }
 
     private void refreshToolbarViews(){
-        if(lastSelectedSlotIndex != -1){
+        if(selectedSlotIndex != -1){
             abortMedicationView.setTextColor(Color.BLACK);
             boostMedicationView.setTextColor(Color.BLACK);
 
@@ -210,35 +224,35 @@ public class HospitalActivity extends Activity {
 
          */
 
-        if(lastSelectedSlotIndex == -1){
+        if(selectedSlotIndex == -1){
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
             Log.v("releaseBrokenHero", "brokenHeroList.size : " + brokenHeroList.size());
             Log.v("releaseBrokenHero", "slotList.size : " + slotsList.size());
             for(int i = 0; i < brokenHeroList.size(); i++){
-                if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
+                if( brokenHeroList.get(i).getSlotIndex() == selectedSlotIndex){
 
-                    releaseBrokenHero(lastSelectedSlotIndex);
+                    releaseBrokenHero(selectedSlotIndex);
                     i = brokenHeroList.size();
                     Msg.msg(this, "No more medication");
                 }
             }
 
-            lastSelectedSlotIndex = -1;
+            selectedSlotIndex = -1;
             refreshToolbarViews();
         }
     }
 
     private void boostMedication(){
-        if(lastSelectedSlotIndex == -1){
+        if(selectedSlotIndex == -1){
             Msg.msg(this, "No hero yet choosen!");
 
         }else{
             Log.v("boostMedication", "brokenHeroList.size : " + brokenHeroList.size());
             Log.v("boostMedication", "slotList.size : " + slotsList.size());
             for(int i = 0; i < brokenHeroList.size(); i++){
-                if( brokenHeroList.get(i).getSlotIndex() == lastSelectedSlotIndex ){
+                if( brokenHeroList.get(i).getSlotIndex() == selectedSlotIndex){
 
                     long money = prefs.getCurrentMoney(this, new ConstRes());
                     int hoursToLeave = (int) ((brokenHeroList.get(i).getTimeToLeave() - System.currentTimeMillis()) / 1000 / 60 / 60);
@@ -253,7 +267,7 @@ public class HospitalActivity extends Activity {
                         // zum Beenden der Schleife
                         i = brokenHeroList.size();
                         Msg.msg(this, "Heal-A-Hero!");
-                        releaseBrokenHero(lastSelectedSlotIndex);
+                        releaseBrokenHero(selectedSlotIndex);
 
                     }else{
                         Msg.msg(this, "No money, boy!");
@@ -264,7 +278,7 @@ public class HospitalActivity extends Activity {
                 }
             }
 
-            lastSelectedSlotIndex = -1;
+            selectedSlotIndex = -1;
             refreshToolbarViews();
         }
     }
@@ -280,16 +294,20 @@ public class HospitalActivity extends Activity {
 
 
     private class Slot{
+        private FrameLayout containerLayout;
         private TextView nameView, hpNowView, timeToLeaveView, staticHpView, staticTimeView;
         private ImageView profileResourceView;
+        private int slotIndex;
 
         public Slot(int slotIndex){
+            this.slotIndex = slotIndex;
             profileResourceView = (ImageView) findViewById(getResources().getIdentifier("imageview_hospital_hero_" + slotIndex, "id", getPackageName()));
             nameView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_name_" + slotIndex,"id",getPackageName()));
             hpNowView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_hp_" + slotIndex,"id",getPackageName()));
             timeToLeaveView = (TextView) findViewById(getResources().getIdentifier("textview_hospital_hero_time_" + slotIndex,"id",getPackageName()));
             staticHpView = (TextView) findViewById(getResources().getIdentifier("static_textview_hospital_hp_" + slotIndex,"id",getPackageName()));
             staticTimeView = (TextView) findViewById(getResources().getIdentifier("static_textview_hospital_time_" + slotIndex,"id",getPackageName()));
+            containerLayout = (FrameLayout) findViewById(getResources().getIdentifier("framelayout_hospital_slot_" + slotIndex, "id", getPackageName()));
         }
 
         public void showHero(BrokenHero hero){
@@ -298,7 +316,10 @@ public class HospitalActivity extends Activity {
             hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
             staticHpView.setVisibility(View.VISIBLE);
             staticTimeView.setText("abreise in min");
-            timeToLeaveView.setText((String.valueOf( (hero.getTimeToLeave() - System.currentTimeMillis()) / 1000/60 )));
+            timeToLeaveView.setText((String.valueOf((hero.getTimeToLeave() - System.currentTimeMillis()) / 1000 / 60)));
+
+            if(slotIndex == selectedSlotIndex || selectedSlotIndex == -1) containerLayout.setForeground(null);
+            else containerLayout.setForeground(new ColorDrawable(Color.parseColor("#ae000000")));
 
             long dateDiff = hero.getTimeToLeave() - System.currentTimeMillis();
 

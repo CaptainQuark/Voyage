@@ -36,7 +36,6 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     private DBheroesAdapter h;
     private DBmerchantHeroesAdapter m;
     private HeroAllDataCardFragment heroAllDataCardFragment;
-    //private SharedPreferences prefsFortune, prefsMerchant;
     private List<HeroCardHolder> cardList;
     private MerchantCardHolder merchantCardHolder;
     private ConstRes c;

@@ -247,7 +247,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 toFightView.setTextColor(Color.WHITE);
 
                 if(h.getHeroHitpoints(dbIndexForHeroList.get(lastSelectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(lastSelectedHeroIndex))
-                        ||  prefs.getCurrentMoney(this, new ConstRes()) < getCostsToHeal(lastSelectedHeroIndex)
+                        || prefs.getCurrentMoney(this, new ConstRes()) < getCostsToHeal(lastSelectedHeroIndex)
                         || getFreeSlotAtHospital() == -1
                         || h.getMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex)) != -1){
 
