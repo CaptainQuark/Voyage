@@ -59,25 +59,25 @@ public class MonsterPool {
 
         do {
             rand = random.nextInt(list.size());
-            name = list.get(rand)[2];
-            hp = Integer.parseInt(list.get(rand)[4]);
-            dmgMin = Integer.parseInt(list.get(rand)[5]);
-            dmgMax = Integer.parseInt(list.get(rand)[6]);
-            accuracy = Integer.parseInt(list.get(rand)[7]);
-            evasion = Integer.parseInt(list.get(rand)[8]);
-            critChance = Integer.parseInt(list.get(rand)[9]);
-            critMultiplier = Double.parseDouble(list.get(rand)[10]);
-            checkout = list.get(rand)[11];
-            resistance = Double.parseDouble(list.get(rand)[12]);
-            block = Integer.parseInt(list.get(rand)[13]);
-            monsterdifficulty = list.get(rand)[17];
-            bounty = Integer.parseInt(list.get(rand)[18]);
+            name = helperCSV.getString("monsterresourcetable", rand, "Name");
+            hp = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "HP"));
+            dmgMin = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "DmgMin"));
+            dmgMax = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "DmgMax"));
+            accuracy = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Accuracy"));
+            evasion = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Evasion"));
+            critChance = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "CritChance"));
+            critMultiplier = Double.parseDouble(helperCSV.getString("monsterresourcetable", rand, "CritMultiplier"));
+            checkout = helperCSV.getString("monsterresourcetable", rand, "Checkout");
+            resistance = Double.parseDouble(helperCSV.getString("monsterresourcetable", rand, "Resistance"));
+            block = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Block"));
+            monsterdifficulty = helperCSV.getString("monsterresourcetable", rand, "Difficulty");
+            bounty = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Bounty"));
 
-            if(currentBiome.equals(list.get(rand)[14])){
+            if(currentBiome.equals(helperCSV.getString("monsterresourcetable", rand, "AllowedBiome1"))){
                 run = false;
-            }else if (currentBiome.equals(list.get(rand)[15])){
+            }else if (currentBiome.equals(helperCSV.getString("monsterresourcetable", rand, "AllowedBiome2"))){
                 run = false;
-            }else if (currentBiome.equals(list.get(rand)[16])){
+            }else if (currentBiome.equals(helperCSV.getString("monsterresourcetable", rand, "AllowedBiome3"))){
                 run = false;
             }else if (currentBiome.equals("nowhere")){
                 run = false;
@@ -86,9 +86,9 @@ public class MonsterPool {
 
             Log.i("MONSTERPOOL: ", "New monster created!");
             Log.i("DIFFICULTY: ", "monsterdifficulty: " + monsterdifficulty + " / tdifficulty: " + tDifficulty);
-            Log.i("RARITY: ", "rarity: " + rarity + " / monsterrarity: " + Integer.parseInt(list.get(rand)[3]));
+            Log.i("RARITY: ", "rarity: " + rarity + " / monsterrarity: " + Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Rarity")));
 
-        }while(rarity != Integer.parseInt(list.get(rand)[3]) || run || !monsterdifficulty.equals(tDifficulty));
+        }while(rarity != Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Rarity")) || run || !monsterdifficulty.equals(tDifficulty));
 
         //Msg.msgShort(context, heroClass);
         //for(int i = 0; i < list.size(); i++)

@@ -75,7 +75,7 @@ public class HeroPool {
 
         do {
             rand = random.nextInt(list.size());
-            heroType = list.get(rand)[1];
+            heroType = helperCSV.getString("heroresourcetable", rand, "Type");
             Log.i("INFO: ", rand + " / " +  heroType + " / " + rarity + " / " + list.get(rand)[3]);
             imageID = rand + 1;
             if(type.equals("Primary")){
