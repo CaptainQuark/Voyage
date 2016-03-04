@@ -63,10 +63,6 @@
             style="@style/ButtonToolbar.BackButton"/>
 
         <TextView
-            android:id="@+id/textview_camp_slots"
-            style="@style/ButtonToolbar"/>
-
-        <TextView
             android:id="@+id/textview_camp_to_fight"
             style="@style/ButtonToolbar.Selectable"
             android:text="Kämpfen"
@@ -84,11 +80,13 @@
             style="@style/ButtonToolbar.Selectable"
             android:text="Heilen" />
 
+        <TextView
+            android:id="@+id/textview_camp_slots"
+            style="@style/ButtonToolbar"/>
 
         <TextView
             android:id="@+id/textview_camp_fortune"
-            style="@style/ButtonToolbar"
-            android:onClick="commitToQuest" />
+            style="@style/ButtonToolbar"/>
 
     </LinearLayout>
 
