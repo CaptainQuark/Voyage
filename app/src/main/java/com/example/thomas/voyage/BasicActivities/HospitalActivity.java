@@ -320,11 +320,6 @@ public class HospitalActivity extends Activity {
 
             if(slotIndex == selectedSlotIndex || selectedSlotIndex == -1) containerLayout.setForeground(null);
             else containerLayout.setForeground(new ColorDrawable(Color.parseColor("#ae000000")));
-
-            long dateDiff = hero.getTimeToLeave() - System.currentTimeMillis();
-
-            Log.v("showHero", "getTimeToLeave: " + hero.getTimeToLeave());
-            Log.v("showHero", "dateDiff: " + dateDiff);
         }
 
         public void showPlaceholder(){
