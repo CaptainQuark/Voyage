@@ -260,9 +260,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             case "Monsterjäger":
                 if (scoreField == 1) {
-                    bonusDamage += 8 - (int) scoreMultiplier;
+                    bonusDamage += 7 - (int) scoreMultiplier;
                 } else if (scoreField == 5 && (int) scoreMultiplier == 1) {
-                    bonusDamage += 3;
+                    bonusDamage += 2;
                 }
                 break;
             case "Söldner":
@@ -276,6 +276,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusBounty += 5;
                 break;
             case "Glaubenskrieger":
+                break;
+            case "Kopfgeldjäger":
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusDamage += monster.bounty / 50;
                 break;
             default:
                 Log.e("COMBAT: ", "Error@switch: heroClassActive invalid");
@@ -410,19 +413,19 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 Msg.msgShort(this, "Der Angriff schlägt fehl!");
                 break;
             case "monsterAttack":
-                logTopEntry = "   " + monster.name + " erwidert mit " + monsterDmg + ".";
+                logTopEntry = '\n' + monster.name + " erwidert mit " + monsterDmg + "." + '\n';
                 break;
             case "heroEvasion":
                 logTopEntry = h.getHeroName(heroDbIndex) + " kann dem Angriff ausweichen. ";
                 break;
             case "monsterMiss":
-                logTopEntry = monster.name + " schlägt daneben. ";
+                logTopEntry = '\n' + monster.name + " schlägt daneben. " + '\n';
                 break;
             case "heroCrit":
                 logTopEntry = h.getHeroName(heroDbIndex) + " landet einen kritischen Treffer! ";
                 break;
             case "monsterCrit":
-                logTopEntry = monster.name + " attackiert mit voller Wucht! ";
+                logTopEntry = '\n' + monster.name + " attackiert mit voller Wucht! " + '\n';
                 break;
             default:
                 logTopEntry = "FEHLER @BATTLELOGHANDLER! ";
@@ -505,8 +508,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     }
 
     private void updateCharacterInfoViews(){
-        heroHpView.setText(String.valueOf(h.getHeroHitpoints(heroDbIndex)));
-        monsterHpView.setText(String.valueOf(monster.hp));
+        heroHpView.setText(String.valueOf(h.getHeroHitpoints(heroDbIndex)) + " / " + String.valueOf(h.getHeroHitpointsTotal(heroDbIndex)));
+        monsterHpView.setText(String.valueOf(monster.hp) + " / " + String.valueOf(monster.hpTotal));
     }
 
 
@@ -818,11 +821,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         monsterProfileView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
         monsterNameView.setText(monster.name);
-        monsterHpView.setText(String.valueOf(monster.hp));
 
         heroProfileView.setImageResource(getResources().getIdentifier(h.getHeroImgRes(heroDbIndex), "mipmap", getPackageName()));
         heroNameView.setText(h.getHeroName(heroDbIndex));
-        heroHpView.setText(String.valueOf(h.getHeroHitpoints(heroDbIndex)));
+
+        updateCharacterInfoViews();
 
         lastSelectedShowBattleView = (TextView) findViewById(R.id.textview_com_show_battle_log);
 
