@@ -38,7 +38,7 @@ public class HeroPool {
     public String setName() {
         String[] nameArray = {"Gunther", "Gisbert", "Kamel", "Pepe", "Rudy", "Bow", "Joe",
                 "Wiesgart", "Knöllchen", "Speck-O", "Toni", "Brieselbert", "Heinmar",
-                "Beowulf", "Hartmut von Heinstein", "Konrad Käsebart", "Clayton Wiesel", "Jimmy 'Die Bohne'"};
+                "Beowulf", "Hartmut von Heinstein", "Konrad Käsebart", "Clayton Wiesel", "Jimmy 'Die Bohne'", "Rob Cross", "Aleksandr Oreshkin"};
 
         //Zufälliger Namens-Generator
         for (boolean run = true; run; ) {
