@@ -31,4 +31,6 @@
 
     <color name="button_text_inactive">#707070</color>
 
+    <color name="combat_multi_field_active">@android:color/darker_gray</color>
+
 </resources>

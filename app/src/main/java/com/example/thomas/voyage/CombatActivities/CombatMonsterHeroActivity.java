@@ -147,23 +147,26 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     }
 
     public void onScoreMulti(View v){
+        TextView tv = (TextView) v;
 
-        switch (v.getId()){
+        switch (tv.getId()){
             case R.id.cell_com_multi_single_in:
                 scoreMultiplier = 1.1;
-                v.setBackgroundColor(Color.WHITE);
+                tv.setBackgroundColor(getColor(R.color.combat_multi_field_active));
+                tv.setTextColor(Color.BLACK);
                 break;
             case R.id.cell_com_multi_single_out:
                 scoreMultiplier = 1.2;
-                v.setBackgroundColor(Color.WHITE);
+                tv.setBackgroundColor(getColor(R.color.combat_multi_field_active));
+                tv.setTextColor(Color.BLACK);
                 break;
             case R.id.cell_com_multi_x_2:
                 scoreMultiplier = 2;
-                v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark, null));
+                tv.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark, null));
                 break;
             case R.id.cell_com_multi_x_3:
                 scoreMultiplier = 3;
-                v.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark, null));
+                tv.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark, null));
                 break;
             case R.id.cell_com_multi_bull:
                 scoreMultiplier = 1;
@@ -179,46 +182,51 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 Msg.msg(this, "ERROR @ onScoreMulti : default called");
         }
 
-        // Elemente ohne break lassen switch einfach zu
-        // nächstem Element weiterlaufe -> solange, bis
-        // ein break erreicht wird -> man spart sich if( x || y || z)
-        switch(lastMultiView.getId()){
-            case R.id.cell_com_multi_eye:
-                lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_red);
-                break;
-            case R.id.cell_com_multi_bull:
-            case R.id.cell_com_multi_x_3:
-            case R.id.cell_com_multi_x_2:
-                lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_green);
-                break;
-            default:
-                lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_white);
-        }
+        if(lastMultiView != tv){
+            lastMultiView.setTextColor(Color.WHITE);
+            // Elemente ohne break lassen switch einfach zu
+            // nächstem Element weiterlaufe -> solange, bis
+            // ein break erreicht wird -> man spart sich if( x || y || z)
+            switch(lastMultiView.getId()){
+                case R.id.cell_com_multi_eye:
+                    lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_red);
+                    break;
+                case R.id.cell_com_multi_bull:
+                case R.id.cell_com_multi_x_3:
+                case R.id.cell_com_multi_x_2:
+                    lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_green);
+                    break;
+                default:
+                    lastMultiView.setBackgroundResource(R.drawable.ripple_soft_grey_to_white);
+            }
 
-        // Wenn Bulls oder Bullseye getroffen werden, dann wird
-        // wieder SingleOut (default) gewählt
-        if(v.getId() == R.id.cell_com_multi_eye || v.getId() == R.id.cell_com_multi_bull){
-            lastMultiView = defaultMultiView;
-            defaultMultiView.setBackgroundColor(Color.WHITE);
-        } else
-            lastMultiView = (TextView) v;
+            // Wenn Bulls oder Bullseye getroffen werden, dann wird
+            // wieder SingleOut (default) gewählt
+            if(tv.getId() == R.id.cell_com_multi_eye || tv.getId() == R.id.cell_com_multi_bull){
+                lastMultiView = defaultMultiView;
+                defaultMultiView.setBackgroundColor(getColor(R.color.combat_multi_field_active));
+                defaultMultiView.setTextColor(Color.BLACK);
+            } else
+                lastMultiView = tv;
+        }
     }
 
     public void onActionSceneToolbar(View v){
         TextView tv = (TextView) v;
 
-        lastSelectedShowBattleView.setTextColor(getResources().getColor(R.color.grey_7000, null));
+        tv.setTextColor(Color.WHITE);
+        lastSelectedShowBattleView.setTextColor(getColor(R.color.grey_7000));
         lastSelectedShowBattleView = tv;
 
         switch(v.getId()){
             case R.id.textview_com_show_battle_log:
-                tv.setTextColor(Color.BLACK);
+                tv.setTextColor(Color.WHITE);
                 playerItemGridView.setVisibility(View.GONE);
                 battleLogScrollView.setVisibility(View.VISIBLE);
                 break;
 
             case R.id.textview_com_show_inventory:
-                tv.setTextColor(Color.BLACK);
+                tv.setTextColor(Color.WHITE);
                 playerItemGridView.setVisibility(View.VISIBLE);
                 battleLogScrollView.setVisibility(View.GONE);
                 break;
@@ -515,6 +523,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     public void putFragmentToSleep() {
         if(heroAllDataCardFragment != null){
             getFragmentManager().beginTransaction().remove(heroAllDataCardFragment).commit();
+            heroAllDataCardFragment = null;
         }
     }
 
@@ -548,19 +557,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             valView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-                    // Darstellung bearbeiten
-                    /*
-                    if (!(lastSelectedValView == null) && lastSelectedValIndex != index)
-                        lastSelectedValView.setBackground(getResources().getDrawable(R.drawable.ripple_grey_to_black, null));
-                    lastSelectedValIndex = index;
-                    lastSelectedValView = (TextView) view;
-                    view.setBackgroundResource((isActive = !isActive) ? R.drawable.ripple_from_darkgrey_to_black : R.drawable.ripple_grey_to_black);
-                    */
-
-                    // Combat
                     combat(scoreValue);
-
                 }
             });
         }
@@ -595,7 +592,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
 
             scoreTextViewList.get(throwCount).setText(String.valueOf(tempScoreHistory[throwCount]));
-            scoreTextViewList.get(throwCount).setTextColor(Color.BLACK);
+            scoreTextViewList.get(throwCount).setTextColor(Color.WHITE);
 
             throwCount++;
             numAttacks++;

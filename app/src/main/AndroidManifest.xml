@@ -53,9 +53,6 @@
             android:label="@string/title_activity_quick_combat_classic"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".BasicActivities.WearMessageTestActivity"
-            android:label="@string/title_activity_wear_message_test" />
-        <activity
             android:name=".CombatActivities.QuickCombatShanghaiActivity"
             android:label="@string/title_activity_quick_combat_shanghai"
             android:screenOrientation="sensorLandscape" />
