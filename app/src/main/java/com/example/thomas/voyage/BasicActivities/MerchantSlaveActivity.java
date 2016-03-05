@@ -56,7 +56,7 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
         refreshToolbarViews();
     }
 
-
+        //TODO: Merchant Profil erstellen, Angeschlagene Helden
 
     /*
 

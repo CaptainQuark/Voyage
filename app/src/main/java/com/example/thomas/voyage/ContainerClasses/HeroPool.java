@@ -57,14 +57,14 @@ public class HeroPool {
 
     public String setClass(String currentBiome, String type, Context context){
 
-        rarity = (int) (Math.random() * 100);           //Wählt eine der Seltenheits-Klassen aus
-        if (rarity <= 60) {                               //Wsl 60%
+        rarity = (int) (Math.random() * 1000);           //Wählt eine der Seltenheits-Klassen aus
+        if (rarity <= 650) {                               //Wsl 65%
             rarity = 1;
-        } else if (rarity <= 80) {                          //Wsl 20% - 1/5
+        } else if (rarity <= 850) {                          //Wsl 20% - 1/5
             rarity = 2;
-        } else if (rarity <= 90) {                          //Wsl 10% - 1/10
+        } else if (rarity <= 950) {                          //Wsl 10% - 1/10
             rarity = 3;
-        } else if (rarity >= 90) {                          //Wsl 10% - 1/10
+        } else if (rarity >= 950) {                          //Wsl 5% - 1/20
             rarity = 4;
         }
 
@@ -79,31 +79,31 @@ public class HeroPool {
             Log.i("INFO: ", rand + " / " +  heroType + " / " + rarity + " / " + list.get(rand)[3]);
             imageID = rand + 1;
             if(type.equals("Primary")){
-                pClass = list.get(rand)[2];
-                pHp = Integer.parseInt(list.get(rand)[4]);
-                pCosts = Integer.parseInt(list.get(rand)[5]);
-                pEvasion = Integer.parseInt(list.get(rand)[6]);
-                pHpWeight = Double.parseDouble(list.get(rand)[7]);
-                pCostsWeight = Double.parseDouble(list.get(rand)[8]);
-                pEvasionWeight = Double.parseDouble(list.get(rand)[9]);
+                pClass = helperCSV.getString("heroresourcetable", rand, "Class");
+                pHp = Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Hp"));
+                pCosts = Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Costs"));
+                pEvasion = Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Evasion"));
+                pHpWeight = Double.parseDouble(helperCSV.getString("heroresourcetable", rand, "HpWeight"));
+                pCostsWeight = Double.parseDouble(helperCSV.getString("heroresourcetable", rand, "CostsWeight"));
+                pEvasionWeight = Double.parseDouble(helperCSV.getString("heroresourcetable", rand, "EvasionWeight"));
                 heroClass = pClass;
                 Log.i("INFO: ", heroClass);
             }else{
-                sClass = list.get(rand)[2];
-                sHp = Integer.parseInt(list.get(rand)[4]);
-                sCosts = Integer.parseInt(list.get(rand)[5]);
-                sEvasion = Integer.parseInt(list.get(rand)[6]);
-                sHpWeight = Double.parseDouble(list.get(rand)[7]);
-                sCostsWeight = Double.parseDouble(list.get(rand)[8]);
-                sEvasionWeight = Double.parseDouble(list.get(rand)[9]);
+                sClass = helperCSV.getString("heroresourcetable", rand, "Class");
+                sHp = Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Hp"));
+                sCosts = Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Costs"));
+                sEvasion = Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Evasion"));
+                sHpWeight = Double.parseDouble(helperCSV.getString("heroresourcetable", rand, "HpWeight"));
+                sCostsWeight = Double.parseDouble(helperCSV.getString("heroresourcetable", rand, "CostsWeight"));
+                sEvasionWeight = Double.parseDouble(helperCSV.getString("heroresourcetable", rand, "EvasionWeight"));
                 heroClass = sClass;
                 Log.i("INFO: ", heroClass);
             }
         }while(!type.equals(heroType) ||
-                rarity != Integer.parseInt(list.get(rand)[3]) ||
-                currentBiome.equals(list.get(rand)[12]) ||
-                currentBiome.equals(list.get(rand)[13]) ||
-                currentBiome.equals(list.get(rand)[14]));
+                rarity != Integer.parseInt(helperCSV.getString("heroresourcetable", rand, "Rarity")) ||
+                currentBiome.equals(helperCSV.getString("heroresourcetable", rand, "RestrictedBiome1")) ||
+                currentBiome.equals(helperCSV.getString("heroresourcetable", rand, "RestrictedBiome2")) ||
+                currentBiome.equals(helperCSV.getString("heroresourcetable", rand, "RestrictedBiome3")));
 
         /*
 
@@ -165,6 +165,7 @@ public class HeroPool {
         int returnVal;
 
         switch(pClass){
+            case "Kneipenschläger":
             case "Waldläufer":
                 returnVal =  r.nextInt(20) + 1;
                 break;

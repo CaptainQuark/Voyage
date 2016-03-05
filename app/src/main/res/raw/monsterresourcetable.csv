@@ -1,8 +1,8 @@
 ID,Type,Name,Rarity,HP,DmgMin,DmgMax,Accuracy,Evasion,CritChance,CritMultiplier,Checkout,Resistance,Block,AllowedBiome1,AllowedBiome2,AllowedBiome3,Difficulty,Bounty,ScalingDamage
-1,Ork,Ork-Plünderer,1,200,8,18,950,1000,990,2,default,1,0,Forest,Mountain,Cave,Easy,150,true
+1,Ork,Ork-Plünderer,1,200,12,25,950,1000,990,2,default,1,0,Forest,Mountain,Cave,Easy,150,true
 2,Bestie,Eulenbär,2,300,13,18,940,1000,960,3,default,1,0,Forest,,,Easy,200,false
 3,Ork,Uruk-Kapitän,3,230,14,15,990,1000,990,3,master,1,0,Forest,,,Easy,250,false
-4,Bilwiss,Bilwiss-Brandschatzer,1,280,10,25,990,970,970,3.2,default,1,0,Forest,,,Medium,300,true
+4,Bilwiss,Bilwiss-Brandschatzer,1,280,12,30,990,970,970,3.2,default,1,0,Forest,,,Medium,300,true
 5,Ent,Baumhirte,2,300,13,18,950,1000,980,3,default,1,3,Forest,,,Medium,350,false
 6,Bestie,Untote Bestie,3,280,17,19,980,1000,980,2.5,master,1,0,Forest,,,Medium,400,false
 7,Spinne,Riesenspinne,1,400,12,20,970,990,970,3,default,1,0,Forest,,,Hard,450,false

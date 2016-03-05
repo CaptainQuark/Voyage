@@ -37,10 +37,10 @@ import java.util.Random;
 public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCardFragment.onHeroAllDataCardListener,
         MonsterAllDataFragment.OnFragmentInteractionListener{
 
-    private int tempScore = 0, bonusHealth = 0, bonusScore = 0, scoreMultiplier, turnsBetweenRetreat = -1,
+    private int tempScore = 0, bonusHealth = 0, bonusDamage = 0, turnsBetweenRetreat = -1,
             currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
-            heroCritChanceActive = -1, monsterHpTotal;
-    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier = 1;
+            heroCritChanceActive = -1, bonusBounty = 0;
+    private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier = 1, heroResistance = 1, scoreMultiplier;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
     private Monster monster;
@@ -88,7 +88,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         switch (v.getId()){
 
             case R.id.cell_com_miss:
-                int tempMulti = scoreMultiplier;
+                double tempMulti = scoreMultiplier;
                 scoreMultiplier = 1;
                 combat(0);
                 scoreMultiplier = tempMulti;
@@ -150,11 +150,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
         switch (v.getId()){
             case R.id.cell_com_multi_single_in:
-                scoreMultiplier = 1;
+                scoreMultiplier = 1.1;
                 v.setBackgroundColor(Color.WHITE);
                 break;
             case R.id.cell_com_multi_single_out:
-                scoreMultiplier = 1;
+                scoreMultiplier = 1.2;
                 v.setBackgroundColor(Color.WHITE);
                 break;
             case R.id.cell_com_multi_x_2:
@@ -242,26 +242,35 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         switch (heroClassActive) {
             case "Waldläufer":
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
-                    bonusScore += 5;
+                    bonusDamage += 7;
                 }
                 break;
             case "Kneipenschläger":
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex) && scoreMultiplier == 1.1){
+                    heroResistance -= 0.2;
+                }
                 break;
             case "Monsterjäger":
+                if (scoreField == 1) {
+                    bonusDamage += 8 - (int) scoreMultiplier;
+                } else if (scoreField == 5 && (int) scoreMultiplier == 1) {
+                    bonusDamage += 3;
+                }
+                break;
+            case "Söldner":
                 break;
 
             //Secondaries:
-            case "Schurke":
-                if (scoreField == 1) {
-                    bonusScore += 8 - scoreMultiplier;
-                } else if (scoreField == 5 && scoreMultiplier == 1) {
-                    bonusScore += 3;
-                }
+            case "Plünderer":
+                //Wenn Checkout xx dann + BonusBounty
                 break;
-            case "Spion":
+            case "Dieb":
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusBounty += 5;
                 break;
             case "Glaubenskrieger":
                 break;
+            default:
+                Log.e("COMBAT: ", "Error@switch: heroClassActive invalid");
         }
 
         applyEffects();
@@ -275,7 +284,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
         }
 
-        tempScore += (scoreField * scoreMultiplier + bonusScore) * bonusCritMultiplier * monster.resistance - monster.block;
+        tempScore += (scoreField * (int) scoreMultiplier + bonusDamage) * bonusCritMultiplier * monster.resistance - monster.block;
         if (tempScore < 0) tempScore = 0;
 
         //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
@@ -285,14 +294,14 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             //Checkout-Probe mit raw-Score und dem tempScore mit Boni
             if (monster.checkout.equals("double") && checkOutPossible(2)) {
-                if ((monster.hp == (scoreField * scoreMultiplier) && scoreMultiplier == 2)
+                if ((monster.hp == (scoreField * (int) scoreMultiplier) && scoreMultiplier == 2)
                         || (monster.hp == tempScore && scoreMultiplier == 2)) {
                     combatVictory();
                     monster.hp = 0;
                 }
 
             } else if (monster.checkout.equals("master")) {
-                if (scoreField * scoreMultiplier == monster.hp || monster.hp == tempScore) {
+                if (scoreField * (int) scoreMultiplier == monster.hp || monster.hp == tempScore) {
                 combatVictory();
                 monster.hp = 0;
             }
@@ -312,6 +321,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             } else if (scoreHelper.addOneThrow(tempScore)) {
                 //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg
                 calculateMonsterDamage();
+                resetBonusAfterTurn();
             }
 
         } else {
@@ -329,7 +339,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             startActivity(i);
             finish();
         }
-        resetBonus();
+        resetBonusAfterThrow();
     }
 
     private void calculateMonsterDamage(){
@@ -350,13 +360,14 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
                 //Monster-Fähigkeiten
                 if(monsterScalingDamage){
-                    Log.i("MONSTERSCALINGDAMAGE:", "Original damage: " + monsterDmg);
+                    Log.i("CALCULATEMONSTERDAMAGE:", "Original damage: " + monsterDmg);
                     if (monster.hp < monster.hpTotal / 3) monsterDmg = monsterDmg / 3;
                     else if (monster.hp < monster.hpTotal / 3 * 2) monsterDmg = (monsterDmg / 3) * 2;
 
-                    Log.i("MONSTERSCALINGDAMAGE:", "Scaled Damage: " + monsterDmg);
+                    Log.i("CALCULATEMONSTERDAMAGE:", "Scaled Damage: " + monsterDmg);
                 }
-                h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) - monsterDmg);
+                Log.i("HERORESISTANCE:", "DMG ohne Res: " + monsterDmg + " DMG + RES " + monsterDmg * heroResistance + " RES: " + heroResistance);
+                h.updateHeroHitpoints( heroDbIndex, (int) (h.getHeroHitpoints(heroDbIndex) - monsterDmg * heroResistance));
                 battleLogHandler("monsterAttack");
             }
             else{
@@ -375,12 +386,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 if(tempScore == 0){
                     logTopEntry = "Der Angriff hat keine Auswirkungen";
                 }
-                else if(bonusScore == 0){
-                    logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore) + ". ";
+                else if(bonusDamage == 0){
+                    logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusDamage) + ". ";
                 }
                 else{
-                    logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusScore)
-                            + " und " + bonusScore + " Bonusangriff!";
+                    logTopEntry = h.getHeroName(heroDbIndex) + " attackiert mit " + (tempScore - bonusDamage)
+                            + " und " + bonusDamage + " Bonusangriff!";
                 }
                 break;
             case "heroBust":
@@ -436,7 +447,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     b.getInt(c.COMBAT_LENGTH, 1),
                     b.getInt(c.COMBAT_MONSTER_COUNTER) + 1,
                     //TODO: Bounty randomness einfügen
-                    b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)))));
+                    b.getInt(c.COMBAT_BOUNTY_TOTAL) + (monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)) + bonusBounty)));
             Log.i("BOUNTY", "monsterBounty : " + monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)) +
                     " / raw bounty: " + monster.bounty
                     + " / new bountyTotal: " + (bountyTotal + (monster.bounty + (monster.bounty / 100 * (currentMonsterCounter + turnsBetweenRetreat)))));
@@ -474,11 +485,15 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         h.updateHeroHitpoints( heroDbIndex, h.getHeroHitpoints(heroDbIndex) + bonusHealth);
     }
 
-    private void resetBonus(){
+    private void resetBonusAfterThrow(){
         tempScore = 0;
         bonusCritMultiplier = 1;
-        bonusScore = 0;
+        bonusDamage = 0;
         bonusHealth = 0;
+    }
+
+    private void resetBonusAfterTurn(){
+        heroResistance = 1;
     }
 
     private void updateCharacterInfoViews(){
@@ -604,6 +619,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 tempScoreHistory[i] = 0;
             }
             throwCount = 0;
+            resetBonusAfterTurn();
             battleLogHandler("heroBust");
             updateCharacterInfoViews();
         }

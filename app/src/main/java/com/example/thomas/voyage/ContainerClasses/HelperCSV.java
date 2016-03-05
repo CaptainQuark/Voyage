@@ -82,18 +82,15 @@ public class HelperCSV {
 
         //Erkennt die richtige Spalte anhand des mitgegebenen Strings field
         for (int k = 0; k < maxColumns; k++){
-            Log.i("HelperCSV", field);
-            Log.i("HelperCSV", table.get(0)[k]);
             if ((table.get(0)[k]).equals(field)){
-                Log.i("HelperCSV", "Success");
                 column = k;
             }
         }
 
         //Header wird verworfen, damit die Zeile mit der mitgegebenen Variable 'line' übereinstimmt
-        //table.remove(0);
+        table.remove(0);
 
-        var = table.get(line + 1)[column];
+        var = table.get(line)[column];
         return var;
     }
 }
