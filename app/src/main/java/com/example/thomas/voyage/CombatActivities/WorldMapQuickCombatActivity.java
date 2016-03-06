@@ -156,19 +156,19 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
                     break;
             case R.id.radioButton_length_0:
                 if (checked){
-                    length = 2;
+                    length = 3;
                     secondCheck = true;
                 }
                     break;
             case R.id.radioButton_length_1:
                 if (checked){
-                    length = 3;
+                    length = 4;
                     secondCheck = true;
                 }
                     break;
             case R.id.radioButton_lenght_2:
                 if (checked){
-                    length = 4;
+                    length = 5;
                     secondCheck = true;
                 }
                     break;

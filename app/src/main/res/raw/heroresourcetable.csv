@@ -1,9 +1,19 @@
 ID,Type,Class,Rarity,Hp,Costs,Evasion,HpWeight,CostsWeight,EvasionWeight,CritChance,CritMultiplier,RestrictedBiome1,RestrictedBiome2,RestrictedBiome3,Description
 1,Primary,Waldläufer,1,450,1000,950,3,2,4,980,1.5,,,,Gezielter Treffer - Ein Wurf in die Bonuszahl fügt zusätzliche 7 Schaden zu
-2,Primary,Kneipenschläger,2,600,900,1000,2.5,2,1,980,1.5,,,,Fokus - Nach einem Treffer in die Bonuszahl nimmt der Held 20% weniger Schaden
-3,Primary,Monsterjäger,3,500,1500,950,3,2,4,950,2,,,,Monsterjäger Test
-4,Primary,Söldner,4,550,2000,950,3,2,4,980,1.7,,,,Söldner Test
-5,Secondary,Dieb,1,390,1000,900,2.5,2,3,980,1.5,,,,Flinke Hand - Treffer in die Bonuszahl erhöhen die Belohnung um 4$
-6,Secondary,Schurke,2,540,1200,950,3,2,4,980,1.5,,,,Schurke Test
-7,Secondary,Glaubenskrieger,3,500,1500,950,3,2,4,980,1.5,,,,Glaubenskrieger Test
-8,Secondary,Kopfgeldjäger,4,530,2000,950,3,2,4,980,4,,,,Berufsehre - Der Bonusschaden bei einem Treffer in die Bonuszahl steigt mit der möglichen Belohnung
+2,Primary,Legionär,1,510,1100,970,3,2,5,980,1.4,,,,Disziplin & Formation - Treffer in die Bonuszahl fügen zusätzlich 3 Schaden zu und schwächen den nächsten Gegenangriff um 2. PASSIV: Nach jedem Kampf muss der Soldat einen Sold bezahlen
+3,Primary,Kneipenschläger,1,600,900,1000,2.5,2,1,980,1.5,,,,Fokus - Nach einem Treffer in die Bonuszahl nimmt der Held 15% weniger Schaden
+4,Primary,Musketier,2,490,1300,960,3,2,4,975,1.75,,,,Bullseye! - Zu Treffern ins Bulls wird ein roher Bonusscore von 10 angerechnet
+5,Primary,Trapper,2,540,1300,955,4,2,4,990,2.7,,,,Falle & Harpune - Doubles der Bonuszahl lähmen das Ungeheuer und fügen zusätzlichen Schaden zu
+6,Primary,Monsterjäger,3,500,1500,950,3,2,4,950,2,,,,Monsterjäger Test
+7,Primary,Plänkler,3,480,1350,950,3,2,3,970,1.5,,,,Plänkeln - Ein Wurf in die Bonuszahl erhöht die Gewandheit des Helden um 10%
+8,Primary,Söldner,4,550,2000,950,3,4,4,980,1.7,,,,Söldner Test
+9,Secondary,Dieb,1,370,1000,900,2.5,2,3,980,1.5,,,,Flinke Hand - Treffer in die Bonuszahl erhöhen die Belohnung um 4$
+10,Secondary,Attentäter,1,390,1000,900,4,1.5,5,930,1.3,,,,Verdeckte Klinge - Bei Treffern in die einfache Bonuszahl wird die Rüstung des Monsters übergangen
+11,Secondary,Berserker,1,520,1050,980,3,2,2,975,1.5,,,,"Blutrausch - Treffer in die Bonuszahl haben zusätzlichen reinen Bonusscore, der mit weniger Lebenspunkten bis zu 7 steigt"
+12,Secondary,Scharfschütze,1,420,1000,950,3,2,4,950,2.2,,,,Zielfernrohr - Würfe ins Bulls oder in die Bonuszahl treffen (fast) immer
+13,Secondary,Plünderer,2,480,1250,960,3,2,3.5,990,2.3,,,,"Durchsuchen und Verwerten  - Ein Checkout mit dem Bonuszahl-Single, -Double oder -Treble bringt zusätzlich 25% Kopfgeld des Monsters"
+14,Secondary,Schurke,2,500,1200,950,3,2,4,980,1.5,,,,Schurke Test
+15,Secondary,Gladiator,3,520,1375,930,3,2,5,970,2,,,,Finte - Bei einem Fehlwurf erhält der Held zusätzliche 15% Chance einem Angriff auszuweichen
+16,Secondary,Glaubenskrieger,3,500,1500,950,3,2,4,980,1.5,,,,Glaubenskrieger Test
+17,Secondary,Okkultist,4,200,1700,990,1,2,1,1000,1,,,,Schwarze Magie - Outer Singles heilen ihren Wert und andere Felder schaden dem Helden
+18,Secondary,Kopfgeldjäger,4,530,2000,950,3,2,4,980,4,,,,Berufsehre - Der Bonusschaden bei einem Treffer in die Bonuszahl steigt mit der möglichen Belohnung

@@ -63,6 +63,8 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
 
         monster = new Monster(biome, String.valueOf(level), this);
         nameView.setText(monster.name);
+        retreatView.setText("RÜCKZUG" + '\n' + bountyTotal);
+
         //Wenn kein Rückzug möglich wird das Feld ausgegraut
         if(monsterCounter % length != 0)retreatView.setTextColor(Color.parseColor("#707070"));
 
@@ -97,6 +99,8 @@ public class CombatSplashActivity extends Activity implements MonsterAllDataFrag
             desView.setText("Noch 2" + unitPlural);
         } else if ((monsterCounter + 3) % length == 0) {
             desView.setText("Noch 3" + unitPlural);
+        } else if ((monsterCounter + 4) % length == 0) {
+            desView.setText("Noch 4" + unitPlural);
         }
 
         backgroundView.setImageResource(getEnvironmentBackgroundPicture());
