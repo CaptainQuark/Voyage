@@ -164,23 +164,24 @@ public class HeroPool {
         Random r = new Random();
         int returnVal;
 
-        switch(pClass){
+       /* switch(pClass){
             case "Kneipenschläger":
             case "Waldläufer":
                 returnVal =  r.nextInt(20) + 1;
                 break;
             default:
                 returnVal = -1;
-        }
-        return returnVal;
+        }*/
+        return r.nextInt(20) + 1;
     }
 
     public String getImageResource() {
 
         //Sonderregeln für bestimmte Klassen
+        Random r = new Random();
         switch (pClass){
-            case "Waldläufer":
-                break;
+            case "Trapper":
+               return ("hero_dummy_trapper_" + r.nextInt(2));
             default:
                 break;
         }
