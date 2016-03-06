@@ -299,10 +299,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 }
                 break;
             case "Plünderer":
-                //Wenn Checkout xx dann + BonusBounty
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
                     if ((monster.checkout.equals("double") && scoreField * 2 == monster.hp)
-                            || (monster.checkout != "double" && scoreField * (int) scoreMultiplier == monster.hp - monster.armor)) {
+                            || (!monster.checkout.equals("double") && scoreField * (int) scoreMultiplier == monster.hp - monster.armor)) {
                         Msg.msgShort(this, "Wertvoller Plunder wurde gefunden!");
                         if (scoreMultiplier == 3) bonusBounty += monster.bounty / 4;
                         else if (scoreMultiplier == 2) bonusBounty += monster.bounty / 7;
