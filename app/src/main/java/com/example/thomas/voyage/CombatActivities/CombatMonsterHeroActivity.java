@@ -334,7 +334,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 Log.v("CombatMonster", "before combatVictory");
                 combatVictory();
                 Log.v("CombatMonster", "after combatVictory");
-            } else if (monster.hp <= 0) {
+            } else if (monster.hp <= 0 || (monster.hp == 1 && monster.checkout.equals("double"))) {
                 //Überworfen!
                 calculateMonsterDamage();
                 scoreHelper.bustReset();
