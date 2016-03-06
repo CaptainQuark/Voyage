@@ -1,1 +1,1 @@
-include ':app', ':libs', ':libs:opencsv-3.7'
+include ':libs:opencsv-3.7', ':app', ':libs'
