@@ -8,7 +8,8 @@ public class ConstRes {
             TOTAL_ITEMS_MERCHANT_LV1 = 20,
             TOTAL_HEROES_MERCHANT = 3,
             TOTAL_HEROES_PLAYER = 10,
-            COSTS_TO_HEAL_PER_HP = 100;
+            COSTS_TO_HEAL_PER_HP = 100,
+            MIN_TO_HEAL_PER_HP = 1;
 
     public final String
             IS_FIRST_RUN = "IS_FIRST_RUN",

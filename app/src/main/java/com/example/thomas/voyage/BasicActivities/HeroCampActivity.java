@@ -4,7 +4,6 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Activity;
@@ -46,7 +45,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
     // Index des GridView, für Datenbankzugriff über
     // 'UID' muss immer +1 gerechnet werden (DB beginnt bei 1)
-    private int lastSelectedHeroIndex = -1;
+    private int selectedHeroIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,10 +86,10 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
     public void campHealHero(View v){
 
-        if(lastSelectedHeroIndex == -1){
+        if(selectedHeroIndex == -1){
             Msg.msg(this, "No hero selected");
 
-        }else if(h.getHeroHitpoints(lastSelectedHeroIndex+1) == h.getHeroHitpointsTotal(lastSelectedHeroIndex+1)){
+        }else if(h.getHeroHitpoints(dbIndexForHeroList.get(selectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(selectedHeroIndex))){
             Msg.msg(this, "Your hero doesn't need any medication");
 
         }else{
@@ -110,18 +109,20 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
             }else{
                 //SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
-                //int costs = ((heroList.get(lastSelectedHeroIndex).getHpTotal() - (heroList.get(lastSelectedHeroIndex).getHp())) / (heroList.get(lastSelectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
+                //int costs = ((heroList.get(selectedHeroIndex).getHpTotal() - (heroList.get(selectedHeroIndex).getHp())) / (heroList.get(selectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
 
                 // pro fehlendem hitpoint werden $ 100 angerechnet
-                int costs = getCostsToHeal(lastSelectedHeroIndex);
+                int costs = getCostsToHeal(selectedHeroIndex);
 
                 if( prefs.getCurrentMoney(this, new ConstRes()) - costs >= 0){
                     putFragmentToSleep();
 
-                    if(!h.updateMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex), medSlotIndex))
+                    if(!h.updateMedSlotIndex(dbIndexForHeroList.get(selectedHeroIndex), medSlotIndex))
                         Msg.msg(this, "ERROR @ campHealHero : updateMedSlotIndex");
 
-                    if(!h.updateTimeToLeave(dbIndexForHeroList.get(lastSelectedHeroIndex), System.currentTimeMillis() + (1000* 60 * 60 * (costs / 100))))
+                    if(!h.updateTimeToLeave(dbIndexForHeroList.get(selectedHeroIndex),
+                            System.currentTimeMillis()
+                                    + (1000* 60 * ((heroList.get(selectedHeroIndex).getHpTotal() - heroList.get(selectedHeroIndex).getHp()) * c.MIN_TO_HEAL_PER_HP))))
                         Msg.msg(this, "ERROR @ campHealHero : updateTimeToLeave");
 
                     prefs.removeFromCurrentMoneyAndGetNewVal(costs, this, new ConstRes());
@@ -138,7 +139,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void commitToQuest(View v){
         Intent i;
 
-        if(lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1){
+        if(selectedHeroIndex != -1 && h.getMedSlotIndex(dbIndexForHeroList.get(selectedHeroIndex)) == -1){
             switch (origin){
                 case "PrepareCombatActivity":
                     i = new Intent(getApplicationContext(), PrepareCombatActivity.class);
@@ -161,17 +162,17 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     }
 
     public void dismissHero(View v){
-        if((lastSelectedHeroIndex != -1 && h.getMedSlotIndex(lastSelectedHeroIndex+1) == -1)){
+        if((selectedHeroIndex != -1 && h.getMedSlotIndex(dbIndexForHeroList.get(selectedHeroIndex)) == -1)){
 
-            long money = (long) h.getHeroCosts(dbIndexForHeroList.get(lastSelectedHeroIndex));
+            long money = (long) h.getHeroCosts(dbIndexForHeroList.get(selectedHeroIndex));
             Msg.msg(this, "Costs: " + money);
             fortuneView.setText("$ " + prefs.addToCurrentMoneyAndGetNewVal(money, getApplicationContext(), new ConstRes()));
 
-            h.markOneRowAsUnused(dbIndexForHeroList.get(lastSelectedHeroIndex));
-            dbIndexForHeroList.remove(lastSelectedHeroIndex);
-            heroList.remove(lastSelectedHeroIndex);
+            h.markOneRowAsUnused(dbIndexForHeroList.get(selectedHeroIndex));
+            dbIndexForHeroList.remove(selectedHeroIndex);
+            heroList.remove(selectedHeroIndex);
 
-            lastSelectedHeroIndex = -1;
+            selectedHeroIndex = -1;
             setSlotsView();
             setToolbarViews();
             putFragmentToSleep();
@@ -193,7 +194,12 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
 
     private int getCostsToHeal(int i){
-        return (heroList.get(i).getHpTotal() - heroList.get(i).getHp()) * c.COSTS_TO_HEAL_PER_HP;
+
+        // Ausgangswert: Marktwert (= Kosten) des Helden
+        // -> je mehr HP fehlen, desto mehr Prozent werden vom Marktwert als Heilungskosten genommen
+
+        return (int) ( ((float)heroList.get(i).getHp() / (float)heroList.get(i).getHpTotal()) * heroList.get(i).getCosts() );
+        //return (heroList.get(i).getHpTotal() - heroList.get(i).getHp()) * c.COSTS_TO_HEAL_PER_HP;
     }
 
     private int getFreeSlotAtHospital(){
@@ -227,7 +233,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
     public void passHeroesParameterstoNewActivity(Intent i){
         ConstRes co = new ConstRes();
 
-        if(lastSelectedHeroIndex != -1){ i.putExtra(co.HERO_DATABASE_INDEX, dbIndexForHeroList.get(lastSelectedHeroIndex)); }
+        if(selectedHeroIndex != -1){ i.putExtra(co.HERO_DATABASE_INDEX, dbIndexForHeroList.get(selectedHeroIndex)); }
         i.putExtra(co.ORIGIN, "HeroCampActivity");
     }
 
@@ -237,7 +243,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
 
     private void setToolbarViews(){
         try{
-            if(lastSelectedHeroIndex == -1){
+            if(selectedHeroIndex == -1){
                 sellView.setTextColor(getColor(R.color.inactive_field));
                 toFightView.setTextColor(getColor(R.color.inactive_field));
                 healView.setTextColor(getColor(R.color.inactive_field));
@@ -246,10 +252,10 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 sellView.setTextColor(Color.WHITE);
                 toFightView.setTextColor(Color.WHITE);
 
-                if(h.getHeroHitpoints(dbIndexForHeroList.get(lastSelectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(lastSelectedHeroIndex))
-                        || prefs.getCurrentMoney(this, new ConstRes()) < getCostsToHeal(lastSelectedHeroIndex)
+                if(h.getHeroHitpoints(dbIndexForHeroList.get(selectedHeroIndex)) == h.getHeroHitpointsTotal(dbIndexForHeroList.get(selectedHeroIndex))
+                        || prefs.getCurrentMoney(this, new ConstRes()) < getCostsToHeal(selectedHeroIndex)
                         || getFreeSlotAtHospital() == -1
-                        || h.getMedSlotIndex(dbIndexForHeroList.get(lastSelectedHeroIndex)) != -1){
+                        || h.getMedSlotIndex(dbIndexForHeroList.get(selectedHeroIndex)) != -1){
 
                     healView.setTextColor(getColor(R.color.inactive_field));
 
@@ -361,7 +367,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.costsView.setText("$ " + heroList.get(position).getCosts());
             holder.evasionView.setText((1000 - heroList.get(position).getEvasion())/10 + " %");
 
-            if(lastSelectedHeroIndex == position && !somethingSelected){
+            if(selectedHeroIndex == position && !somethingSelected){
                 //holder.rightCardLayout.setBackgroundColor(Color.WHITE);
                 holder.rightCardLayout.setBackgroundColor(Color.WHITE);
 
@@ -369,14 +375,15 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 holder.rightCardLayout.setBackgroundColor(Color.parseColor("#FFA8A8A8"));
             }
 
-            if(h.getMedSlotIndex(position+1) != -1) {
+            if(h.getMedSlotIndex(dbIndexForHeroList.get(position)) != -1) {
                 holder.hospitalCostsView.setText("In Heilung...");
             }
             else {
                 if(heroList.get(position).getHp() == heroList.get(position).getHpTotal())
                     holder.hospitalCostsView.setText("-");
                 else
-                    holder.hospitalCostsView.setText("$ " + getCostsToHeal(position) + " / " + getCostsToHeal(position) / c.COSTS_TO_HEAL_PER_HP + " h");
+                    holder.hospitalCostsView.setText("$ " + getCostsToHeal(position) + " / "
+                            + (heroList.get(position).getHpTotal() - heroList.get(position).getHp()) / c.MIN_TO_HEAL_PER_HP + " min");
 
                 holder.hospitalCostsView.setTextColor(Color.BLACK);
             }
@@ -384,16 +391,16 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.profileView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //lastSelectedHeroIndex = position;
-                    somethingSelected = lastSelectedHeroIndex != position;
-                    lastSelectedHeroIndex = position;
+                    //selectedHeroIndex = position;
+                    somethingSelected = selectedHeroIndex != position;
+                    selectedHeroIndex = position;
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                     heroAllDataCardFragment = new HeroAllDataCardFragment();
                     Bundle b = new Bundle();
-                    b.putInt("DB_INDEX_PLAYER", dbIndexForHeroList.get(lastSelectedHeroIndex));
+                    b.putInt("DB_INDEX_PLAYER", dbIndexForHeroList.get(selectedHeroIndex));
 
                     heroAllDataCardFragment.setArguments(b);
                     fragmentTransaction.add(R.id.layout_camp_fragment_container, heroAllDataCardFragment);
@@ -406,8 +413,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             holder.rightCardLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    somethingSelected = lastSelectedHeroIndex != position;
-                    lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
+                    somethingSelected = selectedHeroIndex != position;
+                    selectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
 
                     setToolbarViews();
                     heroGridView.invalidateViews();
@@ -418,7 +425,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 @Override
                 public boolean onLongClick(View view) {
                     heroList.get(position).setHp(heroList.get(position).getHp() - 20);
-                    h.updateHeroHitpoints(position + 1, heroList.get(position).getHp());
+                    h.updateHeroHitpoints(dbIndexForHeroList.get(position), heroList.get(position).getHp());
                     heroGridView.invalidateViews();
                     setToolbarViews();
                     return false;
@@ -476,8 +483,8 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         heroGridView = (GridView) findViewById(R.id.heroes_camp_gridview);
         heroGridView.setAdapter(new HeroImagesAdapter(this));
 
-        //somethingSelected = lastSelectedHeroIndex != position;
-        //lastSelectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
+        //somethingSelected = selectedHeroIndex != position;
+        //selectedHeroIndex = (somethingSelected = !somethingSelected) ? -1 : position;
 
         slotsView = (TextView) findViewById(R.id.textview_camp_slots);
         healView = (TextView) findViewById(R.id.textview_camp_heal_hero);

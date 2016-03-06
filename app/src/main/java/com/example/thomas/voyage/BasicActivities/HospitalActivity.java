@@ -219,7 +219,7 @@ public class HospitalActivity extends Activity {
 
         /*
 
-        'abortMedicaton sollte keine Kosten verursachen,
+        'abortMedicaton' sollte keine Kosten verursachen,
         um zu vermeiden, dass dem Spieler alle Helden fehlen
 
          */
@@ -312,10 +312,10 @@ public class HospitalActivity extends Activity {
 
         public void showHero(BrokenHero hero){
             profileResourceView.setImageResource(getResources().getIdentifier(hero.getProfileResource(), "mipmap", getPackageName()));
-            nameView.setText(hero.getName() + "");
-            hpNowView.setText(hero.getHpNow() + " / " + hero.getHpTotal());
+            nameView.setText(String.valueOf(hero.getName() + ""));
+            hpNowView.setText(String.valueOf(hero.getHpNow() + " / " + hero.getHpTotal()));
             staticHpView.setVisibility(View.VISIBLE);
-            staticTimeView.setText("abreise in min");
+            staticTimeView.setText(String.valueOf("abreise in min"));
             timeToLeaveView.setText((String.valueOf((hero.getTimeToLeave() - System.currentTimeMillis()) / 1000 / 60)));
 
             if(slotIndex == selectedSlotIndex || selectedSlotIndex == -1) containerLayout.setForeground(null);
@@ -353,7 +353,7 @@ public class HospitalActivity extends Activity {
                 // Überprüfe, ob Held geheilt ist, also ob Zeitpunkt der Heilung
                 // bereits in der Vergangenheit liegt
                 if(timeToLeave - System.currentTimeMillis() > 0){
-                    hpNow = hpTotal - 1 - (int) ((timeToLeave - System.currentTimeMillis()) / 1000 / 60 / 60);
+                    hpNow = hpTotal - 1 - (int) ((timeToLeave - System.currentTimeMillis()) / 1000 / 60 / c.MIN_TO_HEAL_PER_HP);
                     this.setHeroHitpoints(hpNow);
 
                 }else{
