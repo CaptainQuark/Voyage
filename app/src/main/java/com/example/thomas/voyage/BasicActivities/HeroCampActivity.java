@@ -270,7 +270,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
             }
 
         }catch (Exception e){
-            Log.e("EXCEPTION", String.valueOf(e));
+            Log.e("EXCEPTION CAMP", String.valueOf(e));
             Msg.msg(this, String.valueOf(e));
         }
 
