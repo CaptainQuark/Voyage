@@ -39,7 +39,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private int tempScore = 0, bonusHealth = 0, bonusDamage = 0, turnsBetweenRetreat = -1,
             currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
-            heroCritChanceActive = -1, bonusBounty = 0, bonusScore = 0, bonusEvasion = 0;
+            heroCritChanceActive = -1, bonusBounty = 0, bonusScore = 0, bonusEvasion = 0, throwCount = 0,
+            bonusMonsterEvasion = 0;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier = 1, heroResistance = 1, scoreMultiplier, bonusArmorTear = 1;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
@@ -112,23 +113,33 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
 
             case R.id.cell_com_primary_attack:
-                heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
-                heroCritChanceActive = heroCritChanceP;
-                heroCritMultiplierActive = heroCritMultiplierP;
-                TextView primTempView = (TextView) v;
-                primTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
-                if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
-                lastClassView = primTempView;
+                if(throwCount == 0) {
+                    heroClassActive = h.getHeroPrimaryClass(heroDbIndex);
+                    heroCritChanceActive = heroCritChanceP;
+                    heroCritMultiplierActive = heroCritMultiplierP;
+                    TextView primTempView = (TextView) v;
+                    primTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
+                    if (lastClassView != null)
+                        lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
+                    lastClassView = primTempView;
+                } else {
+                    Msg.msgShort(this, "Die aktive Klasse kann nur zwischen den Würfen gewählt werden!");
+                }
                 break;
 
             case R.id.cell_com_secondary_attack:
-                heroClassActive = h.getHeroSecondaryClass(heroDbIndex);
-                heroCritChanceActive = heroCritChanceS;
-                heroCritMultiplierActive = heroCritMultiplierS;
-                TextView secTempView = (TextView) v;
-                secTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
-                if(lastClassView != null) lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
-                lastClassView = secTempView;
+                if(throwCount == 0) {
+                    heroClassActive = h.getHeroSecondaryClass(heroDbIndex);
+                    heroCritChanceActive = heroCritChanceS;
+                    heroCritMultiplierActive = heroCritMultiplierS;
+                    TextView secTempView = (TextView) v;
+                    secTempView.setBackground(getDrawable(R.drawable.ripple_from_darkgrey_to_black));
+                    if (lastClassView != null)
+                        lastClassView.setBackground(getDrawable(R.drawable.ripple_grey_to_black));
+                    lastClassView = secTempView;
+                } else {
+                    Msg.msgShort(this, "Die aktive Klasse kann nur zwischen den Würfen gewählt werden!");
+                }
                 break;
 
             case R.id.imageview_com_monster_profile:
@@ -254,7 +265,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 }
                 break;
             case "Kneipenschläger":
-                if (scoreField == h.getHeroBonusNumber(heroDbIndex) && scoreMultiplier == 1.1){
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
                     heroResistance -= 0.15;
                 }
                 break;
@@ -276,18 +287,42 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             //Secondaries:
             case "Attentäter":
-                if(scoreField == h.getHeroBonusNumber(heroDbIndex) && (int) scoreMultiplier == 1) bonusArmorTear = 0;
-                break;
-            case "Plünderer":
-                //Wenn Checkout xx dann + BonusBounty
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex) && (int) scoreMultiplier == 1)
+                    bonusArmorTear = 0;
                 break;
             case "Dieb":
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusBounty += 5;
                 break;
+            case "Scharfschütze":
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex) || scoreField == 25){
+                    bonusMonsterEvasion -= 1000;
+                }
+                break;
+            case "Plünderer":
+                //Wenn Checkout xx dann + BonusBounty
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
+                    if ((monster.checkout.equals("double") && scoreField * 2 == monster.hp)
+                            || (monster.checkout != "double" && scoreField * (int) scoreMultiplier == monster.hp - monster.armor)) {
+                        Msg.msgShort(this, "Wertvoller Plunder wurde gefunden!");
+                        if (scoreMultiplier == 3) bonusBounty += monster.bounty / 4;
+                        else if (scoreMultiplier == 2) bonusBounty += monster.bounty / 7;
+                        else bonusBounty += monster.bounty / 14;
+                    }
+                }
+                break;
+            case "Gladiator":
+                if (scoreField == 0) bonusEvasion += 150;
+                break;
             case "Glaubenskrieger":
                 break;
             case "Kopfgeldjäger":
-                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusDamage += monster.bounty / 50;
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex))
+                    bonusDamage += monster.bounty / 50;
+                break;
+            case "Okkultist":
+                if (scoreMultiplier == 1.1) {
+                    bonusHealth += scoreField;
+                } else bonusHealth -= scoreField * (int) scoreMultiplier;
                 break;
             default:
                 Log.e("COMBAT: ", "Error@switch: heroClassActive invalid");
@@ -308,7 +343,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         if (tempScore < 0) tempScore = 0;
 
         //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
-        if ((int) (Math.random() * 1000) <= monster.evasion ||
+        if ((int) (Math.random() * 1000) <= monster.evasion + bonusMonsterEvasion ||
                 (monster.hp <= 170 && monster.checkout.equals("master")) ||
                 (monster.hp <= 170 && monster.checkout.equals("double"))) {
 
@@ -516,6 +551,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         bonusHealth = 0;
         bonusScore = 0;
         bonusArmorTear = 1;
+        bonusMonsterEvasion = 0;
     }
 
     private void resetBonusAfterTurn(){
@@ -587,7 +623,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private class CountAndShowThrowsHelper {
         private List<TextView> scoreTextViewList;
         private Integer[] tempScoreHistory;
-        private int throwCount = 0, numAttacks = 0;
+        private int numAttacks = 0;
 
         public CountAndShowThrowsHelper(){
 
@@ -606,11 +642,16 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             // Wenn nächster Wurf wieder an 1. Stelle, dann alle Felder ausgrauen
             if(throwCount == 0 && numAttacks > 0) {
                 for (int i = 0; i <= 2; i++) {
-                    scoreTextViewList.get(i).setTextColor(Color.LTGRAY);
+                    scoreTextViewList.get(i).setTextColor(Color.DKGRAY);
                 }
             }
 
             scoreTextViewList.get(throwCount).setText(String.valueOf(tempScoreHistory[throwCount]));
+            if (throwCount == 1) {
+                scoreTextViewList.get(throwCount).setText(String.valueOf(tempScoreHistory[throwCount] + tempScoreHistory[0]));
+            } else if (throwCount == 2) {
+                scoreTextViewList.get(throwCount).setText(String.valueOf(tempScoreHistory[throwCount] + tempScoreHistory[0] + tempScoreHistory[1]));
+            }
             scoreTextViewList.get(throwCount).setTextColor(Color.WHITE);
 
             throwCount++;
