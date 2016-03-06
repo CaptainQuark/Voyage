@@ -111,7 +111,6 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
                 //SharedPreferences prefs = getSharedPreferences(c.SP_CURRENT_MONEY_PREF, Context.MODE_PRIVATE);
                 //int costs = ((heroList.get(selectedHeroIndex).getHpTotal() - (heroList.get(selectedHeroIndex).getHp())) / (heroList.get(selectedHeroIndex).getHpTotal()) * 100 + 1) * 100;
 
-                // pro fehlendem hitpoint werden $ 100 angerechnet
                 int costs = getCostsToHeal(selectedHeroIndex);
 
                 if( prefs.getCurrentMoney(this, new ConstRes()) - costs >= 0){
@@ -198,7 +197,7 @@ public class HeroCampActivity extends Activity implements HeroAllDataCardFragmen
         // Ausgangswert: Marktwert (= Kosten) des Helden
         // -> je mehr HP fehlen, desto mehr Prozent werden vom Marktwert als Heilungskosten genommen
 
-        return (int) ( ((float)heroList.get(i).getHp() / (float)heroList.get(i).getHpTotal()) * heroList.get(i).getCosts() );
+        return (int) (heroList.get(i).getCosts() - ( ((float)heroList.get(i).getHp() / (float)heroList.get(i).getHpTotal()) * heroList.get(i).getCosts() ));
         //return (heroList.get(i).getHpTotal() - heroList.get(i).getHp()) * c.COSTS_TO_HEAL_PER_HP;
     }
 

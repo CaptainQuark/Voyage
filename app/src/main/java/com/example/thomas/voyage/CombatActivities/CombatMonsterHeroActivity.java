@@ -762,25 +762,25 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
             //Monster-Fähigkeiten werden ausgelesen
             for (int m = 0; m < monsterresourcetable.size(); m++) {
-                if (monsterresourcetable.get(m)[2].equals(monster.name)) {
+                if (helperCSV.getString("monsterresourcetable", m, "Name").equals(monster.name)) {
                     Log.i("INIVALUES: ", "Monsterdaten wurden ausgelesen");
-                    monsterScalingDamage = Boolean.parseBoolean(monsterresourcetable.get(m)[19]);
+                    monsterScalingDamage = Boolean.parseBoolean(helperCSV.getString("monsterresourcetable", m, "ScalingDamage"));
                 }
             }
 
             //CritChance und Multiplier für Primär und Sekundär werden initialisiert
             for(int i = 0; i < heroresourcetable.size(); i++){
                 if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
-                    heroCritChanceP = Integer.parseInt(heroresourcetable.get(i)[10]);
+                    heroCritChanceP = Integer.parseInt(helperCSV.getString("heroresourcetable", i, "CritChance"));
                 }
                 if(heroresourcetable.get(i)[2].equals(h.getHeroPrimaryClass(heroDbIndex))){
-                    heroCritMultiplierP = Double.parseDouble(heroresourcetable.get(i)[11]);
+                    heroCritMultiplierP = Double.parseDouble(helperCSV.getString("heroresourcetable", i, "CritMultiplier"));
                 }
                 if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
-                    heroCritChanceS = Integer.parseInt(heroresourcetable.get(i)[10]);
+                    heroCritChanceS = Integer.parseInt(helperCSV.getString("heroresourcetable", i, "CritChance"));
                 }
                 if(heroresourcetable.get(i)[2].equals(h.getHeroSecondaryClass(heroDbIndex))){
-                    heroCritMultiplierS = Double.parseDouble(heroresourcetable.get(i)[11]);
+                    heroCritMultiplierS = Double.parseDouble(helperCSV.getString("heroresourcetable", i, "CritMultiplier"));
                 }
             }
 
