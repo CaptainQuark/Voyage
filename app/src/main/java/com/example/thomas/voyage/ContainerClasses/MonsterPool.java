@@ -11,7 +11,7 @@ public class MonsterPool {
     private int hp;
     private int dmgMin;
     private int dmgMax;
-    private int block;
+    private int armor;
     private int evasion;
     private int critChance;
     private int bounty;
@@ -69,7 +69,7 @@ public class MonsterPool {
             critMultiplier = Double.parseDouble(helperCSV.getString("monsterresourcetable", rand, "CritMultiplier"));
             checkout = helperCSV.getString("monsterresourcetable", rand, "Checkout");
             resistance = Double.parseDouble(helperCSV.getString("monsterresourcetable", rand, "Resistance"));
-            block = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Block"));
+            armor = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Block"));
             monsterdifficulty = helperCSV.getString("monsterresourcetable", rand, "Difficulty");
             bounty = Integer.parseInt(helperCSV.getString("monsterresourcetable", rand, "Bounty"));
 
@@ -118,8 +118,8 @@ public class MonsterPool {
         return dmgMax;
     }
 
-    public int getBlock(){
-        return block;
+    public int getArmor(){
+        return armor;
     }
 
     public int getBounty(){

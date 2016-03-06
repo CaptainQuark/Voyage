@@ -304,7 +304,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             }
         }
 
-        tempScore += ((scoreField + bonusScore) * (int) scoreMultiplier + bonusDamage) * bonusCritMultiplier * monster.resistance - (monster.block * bonusArmorTear);
+        tempScore += ((scoreField + bonusScore) * (int) scoreMultiplier + bonusDamage) * bonusCritMultiplier * monster.resistance - (monster.armor * bonusArmorTear);
         if (tempScore < 0) tempScore = 0;
 
         //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
@@ -749,7 +749,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                         b.getInt(c.MONSTER_HITPOINTS_TOTAL),
                         b.getInt(c.MONSTER_DAMAGE_MIN),
                         b.getInt(c.MONSTER_DAMAGE_MAX),
-                        b.getInt(c.MONSTER_BLOCK),
+                        b.getInt(c.MONSTER_ARMOR),
                         b.getDouble(c.MONSTER_RESISTANCE),
                         b.getDouble(c.MONSTER_CRIT_MULTIPLIER),
                         b.getString(c.MONSTER_DIFFICULTY),

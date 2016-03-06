@@ -202,7 +202,7 @@
                     android:layout_rowWeight="1"
                     android:layout_columnWeight="1"
                     android:gravity="top|center"
-                    android:text="BLOCK"
+                    android:text="ARMOR"
                     android:textColor="#828282"
                     android:textSize="12sp"
                     android:textStyle="bold" />

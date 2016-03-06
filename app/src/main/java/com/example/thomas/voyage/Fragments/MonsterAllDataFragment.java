@@ -61,7 +61,7 @@ public class MonsterAllDataFragment extends Fragment {
             hitpointsView.setText(b.getInt(c.MONSTER_HITPOINTS_NOW) + " / " + b.getInt(c.MONSTER_HITPOINTS_TOTAL));
             dmgMaxView.setText(String.valueOf(b.getInt(c.MONSTER_DAMAGE_MAX)));
             dmgMinView.setText(String.valueOf(b.getInt(c.MONSTER_DAMAGE_MIN)));
-            blockView.setText(String.valueOf(b.getInt(c.MONSTER_BLOCK)));
+            blockView.setText(String.valueOf(b.getInt(c.MONSTER_ARMOR)));
             evasionView.setText(String.valueOf((1000 - (b.getInt(c.MONSTER_EVASION)))/10) + " %");
             resistanceView.setText(String.valueOf(b.getDouble(c.MONSTER_RESISTANCE)));
             critMultiView.setText(String.valueOf(b.getDouble(c.MONSTER_CRIT_MULTIPLIER)));
