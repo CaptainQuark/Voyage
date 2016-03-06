@@ -241,15 +241,19 @@ public class StartActivity extends Activity {
     }
 
     private void setHospitalWindows(){
-        DBheroesAdapter h = new DBheroesAdapter(this);
-        int sum = 0;
-
-        for(int i = 1; i <= 10; i++){
-            if(h.getMedSlotIndex(i) != -1) sum++;
-        }
+        Random r = new Random();
+        int sum = checkForHeroConditionsAndReturnNumOfHeroesInMed();
 
         if(sum == 0) textViewHospital.setText("Niemand in Behandlung...");
-        else if(sum == 1) textViewHospital.setText("Ein Held wird versorgt");
+        else if(sum == 1 && r.nextInt(2) == 1){
+            for(int i = 1; i <= h.getTaskCount(); i++){
+                if(h.getMedSlotIndex(i) != -1){
+                    textViewHospital.setText(h.getHeroName(i) + " schreit entsetzlich...");
+                    i = (int) h.getTaskCount();
+                }
+            }
+        }
+        else if(sum == 1) textViewHospital.setText("Ein Held in Behandlung");
         else textViewHospital.setText(sum + " Helden in Behandlung");
     }
 
@@ -420,6 +424,25 @@ public class StartActivity extends Activity {
             Log.v("Merch Time", "timeToShow didn't change: " + timeToShow);
             return timeToShow/1000/60;
         }
+    }
+
+    private int checkForHeroConditionsAndReturnNumOfHeroesInMed(){
+        int sum = 0;
+
+        for(int i = 1; i <= h.getTaskCount(); i++){
+            if(h.getMedSlotIndex(i) != -1){
+                if(System.currentTimeMillis() >= h.getTimeToLeave(i)){
+                    h.updateHeroHitpoints(i, h.getHeroHitpointsTotal(i));
+                    h.updateMedSlotIndex(i, -1);
+                    h.updateTimeToLeave(i, 0);
+
+                }else{
+                    sum++;
+                }
+            }
+        }
+
+        return sum;
     }
 
 
