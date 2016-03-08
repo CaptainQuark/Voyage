@@ -43,7 +43,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             bonusMonsterEvasion = 0;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier = 1, heroResistance = 1, scoreMultiplier, bonusArmorTear = 1;
     private int heroDbIndex;
-    private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "";
+    private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "", currentBiome;
     private Monster monster;
     private DBheroesAdapter h;
     private DBplayerItemsAdapter itemHelper;
@@ -272,12 +272,12 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             case "Musketier":
                 if (scoreField == 25) bonusScore += 10;
                 break;
-            case "Monsterjäger":
-               /* if (scoreField == 1) {
+            case "Schwertmeister":
+                if (scoreField == 1) {
                     bonusDamage += 7 - (int) scoreMultiplier;
                 } else if (scoreField == 5 && (int) scoreMultiplier == 1) {
                     bonusDamage += 2;
-                }*/
+                }
                 break;
             case "Plänkler":
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusEvasion += 100;
@@ -342,7 +342,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         if (tempScore < 0) tempScore = 0;
 
         //Weicht das Monster aus? Ist auch kein Checkout möglich (könnte dies sonst zsammhaun!)?
-        if ((int) (Math.random() * 1000) <= monster.evasion + bonusMonsterEvasion ||
+        if ((int) (Math.random() * 1000) <= monster.evasion - bonusMonsterEvasion ||
                 (monster.hp <= 170 && monster.checkout.equals("master")) ||
                 (monster.hp <= 170 && monster.checkout.equals("double"))) {
 
@@ -772,6 +772,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 if(index > 0){heroDbIndex = index;}
                 else{Log.e("iniValues", "dbIndex from Bundle not delievered");}
 
+                currentBiome = b.getString(c.CURRENT_BIOME);
                 levelOfMonsters = b.getString(c.COMBAT_LEVEL_OF_MONSTERS);
                 turnsBetweenRetreat = b.getInt(c.COMBAT_LENGTH);
                 currentMonsterCounter = b.getInt(c.COMBAT_MONSTER_COUNTER);
