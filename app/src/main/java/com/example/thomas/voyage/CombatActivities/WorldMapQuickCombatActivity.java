@@ -118,21 +118,6 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
 
     public void onRadioButtonClicked(View view) {
 
-        /*
-
-
-
-        Schwierigkeitsgrade:     1 - leichteste Stufe
-                                 2 - mittel
-                                 3 - schwierig
-
-
-        Insgesamt zwei Gruppen:  1. - selectonArray[0} - Anspruch an Gegner
-                                 2. - selectonArray[1} - Dauer
-
-
-         */
-
         boolean checked = ((RadioButton) view).isChecked();
 
         switch(view.getId()) {
@@ -198,10 +183,10 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
                 biome = "Forest";
                 break;
             case 1:
-                biome = "Icecave";
+                biome = "Placeholder_Mountains";
                 break;
             case 3:
-                biome = "Waterfall";
+                biome = "Placeholder_Dungeon";
                 break;
             default:
                 biome = "Forest";
@@ -232,10 +217,6 @@ public class WorldMapQuickCombatActivity extends FragmentActivity {
                         | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
-    /**
-     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
-     * sequence.
-     */
     private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
         public ScreenSlidePagerAdapter(android.support.v4.app.FragmentManager fm) {
             super(fm);
