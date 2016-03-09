@@ -357,6 +357,7 @@ public class HospitalActivity extends Activity {
                     this.setHeroHitpoints(hpNow);
 
                 }else{
+                    h.updateHeroHitpoints(dbIndex, h.getHeroHitpointsTotal(dbIndex));
                     releaseBrokenHero(this.slotIndex);
                 }
             }
