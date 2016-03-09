@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -53,6 +54,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private List<ThrowInputHelper> scoreHelperList;
     private List<Item> playerItemList;
     private List<String> logList;
+    private LinearLayout mainLayout;
     private TextView monsterHpView, heroHpView, battleLogView, lastMultiView, lastClassView, defaultMultiView, lastSelectedShowBattleView;
     private GridView playerItemGridView;
     private ScrollView battleLogScrollView;
@@ -778,6 +780,22 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 currentMonsterCounter = b.getInt(c.COMBAT_MONSTER_COUNTER);
                 bountyTotal = b.getInt(c.COMBAT_BOUNTY_TOTAL);
 
+                String currentBiomeFileName;
+                switch (currentBiome){
+                    case "Forest":
+                        currentBiomeFileName = "journey_b0";
+                        break;
+                    case "Placeholder_Mountains":
+                        currentBiomeFileName = "journey_b1";
+                        break;
+                    case "Placeholder_Dungeon":
+                        currentBiomeFileName = "journey_b2";
+                        break;
+                    default:
+                        currentBiomeFileName = "journey_b0";
+                }
+
+                mainLayout.setBackgroundResource(getResources().getIdentifier(currentBiomeFileName, "id", getPackageName()));
 
                 monster = new Monster(
                         b.getString(c.MONSTER_NAME),
@@ -869,6 +887,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
     private void iniViews(){
 
+        mainLayout = (LinearLayout) findViewById(R.id.layout_com_main);
         ImageView monsterProfileView = (ImageView) findViewById(R.id.imageview_com_monster_profile);
         ImageView heroProfileView = (ImageView) findViewById(R.id.imageview_com_hero_profile);
         TextView monsterNameView = (TextView) findViewById(R.id.textview_com_monster_name);

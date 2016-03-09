@@ -73,6 +73,7 @@
                     android:layout_columnWeight="1"
                     android:gravity="bottom|center"
                     android:text="Monstername"
+                    android:textAllCaps="true"
                     android:textColor="@android:color/white"
                     android:id="@+id/frag_iv_monster_all_data_checkout"
                     android:paddingBottom="5dp" />
