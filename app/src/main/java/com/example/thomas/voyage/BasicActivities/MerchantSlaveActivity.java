@@ -284,56 +284,38 @@ public class MerchantSlaveActivity extends Activity implements HeroAllDataCardFr
     }
 
     private long getTimeToShow() {
-        final SharedPreferences prefs = getSharedPreferences("TIME_TO_LEAVE_PREF", MODE_PRIVATE);
-        long timeToShow, merchToLeaveDaytime = prefs.getLong("merchToLeaveDaytime", -1), merchChangeDate = prefs.getLong("merchChangeDate", -1);
+        long timeToShow, merchToLeaveDaytime = prefs.getMerchSlaveDaytime(this, new ConstRes()),
+                merchChangeDate = prefs.getMerchSlaveChangeDate(this, new ConstRes());
+
+        Log.v("Merch Time" , "merchToLeaveDaytime : " + merchToLeaveDaytime);
+        Log.v("Merch Time" , "merchChangeDate : " + merchChangeDate);
+        Log.v("Merch Time" , ".currentTimeMillis : " + System.currentTimeMillis());
+
 
         if(merchToLeaveDaytime == -1) merchToLeaveDaytime = getNewMerchLeaveDaytime();
-        if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
+        //if(merchChangeDate == -1) merchChangeDate = getNewMerchChangeDate();
 
+
+        // Wenn der gegenwärtige Zeitpunkt aus mehr Millisekunden
+        // besteht als das Ablaufdatum des Händlers, dann wechsle
         if(System.currentTimeMillis() >= merchChangeDate){
+            Log.v("Merch Time", "new merchant will is arriving");
             timeToShow = (getNewMerchLeaveDaytime() - getNowInSeconds()) * 1000;
-            prefs.edit().putLong("merchToLeaveDaytime", merchToLeaveDaytime);
-            setNewMerchant();
-            prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
-            prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
+            //prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
+            //prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
 
-            final FrameLayout merchLeftLayout = (FrameLayout) findViewById(R.id.layout_merch_slave_merch_has_left);
-            merchLeftLayout.setVisibility(View.GONE);
+            prefs.setNewMerchSlaveDaytime(getNewMerchLeaveDaytime(), this, new ConstRes());
+            prefs.setNewMerchChangeDate(getNewMerchChangeDate(), this, new ConstRes());
+
+            setNewMerchant();
 
             return timeToShow/1000/60;
 
         }else{
             timeToShow = (merchToLeaveDaytime - getNowInSeconds()) * 1000;
+            Log.v("Merch Time", "timeToShow didn't change: " + timeToShow);
             return timeToShow/1000/60;
         }
-
-        /*
-        currentMerchantId = prefs.getInt(MERCHANT_SLAVE_ID, 0);
-        merchantProfile.setImageResource(ImgRes.res(this, "merch", currentMerchantId + ""));
-
-        final TextView merchantTimeView = (TextView) findViewById(R.id.activity_merchant_textView_time_to_next_merchant);
-
-        timer = new CountDownTimer(timeToShow, 1000 / 60) {
-
-            public void onTick(long millisUntilFinished) {
-                merchantTimeView.setText("" + millisUntilFinished / 1000 / 60);
-            }
-
-            public void onFinish() {
-                prefs.edit().putLong("merchChangeDate", getNewMerchChangeDate()).apply();
-                prefs.edit().putLong("merchToLeaveDaytime", getNewMerchLeaveDaytime()).apply();
-
-                setNewMerchantProfile();
-                currentMerchantId = prefs.getInt(MERCHANT_SLAVE_ID, 0);
-                merchantProfile.setImageResource(ImgRes.res(getApplicationContext(), "merch", currentMerchantId + ""));
-
-                if (updateMerchantsDatabase(3) < 0)
-                    Log.e("ERROR @ ", "updateMerchantsDatabase");
-
-                showExpirationDate();
-            }
-        }.start();
-        */
     }
 
 

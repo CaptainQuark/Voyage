@@ -87,7 +87,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Log der Kampf-Geschehnisse"
-                                android:textColor="#000000"
+                                android:textColor="#ededed"
                                 android:textSize="15sp" />
 
                         </ScrollView>
@@ -373,7 +373,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -388,7 +390,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -403,7 +407,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -418,7 +424,8 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -434,7 +441,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -450,7 +459,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -466,7 +477,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -482,7 +495,8 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginBottom="1dp" />
 
 
 
@@ -501,7 +515,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -517,7 +533,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -533,7 +551,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -549,7 +569,8 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -565,7 +586,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -581,7 +604,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -597,7 +622,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -613,7 +640,8 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -629,7 +657,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -645,7 +675,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -661,7 +693,9 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginRight="1dp"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -677,7 +711,8 @@
             android:textColor="@android:color/white"
             android:textSize="25sp"
             android:fontFamily="sans-serif-light"
-            android:gravity="center" />
+            android:gravity="center"
+            android:layout_marginBottom="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -694,7 +729,8 @@
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:layout_marginRight="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -711,7 +747,8 @@
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:layout_marginRight="1dp" />
 
         <TextView
             android:layout_height="0dp"
@@ -728,7 +765,8 @@
             android:textSize="20sp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:onClick="onClick"/>
+            android:onClick="onClick"
+            android:layout_marginRight="1dp" />
         <TextView
             android:layout_height="0dp"
             android:layout_width="0dp"
