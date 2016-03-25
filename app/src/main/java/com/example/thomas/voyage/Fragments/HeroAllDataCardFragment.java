@@ -85,14 +85,15 @@ public class HeroAllDataCardFragment extends Fragment implements View.OnClickLis
         HelperCSV helperCSV = new HelperCSV(getContext());
         List<String[]> list = helperCSV.getDataList("heroresourcetable");
         String desc = "ERROR@HEROALLDATACARDFRAGMENT-descriptionView";
+        //TODO: Dynamische CSV-Auslesung
         for(int i = 0; i < list.size(); i++){
             if(list.get(i)[2].equals(hero.getClassPrimary())){
-                desc = list.get(i)[15];
+                desc = list.get(i)[12];
             }
         }
         for(int t = 0; t < list.size(); t++){
             if(list.get(t)[2].equals(hero.getClassSecondary())){
-                desc = desc + '\n' + '\n' + list.get(t)[15];
+                desc = desc + '\n' + '\n' + list.get(t)[12];
             }
         }
         descriptionView.setText(desc);
