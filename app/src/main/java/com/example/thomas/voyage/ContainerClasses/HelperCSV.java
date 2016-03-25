@@ -91,6 +91,11 @@ public class HelperCSV {
         table.remove(0);
 
         var = table.get(line)[column];
+
+        if(var == null){
+            Log.e("ERROR:", "Error@HelperCSV");
+        }
+
         return var;
     }
 }

@@ -71,13 +71,24 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combat_monster_hero);
         hideSystemUI();
-        iniValues();
-        iniViews();
+
+        //try {
+
+
+            iniValues();
+            iniViews();
 
         monsterProfileView = (ImageView) findViewById(R.id.imageview_com_monster_profile);
         monsterProfileView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
         monsterNameView = (TextView) findViewById(R.id.textview_com_monster_name);
         monsterNameView.setText(monster.name);
+
+        /*}catch(Exception e){
+            Msg.msg(this, String.valueOf(e));
+            Log.e("ERROR@Null", String.valueOf(e));
+        }
+
+    */
     }
 
     @Override
@@ -85,6 +96,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         super.onRestart();
         hideSystemUI();
     }
+
 
 
     /*
@@ -839,7 +851,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                         currentBiomeFileName = "journey_b0";
                 }
 
-                mainLayout.setBackgroundResource(getResources().getIdentifier(currentBiomeFileName, "id", getPackageName()));
+                //mainLayout.setBackgroundResource(getResources().getIdentifier(currentBiomeFileName, "id", getPackageName()));
 
                 monster = new Monster(
                         b.getString(c.MONSTER_NAME),
