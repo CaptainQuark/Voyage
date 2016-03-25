@@ -1,10 +1,25 @@
 ID,Type,Name,Rarity,HP,DmgMin,DmgMax,Accuracy,Evasion,CritChance,CritMultiplier,Checkout,Resistance,Block,AllowedBiome1,AllowedBiome2,AllowedBiome3,Difficulty,Bounty,ScalingDamage
-1,Ork,Ork-Plünderer,1,200,12,25,950,1000,990,2,default,1,0,Forest,Mountain,Cave,Easy,150,true
-2,Bestie,Eulenbär,2,300,13,18,940,1000,960,3,default,1,0,Forest,,,Easy,200,false
-3,Ork,Uruk-Kapitän,3,230,14,15,990,1000,990,3,master,1,0,Forest,,,Easy,250,false
-4,Bilwiss,Bilwiss-Brandschatzer,1,280,12,30,990,970,970,3.2,default,1,0,Forest,,,Medium,300,true
-5,Ent,Baumhirte,2,300,13,18,950,1000,980,3,default,1,3,Forest,,,Medium,350,false
-6,Bestie,Untote Bestie,3,280,17,19,980,1000,980,2.5,master,1,0,Forest,,,Medium,400,false
-7,Spinne,Riesenspinne,1,400,12,20,970,990,970,3,default,1,0,Forest,,,Hard,450,false
-8,Geist,Waldghul,2,230,10,15,990,980,960,2,double,1,0,Forest,,,Hard,500,false
-9,Koloss,Koloss des Lebens,3,700,15,25,930,1000,980,4,master,1,0,Forest,,,Hard,600,false
+1,Ork,Ork-Plünderer,1,200,8,18,950,1000,990,2,default,1,0,Forest,Mountain,Cave,Easy,150,true
+2,Bilwiss,Bilgiss-Bogenschütze,1,135,12,19,940,900,980,2,default,1,0,Forest,,,Easy,150,false
+3,Bestie,Streunender Gnoll,1,185,10,13,960,950,980,2,default,1,0,Forest,,,Easy,150,false
+4,Echsenmensch,Echsenmensch-Krieger,1,220,10,13,980,970,980,2,default,1,0,Forest,,,Easy,175,false
+5,Gnom,Verdorbener Waldgnom,1,100,7,9,995,940,950,2,default,1,0,Forest,,,Easy,50,false
+6,Troll,Moor-Halbtroll,2,280,10,15,940,995,980,2.2,default,0.8,0,Forest,Swamp,,Easy,175,false
+7,Bestie,Eulenbär,2,300,13,18,940,1000,960,3,default,1,0,Forest,,,Easy,175,false
+8,Wald,Zorn des Waldes,3,120,5,10,1000,1000,900,1.5,default,1,15,Forest,,,Easy,180,false
+9,Ork,Uruk-Kapitän,3,230,14,15,990,1000,990,3,master,1,0,Forest,,,Easy,200,false
+10,Bilwiss,Bilwiss-Brandschatzer,1,280,10,25,990,970,970,3.2,default,1,0,Forest,,,Medium,200,true
+11,Drache,Sumpfdrache,1,275,11,16,990,970,970,2,default,1,0,Forest,Swamp,,Medium,200,false
+12,Bestie,Gnoll-Marodeur,1,235,12,16,990,950,970,2,default,1,0,Forest,,,Medium,200,false
+13,Bilwiss,Goblin-Partisanen,1,200,10,20,995,970,970,2,master,1,0,Forest,Swamp,,Medium,210,true
+14,Bilwiss,Bilwiss-Scharfschütze,1,120,10,15,970,800,500,2,default,1,0,Forest,Mountain,,Medium,200,false
+15,Ork,Ork-Attentäter,1,200,15,16,990,960,975,6,default,1,0,Forest,,,Medium,200,false
+16,Oger,Oger-Anführer,2,330,10,14,960,1000,970,2,default,1,1,Forest,,,Medium,200,false
+17,Riese,Riese,2,300,15,17,960,1000,980,2.1,default,0.8,0,Forest,Mountain,,Medium,230,false
+18,Ent,Baumhirte,2,300,13,18,950,1000,980,3,default,1,3,Forest,,,Medium,225,false
+19,Untot,Seelen des Waldes,3,250,20,28,980,990,980,2,master,1,0,Forest,Swamp,,Medium,250,true
+20,Bestie,Untote Bestie,3,310,17,19,980,1000,980,2.5,master,1,0,Forest,,,Medium,250,false
+21,Spinne,Riesenspinne,1,400,12,20,970,990,970,3,default,1,0,Forest,,,Hard,360,false
+22,Geist,Waldghul,2,230,10,15,990,980,960,2,double,1,0,Forest,,,Hard,400,false
+23,Ektoplasma,Riesen-Ektoplasma,3,600,5,35,930,1000,995,5,double,1,0,Forest,,,Hard,600,false
+24,Koloss,Koloss des Lebens,3,700,15,25,930,1000,980,4,master,1,0,Forest,,,Hard,580,false

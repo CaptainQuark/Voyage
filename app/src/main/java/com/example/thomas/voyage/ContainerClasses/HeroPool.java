@@ -165,15 +165,14 @@ public class HeroPool {
         Random r = new Random();
         int returnVal;
 
-       /* switch(pClass){
-            case "Kneipenschläger":
-            case "Waldläufer":
-                returnVal =  r.nextInt(20) + 1;
+        switch(pClass){
+            case "Kleriker":
+                returnVal =  r.nextInt(16) + 3;
                 break;
             default:
-                returnVal = -1;
-        }*/
-        return r.nextInt(20) + 1;
+                returnVal = r.nextInt(20) + 1;
+        }
+        return returnVal;
     }
 
     public String getImageResource() {

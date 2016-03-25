@@ -42,6 +42,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             currentMonsterCounter, bountyTotal, monsterDmg = -1, heroCritChanceP = -1, heroCritChanceS = -1,
             heroCritChanceActive = -1, bonusBounty = 0, bonusScore = 0, bonusEvasion = 0, throwCount = 0,
             bonusMonsterEvasion = 0;
+    private Integer[] tempScoreHistory;
     private double heroCritMultiplierP = 1, heroCritMultiplierS = 1,  heroCritMultiplierActive = -1, bonusCritMultiplier = 1, heroResistance = 1, scoreMultiplier, bonusArmorTear = 1;
     private int heroDbIndex;
     private String heroClassActive = "", logTopEntry = "", levelOfMonsters = "", currentBiome;
@@ -266,6 +267,27 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     bonusDamage += 7;
                 }
                 break;
+            case "Barbar":
+                int v = 0;
+                for (int i = 0; i <= 2; i++) {
+                    v += tempScoreHistory[i];
+                }
+                if (v > 64 && throwCount == 2) {
+                    bonusDamage += 25;
+                    heroCritChanceActive -= 10;
+                    heroCritChanceP -= 10;
+                    heroCritChanceS -= 10;
+                }
+                break;
+            case "Kleriker":
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
+                    bonusHealth += 2 * (int) scoreMultiplier;
+                } else if (scoreField == h.getHeroBonusNumber(heroDbIndex) + 2 || scoreField == h.getHeroBonusNumber(heroDbIndex) - 2) {
+                    if (!monster.checkout.equals("double") && monster.hp - 3 == 0) combatVictory();
+                    if (monster.checkout.equals("default") || monster.hp - 3 > 1)
+                        monster.hp -= 3;
+                }
+                break;
             case "Kneipenschläger":
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
                     heroResistance -= 0.15;
@@ -281,10 +303,24 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                     bonusDamage += 2;
                 }
                 break;
+            case "Freischärler":
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex)) {
+                    switch ((int) scoreMultiplier) {
+                        case 1:
+                            bonusDamage = 30 - scoreField * (int) scoreMultiplier;
+                            break;
+                        case 2:
+                            bonusDamage = 55 - scoreField * (int) scoreMultiplier;
+                            break;
+                        case 3:
+                            bonusDamage = 80 - scoreField * (int) scoreMultiplier;
+                            break;
+                    }
+                    bonusBounty -= 9;
+                }
+                break;
             case "Plänkler":
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusEvasion += 100;
-                break;
-            case "Söldner":
                 break;
 
             //Secondaries:
@@ -296,7 +332,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex)) bonusBounty += 5;
                 break;
             case "Scharfschütze":
-                if (scoreField == h.getHeroBonusNumber(heroDbIndex) || scoreField == 25){
+                if (scoreField == h.getHeroBonusNumber(heroDbIndex) || scoreField == 25) {
                     bonusMonsterEvasion -= 1000;
                 }
                 break;
@@ -313,8 +349,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 break;
             case "Gladiator":
                 if (scoreField == 0) bonusEvasion += 150;
-                break;
-            case "Glaubenskrieger":
                 break;
             case "Kopfgeldjäger":
                 if (scoreField == h.getHeroBonusNumber(heroDbIndex))
@@ -375,7 +409,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 calculateMonsterDamage();
                 scoreHelper.bustReset();
             } else if (scoreHelper.addOneThrow(tempScore)) {
-                //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg
+                //Schau ob 3. Wurf, falls ja: Berechne MonsterDmg und Spezialattacken
+                heroSpecialEffects();
                 calculateMonsterDamage();
                 resetBonusAfterTurn();
             }
@@ -396,6 +431,9 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
             finish();
         }
         resetBonusAfterThrow();
+    }
+
+    private void heroSpecialEffects(){
     }
 
     private void calculateMonsterDamage(){
@@ -623,7 +661,6 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     // und Speicherung der Wurf-Werte
     private class CountAndShowThrowsHelper {
         private List<TextView> scoreTextViewList;
-        private Integer[] tempScoreHistory;
         private int numAttacks = 0;
 
         public CountAndShowThrowsHelper(){
@@ -672,8 +709,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         public void bustReset(){
             tempScoreHistory[throwCount] = tempScore;
             for (int i = 0; i <= 2; i++) {
-                monster.hp += scoreHelper.tempScoreHistory[i];
-                Log.i("BUST:", i + ". Eintrag, + " + scoreHelper.tempScoreHistory[i] + " Leben!");
+                monster.hp += tempScoreHistory[i];
+                Log.i("BUST:", i + ". Eintrag, + " + tempScoreHistory[i] + " Leben!");
                 tempScoreHistory[i] = 0;
             }
             throwCount = 0;
