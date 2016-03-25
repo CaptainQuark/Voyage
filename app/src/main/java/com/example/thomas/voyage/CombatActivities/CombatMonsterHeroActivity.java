@@ -52,6 +52,8 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private CountAndShowThrowsHelper scoreHelper;
     private HeroAllDataCardFragment heroAllDataCardFragment;
     private MonsterAllDataFragment monsterAllDataFragment;
+    private ImageView monsterProfileView;
+    private TextView monsterNameView;
     private List<ThrowInputHelper> scoreHelperList;
     private List<Item> playerItemList;
     private List<String> logList;
@@ -71,6 +73,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
         hideSystemUI();
         iniValues();
         iniViews();
+
+        monsterProfileView = (ImageView) findViewById(R.id.imageview_com_monster_profile);
+        monsterProfileView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
+        monsterNameView = (TextView) findViewById(R.id.textview_com_monster_name);
+        monsterNameView.setText(monster.name);
     }
 
     @Override
@@ -925,15 +932,11 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
     private void iniViews(){
 
         mainLayout = (LinearLayout) findViewById(R.id.layout_com_main);
-        ImageView monsterProfileView = (ImageView) findViewById(R.id.imageview_com_monster_profile);
+
         ImageView heroProfileView = (ImageView) findViewById(R.id.imageview_com_hero_profile);
-        TextView monsterNameView = (TextView) findViewById(R.id.textview_com_monster_name);
         TextView heroNameView = (TextView) findViewById(R.id.textview_com_hero_name);
         monsterHpView = (TextView) findViewById(R.id.textview_com_monster_hp_now);
         heroHpView = (TextView) findViewById(R.id.textview_com_hero_hp_now);
-
-        monsterProfileView.setImageResource(getResources().getIdentifier(monster.imgRes, "mipmap", getPackageName()));
-        monsterNameView.setText(monster.name);
 
         heroProfileView.setImageResource(getResources().getIdentifier(h.getHeroImgRes(heroDbIndex), "mipmap", getPackageName()));
         heroNameView.setText(h.getHeroName(heroDbIndex));
