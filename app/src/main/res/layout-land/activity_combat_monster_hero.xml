@@ -1,789 +1,798 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    android:baselineAligned="false"
+<FrameLayout
     android:orientation="horizontal"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity"
-    android:id="@+id/layout_com_main"
-    android:background="@mipmap/journey_b6">
+    tools:context="com.example.thomas.voyage.CombatActivities.CombatMonsterHeroActivity">
 
-    <FrameLayout
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="9"
-        android:visibility="visible"
-        android:id="@+id/layout_combat_monster_hero_battle_scene">
+        android:id="@+id/layout_com_main"
+        android:background="@mipmap/journey_b6">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:visibility="visible"
+            android:id="@+id/layout_combat_monster_hero_battle_scene">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_above="@+id/layout_com_hero_monster_info_container"
-                android:layout_marginLeft="@dimen/com_event_layout_margins"
-                android:layout_marginTop="@dimen/com_event_layout_margins"
-                android:layout_marginRight="@dimen/com_event_layout_margins">
+                android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:id="@+id/layout_com_switch_battle_views"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="75dp"
-                    android:gravity="center"
-                    android:background="?android:colorBackground">
-
-                    <TextView
-                        android:id="@+id/textview_com_show_battle_log"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="KAMPF"
-                        android:textColor="@android:color/white"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-light"
-                        android:onClick="onActionSceneToolbar" />
-
-                    <TextView
-                        android:id="@+id/textview_com_show_inventory"
-                        android:layout_width="200dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:text="INVENTAR"
-                        android:textColor="@color/grey_7000"
-                        android:textSize="18sp"
-                        android:fontFamily="sans-serif-light"
-                        android:onClick="onActionSceneToolbar" />
-
-                </LinearLayout>
-
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/layout_com_switch_battle_views">
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@+id/layout_com_hero_monster_info_container"
+                    android:layout_marginLeft="@dimen/com_event_layout_margins"
+                    android:layout_marginTop="@dimen/com_event_layout_margins"
+                    android:layout_marginRight="@dimen/com_event_layout_margins">
 
-                    <RelativeLayout
+                    <LinearLayout
+                        android:id="@+id/layout_com_switch_battle_views"
+                        android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="75dp"
+                        android:gravity="center"
+                        android:background="?android:colorBackground">
 
-                        <ScrollView
-                            android:id="@+id/scrollview_com_battle_log"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/textview_com_show_battle_log"
+                            android:layout_width="200dp"
                             android:layout_height="match_parent"
-                            android:layout_toEndOf="@+id/imageview_com_monster_profile"
-                            android:paddingLeft="20dp"
-                            android:paddingRight="20dp"
-                            android:paddingTop="20dp"
-                            android:background="#8b2f2f2f">
+                            android:gravity="center"
+                            android:text="KAMPF"
+                            android:textColor="@android:color/white"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light"
+                            android:onClick="onActionSceneToolbar" />
+
+                        <TextView
+                            android:id="@+id/textview_com_show_inventory"
+                            android:layout_width="200dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="INVENTAR"
+                            android:textColor="@color/grey_7000"
+                            android:textSize="18sp"
+                            android:fontFamily="sans-serif-light"
+                            android:onClick="onActionSceneToolbar" />
+
+                    </LinearLayout>
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/layout_com_switch_battle_views">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ScrollView
+                                android:id="@+id/scrollview_com_battle_log"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_toEndOf="@+id/imageview_com_monster_profile"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:paddingTop="20dp"
+                                android:background="#8b2f2f2f">
+
+                                <TextView
+                                    android:isScrollContainer="true"
+                                    android:id="@+id/textview_com_battle_log"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Log der Kampf-Geschehnisse"
+                                    android:textColor="#ededed"
+                                    android:textSize="15sp" />
+
+                            </ScrollView>
+
+                            <ImageView
+                                android:id="@+id/imageview_com_monster_profile"
+                                android:layout_width="310dp"
+                                android:layout_height="match_parent"
+                                android:src="@mipmap/monster_dummy_0"
+                                android:scaleType="centerCrop"
+                                android:onClick="onClick"/>
+
+                        </RelativeLayout>
+
+                        <GridView
+                            android:id="@+id/gridview_com_inventory"
+                            android:scrollbars="vertical"
+                            android:layout_width="300dp"
+                            android:layout_height="match_parent"
+                            android:numColumns="1"
+                            android:verticalSpacing="10dp"
+                            android:stretchMode="columnWidth"
+                            android:visibility="gone"
+                            android:layout_gravity="right" />
+
+                    </FrameLayout>
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/layout_com_hero_monster_info_container"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="?android:colorBackground"
+                    android:stateListAnimator="@anim/elevation_heroes_camp_card"
+                    android:layout_marginLeft="@dimen/com_event_layout_margins"
+                    android:layout_marginRight="@dimen/com_event_layout_margins"
+                    android:layout_marginBottom="@dimen/com_event_layout_margins"
+                    android:layout_alignParentEnd="false">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
-                                android:isScrollContainer="true"
-                                android:id="@+id/textview_com_battle_log"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Log der Kampf-Geschehnisse"
-                                android:textColor="#ededed"
-                                android:textSize="15sp" />
+                                android:text="Name"
+                                android:textAllCaps="true"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp"
+                                android:id="@+id/textview_com_monster_name"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentStart="true" />
 
-                        </ScrollView>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="HP"
+                                android:textColor="@android:color/white"
+                                android:textSize="30sp"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_above="@+id/textview_com_monster_name"
+                                android:layout_alignStart="@+id/textview_com_monster_name"
+                                android:id="@+id/textview_com_monster_hp_now" />
+                        </RelativeLayout>
 
-                        <ImageView
-                            android:id="@+id/imageview_com_monster_profile"
-                            android:layout_width="310dp"
+                        <RelativeLayout
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:src="@mipmap/monster_dummy_0"
-                            android:scaleType="centerCrop"
-                            android:onClick="onClick"/>
+                            android:layout_weight="1">
 
-                    </RelativeLayout>
+                            <TextView
+                                android:id="@+id/textview_com_throw_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_margin="20dp"
+                                android:text="1. Wurf"
+                                android:textSize="20sp"
+                                android:textColor="@android:color/white"/>
 
-                    <GridView
-                        android:id="@+id/gridview_com_inventory"
-                        android:scrollbars="vertical"
-                        android:layout_width="300dp"
+                            <TextView
+                                android:id="@+id/textview_com_throw_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_centerInParent="true"
+                                android:text="2. Wurf"
+                                android:textSize="20sp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="20dp"
+                                android:textColor="@android:color/white"/>
+
+                            <TextView
+                                android:id="@+id/textview_com_throw_3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:text="3. Wurf"
+                                android:textSize="20sp"
+                                android:layout_marginBottom="20dp"
+                                android:textColor="@android:color/white"/>
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="name"
+                                android:textAllCaps="true"
+                                android:textColor="@android:color/white"
+                                android:textSize="12sp"
+                                android:id="@+id/textview_com_hero_name" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="HP"
+                                android:textColor="@android:color/white"
+                                android:textSize="30sp"
+                                android:fontFamily="sans-serif-light"
+                                android:layout_above="@+id/textview_com_hero_name"
+                                android:layout_alignEnd="@+id/textview_com_hero_name"
+                                android:id="@+id/textview_com_hero_hp_now" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:numColumns="1"
-                        android:verticalSpacing="10dp"
-                        android:stretchMode="columnWidth"
-                        android:visibility="gone"
-                        android:layout_gravity="right" />
+                        android:layout_weight="1.2"
+                        android:src="@mipmap/hero_dummy_3"
+                        android:scaleType="centerCrop"
+                        android:id="@+id/imageview_com_hero_profile"
+                        android:contentDescription="Image of the hero."
+                        android:onClick="onClick" />
 
-                </FrameLayout>
+                </LinearLayout>
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/layout_com_hero_monster_info_container"
-                android:orientation="horizontal"
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/linear_com_mulit_input"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey_7000">
+
+            <TextView
+                android:id="@+id/cell_com_multi_x_2"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:background="?android:colorBackground"
-                android:stateListAnimator="@anim/elevation_heroes_camp_card"
-                android:layout_marginLeft="@dimen/com_event_layout_margins"
-                android:layout_marginRight="@dimen/com_event_layout_margins"
-                android:layout_marginBottom="@dimen/com_event_layout_margins"
-                android:layout_alignParentEnd="false">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="X 2"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginBottom="1dp"
+                android:background="@drawable/ripple_soft_grey_to_white"
+                android:onClick="onScoreMulti" />
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="5">
+            <TextView
+                android:id="@+id/cell_com_multi_single_out"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:textSize="12sp"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:text="SINGLE\nOUT"
+                android:textStyle="bold"
+                android:background="@color/combat_multi_field_active"
+                android:layout_marginBottom="1dp"
+                android:onClick="onScoreMulti" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+            <TextView
+                android:id="@+id/cell_com_multi_x_3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text="X 3"
+                android:textStyle="bold"
+                android:background="@drawable/ripple_soft_grey_to_white"
+                android:layout_marginBottom="1dp"
+                android:onClick="onScoreMulti" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Name"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp"
-                            android:id="@+id/textview_com_monster_name"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_alignParentBottom="true"
-                            android:layout_alignParentStart="true" />
+            <TextView
+                android:id="@+id/cell_com_multi_single_in"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text="SINGLE\nIN"
+                android:textStyle="bold"
+                android:background="@drawable/ripple_black_to_grey"
+                android:layout_marginBottom="1dp"
+                android:onClick="onScoreMulti"
+                android:autoText="false" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="HP"
-                            android:textColor="@android:color/white"
-                            android:textSize="30sp"
-                            android:fontFamily="sans-serif-light"
-                            android:layout_above="@+id/textview_com_monster_name"
-                            android:layout_alignStart="@+id/textview_com_monster_name"
-                            android:id="@+id/textview_com_monster_hp_now" />
-                    </RelativeLayout>
+            <TextView
+                android:id="@+id/cell_com_multi_bull"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text="BULL"
+                android:textStyle="bold"
+                android:background="@drawable/ripple_soft_grey_to_green"
+                android:layout_marginBottom="1dp"
+                android:onClick="onScoreMulti" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+            <TextView
+                android:id="@+id/cell_com_multi_eye"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:textSize="12sp"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:text="EYE"
+                android:textStyle="bold"
+                android:background="@drawable/ripple_soft_grey_to_red"
+                android:onClick="onScoreMulti" />
 
-                        <TextView
-                            android:id="@+id/textview_com_throw_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentTop="true"
-                            android:layout_margin="20dp"
-                            android:text="1. Wurf"
-                            android:textSize="20sp"
-                            android:textColor="@android:color/white"/>
+        </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/textview_com_throw_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_centerInParent="true"
-                            android:text="2. Wurf"
-                            android:textSize="20sp"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="20dp"
-                            android:textColor="@android:color/white"/>
+        <GridLayout
+            android:id="@+id/gridlayout_com_value_input"
+            android:layout_weight="4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black">
 
-                        <TextView
-                            android:id="@+id/textview_com_throw_3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:layout_centerHorizontal="true"
-                            android:layout_alignParentBottom="true"
-                            android:text="3. Wurf"
-                            android:textSize="20sp"
-                            android:layout_marginBottom="20dp"
-                            android:textColor="@android:color/white"/>
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:text="1"
+                android:id="@+id/cell_com_val_0"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-                    </RelativeLayout>
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:text="1"
+                android:id="@+id/cell_com_val_1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1">
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:text="1"
+                android:id="@+id/cell_com_val_2"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:text="name"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp"
-                            android:id="@+id/textview_com_hero_name" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:text="1"
+                android:id="@+id/cell_com_val_3"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginBottom="1dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="HP"
-                            android:textColor="@android:color/white"
-                            android:textSize="30sp"
-                            android:fontFamily="sans-serif-light"
-                            android:layout_above="@+id/textview_com_hero_name"
-                            android:layout_alignEnd="@+id/textview_com_hero_name"
-                            android:id="@+id/textview_com_hero_hp_now" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:text="1"
+                android:id="@+id/cell_com_val_4"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-                    </RelativeLayout>
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_5"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-                </LinearLayout>
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_6"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.2"
-                    android:src="@mipmap/hero_dummy_3"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/imageview_com_hero_profile"
-                    android:contentDescription="Image of the hero."
-                    android:onClick="onClick" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="1"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_7"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginBottom="1dp" />
 
-            </LinearLayout>
-
-        </RelativeLayout>
 
 
-    </FrameLayout>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:id="@+id/linear_com_mulit_input"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="@color/grey_7000">
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_8"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-        <TextView
-            android:id="@+id/cell_com_multi_x_2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="X 2"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_marginBottom="1dp"
-            android:background="@drawable/ripple_soft_grey_to_white"
-            android:onClick="onScoreMulti" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_9"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-        <TextView
-            android:id="@+id/cell_com_multi_single_out"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:textSize="12sp"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:text="SINGLE\nOUT"
-            android:textStyle="bold"
-            android:background="@color/combat_multi_field_active"
-            android:layout_marginBottom="1dp"
-            android:onClick="onScoreMulti" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="2"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_10"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-        <TextView
-            android:id="@+id/cell_com_multi_x_3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:text="X 3"
-            android:textStyle="bold"
-            android:background="@drawable/ripple_soft_grey_to_white"
-            android:layout_marginBottom="1dp"
-            android:onClick="onScoreMulti" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="2"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_11"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginBottom="1dp" />
 
-        <TextView
-            android:id="@+id/cell_com_multi_single_in"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:text="SINGLE\nIN"
-            android:textStyle="bold"
-            android:background="@drawable/ripple_black_to_grey"
-            android:layout_marginBottom="1dp"
-            android:onClick="onScoreMulti"
-            android:autoText="false" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_12"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-        <TextView
-            android:id="@+id/cell_com_multi_bull"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:text="BULL"
-            android:textStyle="bold"
-            android:background="@drawable/ripple_soft_grey_to_green"
-            android:layout_marginBottom="1dp"
-            android:onClick="onScoreMulti" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_13"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
-        <TextView
-            android:id="@+id/cell_com_multi_eye"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:textSize="12sp"
-            android:textColor="#ffffff"
-            android:gravity="center"
-            android:text="EYE"
-            android:textStyle="bold"
-            android:background="@drawable/ripple_soft_grey_to_red"
-            android:onClick="onScoreMulti" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="3"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_14"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
 
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="3"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_15"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="4"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_16"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_17"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="4"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_18"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="4"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_val_19"
+                android:text="1"
+                android:textColor="@android:color/white"
+                android:textSize="25sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:layout_marginBottom="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="5"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight=".5"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_undo"
+                android:text="U"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:layout_marginRight="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="5"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight=".5"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_miss"
+                android:text="X"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:layout_marginRight="1dp" />
+
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="5"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight=".5"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_primary_attack"
+                android:text="P"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:layout_marginRight="1dp" />
+            <TextView
+                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_row="5"
+                android:layout_column="3"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight=".5"
+                android:nestedScrollingEnabled="false"
+                android:background="@drawable/ripple_grey_to_black"
+                android:id="@+id/cell_com_secondary_attack"
+                android:text="S"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:onClick="onClick"/>
+
+        </GridLayout>
     </LinearLayout>
 
-    <GridLayout
-        android:id="@+id/gridlayout_com_value_input"
-        android:layout_weight="4"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:background="@color/grey_7000">
+    <RelativeLayout
+        android:id="@+id/layout_com_card_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:text="1"
-            android:id="@+id/cell_com_val_0"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:text="1"
-            android:id="@+id/cell_com_val_1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:text="1"
-            android:id="@+id/cell_com_val_2"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:text="1"
-            android:id="@+id/cell_com_val_3"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:text="1"
-            android:id="@+id/cell_com_val_4"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="1"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_5"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="1"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_6"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="1"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_7"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginBottom="1dp" />
-
-
-
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="2"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_8"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="2"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_9"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="2"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_10"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="2"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_11"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="3"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_12"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="3"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_13"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="3"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_14"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="3"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_15"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="4"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_16"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="4"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_17"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="4"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_18"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginRight="1dp"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="4"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_val_19"
-            android:text="1"
-            android:textColor="@android:color/white"
-            android:textSize="25sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:layout_marginBottom="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="5"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight=".5"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_undo"
-            android:text="U"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:layout_marginRight="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="5"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight=".5"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_miss"
-            android:text="X"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:layout_marginRight="1dp" />
-
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="5"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight=".5"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_primary_attack"
-            android:text="P"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:layout_marginRight="1dp" />
-        <TextView
-            android:layout_height="0dp"
-            android:layout_width="0dp"
-            android:layout_row="5"
-            android:layout_column="3"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight=".5"
-            android:nestedScrollingEnabled="false"
-            android:background="@drawable/ripple_grey_to_black"
-            android:id="@+id/cell_com_secondary_attack"
-            android:text="S"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:onClick="onClick"/>
-
-    </GridLayout>
-
-</LinearLayout>
+</FrameLayout>

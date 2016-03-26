@@ -129,7 +129,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
                 b.putInt("DB_INDEX_PLAYER", heroDbIndex);
 
                 heroAllDataCardFragment.setArguments(b);
-                fragmentTransaction.add(R.id.layout_com_main, heroAllDataCardFragment);
+                fragmentTransaction.add(R.id.layout_com_card_fragment_container, heroAllDataCardFragment);
                 fragmentTransaction.commit();
                 break;
 
@@ -173,7 +173,7 @@ public class CombatMonsterHeroActivity extends Activity implements HeroAllDataCa
 
                 monsterAllDataFragment = new MonsterAllDataFragment();
                 monsterAllDataFragment.setArguments(PassParametersHelper.toMonsterAllDataFragment(new ConstRes(), monster));
-                ft.add(R.id.layout_com_main, monsterAllDataFragment);
+                ft.add(R.id.layout_com_card_fragment_container, monsterAllDataFragment);
                 ft.commit();
                 break;
 
